@@ -2,42 +2,42 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-body {
-  background-color: white;
-  color: #1a202c; /* text-gray-900 */
-}
+.container {padding: 1rem;}
+h1 {padding-top: 3rem;}
 
-body.dark {
-  background-color: #1a202c; /* dark:bg-gray-900 */
-  color: white; /* dark:text-white */
+/* Botones con efecto hover */
+.btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: all 0.3s ease-in-out;
 }
 
 .btn-primary {
-    padding-left: 1rem;
-    padding-right: 1rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    background-color: #4299e1; /* bg-blue-500 */
-    color: #fff; /* text-white */
-    border-radius: 0.5rem; /* rounded-lg */
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06); /* shadow */
+  background: linear-gradient(to right, #2563eb, #1d4ed8);
+  color: white;
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
 }
 
 .btn-primary:hover {
-    background-color: #3182ce; /* hover:bg-blue-600 */
+  background: linear-gradient(to right, #1d4ed8, #1e40af);
 }
-  
+
 .btn-secondary {
-    padding-left: 1rem;
-    padding-right: 1rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    background-color: #4a5568; /* bg-gray-600 */
-    color: #fff; /* text-white */
-    border-radius: 0.5rem; /* rounded-lg */
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06); /* shadow */
+  background: #4a5568;
+  color: white;
 }
 
 .btn-secondary:hover {
-    background-color: #2d3748; /* hover:bg-gray-700 */
+  background: #2d3748;
+}
+
+/* Animación de Fade-in */
+.fade-in {
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }

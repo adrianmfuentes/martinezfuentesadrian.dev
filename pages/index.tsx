@@ -1,60 +1,63 @@
-import { motion } from "framer-motion";
-import Link from "next/link";
+import HeroSection from "@/components/HomeComps/HeroSection";
+import TechnologiesSection from "@/components/HomeComps/TechnologiesSection";
+import ProjectsSection from "@/components/HomeComps/ProjectsSection";
+import PostsSection from "@/components/HomeComps/PostsSection";
+import ContactSection from "@/components/ContactComp";
+import Footer from "@/components/GlobalComp/Footer";
+import Navbar from "@/components/GlobalComp/NavBar";
+import { FaChevronDown } from "react-icons/fa";
 import "../css/globals.css";
-import ThemeToggle from "@/components/ThemeToggle";
+import "../css/main.css";
 
-export default function Home() {
+const Home = () => {
+  // Función para desplazarse a la siguiente sección
+  const scrollToSection = (sectionId: string) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
-    <div className="container mx-auto px-6 py-10">
-      <ThemeToggle />
-      
-      {/* Hero Section */}
-      <section className="text-center">
-        <motion.h1
-          className="text-4xl font-bold"
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          Hola, soy Adrián, desarrollador de software y explorador de tecnología
-        </motion.h1>
-        <p className="text-gray-600 dark:text-gray-300 mt-4">
-          Apasionado por la web, el desarrollo y la innovación.
-        </p>
-        <div className="mt-6 flex justify-center gap-4">
-          <Link href="/portfolio" className="btn-primary">Ver Portafolio</Link>
-          <Link href="/blog" className="btn-secondary">Leer mi Blog</Link>
-          <Link href="/lab" className="btn-secondary">Explorar Lab</Link>
-        </div>
-      </section>
+    <div className="container">
+      {/* Navigation bar */}
+      <Navbar />
 
-      {/* Stack Tecnológico */}
-      <section className="mt-12">
-        <h2 className="text-2xl font-semibold">🛠️ Tecnologías y Stack</h2>
-        <p>React, Next.js, TypeScript, Tailwind, Supabase...</p>
-      </section>
+      <main>
+        {/* Hero Section */}
+        <section id="hero" className="min-h-screen w-full relative">
+          <HeroSection />
+          <button
+            className="absolute left-1/2 bottom-12 text-3xl text-gray-700 dark:text-white animate-bounce transform -translate-x-1/2"
+            onClick={() => scrollToSection("technologies")}
+          >
+            <FaChevronDown />
+          </button>
+        </section>
 
-      {/* Proyectos Destacados */}
-      <section className="mt-12">
-        <h2 className="text-2xl font-semibold">🚀 Proyectos Destacados</h2>
-        <ul>
-          <li>🕹️ Un clon de Flappy Bird en Three.js</li>
-          <li>📊 Dashboard con Next.js y Supabase</li>
-          <li>🤖 Un bot de Discord con AI</li>
-        </ul>
-      </section>
+        {/* Technologies Section */}
+        <section id="technologies" className="min-h-screen w-full relative">
+          <TechnologiesSection />
+        </section>
 
-      {/* Últimos Posts */}
-      <section className="mt-12">
-        <h2 className="text-2xl font-semibold">📝 Últimos Posts</h2>
-        <p>Mostrar últimos posts del blog aquí...</p>
-      </section>
+        {/* Projects Section */}
+        <section id="projects" className="min-h-screen w-full relative">
+          <ProjectsSection />
+        </section>
 
-      {/* Contacto */}
-      <section className="mt-12">
-        <h2 className="text-2xl font-semibold">🌐 Contacto y Redes</h2>
-        <p>Encuéntrame en <a href="https://github.com/tuusuario">GitHub</a>, <a href="https://linkedin.com/in/tuusuario">LinkedIn</a>...</p>
-      </section>
+        {/* Posts Section */}
+        <section id="posts" className="min-h-screen w-full relative">
+          <PostsSection />
+        </section>
+
+        {/* Contact Section */}
+        <section id="contact" className="min-h-screen w-full relative">
+          <ContactSection />
+        </section>
+      </main>
+      <Footer />
     </div>
   );
-}
+};
+
+export default Home;

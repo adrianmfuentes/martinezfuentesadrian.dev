@@ -1,0 +1,31 @@
+/* main.css */
+
+/* Aseguramos que el cuerpo de la página ocupe toda la altura */
+body, html {
+    font-family: 'Inter', sans-serif; 
+  }
+  
+main {
+flex-grow: 1; 
+}
+
+/* Sección de Hero */
+section {
+padding: 4rem 0;
+}
+
+section h2 {
+font-size: 1.75rem;
+font-weight: 600;
+margin-bottom: 1rem;
+}
+
+section p {
+font-size: 1rem;
+color: #4a5568;
+}
+
+/* Añadimos un pequeño margen entre secciones */
+section + section {
+margin-top: 2rem;
+}

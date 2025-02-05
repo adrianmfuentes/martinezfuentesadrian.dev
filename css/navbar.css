@@ -1,0 +1,26 @@
+/* navbar.css */
+
+/* Navbar fija y elegante */
+nav {position: fixed;top: 0;left: 0;right: 0;
+  z-index: 50;box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para un mejor efecto */
+  transition: top 0.3s ease; /* Suavizamos el movimiento de la nav */
+}
+
+/* Transiciones suaves para enlaces */
+nav a {
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+/* Cambios suaves en el hover */
+button:hover,
+nav a:hover {
+  background-color: #4b8fd4; /* Color de fondo más oscuro en hover */
+  color: #ffffff;
+}
+
+/* Menú desplegable en móviles */
+@media (max-width: 768px) {
+  nav {
+    position: relative;
+  }
+}
