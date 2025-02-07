@@ -2,7 +2,6 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-.container {padding: 1rem;}
 h1 {padding-top: 3rem;}
 
 /* Botones con efecto hover */

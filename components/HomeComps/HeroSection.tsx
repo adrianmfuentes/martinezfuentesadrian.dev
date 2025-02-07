@@ -1,17 +1,19 @@
 import { motion } from "framer-motion";
 import { useState, useEffect, useMemo } from "react";
+import Fondo from "../GlobalComp/fondo";
+import { FaChevronDown } from "react-icons/fa";
 
 const HeroSection = () => {
   const [text, setText] = useState("");
   const [cursorVisible, setCursorVisible] = useState(true);
   const phrases = useMemo(() => [
     "Hola, soy Adrián Martínez.",
-    "Estudio en la Universidad de Oviedo,",
+    "Estudio Ingeniería de Software.",
     "Bienvenido a mi web personal.",
   ], []);
-  const typingSpeed = 80; // Velocidad de escritura (ms)
-  const deleteSpeed = 50; // Velocidad de borrado (ms)
-  const delayBetweenPhrases = 1000; // Pausa entre frases
+  const typingSpeed = 80;
+  const deleteSpeed = 50;
+  const delayBetweenPhrases = 1000;
 
   useEffect(() => {
     let phraseIndex = 0;
@@ -36,29 +38,42 @@ const HeroSection = () => {
     return () => clearTimeout(timeout);
   }, [phrases]);
 
-  // Cursor intermitente
   useEffect(() => {
     const interval = setInterval(() => setCursorVisible((prev) => !prev), 500);
     return () => clearInterval(interval);
   }, []);
 
+  // Función para desplazarse a la siguiente sección
+  const scrollToSection = (sectionId: string) => {
+    const section = document.getElementById(sectionId);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
-    <section className="flex flex-col items-center justify-center min-h-[80vh] text-center">
+    <section className="relative flex flex-col items-center justify-center min-h-screen text-center overflow-hidden">
+      
+      <Fondo /> {/* 🔹 Insertamos el fondo animado */}
+
+      {/* Texto con fondo cuadrado elegante */}
       <motion.h1
-        className="text-5xl font-extrabold text-gray-900 dark:text-white"
+        className="relative text-5xl font-extrabold text-white px-6 py-3 bg-teal-600 rounded-lg shadow-lg"
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
         {text}
-        <span className="text-blue-500">{cursorVisible ? "|" : " "}</span>
+        <span className="text-white">{cursorVisible ? "|" : " "}</span>
       </motion.h1>
-      <p className="text-lg text-gray-600 dark:text-gray-300 mt-4 max-w-2xl mx-auto">
-        Estudiante de Ingeniería Informática del Software bilingüe. 
-      </p>
-      <p className="text-lg text-gray-600 dark:text-gray-300 mt-4 max-w-2xl mx-auto">
-        Apasionado por el desarrollo y la innovación tecnológica.
-      </p>
+
+      {/* Flecha para desplazarse */}
+      <button
+        className="absolute left-1/2 bottom-24 text-4xl text-teal-500 dark:text-teal-300 animate-bounce transform -translate-x-1/2"
+        onClick={() => scrollToSection("technologies")}
+      >
+        <FaChevronDown />
+      </button>
     </section>
   );
 };
