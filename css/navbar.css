@@ -1,26 +1,90 @@
 /* navbar.css */
 
-/* Navbar fija y elegante */
-nav {position: fixed;top: 0;left: 0;right: 0;
-  z-index: 50;box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para un mejor efecto */
-  transition: top 0.3s ease; /* Suavizamos el movimiento de la nav */
+/* Estilos generales para la navbar */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background-color: #ffffff; /* Fondo blanco elegante */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: top 0.3s ease, background-color 0.3s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
 }
 
-/* Transiciones suaves para enlaces */
-nav a {
+/* Logo de la navbar */
+nav .logo {
+  font-size: 1.75rem;
+  font-weight: bold;
+  color: #0f2027;
+  text-decoration: none;
+}
+
+/* Lista de enlaces de la navbar */
+nav .nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+nav .nav-links a {
+  text-decoration: none;
+  color: #0f2027;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
   transition: color 0.3s ease, background-color 0.3s ease;
 }
 
-/* Cambios suaves en el hover */
-button:hover,
-nav a:hover {
-  background-color: #4b8fd4; /* Color de fondo más oscuro en hover */
+/* Hover para enlaces y botones */
+nav a:hover,
+button:hover {
+  background-color: #4b8fd4; /* Fondo en hover */
   color: #ffffff;
 }
 
-/* Menú desplegable en móviles */
+/* Botón de menú (hamburguesa) para móviles */
+nav .menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: #0f2027;
+}
+
+/* Estilos para el menú móvil */
 @media (max-width: 768px) {
   nav {
-    position: relative;
+    flex-wrap: wrap;
+    padding: 0.75rem 1.5rem;
+  }
+  
+  /* Mostrar el botón de menú en móviles */
+  nav .menu-toggle {
+    display: block;
+  }
+  
+  /* Ocultar la lista de enlaces por defecto y acomodarla verticalmente */
+  nav .nav-links {
+    flex-direction: column;
+    width: 100%;
+    display: none;
+    margin-top: 0.5rem;
+  }
+  
+  /* Activar el menú desplegable (por ejemplo, mediante JavaScript agregando la clase "active") */
+  nav .nav-links.active {
+    display: flex;
+  }
+  
+  nav .nav-links a {
+    width: 100%;
+    text-align: center;
+    padding: 1rem;
   }
 }

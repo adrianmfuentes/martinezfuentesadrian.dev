@@ -1,0 +1,48 @@
+.technologies-banner {
+  overflow: hidden;
+  white-space: nowrap;
+  background: linear-gradient(to right, #004d7a, #008793, #00bf72, #a8eb12);
+  padding: 2rem 0; /* Usando rem en lugar de px para un mejor ajuste relativo */
+  margin-top: -10rem; /* Utilizando vh para un ajuste relativo al viewport */
+  height: 25vh; /* Altura relativa al viewport */
+  display: flex;
+  justify-content: center; /* Centrado horizontal */
+  align-items: center; /* Centrado vertical */
+}
+
+.marquee {
+  display: flex;
+  gap: 4vw; /* Usamos vw para que el gap sea relativo al ancho de la pantalla */
+  animation: scroll-left 28s linear infinite;
+  justify-content: flex-start; /* Asegura que el contenido dentro del marquee se alinee a la izquierda */
+  width: 100%; /* El contenedor ocupa el 100% del ancho disponible */
+}
+
+.technology {
+  display: flex;
+  align-items: center;
+  gap: 1rem; /* Utilizando rem en lugar de px */
+  font-size: 1.5rem; /* Usando rem para que la fuente sea relativa */
+  font-weight: bold;
+  color: white;
+  padding: 0.5rem 1rem; /* Medidas relativas con rem */
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem; /* Redondeado con rem */
+  box-shadow: 0 0.25rem 0.375rem rgba(0, 0, 0, 0.1); /* Sombra con rem */
+  transition: transform 0.3s ease-in-out, background 0.3s;
+}
+
+.technology:hover {
+  transform: scale(1.1);
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Animación infinita refinada */
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0); /* Comienza en la posición inicial */
+  }
+  100% {
+    transform: translateX(-200%); /* Mueve el contenido completamente fuera del contenedor */
+  }
+}

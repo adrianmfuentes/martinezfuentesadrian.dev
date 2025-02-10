@@ -44,17 +44,20 @@ const HeroSection = () => {
   }, []);
 
   // Función para desplazarse a la siguiente sección
-  const scrollToSection = (sectionId: string) => {
+  const scrollToSection = (sectionId: string, offset: number = 100) => {
     const section = document.getElementById(sectionId);
     if (section) {
-      section.scrollIntoView({ behavior: "smooth" });
+      const sectionPosition = section.getBoundingClientRect().top + window.scrollY;
+      window.scrollTo({ top: sectionPosition - offset, behavior: "smooth" });
     }
-  };
+  };  
 
   return (
-    <section className="relative flex flex-col items-center justify-center min-h-screen text-center overflow-hidden">
+    <section 
+      className="relative flex flex-col items-center justify-center min-h-screen text-center overflow-hidden">
       
-      <Fondo /> {/* 🔹 Insertamos el fondo animado */}
+      {/* 🔹 Insertamos el fondo animado */}
+      <Fondo /> 
 
       {/* Texto con fondo cuadrado elegante */}
       <motion.h1
@@ -70,7 +73,7 @@ const HeroSection = () => {
       {/* Flecha para desplazarse */}
       <button
         className="absolute left-1/2 bottom-24 text-4xl text-teal-500 dark:text-teal-300 animate-bounce transform -translate-x-1/2"
-        onClick={() => scrollToSection("technologies")}
+        onClick={() => scrollToSection("technologies", 190)}
       >
         <FaChevronDown />
       </button>
