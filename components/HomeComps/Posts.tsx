@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 
-const PostsSection = () => (
+const Posts = () => (
   <section className="mt-16">
     <h2 className="text-4xl font-semibold text-gray-900 dark:text-white text-center mb-8">
       📝 Últimos Posts
@@ -26,4 +26,4 @@ const PostsSection = () => (
   </section>
 );
 
-export default PostsSection;
+export default Posts;

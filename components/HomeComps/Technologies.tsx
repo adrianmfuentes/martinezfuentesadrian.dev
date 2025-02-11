@@ -1,5 +1,5 @@
 "use client";
-import "../../css/TechnologiesBanner.css";
+import "../../css/Components/Technologies.css";
 
 const technologies = [
   { name: "React", icon: "🔷" },
@@ -23,7 +23,7 @@ const technologies = [
   { name: "Quality", icon: "🔍" },
 ];
 
-const TechnologiesBanner = () => (
+const Technologies = () => (
   <section className="technologies-banner">
     <div className="marquee">
       {/* Duplicamos contenido para que el movimiento sea más fluido */}
@@ -39,4 +39,4 @@ const TechnologiesBanner = () => (
 
 
 
-export default TechnologiesBanner;
+export default Technologies;

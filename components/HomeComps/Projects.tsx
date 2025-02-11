@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 
-const ProjectsSection = () => (
+const Projects = () => (
   <section className="mt-16">
     <h2 className="text-4xl font-semibold text-gray-900 dark:text-white text-center mb-8">
       🚀 Proyectos Destacados
@@ -29,4 +29,4 @@ const ProjectsSection = () => (
   </section>
 );
 
-export default ProjectsSection;
+export default Projects;

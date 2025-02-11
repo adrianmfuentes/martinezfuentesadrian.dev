@@ -3,7 +3,7 @@ import { useState, useEffect, useMemo } from "react";
 import Fondo from "../GlobalComp/fondo";
 import { FaChevronDown } from "react-icons/fa";
 
-const HeroSection = () => {
+const Introduction = () => {
   const [text, setText] = useState("");
   const [cursorVisible, setCursorVisible] = useState(true);
   const phrases = useMemo(() => [
@@ -81,4 +81,4 @@ const HeroSection = () => {
   );
 };
 
-export default HeroSection;
+export default Introduction;

@@ -1,12 +1,15 @@
-import ProjectsSection from "@/components/HomeComps/ProjectsSection";
-import PostsSection from "@/components/HomeComps/PostsSection";
-import ContactSection from "@/components/ContactComp";
+import Introduction from "@/components/HomeComps/Introduction";
+import Technologies from "@/components/HomeComps/Technologies";
+import AboutMe from "@/components/HomeComps/AboutMe";
+import Projects from "@/components/HomeComps/Projects";
+import Posts from "@/components/HomeComps/Posts";
+import Contact from "@/components/ContactComp";
 import Footer from "@/components/GlobalComp/Footer";
 import Navbar from "@/components/GlobalComp/NavBar";
+
 import "../css/globals.css";
 import "../css/main.css";
-import TechnologiesBanner from "@/components/HomeComps/TechnologiesBanner";
-import IntroSection from "@/components/HomeComps/IntroSection";
+import "../css/Components/AboutMe.css";
 
 const Home = () => {
   return (
@@ -17,27 +20,32 @@ const Home = () => {
       <main>
         {/* Hero Section */}
         <section id="hero" className="min-h-screen w-full relative">
-          <IntroSection />          
+          <Introduction />          
         </section>
 
         {/* Technologies Section */}
         <section id="technologies" className="w-full relative">
-          <TechnologiesBanner />
+          <Technologies />
+        </section>
+
+        {/* About me Section */}
+        <section id="about-me" className="w-full relative">
+          <AboutMe />
         </section>
 
         {/* Projects Section */}
         <section id="projects" className="min-h-screen w-full relative">
-          <ProjectsSection />
+          <Projects />
         </section>
 
         {/* Posts Section */}
         <section id="posts" className="min-h-screen w-full relative">
-          <PostsSection />
+          <Posts />
         </section>
 
         {/* Contact Section */}
         <section id="contact" className="min-h-screen w-full relative">
-          <ContactSection />
+          <Contact />
         </section>
       </main>
       <Footer />
