@@ -1,32 +1,47 @@
 import { motion } from "framer-motion";
+import Image from 'next/image';
+import "../../css/Components/Projects.css";
 
-const Projects = () => (
-  <section className="mt-16">
-    <h2 className="text-4xl font-semibold text-gray-900 dark:text-white text-center mb-8">
-      🚀 Proyectos Destacados
-    </h2>
+const projects = [
+  { title: "🕹️ Clon de Flappy Bird", desc: "Juego en Three.js", link: "#" },
+  { title: "📊 Dashboard con Supabase", desc: "Datos en tiempo real", link: "#" },
+  { title: "🤖 Bot de Discord con AI", desc: "Automatización inteligente", link: "#" },
+  { title: "📡 Recuperación de Información", desc: "Procesamiento y evaluación en Python", link: "#" },
+];
 
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mt-6">
-      {[
-        { title: "🕹️ Clon de Flappy Bird", desc: "Juego en Three.js", link: "#" },
-        { title: "📊 Dashboard con Supabase", desc: "Datos en tiempo real", link: "#" },
-        { title: "🤖 Bot de Discord con AI", desc: "Automatización inteligente", link: "#" },
-        { title: "🤖 Recuperación de Información", desc: "Procesamiento y evaluación en Python", link: "#" },
-        { title: "🤖 Bot de Discord con AI", desc: "Automatización inteligente", link: "#" },
-        { title: "🤖 Bot de Discord con AI", desc: "Automatización inteligente", link: "#" }
-      ].map((project, index) => (
-        <motion.a
-          key={index}
-          href={project.link}
-          className="p-6 bg-white dark:bg-gray-800 rounded-xl block shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1"
-          whileHover={{ scale: 1.05 }}
-        >
-          <h3 className="font-bold text-lg">{project.title}</h3>
-          <p className="text-gray-500 dark:text-gray-300">{project.desc}</p>
-        </motion.a>
-      ))}
-    </div>
-  </section>
-);
+const Projects = () => {
+  return (
+    <section className="projects-section">
+      <motion.h2
+        className="projects-title"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        🚀 Proyectos Destacados
+      </motion.h2>
+
+      <div className="projects-grid">
+        {projects.map((project, index) => (
+          <motion.a
+            key={index}
+            href={project.link}
+            className="project-card"
+            whileHover={{ scale: 1.05 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: index * 0.1 }}
+          >
+            <Image src="/profile.jpg" alt={project.title} width={500} height={300} />
+            <div className="project-info">
+              <h3>{project.title}</h3>
+              <p>{project.desc}</p>
+            </div>
+          </motion.a>
+        ))}
+      </div>
+    </section>
+  );
+};
 
 export default Projects;

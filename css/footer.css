@@ -1,1 +1,87 @@
-footer {background-color: #1f2937;color: white;text-align: center;}
+/* Estilos generales del pie de página */
+.footer {
+background: linear-gradient(135deg, #1e293b, #0f172a);
+color: #ffffff;
+padding: 3rem 1rem;
+text-align: center;
+box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+position: relative;
+z-index: 10;
+margin-top: -4rem !important;
+}
+
+.footer-container {
+max-width: 1200px;
+margin: 0 auto;
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 2rem;
+}
+
+.footer-author h3 {
+font-size: 1.75rem;
+font-weight: bold;
+margin-bottom: 0.5rem;
+}
+
+.footer-author p {
+font-size: 0.875rem;
+color: #94a3b8;
+}
+
+.footer-nav {
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+gap: 1.5rem;
+}
+
+.footer-nav a {
+color: #ffffff;
+text-decoration: none;
+font-size: 1rem;
+transition: color 0.3s ease;
+}
+
+.footer-nav a:hover {
+color: #38bdf8;
+}
+
+.footer-social {
+display: flex;
+gap: 1.5rem;
+}
+
+.footer-social a {
+color: #ffffff;
+font-size: 1.5rem;
+transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.footer-social a:hover {
+transform: scale(1.2);
+color: #38bdf8;
+}
+
+.footer-bottom {
+margin-top: 2rem;
+border-top: 1px solid #334155;
+padding-top: 1rem;
+font-size: 0.875rem;
+color: #94a3b8;
+}
+
+@media (min-width: 768px) {
+.footer-container {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-author,
+.footer-nav,
+.footer-social {
+    margin-bottom: 0;
+}
+}

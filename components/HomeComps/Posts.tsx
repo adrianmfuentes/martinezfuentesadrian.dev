@@ -1,29 +1,41 @@
 import { motion } from "framer-motion";
+import "@/css/Components/Posts.css";
 
-const Posts = () => (
-  <section className="mt-16">
-    <h2 className="text-4xl font-semibold text-gray-900 dark:text-white text-center mb-8">
-      📝 Últimos Posts
-    </h2>
-    
-    <div className="mt-6 space-y-6">
-      {[
-        { title: "🚀 Next.js y SSR", desc: "Mejorando el performance de tu web", link: "#" },
-        { title: "🔐 Autenticación con Supabase", desc: "Login fácil con Next.js", link: "#" },
-        { title: "🎨 Animaciones con Framer Motion", desc: "Dale vida a tu UI", link: "#" }
-      ].map((post, index) => (
-        <motion.a
-          key={index}
-          href={post.link}
-          className="block p-6 bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-lg transition transform hover:-translate-y-1"
-          whileHover={{ scale: 1.02 }}
-        >
-          <h3 className="font-bold text-lg">{post.title}</h3>
-          <p className="text-gray-500 dark:text-gray-300">{post.desc}</p>
-        </motion.a>
-      ))}
-    </div>
-  </section>
-);
+const posts = [
+  { title: "🚀 Next.js y SSR", desc: "Mejorando el performance de tu web", link: "#" },
+  { title: "🔐 Autenticación con Supabase", desc: "Login fácil con Next.js", link: "#" },
+  { title: "🎨 Animaciones con Framer Motion", desc: "Dale vida a tu UI", link: "#" }
+];
+
+const Posts = () => {
+  return (
+    <section className="posts-section">
+      <motion.h2
+        className="posts-title"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        📝 Últimos Posts
+      </motion.h2>
+      <div className="posts-list">
+        {posts.map((post, index) => (
+          <motion.a
+            key={index}
+            href={post.link}
+            className="post-card"
+            whileHover={{ scale: 1.02, x: 5 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, delay: index * 0.1 }}
+          >
+            <h3 className="post-title">{post.title}</h3>
+            <p className="post-desc">{post.desc}</p>
+          </motion.a>
+        ))}
+      </div>
+    </section>
+  );
+};
 
 export default Posts;

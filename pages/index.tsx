@@ -3,7 +3,7 @@ import Technologies from "@/components/HomeComps/Technologies";
 import AboutMe from "@/components/HomeComps/AboutMe";
 import Projects from "@/components/HomeComps/Projects";
 import Posts from "@/components/HomeComps/Posts";
-import Contact from "@/components/ContactComp";
+import Contact from "@/components/HomeComps/ContactComp";
 import Footer from "@/components/GlobalComp/Footer";
 import Navbar from "@/components/GlobalComp/NavBar";
 
