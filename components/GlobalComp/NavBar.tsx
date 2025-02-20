@@ -16,9 +16,10 @@ const Navbar = () => {
         {/* Menú - Visible en pantallas grandes */}
         <div className="hidden md:flex space-x-6">
           <NavLink href="/">Inicio</NavLink>
-          <NavLink href="/components/">Servicios</NavLink>
-          <NavLink href="/nosotros">Curriculum</NavLink>
-          <NavLink href="/contacto">Contacto</NavLink>
+          <NavLink href="/servicios">Servicios</NavLink>
+          <NavLink href="/curriculum">Curriculum</NavLink>
+          <NavLink href="/blog">Blog</NavLink>
+          <NavLink href="/contact">Contacto</NavLink>
         </div>
 
         {/* Botón de acción */}
@@ -40,10 +41,11 @@ const Navbar = () => {
       {/* Menú desplegable en móviles */}
       {menuOpen && (
         <div className="md:hidden bg-white border-t border-gray-200">
-          <NavLink href="/" mobile>Inicio</NavLink>
-          <NavLink href="/servicios" mobile>Servicios</NavLink>
-          <NavLink href="/nosotros" mobile>Nosotros</NavLink>
-          <NavLink href="/contacto" mobile>Contacto</NavLink>
+          <NavLink href="/">Inicio</NavLink>
+          <NavLink href="/servicios">Servicios</NavLink>
+          <NavLink href="/curriculum">Curriculum</NavLink>
+          <NavLink href="blog">Blog</NavLink>
+          <NavLink href="/contact">Contacto</NavLink>
           <Link href="/login">
             <button className="w-full bg-[#6D9DC5] text-white py-2 mt-2 rounded-lg">
               Iniciar Sesión
