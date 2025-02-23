@@ -1,5 +1,5 @@
 "use client";
-import "../../css/Components/Technologies.css";
+import "@/styles/Technologies.css";
 
 const technologies = [
   { name: "React", icon: "🔷" },

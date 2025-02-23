@@ -1,0 +1,147 @@
+/* Estilos generales */
+nav {
+  background-color: #1d3557; /* Color de fondo elegante */
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.15); /* Sombra suave */
+  border-bottom: 0.0625rem solid #e0e0e0; /* Borde sutil para separación */
+  transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Transición suave para el fondo */
+}
+
+nav:hover {
+  background-color: #16345e; /* Color de fondo ligeramente más oscuro al pasar el mouse */
+  box-shadow: 0 0.375rem 1rem rgba(0, 0, 0, 0.2); /* Sombra más fuerte en hover */
+}
+
+/* Contenedor principal */
+nav .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 1.2rem 5%; /* Usando porcentaje para hacerlo más flexible */
+}
+
+/* Enlaces y texto */
+a {
+  text-decoration: none;
+}
+
+.text-white {
+  color: #ffffff;
+}
+
+.text-primary {
+  color: #1d3557;
+}
+
+/* Estilos del logo */
+nav .text-2xl {
+  font-size: 2rem; /* Ajuste proporcional */
+  font-weight: 700; /* Negrita para el logo */
+  color: white;
+  transition: color 0.3s ease, transform 0.3s ease; /* Transición para el logo */
+}
+
+/* Hover sobre el logo */
+nav .text-2xl:hover {
+  color: #6D9DC5; /* Cambio de color elegante al pasar el mouse */
+  transform: rotate(-3deg); /* Sutil rotación en lugar de ampliación */
+}
+
+/* Estilos de los enlaces */
+nav .space-x-6 {
+  display: flex;
+  gap: 3%; /* Espacio relativo entre los elementos */
+}
+
+/* Enlaces de navegación */
+nav .text-white {
+  font-size: 1.1rem;
+  font-weight: 500; /* Fuente ligeramente más delgada */
+  letter-spacing: 0.5px; /* Espaciado sutil */
+  text-transform: capitalize;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+/* Efecto hover en los enlaces */
+nav .text-white:hover {
+  color: #89CFF0; /* Nuevo color de hover más suave */
+  transform: translateY(-0.2rem); /* Suave movimiento hacia arriba */
+  letter-spacing: 1px; /* Añadir espacio entre las letras */
+}
+
+/* Redes sociales */
+nav .space-x-4 {
+  display: flex;
+  gap: 1.4rem;
+}
+
+nav .text-xl {
+  font-size: 1.5rem; /* Ajuste de tamaño proporcional */
+  transition: transform 0.3s ease, color 0.3s ease; /* Transición para los iconos */
+}
+
+/* Iconos de redes sociales */
+nav .text-white:hover {
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+nav .text-white:hover {
+  color: #89CFF0; /* Color brillante en hover */
+  transform: translateY(-0.2rem); /* Suave movimiento hacia arriba */
+}
+
+/* Menú desplegable en móviles */
+.md\:hidden {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .md\:hidden {
+    display: block;
+  }
+
+  .md\:flex {
+    display: none;
+  }
+
+  nav .bg-white {
+    background-color: #ffffff;
+  }
+
+  /* Menú móvil */
+  nav .space-x-6 {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .md\:hidden .space-x-6 {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  nav .space-x-6 a {
+    padding: 1rem;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+  }
+
+  nav .text-white:hover {
+    color: #89CFF0;
+    transform: translateY(-0.2rem);
+  }
+}
+
+/* Botón de menú móvil */
+button {
+  background-color: transparent;
+  border: none;
+  font-size: 2rem; /* Más tamaño para facilidad de uso en móvil */
+  color: white;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+button:hover {
+  transform: rotate(90deg); /* Rotación en el botón para hacerlo más interactivo */
+}

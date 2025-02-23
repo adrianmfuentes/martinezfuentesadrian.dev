@@ -1,0 +1,88 @@
+/* Estilos generales del pie de página */
+.footer {
+    background: linear-gradient(135deg, #1e293b, #0f172a);
+    color: #ffffff;
+    padding: 3vw 5%;
+    text-align: center;
+    box-shadow: 0 -1vw 1.5vw rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 10;
+    margin-top: -4.17vw !important;
+  }
+  
+  .footer-container {
+    max-width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3rem;
+  }
+  
+  .footer-author h3 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
+  .footer-author p {
+    font-size: 1rem;
+    color: #94a3b8;
+  }
+  
+  .footer-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 3vw;
+  }
+  
+  .footer-nav a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 1.2vw;
+    transition: color 0.3s ease;
+  }
+  
+  .footer-nav a:hover {
+    color: #38bdf8;
+  }
+  
+  .footer-social {
+    display: flex;
+    gap: 3vw;
+  }
+  
+  .footer-social a {
+    color: #ffffff;
+    font-size: 3rem;
+    transition: transform 0.3s ease, color 0.3s ease;
+  }
+  
+  .footer-social a:hover {
+    transform: scale(1.2);
+    color: #38bdf8;
+  }
+  
+  .footer-bottom {
+    margin-top: 3vw;
+    border-top: 1px solid #334155;
+    padding-top: 1rem;
+    font-size: 1vw;
+    color: #94a3b8;
+  }
+  
+  @media (min-width: 768px) {
+    .footer-container {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+  
+    .footer-author,
+    .footer-nav,
+    .footer-social {
+      margin-bottom: 0;
+    }
+  }
+  

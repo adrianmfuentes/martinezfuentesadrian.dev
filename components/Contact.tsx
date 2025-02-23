@@ -1,8 +1,11 @@
-import { FaGithub, FaLinkedin } from "react-icons/fa";
-import { motion } from "framer-motion";
-import "../../css/Components/Contact.css";
+'use client';
 
-const ContactSection = () => {
+import { FaGithub, FaLinkedin } from "react-icons/fa";
+import * as framerMotion from 'framer-motion';
+const { motion } = framerMotion;
+import "@/styles/Contact.css";
+
+const Contact = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Lógica para enviar el formulario
@@ -17,7 +20,7 @@ const ContactSection = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: "easeInOut" }}
       >
-        🌐 Conéctate Conmigo
+        Conéctate Conmigo
       </motion.h2>
 
       <div className="contact-container">
@@ -95,7 +98,7 @@ const ContactSection = () => {
               <FaGithub />
             </motion.a>
             <motion.a
-              href="https://linkedin.com/in/adrianmfuentes"
+              href="https://www.linkedin.com/in/adrianmfuentes"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn"
@@ -114,4 +117,4 @@ const ContactSection = () => {
   );
 };
 
-export default ContactSection;
+export default Contact;

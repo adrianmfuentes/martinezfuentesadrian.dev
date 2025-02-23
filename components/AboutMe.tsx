@@ -1,8 +1,12 @@
-import { motion } from "framer-motion";
-import Image from "next/image";
-import "../../css/Components/AboutMe.css";
+'use client';
 
-const AboutMe = () => {
+import Image from 'next/image';
+import "@/styles/AboutMe.css";
+
+import * as framerMotion from 'framer-motion';
+const { motion } = framerMotion;
+
+export const AboutMe = () => {
   return (
     <section className="relative flex flex-col md:flex-row items-center justify-between min-h-screen px-6 md:px-16 lg:px-32 bg-gradient-to-br from-[#1e293b] to-[#0f172a] text-white">
       {/* Contenedor de la imagen */}
@@ -96,5 +100,3 @@ const AboutMe = () => {
     </section>
   );
 };
-
-export default AboutMe;

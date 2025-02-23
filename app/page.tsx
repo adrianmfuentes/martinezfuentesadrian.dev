@@ -1,27 +1,25 @@
-import Introduction from "@/components/HomeComps/Introduction";
-import Technologies from "@/components/HomeComps/Technologies";
-import AboutMe from "@/components/HomeComps/AboutMe";
-import Projects from "@/components/HomeComps/Projects";
-import Posts from "@/components/HomeComps/Posts";
-import Contact from "@/components/HomeComps/ContactComp";
-import Footer from "@/components/GlobalComp/Footer";
-import Navbar from "@/components/GlobalComp/NavBar";
+import Introduction from "@/components/Introduction";
+import Technologies from "@/components/Technologies";
+import { AboutMe } from "@/components/AboutMe";
+import Projects from "@/components/Projects";
+import Posts from "@/components/Posts";
+import Contact from "@/components/Contact";
+import Footer from "@/components/Footer";
+import Navbar from "@/components/NavBar";
 
-import "../css/globals.css";
-import "../css/main.css";
-import "../css/Components/AboutMe.css";
+import "@/styles/Globals.css";
+import "@/styles/Main.css";
 
 const Home = () => {
+  console.log(AboutMe);
   return (
     <div className="container">
       {/* Navigation bar */}
       <Navbar />
 
       <main>
-        {/* Hero Section */}
-        <section id="hero" className="min-h-screen w-full relative">
-          <Introduction />          
-        </section>
+        {/* Introduction Section */}
+        <Introduction />          
 
         {/* Technologies Section */}
         <section id="technologies" className="w-full relative">

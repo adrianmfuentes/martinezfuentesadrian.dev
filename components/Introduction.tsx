@@ -1,6 +1,9 @@
-import { motion } from "framer-motion";
+"use client";
+
+import * as framerMotion from 'framer-motion';
+const { motion } = framerMotion;
 import { useState, useEffect, useMemo } from "react";
-import Fondo from "../GlobalComp/fondo";
+import Fondo from "./Fondo";
 import { FaChevronDown } from "react-icons/fa";
 
 const Introduction = () => {
@@ -44,7 +47,7 @@ const Introduction = () => {
   }, []);
 
   // Función para desplazarse a la siguiente sección
-  const scrollToSection = (sectionId: string, offset: number = 100) => {
+  const scrollToSection = (sectionId: string, offset: number = 500) => {
     const section = document.getElementById(sectionId);
     if (section) {
       const sectionPosition = section.getBoundingClientRect().top + window.scrollY;
@@ -73,7 +76,7 @@ const Introduction = () => {
       {/* Flecha para desplazarse */}
       <button
         className="absolute left-1/2 bottom-24 text-4xl text-teal-500 dark:text-teal-300 animate-bounce transform -translate-x-1/2"
-        onClick={() => scrollToSection("technologies", 190)}
+        onClick={() => scrollToSection("technologies", 107)}
       >
         <FaChevronDown />
       </button>

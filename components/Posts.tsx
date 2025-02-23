@@ -1,5 +1,8 @@
-import { motion } from "framer-motion";
-import "@/css/Components/Posts.css";
+'use client';
+
+import * as framerMotion from 'framer-motion';
+const { motion } = framerMotion;
+import "@/styles/Posts.css";
 
 const posts = [
   { title: "🚀 Next.js y SSR", desc: "Mejorando el performance de tu web", link: "#" },

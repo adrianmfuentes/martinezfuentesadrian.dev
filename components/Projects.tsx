@@ -1,6 +1,9 @@
-import { motion } from "framer-motion";
+'use client';
+
 import Image from 'next/image';
-import "../../css/Components/Projects.css";
+import "@/styles/Projects.css";
+import * as framerMotion from 'framer-motion';
+const { motion } = framerMotion;
 
 const projects = [
   { title: "🕹️ Clon de Flappy Bird", desc: "Juego en Three.js", link: "#" },
