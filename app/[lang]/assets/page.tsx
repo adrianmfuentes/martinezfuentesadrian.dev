@@ -1,11 +1,16 @@
 import { getDictionary } from "../dictionaries"
 
-export default async function AssetsPage({ params }: { params: { lang: string } }) {
-  // Await the dictionary to ensure all async operations are complete
-  await getDictionary(params.lang as "en" | "es")
+export default async function AssetsPage({
+  params,
+}: {
+  readonly params: Promise<{ lang: string }>;
+}) {
+  const { lang } = await params;
+  const dict = await getDictionary(lang as "en" | "es");
 
-  // Now we can safely use params.lang if needed
-  const lang = params.lang
+  if (!dict) {
+    throw new Error("Dictionary not found");
+  }
 
   return (
     <div className="container mx-auto px-4 py-16">

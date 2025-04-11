@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "title": "John Doe | Estudiante de Ingeniería Informática",
-    "description": "Portfolio personal de John Doe, estudiante de Ingeniería Informática especializado en desarrollo web y arquitectura de software",
+    "title": "Adrián Martínez | Estudiante de Ingeniería Informática",
+    "description": "Portfolio personal de Adrián Martínez, estudiante de Ingeniería Informática especializado en desarrollo web y arquitectura de software",
     "keywords": "ingeniería informática, desarrollo web, portfolio, estudiante, programación"
   },
   "navigation": {
@@ -15,7 +15,7 @@
   },
   "home": {
     "greeting": "Hola, soy",
-    "title": "John Doe",
+    "title": "Adrián Martínez",
     "subtitle": "Estudiante de Ingeniería Informática",
     "cta": "Ver Mi Trabajo"
   },
@@ -25,7 +25,8 @@
     "bio": [
       "Soy estudiante de tercer año de Ingeniería Informática apasionado por crear soluciones innovadoras a través del código.",
       "Mi viaje en la tecnología comenzó cuando tenía 15 años, y desde entonces he estado constantemente aprendiendo y mejorando mis habilidades.",
-      "Me especializo en desarrollo web y arquitectura de software, con un interés particular en crear aplicaciones eficientes y fáciles de usar."
+      "Me especializo en desarrollo web y arquitectura de software, con un interés particular en crear aplicaciones eficientes y fáciles de usar.",
+      "También estoy interesado en inteligencia artificial y aprendizaje automático, y actualmente estoy explorando estos campos."
     ],
     "skills": {
       "title": "Mis Habilidades",
@@ -35,8 +36,8 @@
     "education": {
       "title": "Educación",
       "degree": "Grado en Ingeniería Informática del Software",
-      "university": "Universidad Politécnica de Madrid",
-      "period": "2021 - Presente"
+      "university": "Universidad de Oviedo",
+      "period": "2022 - Presente"
     }
   },
   "cv": {

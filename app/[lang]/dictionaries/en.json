@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "title": "John Doe | Software Engineering Student",
-    "description": "Personal portfolio of John Doe, Software Engineering student specializing in web development and software architecture",
+    "title": "Adrián Martínez | Software Engineering Student",
+    "description": "Personal portfolio of Adrián Martínez, Software Engineering student specializing in web development and software architecture",
     "keywords": "software engineering, web development, portfolio, student, programming"
   },
   "navigation": {
@@ -15,7 +15,7 @@
   },
   "home": {
     "greeting": "Hello, I'm",
-    "title": "John Doe",
+    "title": "Adrián Martínez",
     "subtitle": "Software Engineering Student",
     "cta": "View My Work"
   },
@@ -25,7 +25,8 @@
     "bio": [
       "I'm a third-year Software Engineering student passionate about creating innovative solutions through code.",
       "My journey in technology began when I was 15, and since then I've been constantly learning and improving my skills.",
-      "I specialize in web development and software architecture, with a particular interest in creating efficient and user-friendly applications."
+      "I specialize in web development and software architecture, with a particular interest in creating efficient and user-friendly applications.",
+      "I am also interested in artificial intelligence and machine learning, and I am currently exploring these fields."
     ],
     "skills": {
       "title": "My Skills",
@@ -35,8 +36,8 @@
     "education": {
       "title": "Education",
       "degree": "Bachelor's Degree in Software Engineering",
-      "university": "Technical University of Madrid",
-      "period": "2021 - Present"
+      "university": "University of Oviedo",
+      "period": "2022 - Present"
     }
   },
   "cv": {

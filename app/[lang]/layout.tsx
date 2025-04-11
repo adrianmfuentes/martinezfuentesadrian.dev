@@ -14,40 +14,50 @@ const poppins = Poppins({
   variable: "--font-poppins",
 })
 
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
   return locales.map((lang) => ({ lang }))
 }
 
-export async function generateMetadata({ params }: { params: { lang: string } }) {
-  const dict = await getDictionary(params.lang as "en" | "es")
-
+export async function generateMetadata({
+  params
+}: { params: Promise<{ lang: string }> }) {
+  const { lang } = await params;
+  const dict = await getDictionary(lang as "en" | "es");
+  // Retorna el objeto de metadata
   return {
     title: dict.metadata.title,
     description: dict.metadata.description,
-    keywords: dict.metadata.keywords,
-  }
+    keywords: dict.metadata.keywords
+  };
 }
 
 export default async function RootLayout({
   children,
   params,
-}: Readonly<{
-  children: React.ReactNode
-  params: { lang: string }
-}>) {
-  const dict = await getDictionary(params.lang as "en" | "es")
-
+}: {
+  children: React.ReactNode;
+  params: Promise<{ lang: string }>
+}) {
+  const { lang } = await params;
+  const dict = await getDictionary(lang as "en" | "es");
   return (
-    <html lang={params.lang} suppressHydrationWarning>
+    <html lang={lang} suppressHydrationWarning>
       <body className={`${inter.variable} ${poppins.variable} font-sans`}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
           <div className="flex min-h-screen flex-col">
-            <Navbar lang={params.lang} dictionary={dict.navigation} />
+            <Navbar lang={lang} dictionary={dict.navigation} />
             <main className="flex-1">{children}</main>
-            <Footer lang={params.lang} dictionary={dict.footer} />
+            <Footer lang={lang} dictionary={dict.footer} />
           </div>
         </ThemeProvider>
       </body>
     </html>
-  )
+  );
 }
