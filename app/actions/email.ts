@@ -2,7 +2,7 @@
 
 import { z } from "zod"
 import nodemailer from "nodemailer"
-import { DOMPurify } from "isomorphic-dompurify"
+import DOMPurify from "isomorphic-dompurify"
 import { rateLimit } from "@/lib/rate-limit"
 
 // Email validation schema
@@ -71,7 +71,7 @@ export async function sendContactEmail(formData: {
     // Email content
     const mailOptions = {
       from: process.env.EMAIL_FROM,
-      to: process.env.EMAIL_TO || process.env.EMAIL_FROM, // Default to sender if recipient not specified
+      to: process.env.EMAIL_TO ?? process.env.EMAIL_FROM, // Default to sender if recipient not specified
       replyTo: sanitizedEmail,
       subject: `Contact Form: Message from ${sanitizedName}`,
       text: `Name: ${sanitizedName}\nEmail: ${sanitizedEmail}\n\nMessage:\n${sanitizedMessage}`,
