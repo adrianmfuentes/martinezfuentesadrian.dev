@@ -11,6 +11,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { toast } from "@/hooks/use-toast"
 import { Send, Loader2 } from "lucide-react"
+import { sendContactEmail } from "@/app/actions/email"
 
 interface ContactFormProps {
   dictionary: {
@@ -53,16 +54,27 @@ export function ContactForm({ dictionary }: Readonly<ContactFormProps>) {
     setIsSubmitting(true)
 
     try {
-      // In a real implementation, this would send the form data to a server
-      await new Promise((resolve) => setTimeout(resolve, 1500))
+      // Sanitize inputs to prevent XSS
+      const sanitizedValues = {
+        name: values.name.trim(),
+        email: values.email.trim(),
+        message: values.message.trim(),
+      }
 
-      toast({
-        title: "Success!",
-        description: dictionary.success,
-      })
+      // Send email using server action
+      const result = await sendContactEmail(sanitizedValues)
 
-      form.reset()
+      if (result.success) {
+        toast({
+          title: "Success!",
+          description: dictionary.success,
+        })
+        form.reset()
+      } else {
+        throw new Error(result.error || "Failed to send email")
+      }
     } catch (error) {
+      console.error("Contact form error:", error)
       toast({
         title: "Error",
         description: dictionary.error,

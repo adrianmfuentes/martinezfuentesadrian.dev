@@ -63,5 +63,10 @@
   },
   "footer": {
     "rights": "All rights reserved"
+  },
+  "chat": {
+    "title": "Virtual Assistant",
+    "placeholder": "Type a message...",
+    "send": "Send"
   }
 }

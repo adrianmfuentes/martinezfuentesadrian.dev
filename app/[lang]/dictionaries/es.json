@@ -63,5 +63,10 @@
   },
   "footer": {
     "rights": "Todos los derechos reservados"
+  },
+  "chat": {
+    "title": "Asistente Virtual",
+    "placeholder": "Escribe un mensaje...",
+    "send": "Enviar"
   }
 }
