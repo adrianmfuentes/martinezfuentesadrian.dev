@@ -25,7 +25,7 @@ interface ContactFormProps {
   }
 }
 
-export function ContactForm({ dictionary }: ContactFormProps) {
+export function ContactForm({ dictionary }: Readonly<ContactFormProps>) {
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const formSchema = z.object({

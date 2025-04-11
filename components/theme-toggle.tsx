@@ -12,8 +12,8 @@ interface ThemeToggleProps {
   }
 }
 
-export function ThemeToggle({ dictionary }: ThemeToggleProps) {
-  const { setTheme, theme } = useTheme()
+export function ThemeToggle({ dictionary }: Readonly<ThemeToggleProps>) {
+  const { setTheme } = useTheme()
 
   return (
     <DropdownMenu>

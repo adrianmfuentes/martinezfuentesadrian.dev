@@ -5,15 +5,15 @@ import { Card, CardContent } from "@/components/ui/card"
 import { motion, useInView } from "framer-motion"
 
 interface AboutSectionProps {
-  dictionary: {
-    title: string
-    subtitle: string
-    bio: string[]
-    education: {
-      title: string
-      degree: string
-      university: string
-      period: string
+  readonly dictionary: {
+    readonly title: string
+    readonly subtitle: string
+    readonly bio: readonly string[]
+    readonly education: {
+      readonly title: string
+      readonly degree: string
+      readonly university: string
+      readonly period: string
     }
   }
 }
@@ -42,7 +42,7 @@ export function AboutSection({ dictionary }: AboutSectionProps) {
           <div className="space-y-6">
             {dictionary.bio.map((paragraph, index) => (
               <motion.p
-                key={index}
+                key={`bio-paragraph-${paragraph.substring(0, 10)}-${index}`}
                 className="text-foreground/80"
                 initial={{ opacity: 0, y: 20 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}

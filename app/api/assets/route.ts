@@ -1,24 +1,7 @@
 import { NextResponse } from "next/server"
 
 export async function GET() {
-  // This is a simple API route that returns information about available assets
-  // In a real application, this could be used to dynamically list assets or provide metadata
-
   const assets = {
-    "3d": [
-      {
-        name: "duck.glb",
-        path: "/assets/3d/duck.glb",
-        type: "3D Model",
-        description: "3D model of a rubber duck used in the hero section",
-      },
-      {
-        name: "texture_earth.jpg",
-        path: "/assets/3d/texture_earth.jpg",
-        type: "Texture",
-        description: "Earth texture used for 3D spheres",
-      },
-    ],
     cv: [
       {
         name: "cv_en.pdf",

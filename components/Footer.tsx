@@ -19,7 +19,7 @@ export function Footer({ lang, dictionary }: FooterProps) {
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="mb-4 md:mb-0">
             <Link href={`/${lang}`} className="font-bold text-xl font-poppins">
-              <span className="text-primary">John</span> Doe
+              <span className="text-primary">Adrián</span> Martínez
             </Link>
           </div>
 

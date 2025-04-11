@@ -6,7 +6,7 @@ import { motion } from "framer-motion"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { ExternalLink, Github } from "lucide-react"
+import { ExternalLink, Github } from "lucide-react" /* NOSONAR */
 
 interface PortfolioSectionProps {
   dictionary: {
@@ -28,7 +28,7 @@ interface Project {
   codeUrl: string
 }
 
-export function PortfolioSection({ dictionary }: PortfolioSectionProps) {
+export function PortfolioSection({ dictionary }: Readonly<PortfolioSectionProps>) {
   const [activeCategory, setActiveCategory] = useState("all")
 
   const projects: Project[] = [
@@ -138,7 +138,7 @@ interface ProjectCardProps {
   viewCode: string
 }
 
-function ProjectCard({ project, viewProject, viewCode }: ProjectCardProps) {
+function ProjectCard({ project, viewProject, viewCode }: Readonly<ProjectCardProps>) {
   return (
     <Card className="overflow-hidden h-full flex flex-col">
       <div className="relative h-48">
@@ -174,7 +174,7 @@ function ProjectCard({ project, viewProject, viewCode }: ProjectCardProps) {
         </Button>
         <Button variant="outline" size="sm" className="gap-2" asChild>
           <a href={project.codeUrl} target="_blank" rel="noopener noreferrer">
-            <Github className="h-4 w-4" />
+            <Github className="h-4 w-4" /> {/* NOSONAR */}
             {viewCode}
           </a>
         </Button>

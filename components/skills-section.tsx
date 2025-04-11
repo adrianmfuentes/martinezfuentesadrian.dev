@@ -35,7 +35,7 @@ interface Skill {
   icon: React.ReactNode
 }
 
-export function SkillsSection({ dictionary }: SkillsSectionProps) {
+export function SkillsSection({ dictionary }: Readonly<SkillsSectionProps>) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 

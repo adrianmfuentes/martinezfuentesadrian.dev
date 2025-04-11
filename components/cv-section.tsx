@@ -1,6 +1,5 @@
 "use client"
 
-import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -15,9 +14,7 @@ interface CVSectionProps {
   lang: string
 }
 
-export function CVSection({ dictionary, lang }: CVSectionProps) {
-  const [activeTab, setActiveTab] = useState("experience")
-
+export function CVSection({ dictionary, lang }: Readonly<CVSectionProps>) {
   const handleDownload = () => {
     // Download the CV in the selected language
     const cvPath = lang === "en" ? "/assets/cv/cv_en.pdf" : "/assets/cv/cv_es.pdf"
@@ -116,7 +113,7 @@ interface TimelineItemProps {
   description: string
 }
 
-function TimelineItem({ title, organization, period, description }: TimelineItemProps) {
+function TimelineItem({ title, organization, period, description }: Readonly<TimelineItemProps>) {
   return (
     <Card>
       <CardContent className="p-6">

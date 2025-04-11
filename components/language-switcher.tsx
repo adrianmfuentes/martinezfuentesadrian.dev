@@ -6,10 +6,10 @@ import { Globe } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 
 interface LanguageSwitcherProps {
-  currentLang: string
+  readonly currentLang: string
 }
 
-export function LanguageSwitcher({ currentLang }: LanguageSwitcherProps) {
+export function LanguageSwitcher({ currentLang }: Readonly<LanguageSwitcherProps>) {
   const router = useRouter()
   const pathname = usePathname()
 
