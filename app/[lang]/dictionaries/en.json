@@ -62,7 +62,6 @@
     "error": "There was an error sending your message. Please try again."
   },
   "footer": {
-    "rights": "All rights reserved",
-    "madeWith": "Made with Next.js"
+    "rights": "All rights reserved"
   }
 }

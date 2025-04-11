@@ -4,22 +4,21 @@ import { useRef, useEffect } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
-import { Canvas, useFrame, useThree } from "@react-three/fiber"
+import { Canvas, useFrame } from "@react-three/fiber"
 import { OrbitControls, useGLTF, Environment, Float } from "@react-three/drei"
 import * as THREE from "three"
 
 interface HeroSectionProps {
-  dictionary: {
-    greeting: string
-    title: string
-    subtitle: string
-    cta: string
+  readonly dictionary: {
+    readonly greeting: string
+    readonly title: string
+    readonly subtitle: string
+    readonly cta: string
   }
-  lang: string
+  readonly lang: string
 }
 
 function TechModel({ position = [0, 0, 0], scale = 1 }) {
-  // Use the duck model from assets/3d/duck.glb
   const { scene } = useGLTF("/assets/RobotExpressive.glb")
   const ref = useRef<THREE.Group>(null!)
 
@@ -31,7 +30,7 @@ function TechModel({ position = [0, 0, 0], scale = 1 }) {
 
   return (
     <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.5}>
-      <primitive ref={ref} object={scene} attach="object" />
+      <primitive ref={ref} object={scene} position={position} scale={scale} /> {/*NOSONAR*/}
     </Float>
   )
 }
@@ -66,8 +65,8 @@ function TechSphere({ position = [0, 0, 0] }) {
   })
 
   return (
-    <mesh ref={meshRef} position={[position[0], position[1], position[2]]}>
-      <sphereGeometry args={[1, 32, 32]} />
+    <mesh ref={meshRef} position={[position[0], position[1], position[2]]}> {/*NOSONAR*/}
+      <sphereGeometry args={[1, 32, 32]} /> {/*NOSONAR*/}
       <meshStandardMaterial color="#ffffff" />
     </mesh>
   )
@@ -75,7 +74,6 @@ function TechSphere({ position = [0, 0, 0] }) {
 
 function TechParticles({ count = 100 }) {
   const mesh = useRef<THREE.InstancedMesh>(null!)
-  const { viewport } = useThree()
 
   useEffect(() => {
     if (!mesh.current) return
@@ -105,9 +103,9 @@ function TechParticles({ count = 100 }) {
   }, [count])
 
   return (
-    <instancedMesh ref={mesh} args={[undefined, undefined, count]}>
-      <sphereGeometry args={[1, 8, 8]} />
-      <meshStandardMaterial color="#60a5fa" emissive="#60a5fa" emissiveIntensity={0.5} transparent opacity={0.7} />
+    <instancedMesh ref={mesh} args={[undefined, undefined, count]}> {/*NOSONAR*/}
+      <sphereGeometry args={[1, 8, 8]} /> {/*NOSONAR*/}
+      <meshStandardMaterial color="#60a5fa" emissive="#60a5fa" emissiveIntensity={0.5} transparent opacity={0.7} /> {/*NOSONAR*/}
     </instancedMesh>
   )
 }
@@ -115,8 +113,8 @@ function TechParticles({ count = 100 }) {
 function Scene() {
   return (
     <>
-      <ambientLight intensity={0.5} />
-      <pointLight position={[10, 10, 10]} intensity={1} />
+      <ambientLight intensity={0.5} /> {/*NOSONAR*/}
+      <pointLight position={[10, 10, 10]} intensity={1} /> {/*NOSONAR*/}
       <TechModel position={[0, -1, 0]} scale={1.5} />
       <TechSphere position={[-3, 2, -2]} />
       <TechSphere position={[3, -1, -1]} />

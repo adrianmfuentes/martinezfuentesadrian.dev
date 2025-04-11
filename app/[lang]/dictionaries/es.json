@@ -62,7 +62,6 @@
     "error": "Hubo un error al enviar tu mensaje. Por favor, inténtalo de nuevo."
   },
   "footer": {
-    "rights": "Todos los derechos reservados",
-    "madeWith": "Hecho con Next.js"
+    "rights": "Todos los derechos reservados"
   }
 }

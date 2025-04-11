@@ -33,9 +33,8 @@ export function Footer({ lang, dictionary }: FooterProps) {
 
         <div className="border-t mt-6 pt-6 text-center text-sm text-foreground/70">
           <p>
-            &copy; {currentYear} John Doe. {dictionary.rights}.
+            &copy; {currentYear} Adrián Martínez. {dictionary.rights}.
           </p>
-          <p className="mt-1">{dictionary.madeWith} ❤️</p>
         </div>
       </div>
     </footer>

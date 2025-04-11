@@ -36,10 +36,10 @@ export async function generateMetadata({
 export default async function RootLayout({
   children,
   params,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-  params: Promise<{ lang: string }>
-}) {
+  params: Promise<{ lang: string }>;
+}>) {
   const { lang } = await params;
   const dict = await getDictionary(lang as "en" | "es");
   return (
