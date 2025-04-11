@@ -50,7 +50,7 @@ export function Navbar({ lang, dictionary }: NavbarProps) {
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           <Link href={`/${lang}`} className="font-bold text-xl font-poppins">
-            <span className="text-primary">John</span> Doe
+            <span className="text-primary">Adrián</span> Martínez
           </Link>
 
           <nav className="hidden md:flex items-center space-x-6">
