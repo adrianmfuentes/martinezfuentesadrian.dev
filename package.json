@@ -1,5 +1,5 @@
 {
-  "name": "adrianmfuentes.dev",
+  "name": "my-v0-project",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -58,6 +58,7 @@
     "tailwindcss-animate": "^1.0.7",
     "vaul": "^0.9.6",
     "zod": "latest",
+    "@emotion/is-prop-valid": "latest",
     "expo": "latest",
     "expo-asset": "latest",
     "expo-file-system": "latest",
@@ -65,12 +66,11 @@
     "react-native": "latest",
     "three": "latest",
     "@react-three/fiber": "latest",
-    "@emotion/is-prop-valid": "latest",
     "@formatjs/intl-localematcher": "latest",
     "negotiator": "latest",
     "server-only": "latest",
-    "@react-three/drei": "latest",
-    "framer-motion": "latest"
+    "framer-motion": "latest",
+    "@react-three/drei": "latest"
   },
   "devDependencies": {
     "@types/node": "^22",

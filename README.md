@@ -81,6 +81,42 @@ To add a new language:
 2. Add the language to the supported locales in `middleware.ts`
 3. Update the `getDictionary` function in `app/[lang]/dictionaries.ts`
 
+## 🎨 Customization
+
+### Personal Information
+
+Update your personal information in the dictionary files:
+- `app/[lang]/dictionaries/en.json`
+- `app/[lang]/dictionaries/es.json`
+
+### Theme Colors
+
+Modify the color scheme in `app/globals.css` by changing the CSS variables.
+
+### Projects
+
+Add your projects by updating the projects array in `components/portfolio-section.tsx`.
+
+### CV/Resume
+
+Update your CV information in the `CVSection` component and add your PDF resume files to the `public` folder.
+
+## 📷 Adding Images
+
+1. Place your images in the `public` folder
+2. Reference them in your components:
+   \`\`\`jsx
+   <Image src="/path/to/image.jpg" alt="Description" width={800} height={600} />
+   \`\`\`
+
+## 🚢 Deployment
+
+This project can be easily deployed on [Vercel](https://vercel.com/):
+
+1. Push your code to a GitHub repository
+2. Import the project in Vercel
+3. Configure your environment variables if needed
+4. Deploy!
 
 ## 📱 Mobile Optimization
 
@@ -105,4 +141,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ---
 
-Created by Adrian
+Created with ❤️ by [Your Name]

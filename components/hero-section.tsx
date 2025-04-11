@@ -19,7 +19,8 @@ interface HeroSectionProps {
 }
 
 function TechModel({ position = [0, 0, 0], scale = 1 }) {
-  const { scene } = useGLTF("/assets/3d/duck.glb")
+  // Use the duck model from assets/3d/duck.glb
+  const { scene } = useGLTF("/assets/RobotExpressive.glb")
   const ref = useRef<THREE.Group>(null!)
 
   useFrame((state) => {
@@ -30,13 +31,32 @@ function TechModel({ position = [0, 0, 0], scale = 1 }) {
 
   return (
     <Float speed={1.5} rotationIntensity={0.2} floatIntensity={0.5}>
-      <primitive ref={ref} object={scene} position={position} scale={scale} />
+      <primitive ref={ref} object={scene} attach="object" />
     </Float>
   )
 }
 
 function TechSphere({ position = [0, 0, 0] }) {
   const meshRef = useRef<THREE.Mesh>(null!)
+  const texture = useRef<THREE.Texture | null>(null)
+
+  useEffect(() => {
+    // Load the earth texture
+    const textureLoader = new THREE.TextureLoader()
+    textureLoader.load("/assets/3d/texture_earth.jpg", (loadedTexture) => {
+      texture.current = loadedTexture
+      if (meshRef.current) {
+        ;(meshRef.current.material as THREE.MeshStandardMaterial).map = loadedTexture
+        ;(meshRef.current.material as THREE.MeshStandardMaterial).needsUpdate = true
+      }
+    })
+
+    return () => {
+      if (texture.current) {
+        texture.current.dispose()
+      }
+    }
+  }, [])
 
   useFrame((state) => {
     if (meshRef.current) {
@@ -46,9 +66,9 @@ function TechSphere({ position = [0, 0, 0] }) {
   })
 
   return (
-    <mesh ref={meshRef} position={position}>
-      <icosahedronGeometry args={[1, 1]} />
-      <meshStandardMaterial color="#3b82f6" wireframe emissive="#3b82f6" emissiveIntensity={0.5} />
+    <mesh ref={meshRef} position={[position[0], position[1], position[2]]}>
+      <sphereGeometry args={[1, 32, 32]} />
+      <meshStandardMaterial color="#ffffff" />
     </mesh>
   )
 }

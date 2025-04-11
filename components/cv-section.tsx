@@ -19,8 +19,9 @@ export function CVSection({ dictionary, lang }: CVSectionProps) {
   const [activeTab, setActiveTab] = useState("experience")
 
   const handleDownload = () => {
-    // In a real implementation, this would download the CV in the selected language
-    alert(`Downloading CV in ${lang === "en" ? "English" : "Spanish"}`)
+    // Download the CV in the selected language
+    const cvPath = lang === "en" ? "/assets/cv/cv_en.pdf" : "/assets/cv/cv_es.pdf"
+    window.open(cvPath, "_blank")
   }
 
   return (

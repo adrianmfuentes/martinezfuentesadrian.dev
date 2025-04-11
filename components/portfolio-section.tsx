@@ -36,7 +36,7 @@ export function PortfolioSection({ dictionary }: PortfolioSectionProps) {
       id: "1",
       title: "E-commerce Platform",
       description: "A full-stack e-commerce platform built with Next.js, Prisma, and Stripe integration.",
-      image: "/placeholder.svg?height=600&width=800",
+      image: "/assets/projects/project_1.jpg",
       tags: ["Next.js", "Prisma", "Stripe", "Tailwind CSS"],
       category: "web",
       projectUrl: "#",
@@ -46,7 +46,7 @@ export function PortfolioSection({ dictionary }: PortfolioSectionProps) {
       id: "2",
       title: "Task Management App",
       description: "A collaborative task management application with real-time updates using WebSockets.",
-      image: "/placeholder.svg?height=600&width=800",
+      image: "/assets/projects/project_2.jpg",
       tags: ["React", "Node.js", "Socket.io", "MongoDB"],
       category: "web",
       projectUrl: "#",
@@ -56,7 +56,7 @@ export function PortfolioSection({ dictionary }: PortfolioSectionProps) {
       id: "3",
       title: "Weather Forecast App",
       description: "A mobile application that provides weather forecasts using geolocation and weather APIs.",
-      image: "/placeholder.svg?height=600&width=800",
+      image: "/assets/projects/project_3.jpg",
       tags: ["React Native", "Expo", "API Integration"],
       category: "mobile",
       projectUrl: "#",
@@ -66,7 +66,7 @@ export function PortfolioSection({ dictionary }: PortfolioSectionProps) {
       id: "4",
       title: "Data Visualization Dashboard",
       description: "An interactive dashboard for visualizing complex datasets with customizable charts.",
-      image: "/placeholder.svg?height=600&width=800",
+      image: "/assets/projects/project_4.jpg",
       tags: ["D3.js", "React", "TypeScript", "REST API"],
       category: "data",
       projectUrl: "#",
@@ -76,7 +76,7 @@ export function PortfolioSection({ dictionary }: PortfolioSectionProps) {
       id: "5",
       title: "Personal Finance Tracker",
       description: "A web application for tracking personal finances with budget planning and expense analysis.",
-      image: "/placeholder.svg?height=600&width=800",
+      image: "/assets/projects/project_5.jpg",
       tags: ["Vue.js", "Firebase", "Chart.js"],
       category: "web",
       projectUrl: "#",
@@ -86,7 +86,7 @@ export function PortfolioSection({ dictionary }: PortfolioSectionProps) {
       id: "6",
       title: "Augmented Reality Game",
       description: "A mobile AR game that uses the device camera to create an immersive gaming experience.",
-      image: "/placeholder.svg?height=600&width=800",
+      image: "/assets/projects/project_6.jpg",
       tags: ["Unity", "AR Foundation", "C#"],
       category: "game",
       projectUrl: "#",
@@ -142,7 +142,17 @@ function ProjectCard({ project, viewProject, viewCode }: ProjectCardProps) {
   return (
     <Card className="overflow-hidden h-full flex flex-col">
       <div className="relative h-48">
-        <Image src={project.image || "/placeholder.svg"} alt={project.title} fill className="object-cover" />
+        <Image
+          src={project.image || "/placeholder.svg"}
+          alt={project.title}
+          fill
+          className="object-cover"
+          onError={(e) => {
+            // Fallback to placeholder if image fails to load
+            const target = e.target as HTMLImageElement
+            target.src = "/placeholder.svg?height=600&width=800"
+          }}
+        />
       </div>
       <CardContent className="p-6 flex-grow">
         <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
