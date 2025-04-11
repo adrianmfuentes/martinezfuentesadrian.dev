@@ -92,7 +92,7 @@ export function ContactForm({ dictionary }: Readonly<ContactFormProps>) {
                     <FormItem>
                       <FormLabel>{dictionary.name}</FormLabel>
                       <FormControl>
-                        <Input placeholder="John Doe" {...field} />
+                        <Input placeholder="Adrián Martínez" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -106,7 +106,7 @@ export function ContactForm({ dictionary }: Readonly<ContactFormProps>) {
                     <FormItem>
                       <FormLabel>{dictionary.email}</FormLabel>
                       <FormControl>
-                        <Input placeholder="john@example.com" {...field} />
+                        <Input placeholder="example123@example.com" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
