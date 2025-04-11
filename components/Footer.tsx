@@ -1,41 +1,61 @@
-import { FaGithub, FaLinkedin } from "react-icons/fa";
-import Link from "next/link"; // Usamos Link para los enlaces internos
-import "@/styles/Footer.css";
-import NavLink from "next/link"; // Import NavLink from next/link
+import type React from "react"
+import Link from "next/link"
+import { Github, Linkedin, Twitter, Mail } from "lucide-react"
 
-const Footer = () => (
-  <footer className="footer">
-    <div className="footer-container mx-auto flex flex-col md:flex-row justify-between items-center px-6">
-      {/* Información del autor */}
-      <div className="footer-author text-center md:text-left mb-6 md:mb-0">
-        <h3 className="text-2xl font-semibold">Adrián Martínez Fuentes</h3>
-        <p>&copy; 2025 Todos los derechos reservados.</p>
+interface FooterProps {
+  lang: string
+  dictionary: {
+    rights: string
+    madeWith: string
+  }
+}
+
+export function Footer({ lang, dictionary }: FooterProps) {
+  const currentYear = new Date().getFullYear()
+
+  return (
+    <footer className="bg-background border-t">
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex flex-col md:flex-row justify-between items-center">
+          <div className="mb-4 md:mb-0">
+            <Link href={`/${lang}`} className="font-bold text-xl font-poppins">
+              <span className="text-primary">John</span> Doe
+            </Link>
+          </div>
+
+          <div className="flex space-x-4 mb-4 md:mb-0">
+            <SocialLink href="https://github.com" icon={<Github className="h-5 w-5" />} />
+            <SocialLink href="https://linkedin.com" icon={<Linkedin className="h-5 w-5" />} />
+            <SocialLink href="https://twitter.com" icon={<Twitter className="h-5 w-5" />} />
+            <SocialLink href="mailto:contact@example.com" icon={<Mail className="h-5 w-5" />} />
+          </div>
+        </div>
+
+        <div className="border-t mt-6 pt-6 text-center text-sm text-foreground/70">
+          <p>
+            &copy; {currentYear} John Doe. {dictionary.rights}.
+          </p>
+          <p className="mt-1">{dictionary.madeWith} ❤️</p>
+        </div>
       </div>
+    </footer>
+  )
+}
 
-      {/* Menú de navegación (todos los items al mismo nivel) */}
-      <div className="hidden md:flex space-x-6 text-white">
-          <NavLink href="/servicios">Servicios</NavLink>
-          <NavLink href="https://martinezfuentesadrian-portfolio.vercel.app/">Portfolio</NavLink>
-          <NavLink href="/blog">Blog</NavLink>
-          <NavLink href="/contact">Contacto</NavLink>
-      </div>
+interface SocialLinkProps {
+  href: string
+  icon: React.ReactNode
+}
 
-      {/* Iconos de redes sociales */}
-      <div className="footer-social flex justify-center md:justify-end space-x-6 text-2xl">
-        <Link href="https://github.com/adrianmfuentes" target="_blank" aria-label="GitHub">
-          <FaGithub className="hover:text-[#6D9DC5] transition duration-300" />
-        </Link>
-        <Link href="https://www.linkedin.com/in/adrianmfuentes" target="_blank" aria-label="LinkedIn">
-          <FaLinkedin className="hover:text-[#6D9DC5] transition duration-300" />
-        </Link>
-      </div>
-    </div>
-
-    {/* Texto adicional */}
-    <div className="footer-bottom text-center mt-6">
-      <p>Diseñado y desarrollado con pasión.</p>
-    </div>
-  </footer>
-);
-
-export default Footer;
+function SocialLink({ href, icon }: SocialLinkProps) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="p-2 rounded-full bg-secondary hover:bg-primary hover:text-primary-foreground transition-colors"
+    >
+      {icon}
+    </a>
+  )
+}

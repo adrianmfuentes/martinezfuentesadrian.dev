@@ -1,0 +1,67 @@
+{
+  "metadata": {
+    "title": "John Doe | Software Engineering Student",
+    "description": "Personal portfolio of John Doe, Software Engineering student specializing in web development and software architecture",
+    "keywords": "software engineering, web development, portfolio, student, programming"
+  },
+  "navigation": {
+    "home": "Home",
+    "about": "About Me",
+    "cv": "CV",
+    "portfolio": "Portfolio",
+    "contact": "Contact",
+    "darkMode": "Dark Mode",
+    "lightMode": "Light Mode"
+  },
+  "home": {
+    "greeting": "Hello, I'm",
+    "title": "John Doe",
+    "subtitle": "Software Engineering Student",
+    "cta": "View My Work"
+  },
+  "about": {
+    "title": "About Me",
+    "subtitle": "Get to know me better",
+    "bio": [
+      "I'm a third-year Software Engineering student passionate about creating innovative solutions through code.",
+      "My journey in technology began when I was 15, and since then I've been constantly learning and improving my skills.",
+      "I specialize in web development and software architecture, with a particular interest in creating efficient and user-friendly applications."
+    ],
+    "skills": {
+      "title": "My Skills",
+      "technical": "Technical Skills",
+      "soft": "Soft Skills"
+    },
+    "education": {
+      "title": "Education",
+      "degree": "Bachelor's Degree in Software Engineering",
+      "university": "Technical University of Madrid",
+      "period": "2021 - Present"
+    }
+  },
+  "cv": {
+    "title": "Curriculum Vitae",
+    "subtitle": "My professional journey",
+    "download": "Download CV"
+  },
+  "portfolio": {
+    "title": "Portfolio",
+    "subtitle": "Check out my latest projects",
+    "viewProject": "View Project",
+    "viewCode": "View Code"
+  },
+  "contact": {
+    "title": "Contact Me",
+    "subtitle": "Let's get in touch",
+    "name": "Name",
+    "email": "Email",
+    "message": "Message",
+    "send": "Send Message",
+    "success": "Message sent successfully!",
+    "error": "There was an error sending your message. Please try again."
+  },
+  "footer": {
+    "rights": "All rights reserved",
+    "madeWith": "Made with Next.js"
+  }
+}

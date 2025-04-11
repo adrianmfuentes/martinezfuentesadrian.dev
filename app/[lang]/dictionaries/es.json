@@ -1,0 +1,67 @@
+{
+  "metadata": {
+    "title": "John Doe | Estudiante de Ingeniería Informática",
+    "description": "Portfolio personal de John Doe, estudiante de Ingeniería Informática especializado en desarrollo web y arquitectura de software",
+    "keywords": "ingeniería informática, desarrollo web, portfolio, estudiante, programación"
+  },
+  "navigation": {
+    "home": "Inicio",
+    "about": "Sobre Mí",
+    "cv": "CV",
+    "portfolio": "Portfolio",
+    "contact": "Contacto",
+    "darkMode": "Modo Oscuro",
+    "lightMode": "Modo Claro"
+  },
+  "home": {
+    "greeting": "Hola, soy",
+    "title": "John Doe",
+    "subtitle": "Estudiante de Ingeniería Informática",
+    "cta": "Ver Mi Trabajo"
+  },
+  "about": {
+    "title": "Sobre Mí",
+    "subtitle": "Conóceme mejor",
+    "bio": [
+      "Soy estudiante de tercer año de Ingeniería Informática apasionado por crear soluciones innovadoras a través del código.",
+      "Mi viaje en la tecnología comenzó cuando tenía 15 años, y desde entonces he estado constantemente aprendiendo y mejorando mis habilidades.",
+      "Me especializo en desarrollo web y arquitectura de software, con un interés particular en crear aplicaciones eficientes y fáciles de usar."
+    ],
+    "skills": {
+      "title": "Mis Habilidades",
+      "technical": "Habilidades Técnicas",
+      "soft": "Habilidades Blandas"
+    },
+    "education": {
+      "title": "Educación",
+      "degree": "Grado en Ingeniería Informática del Software",
+      "university": "Universidad Politécnica de Madrid",
+      "period": "2021 - Presente"
+    }
+  },
+  "cv": {
+    "title": "Currículum Vitae",
+    "subtitle": "Mi trayectoria profesional",
+    "download": "Descargar CV"
+  },
+  "portfolio": {
+    "title": "Portfolio",
+    "subtitle": "Mira mis últimos proyectos",
+    "viewProject": "Ver Proyecto",
+    "viewCode": "Ver Código"
+  },
+  "contact": {
+    "title": "Contáctame",
+    "subtitle": "Pongámonos en contacto",
+    "name": "Nombre",
+    "email": "Correo",
+    "message": "Mensaje",
+    "send": "Enviar Mensaje",
+    "success": "¡Mensaje enviado con éxito!",
+    "error": "Hubo un error al enviar tu mensaje. Por favor, inténtalo de nuevo."
+  },
+  "footer": {
+    "rights": "Todos los derechos reservados",
+    "madeWith": "Hecho con Next.js"
+  }
+}
