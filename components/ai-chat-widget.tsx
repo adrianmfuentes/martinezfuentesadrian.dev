@@ -128,10 +128,8 @@ export const AIChatWidget: FC<Readonly<AIChatWidgetProps>> = ({ dictionary }) =>
                     className={cn(
                       "rounded-lg px-3 py-2 max-w-[80%] text-sm",
                       message.role === "user"
-                        ? "bg-primary text-primary-foreground"
-                        : theme === "dark"
-                          ? "bg-muted"
-                          : "bg-muted/50 border",
+                        ? "bg-primary text-primary-foreground ml-auto" 
+                        : "bg-muted" 
                     )}
                   >
                     {message.content}
