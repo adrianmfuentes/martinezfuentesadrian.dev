@@ -71,7 +71,7 @@ export async function sendChatMessage(message: string, previousMessages: Message
     })
 
     // Extract the response
-    const aiResponse = completion.choices[0]?.message?.content || "Lo siento, no pude generar una respuesta."
+    const aiResponse = completion.choices[0]?.message?.content ?? "Lo siento, no pude generar una respuesta."
 
     return {
       success: true,

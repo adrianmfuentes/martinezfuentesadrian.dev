@@ -28,7 +28,7 @@ export const AIChatWidget: FC<Readonly<AIChatWidgetProps>> = ({ dictionary }) =>
   const [messages, setMessages] = useState<Message[]>([
     {
       role: "assistant",
-      content: "¡Hola! Soy el asistente virtual. ¿En qué puedo ayudarte hoy?",
+      content: "¡Hola! Soy el asistente virtual de Adrián. ¿En qué puedo ayudarte hoy?",
     },
   ])
   const [input, setInput] = useState("")
@@ -162,15 +162,15 @@ export const AIChatWidget: FC<Readonly<AIChatWidgetProps>> = ({ dictionary }) =>
             >
               <Input
                 ref={inputRef}
-                placeholder={dictionary?.chatPlaceholder || "Escribe un mensaje..."}
+                placeholder={dictionary?.chatPlaceholder ?? "Escribe un mensaje..."}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 className="flex-1"
                 disabled={isLoading}
               />
-              <Button type="submit" size="icon" disabled={isLoading || !input.trim()}>
+              <Button type="submit" size="icon" disabled={isLoading ?? !input.trim()}>
                 {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
-                <span className="sr-only">{dictionary?.chatSend || "Enviar"}</span>
+                <span className="sr-only">{dictionary?.chatSend ?? "Enviar"}</span>
               </Button>
             </form>
           </CardFooter>
