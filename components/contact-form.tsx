@@ -61,7 +61,9 @@ export function ContactForm({ dictionary }: Readonly<ContactFormProps>) {
     }),
     subject: z.string().optional(),
     priority: z.enum(["low", "medium", "high"]).optional(),
-    phone: z.string().optional(),
+    phone: activeTab === "call" 
+      ? z.string().min(5, { message: "Phone number is required for calls" })
+      : z.string().optional(),
   })
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -218,9 +220,7 @@ export function ContactForm({ dictionary }: Readonly<ContactFormProps>) {
       location = "Video call (link will be sent via email)"
     } else if (meetingType === "phone") {
       location = "Phone call"
-    } else if (meetingType === "inperson") {
-      location = "Office location"
-    }
+    } 
     
     // Create iCalendar content
     const icalContent = [
@@ -391,7 +391,7 @@ export function ContactForm({ dictionary }: Readonly<ContactFormProps>) {
                   <div className="space-y-6">
                     <div>
                       <h3 className="text-lg font-medium mb-3">Meeting Type</h3>
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <Button
                           variant={meetingType === "video" ? "default" : "outline"}
                           className="flex items-center justify-center gap-2 h-20"
@@ -400,7 +400,7 @@ export function ContactForm({ dictionary }: Readonly<ContactFormProps>) {
                           <Video className="h-5 w-5" />
                           <div>
                             <div className="font-medium">Video Call</div>
-                            <div className="text-xs opacity-70">Google Meet / Zoom</div>
+                            <div className="text-xs opacity-70">Google Meet / Teams</div>
                           </div>
                         </Button>
 
@@ -413,18 +413,6 @@ export function ContactForm({ dictionary }: Readonly<ContactFormProps>) {
                           <div>
                             <div className="font-medium">Phone Call</div>
                             <div className="text-xs opacity-70">Direct phone call</div>
-                          </div>
-                        </Button>
-
-                        <Button
-                          variant={meetingType === "inperson" ? "default" : "outline"}
-                          className="flex items-center justify-center gap-2 h-20"
-                          onClick={() => setMeetingType("inperson")}
-                        >
-                          <Calendar className="h-5 w-5" />
-                          <div>
-                            <div className="font-medium">In Person</div>
-                            <div className="text-xs opacity-70">Office meeting</div>
                           </div>
                         </Button>
                       </div>
