@@ -30,7 +30,12 @@ export async function generateMetadata({
   return {
     title: dict.metadata.title,
     description: dict.metadata.description,
-    keywords: dict.metadata.keywords
+    keywords: dict.metadata.keywords,
+    icons: {
+      icon: '/favicon.ico',
+      shortcut: '/favicon.ico',
+      apple: '/favicon.ico',
+    }
   };
 }
 
@@ -56,7 +61,7 @@ export default async function RootLayout({
             <Navbar lang={lang} dictionary={dict.navigation} />
             <main className="flex-1">{children}</main>
             <Footer lang={lang} dictionary={dict.footer} />
-	    <AIChatWidget
+	          <AIChatWidget
               dictionary={{
                 chatTitle: lang === "en" ? "Virtual Assistant" : "Asistente Virtual",
                 chatPlaceholder: lang === "en" ? "Type a message..." : "Escribe un mensaje...",

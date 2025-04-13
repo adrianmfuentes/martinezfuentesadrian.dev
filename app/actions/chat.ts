@@ -5,7 +5,7 @@ import { Groq } from "groq-sdk"
 
 // Type for chat messages
 type Message = {
-  role: "user" | "assistant"
+  role: "user" | "assistant" | "system"
   content: string
 }
 
@@ -43,40 +43,54 @@ export async function sendChatMessage(message: string, previousMessages: Message
       }
     }
 
+    // Detectar el idioma del mensaje
+    const isSpanish = /[áéíóúñ¿¡]/i.test(message) || message.includes("que") || message.includes("el ")
+    const languagePrompt = isSpanish
+      ? "Responde en español de forma clara, cercana y amigable."
+      : "Respond in English in a friendly and clear way."
+
     // Initialize Groq client
     const groq = new Groq({
       apiKey: process.env.GROQ_API_KEY,
     })
 
-    // Prepare conversation history
-    const conversationHistory = previousMessages.map((msg) => ({
-      role: msg.role,
-      content: msg.content,
-    }))
+    const systemMessage = {
+      role: "system",
+      content: `
+        Actúas como un asistente de IA en la página personal de un estudiante de 20 años de Ingeniería de Software 
+        en Oviedo, España. Es bilingüe (inglés/español), le apasiona la programación, la IA y el desarrollo web. 
+        Puedes responder preguntas generales o personales relacionadas con su perfil. 
+        ${languagePrompt}
+      `,
+    }
 
-    // Add the new user message
-    conversationHistory.push({
-      role: "user",
-      content: message,
-    })
+    // Prepare conversation history
+    const conversationHistory = [
+      systemMessage as any,
+      ...previousMessages as any[],
+      {
+        role: "user",
+        content: message,
+      } as any,
+    ]
 
     // Call Groq API
     const completion = await groq.chat.completions.create({
       messages: conversationHistory,
-      model: "llama3-8b-8192", // Using Llama 3 8B model
+      model: "llama3-8b-8192",
       temperature: 0.7,
       max_tokens: 1024,
       top_p: 1,
       stream: false,
     })
 
-    // Extract the response
     const aiResponse = completion.choices[0]?.message?.content ?? "Lo siento, no pude generar una respuesta."
 
     return {
       success: true,
       message: aiResponse,
     }
+
   } catch (error) {
     console.error("Error in chat:", error)
     return {

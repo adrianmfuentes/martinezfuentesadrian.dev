@@ -11,14 +11,7 @@ const contactFormSchema = z.object({
   message: z.string().min(10).max(5000),
   subject: z.string().optional(),
   priority: z.enum(["low", "medium", "high"]).optional(),
-  contactMethod: z.enum(["message", "meeting", "call"]),
-  meetingDetails: z
-    .object({
-      type: z.enum(["video", "phone", "inperson"]),
-      date: z.string(),
-      time: z.string(),
-    })
-    .optional(),
+  contactMethod: z.enum(["message"]),
 })
 
 // Type for the return value
@@ -72,7 +65,6 @@ export async function submitContactRequest(formData: any): Promise<ContactResult
     const sanitizedMessage = DOMPurify.sanitize(validatedData.message)
     const sanitizedSubject = validatedData.subject ? DOMPurify.sanitize(validatedData.subject) : ""
     const contactMethod = validatedData.contactMethod
-    const meetingDetails = validatedData.meetingDetails
     const priority = validatedData.priority ?? "medium"
 
     // Check for spam patterns
@@ -80,8 +72,15 @@ export async function submitContactRequest(formData: any): Promise<ContactResult
       return { success: false, error: "Message detected as spam." }
     }
 
-    // Determine template parameters based on contact method
-    let templateParams: any = {
+    // Determine template parameters for the message
+    const templateParams: {
+      from_name: string;
+      from_email: string;
+      message: string;
+      contact_method: "message";
+      priority: "low" | "medium" | "high";
+      subject?: string;
+    } = {
       from_name: sanitizedName,
       from_email: sanitizedEmail,
       message: sanitizedMessage,
@@ -92,13 +91,6 @@ export async function submitContactRequest(formData: any): Promise<ContactResult
     // Add subject if provided
     if (sanitizedSubject) {
       templateParams.subject = sanitizedSubject
-    }
-    
-    // Add meeting details if applicable
-    if (contactMethod === "meeting" && meetingDetails) {
-      templateParams.meeting_type = meetingDetails.type
-      templateParams.meeting_date = meetingDetails.date
-      templateParams.meeting_time = meetingDetails.time
     }
 
     // Send email via EmailJS
@@ -120,13 +112,6 @@ export async function submitContactRequest(formData: any): Promise<ContactResult
       const err = await res.text()
       console.error("EmailJS error:", err)
       return { success: false, error: "Failed to send contact request" }
-    }
-
-    // If this is a meeting request, also add to calendar system or CRM
-    if (contactMethod === "meeting" && meetingDetails) {
-      // In a real implementation, you would integrate with a calendar API or CRM
-      // For example, using Google Calendar API or Microsoft Graph API
-      console.log("Meeting request would be added to calendar:", meetingDetails)
     }
 
     return { success: true }

@@ -34,64 +34,94 @@ export function PortfolioSection({ dictionary }: Readonly<PortfolioSectionProps>
   const projects: Project[] = [
     {
       id: "1",
-      title: "E-commerce Platform",
-      description: "A full-stack e-commerce platform built with Next.js, Prisma, and Stripe integration.",
-      image: "/assets/projects/project_1.jpg",
-      tags: ["Next.js", "Prisma", "Stripe", "Tailwind CSS"],
+      title: "WiChat - Plataforma de juego tipo Quiz",
+      description: "Desarrollo de una aplicación web tipo concurso inspirada en el programa de televisión 'Saber y Ganar'. La plataforma ofrece juego multijugador en tiempo real, desafíos cronometrados, clasificaciones y diferentes categorías de preguntas.",
+      image: "/images/wichat.png",
+      tags: ["React", "Node.js", "Express", "Oracle", "Docker", "GitHub", "Socket.io"],
       category: "web",
-      projectUrl: "#",
-      codeUrl: "#",
+      projectUrl: "http://158.179.215.76:3000/",
+      codeUrl: "https://github.com/Arquisoft/wichat_en2b",
     },
     {
       id: "2",
-      title: "Task Management App",
-      description: "A collaborative task management application with real-time updates using WebSockets.",
-      image: "/assets/projects/project_2.jpg",
-      tags: ["React", "Node.js", "Socket.io", "MongoDB"],
-      category: "web",
-      projectUrl: "#",
-      codeUrl: "#",
+      title: "Sistema de Gestión de Bases de Datos",
+      description: "Implementación desde cero de un sistema de gestión de bases de datos (SGBD) utilizando C++. Incluye funcionalidades como consultas básicas, almacenamiento de datos y optimización de índices.",
+      image: "/images/SGDB.webp",
+      tags: ["C++"],
+      category: "data",
+      projectUrl: "",
+      codeUrl: "https://github.com/adrianmfuentes/SGDB",
     },
     {
       id: "3",
-      title: "Weather Forecast App",
-      description: "A mobile application that provides weather forecasts using geolocation and weather APIs.",
-      image: "/assets/projects/project_3.jpg",
-      tags: ["React Native", "Expo", "API Integration"],
-      category: "mobile",
-      projectUrl: "#",
-      codeUrl: "#",
+      title: "Shell",
+      description: "Desarrollo de un shell funcional en C que soporta comandos básicos, redirección de entrada/salida y ejecución de procesos en segundo plano.",
+      image: "/images/Shell.webp",
+      tags: ["C"],
+      category: "system",
+      projectUrl: "",
+      codeUrl: "https://github.com/adrianmfuentes/Shell",
     },
     {
       id: "4",
-      title: "Data Visualization Dashboard",
-      description: "An interactive dashboard for visualizing complex datasets with customizable charts.",
-      image: "/assets/projects/project_4.jpg",
-      tags: ["D3.js", "React", "TypeScript", "REST API"],
-      category: "data",
-      projectUrl: "#",
-      codeUrl: "#",
+      title: "Gestor de Tareas",
+      description: "Aplicación web para la gestión de tareas que permite a los usuarios crear, editar y organizar tareas con un sistema de autenticación y una interfaz moderna.",
+      image: "/images/Task-Manager.webp",
+      tags: ["React", "Node.js", "MariaDB"],
+      category: "web",
+      projectUrl: "",
+      codeUrl: "https://github.com/adrianmfuentes/task-manager-frontend",
     },
     {
       id: "5",
-      title: "Personal Finance Tracker",
-      description: "A web application for tracking personal finances with budget planning and expense analysis.",
-      image: "/assets/projects/project_5.jpg",
-      tags: ["Vue.js", "Firebase", "Chart.js"],
-      category: "web",
-      projectUrl: "#",
-      codeUrl: "#",
+      title: "Recuperación de Información",
+      description: "Sistema de recuperación de información que procesa y analiza grandes volúmenes de texto para proporcionar resultados relevantes según las consultas de búsqueda.",
+      image: "/images/Information-Retrieval.webp",
+      tags: ["Python"],
+      category: "data",
+      projectUrl: "",
+      codeUrl: "https://github.com/adrianmfuentes/Information-Retrieval",
     },
     {
       id: "6",
-      title: "Augmented Reality Game",
-      description: "A mobile AR game that uses the device camera to create an immersive gaming experience.",
-      image: "/assets/projects/project_6.jpg",
-      tags: ["Unity", "AR Foundation", "C#"],
-      category: "game",
-      projectUrl: "#",
-      codeUrl: "#",
+      title: "F1 Desktop Application",
+      description: "Aplicación de escritorio para gestionar y visualizar información relacionada con la Fórmula 1, incluyendo equipos, pilotos y resultados de carreras.",
+      image: "/images/f1-desktop.png",
+      tags: ["Java", "JavaFX", "XML"],
+      category: "web",
+      projectUrl: "https://university-of-oviedo-projects.github.io/SEW-F1Desktop/",
+      codeUrl: "https://github.com/University-of-Oviedo-Projects/SEW-F1Desktop",
     },
+    {
+      id: "7",
+      title: "Unreal Engine Game Project",
+      description: "Desarrollo de un videojuego utilizando Unreal Engine, implementando mecánicas de juego, sistemas de física e interfaces interactivas.",
+      image: "/images/unreal.png",
+      tags: ["Unreal Engine", "C++", "Blueprint"],
+      category: "game",
+      projectUrl: "",
+      codeUrl: "https://github.com/University-of-Oviedo-Projects/SEV-Unreal",
+    },
+    {
+      id: "8",
+      title: "Servidor HTTP",
+      description: "Implementación de un servidor HTTP básico capaz de manejar peticiones GET y POST, servir archivos estáticos y procesar formularios.",
+      image: "/images/HTTP-Server.webp",
+      tags: ["C++", "Networking", "HTTP"],
+      category: "system",
+      projectUrl: "",
+      codeUrl: "https://github.com/adrianmfuentes/HTTP-server",
+    },
+    {
+      id: "9",
+      title: "Bot de Twitter",
+      description: "Bot automatizado para Twitter que interactúa con usuarios, publica contenido programado y recopila datos de tendencias.",
+      image: "/images/bot-twitter.png",
+      tags: ["Python", "Twitter API", "Automation"],
+      category: "data",
+      projectUrl: "",
+      codeUrl: "https://github.com/adrianmfuentes/Twitter-Bot",
+    }
   ]
 
   const filteredProjects =
@@ -109,7 +139,7 @@ export function PortfolioSection({ dictionary }: Readonly<PortfolioSectionProps>
           <TabsList>
             <TabsTrigger value="all">All</TabsTrigger>
             <TabsTrigger value="web">Web</TabsTrigger>
-            <TabsTrigger value="mobile">Mobile</TabsTrigger>
+            <TabsTrigger value="system">System</TabsTrigger>
             <TabsTrigger value="data">Data</TabsTrigger>
             <TabsTrigger value="game">Games</TabsTrigger>
           </TabsList>
@@ -166,12 +196,14 @@ function ProjectCard({ project, viewProject, viewCode }: Readonly<ProjectCardPro
         </div>
       </CardContent>
       <CardFooter className="p-6 pt-0 flex gap-2">
-        <Button variant="default" size="sm" className="gap-2" asChild>
-          <a href={project.projectUrl} target="_blank" rel="noopener noreferrer">
-            <ExternalLink className="h-4 w-4" />
-            {viewProject}
-          </a>
-        </Button>
+        {project.projectUrl && (
+          <Button variant="default" size="sm" className="gap-2" asChild>
+            <a href={project.projectUrl} target="_blank" rel="noopener noreferrer">
+              <ExternalLink className="h-4 w-4" />
+              {viewProject}
+            </a>
+          </Button>
+        )}
         <Button variant="outline" size="sm" className="gap-2" asChild>
           <a href={project.codeUrl} target="_blank" rel="noopener noreferrer">
             <Github className="h-4 w-4" /> {/* NOSONAR */}
