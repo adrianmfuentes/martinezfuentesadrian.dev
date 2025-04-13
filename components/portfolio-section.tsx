@@ -119,7 +119,7 @@ export function PortfolioSection({ dictionary }: Readonly<PortfolioSectionProps>
       id: "8",
       title: dictionary.projects["8"].title,
       description: dictionary.projects["8"].description,
-      image: "/images/HTTP-Server.webp",
+      image: "/images/Server-HTTP.png",
       tags: ["C++", "Networking", "HTTP"],
       category: "system",
       projectUrl: "",
