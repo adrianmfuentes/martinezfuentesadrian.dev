@@ -39,7 +39,7 @@ export function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     // Skip all internal paths (_next)
-    "/((?!_next|api|assets|fonts|images|_vercel).*)",
+    "/((?!_next|api|assets|fonts|images|cv|_vercel).*)",
     // Optional: only run on root (/) URL
     "/",
   ],

@@ -1,12 +1,12 @@
 import type React from "react"
 import Link from "next/link"
-import { Github, Linkedin, Twitter, Mail } from "lucide-react"
+import { Github, Linkedin, Mail } from "lucide-react" /* NOSONAR */
 
 interface FooterProps {
-  lang: string
-  dictionary: {
-    rights: string
-    madeWith: string
+  readonly lang: string
+  readonly dictionary: {
+    readonly rights: string
+    readonly madeWith: string
   }
 }
 
@@ -45,7 +45,7 @@ interface SocialLinkProps {
   icon: React.ReactNode
 }
 
-function SocialLink({ href, icon }: SocialLinkProps) {
+function SocialLink({ href, icon }: Readonly<SocialLinkProps>) {
   return (
     <a
       href={href}

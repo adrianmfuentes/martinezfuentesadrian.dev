@@ -76,6 +76,7 @@
     "zod": "latest"
   },
   "devDependencies": {
+    "@types/negotiator": "^0.6.3",
     "@types/node": "^22",
     "@types/nodemailer": "^6.4.17",
     "@types/react": "^19",

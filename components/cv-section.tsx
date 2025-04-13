@@ -17,13 +17,8 @@ interface CVSectionProps {
 export function CVSection({ dictionary, lang }: Readonly<CVSectionProps>) {
   const handleDownload = () => {
     // Download the CV in the selected language
-    const fileName = lang === "en" ? "cv_en.pdf" : "cv_es.pdf"
-    const link = document.createElement('a')
-    link.href = `/cv/${fileName}`
-    link.download = fileName
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
+    const cvPath = `${window.location.origin}${lang === "en" ? "/cv/cv_en.pdf" : "/cv/cv_es.pdf"}`
+    window.open(cvPath, "_blank")
   }
 
   return (
