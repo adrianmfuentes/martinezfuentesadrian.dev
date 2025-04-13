@@ -83,7 +83,7 @@ export function PortfolioSection({ dictionary }: Readonly<PortfolioSectionProps>
       tags: ["React", "Node.js", "MariaDB"],
       category: "web",
       projectUrl: "",
-      codeUrl: "https://github.com/adrianmfuentes/task-manager-frontend",
+      codeUrl: "https://github.com/adrianmfuentes/Task-Manager",
     },
     {
       id: "5",
