@@ -40,21 +40,26 @@ export function SkillsSection({ dictionary }: Readonly<SkillsSectionProps>) {
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   const technicalSkills: Skill[] = [
-    { name: "JavaScript/TypeScript", level: 90, icon: <Code className="h-5 w-5" /> },
-    { name: "React/Next.js", level: 85, icon: <Globe className="h-5 w-5" /> },
-    { name: "Node.js", level: 80, icon: <Server className="h-5 w-5" /> },
-    { name: "SQL/NoSQL", level: 75, icon: <Database className="h-5 w-5" /> },
-    { name: "Mobile Development", level: 65, icon: <Smartphone className="h-5 w-5" /> },
-    { name: "Python", level: 70, icon: <Braces className="h-5 w-5" /> },
+    { name: "Java", level: 90, icon: <Code className="h-5 w-5" /> },
+    { name: "HTML, CSS", level: 90, icon: <Smartphone className="h-5 w-5" /> },
+    { name: "React", level: 85, icon: <Globe className="h-5 w-5" /> },
+    { name: "NodeJS/Spring", level: 85, icon: <Server className="h-5 w-5" /> },
+    { name: "SQL/NoSQL", level: 85, icon: <Database className="h-5 w-5" /> },   
+    { name: "JavaScript", level: 80, icon: <Code className="h-5 w-5" /> }, 
+    { name: "Python", level: 75, icon: <Braces className="h-5 w-5" /> },
+    { name: "C/C++", level: 70, icon: <Braces className="h-5 w-5" /> },
+    { name: "C#", level: 70, icon: <Braces className="h-5 w-5" /> },   
   ]
 
   const softSkills: Skill[] = [
-    { name: "Teamwork", level: 95, icon: <Users className="h-5 w-5" /> },
+    { name: "Teamwork", level: 100, icon: <Users className="h-5 w-5" /> },
+    { name: "Time Management", level: 100, icon: <Clock className="h-5 w-5" /> },
+    { name: "Adaptability", level: 100, icon: <Lightbulb className="h-5 w-5" /> },
+    { name: "Critical Thinking", level: 95, icon: <Lightbulb className="h-5 w-5" /> },
     { name: "Problem Solving", level: 90, icon: <Brain className="h-5 w-5" /> },
-    { name: "Time Management", level: 85, icon: <Clock className="h-5 w-5" /> },
     { name: "Communication", level: 90, icon: <MessageSquare className="h-5 w-5" /> },
+    { name: "Goal Oriented", level: 90, icon: <Target className="h-5 w-5" /> },
     { name: "Creativity", level: 80, icon: <Lightbulb className="h-5 w-5" /> },
-    { name: "Goal Oriented", level: 85, icon: <Target className="h-5 w-5" /> },
   ]
 
   return (

@@ -3,6 +3,8 @@
 import { useRef } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { motion, useInView } from "framer-motion"
+import Image from 'next/image';
+import backgroundImage from '../public/images/me.jpg';
 
 interface AboutSectionProps {
   readonly dictionary: {
@@ -32,10 +34,16 @@ export function AboutSection({ dictionary }: AboutSectionProps) {
       </div>
 
       <div className="grid md:grid-cols-2 gap-8 items-center">
-        <div className="relative h-[400px] rounded-lg overflow-hidden">
-          <div className="parallax-section h-full">
-            <div className="parallax-bg" style={{ backgroundImage: "url('/placeholder.svg?height=800&width=600')" }} />
-          </div>
+        <div className="relative rounded-lg overflow-hidden flex justify-center">
+          <Image
+            src={backgroundImage}
+            alt="About me"
+            width={400}
+            height={500}
+            className="rounded-lg"
+            style={{ objectFit: 'contain' }}
+            priority
+          />
         </div>
 
         <div ref={ref}>

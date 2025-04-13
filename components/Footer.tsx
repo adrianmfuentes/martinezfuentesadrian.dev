@@ -24,10 +24,9 @@ export function Footer({ lang, dictionary }: FooterProps) {
           </div>
 
           <div className="flex space-x-4 mb-4 md:mb-0">
-            <SocialLink href="https://github.com" icon={<Github className="h-5 w-5" />} />
-            <SocialLink href="https://linkedin.com" icon={<Linkedin className="h-5 w-5" />} />
-            <SocialLink href="https://twitter.com" icon={<Twitter className="h-5 w-5" />} />
-            <SocialLink href="mailto:contact@example.com" icon={<Mail className="h-5 w-5" />} />
+            <SocialLink href="https://github.com/adrianmfuentes" icon={<Github className="h-5 w-5" />} />
+            <SocialLink href="https://linkedin.com/in/adrianmfuentes" icon={<Linkedin className="h-5 w-5" />} />
+            <SocialLink href="mailto:amf13azul@gmail.com" icon={<Mail className="h-5 w-5" />} />
           </div>
         </div>
 

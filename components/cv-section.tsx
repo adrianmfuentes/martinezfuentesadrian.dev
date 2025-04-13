@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Download, Briefcase, GraduationCap, Award } from "lucide-react"
+import { Download, GraduationCap, Award } from "lucide-react"
 
 interface CVSectionProps {
   dictionary: {
@@ -17,8 +17,13 @@ interface CVSectionProps {
 export function CVSection({ dictionary, lang }: Readonly<CVSectionProps>) {
   const handleDownload = () => {
     // Download the CV in the selected language
-    const cvPath = lang === "en" ? "/assets/cv/cv_en.pdf" : "/assets/cv/cv_es.pdf"
-    window.open(cvPath, "_blank")
+    const fileName = lang === "en" ? "cv_en.pdf" : "cv_es.pdf"
+    const link = document.createElement('a')
+    link.href = `/cv/${fileName}`
+    link.download = fileName
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
   }
 
   return (
@@ -35,12 +40,12 @@ export function CVSection({ dictionary, lang }: Readonly<CVSectionProps>) {
         </Button>
       </div>
 
-      <Tabs defaultValue="experience" className="max-w-3xl mx-auto">
-        <TabsList className="grid grid-cols-3 mb-8">
-          <TabsTrigger value="experience" className="gap-2">
+      <Tabs defaultValue="education" className="max-w-3xl mx-auto">
+        <TabsList className="grid grid-cols-2 mb-8">
+          {/*<TabsTrigger value="experience" className="gap-2">
             <Briefcase className="h-4 w-4" />
             <span className="hidden sm:inline">Experience</span>
-          </TabsTrigger>
+          </TabsTrigger>*/}
           <TabsTrigger value="education" className="gap-2">
             <GraduationCap className="h-4 w-4" />
             <span className="hidden sm:inline">Education</span>
@@ -51,36 +56,42 @@ export function CVSection({ dictionary, lang }: Readonly<CVSectionProps>) {
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="experience">
+        {/*<TabsContent value="experience">
           <div className="space-y-6">
             <TimelineItem
-              title="Junior Web Developer"
-              organization="Tech Startup"
-              period="2023 - Present"
-              description="Developed and maintained web applications using React and Next.js. Collaborated with the design team to implement responsive UI components."
+              title=""
+              organization=""
+              period=""
+              description=""
             />
             <TimelineItem
-              title="Web Development Intern"
-              organization="Digital Agency"
-              period="Summer 2022"
-              description="Assisted in the development of client websites. Gained experience with modern frontend frameworks and version control systems."
+              title=""
+              organization=""
+              period=""
+              description=""
             />
           </div>
-        </TabsContent>
+        </TabsContent>*/}
 
         <TabsContent value="education">
           <div className="space-y-6">
             <TimelineItem
-              title="Bachelor's in Software Engineering"
-              organization="Technical University of Madrid"
-              period="2021 - Present"
-              description="Focusing on software development, algorithms, and system architecture. Participating in various coding competitions and hackathons."
+              title="Bachelor's in Software Engineering (Bilingual Program)"
+              organization="University of Oviedo"
+              period="2022 - Present"
+              description="Enrolled in the bilingual program, focusing on software development, algorithms, and system architecture. Participating in various coding competitions and hackathons."
             />
             <TimelineItem
-              title="High School Diploma"
-              organization="International School of Madrid"
-              period="2017 - 2021"
-              description="Specialized in Mathematics and Computer Science. Graduated with honors."
+              title="Social Sciences High School Diploma"
+              organization="IES Aramo, Oviedo"
+              period="2020 - 2022"
+              description="Specialized in Social Sciences."
+            />
+            <TimelineItem
+              title="Compulsory Secondary Education (ESO)"
+              organization="Colegio La Milagrosa, Oviedo"
+              period="2016 - 2020"
+              description="Completed secondary education with focus on academic excellence."
             />
           </div>
         </TabsContent>
@@ -88,16 +99,16 @@ export function CVSection({ dictionary, lang }: Readonly<CVSectionProps>) {
         <TabsContent value="certifications">
           <div className="space-y-6">
             <TimelineItem
-              title="AWS Certified Developer"
-              organization="Amazon Web Services"
-              period="2023"
-              description="Validated expertise in developing, deploying, and debugging cloud-based applications using AWS."
+              title="Web Development Certification"
+              organization="University of Oviedo"
+              period="2024"
+              description="Learned HTML, CSS and JS, as well as creating websites with React, Node, and MariaDB."
             />
             <TimelineItem
-              title="React Developer Certification"
-              organization="Meta"
-              period="2022"
-              description="Comprehensive certification covering React fundamentals, hooks, state management, and performance optimization."
+              title="Cambridge English B2 Certificate"
+              organization="Cambridge"
+              period="2021"
+              description="Cambridge qualification demonstrating upper-intermediate proficiency in English."
             />
           </div>
         </TabsContent>
