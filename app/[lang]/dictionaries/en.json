@@ -43,13 +43,101 @@
   "cv": {
     "title": "Curriculum Vitae",
     "subtitle": "My professional journey",
-    "download": "Download CV"
+    "download": "Download CV",
+    "tabs": {
+      "education": "Education",
+      "certifications": "Certifications",
+      "experience": "Experience"
+    },
+    "education": {
+      "items": [
+        {
+          "title": "Bachelor's in Software Engineering (Bilingual Program)",
+          "organization": "University of Oviedo",
+          "period": "2022 - Present",
+          "description": "Enrolled in the bilingual program, focusing on software development, algorithms, and system architecture. Participating in various coding competitions and hackathons."
+        },
+        {
+          "title": "Social Sciences High School Diploma",
+          "organization": "IES Aramo, Oviedo",
+          "period": "2020 - 2022",
+          "description": "Specialized in Social Sciences."
+        },
+        {
+          "title": "Compulsory Secondary Education (ESO)",
+          "organization": "Colegio La Milagrosa, Oviedo",
+          "period": "2016 - 2020",
+          "description": "Completed secondary education with focus on academic excellence."
+        }
+      ]
+    },
+    "certifications": {
+      "items": [
+        {
+          "title": "Web Development Certification",
+          "organization": "University of Oviedo",
+          "period": "2024",
+          "description": "Learned HTML, CSS and JS, as well as creating websites with React, Node, and MariaDB."
+        },
+        {
+          "title": "Cambridge English B2 Certificate",
+          "organization": "Cambridge",
+          "period": "2021",
+          "description": "Cambridge qualification demonstrating upper-intermediate proficiency in English."
+        }
+      ]
+    }
   },
   "portfolio": {
     "title": "Portfolio",
     "subtitle": "Check out my latest projects",
     "viewProject": "View Project",
-    "viewCode": "View Code"
+    "viewCode": "View Code",
+    "categories": {
+      "all": "All",
+      "web": "Web",
+      "system": "System",
+      "data": "Data",
+      "game": "Games"
+    },
+    "projects": {
+      "1": {
+        "title": "WiChat - Quiz Game Platform",
+        "description": "Development of a web application quiz contest inspired by the TV show 'Saber y Ganar'. The platform offers real-time multiplayer gaming, timed challenges, rankings, and different question categories."
+      },
+      "2": {
+        "title": "Database Management System",
+        "description": "Implementation of a database management system (DBMS) from scratch using C++. Features include basic queries, data storage, and index optimization."
+      },
+      "3": {
+        "title": "Shell",
+        "description": "Development of a functional shell in C that supports basic commands, input/output redirection, and background process execution."
+      },
+      "4": {
+        "title": "Task Manager",
+        "description": "Web application for task management that allows users to create, edit, and organize tasks with an authentication system and a modern interface."
+      },
+      "5": {
+        "title": "Information Retrieval",
+        "description": "Information retrieval system that processes and analyzes large volumes of text to provide relevant results according to search queries."
+      },
+      "6": {
+        "title": "F1 Desktop Application",
+        "description": "Desktop application to manage and visualize information related to Formula 1, including teams, drivers, and race results."
+      },
+      "7": {
+        "title": "Unreal Engine Game Project",
+        "description": "Development of a video game using Unreal Engine, implementing game mechanics, physics systems, and interactive interfaces."
+      },
+      "8": {
+        "title": "HTTP Server",
+        "description": "Implementation of a basic HTTP server capable of handling GET and POST requests, serving static files, and processing forms."
+      },
+      "9": {
+        "title": "Twitter Bot",
+        "description": "Automated Twitter bot that interacts with users, publishes scheduled content, and collects trend data."
+      }
+    }
   },
   "contact": {
     "title": "Contact Me",

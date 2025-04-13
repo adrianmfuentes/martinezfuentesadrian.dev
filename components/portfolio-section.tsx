@@ -14,6 +14,19 @@ interface PortfolioSectionProps {
     subtitle: string
     viewProject: string
     viewCode: string
+    categories: {
+      all: string
+      web: string
+      system: string
+      data: string
+      game: string
+    }
+    projects: {
+      [key: string]: {
+        title: string
+        description: string
+      }
+    }
   }
 }
 
@@ -34,8 +47,8 @@ export function PortfolioSection({ dictionary }: Readonly<PortfolioSectionProps>
   const projects: Project[] = [
     {
       id: "1",
-      title: "WiChat - Plataforma de juego tipo Quiz",
-      description: "Desarrollo de una aplicación web tipo concurso inspirada en el programa de televisión 'Saber y Ganar'. La plataforma ofrece juego multijugador en tiempo real, desafíos cronometrados, clasificaciones y diferentes categorías de preguntas.",
+      title: dictionary.projects["1"].title,
+      description: dictionary.projects["1"].description,
       image: "/images/wichat.png",
       tags: ["React", "Node.js", "Express", "Oracle", "Docker", "GitHub", "Socket.io"],
       category: "web",
@@ -44,8 +57,8 @@ export function PortfolioSection({ dictionary }: Readonly<PortfolioSectionProps>
     },
     {
       id: "2",
-      title: "Sistema de Gestión de Bases de Datos",
-      description: "Implementación desde cero de un sistema de gestión de bases de datos (SGBD) utilizando C++. Incluye funcionalidades como consultas básicas, almacenamiento de datos y optimización de índices.",
+      title: dictionary.projects["2"].title,
+      description: dictionary.projects["2"].description,
       image: "/images/SGDB.webp",
       tags: ["C++"],
       category: "data",
@@ -54,8 +67,8 @@ export function PortfolioSection({ dictionary }: Readonly<PortfolioSectionProps>
     },
     {
       id: "3",
-      title: "Shell",
-      description: "Desarrollo de un shell funcional en C que soporta comandos básicos, redirección de entrada/salida y ejecución de procesos en segundo plano.",
+      title: dictionary.projects["3"].title,
+      description: dictionary.projects["3"].description,
       image: "/images/Shell.webp",
       tags: ["C"],
       category: "system",
@@ -64,8 +77,8 @@ export function PortfolioSection({ dictionary }: Readonly<PortfolioSectionProps>
     },
     {
       id: "4",
-      title: "Gestor de Tareas",
-      description: "Aplicación web para la gestión de tareas que permite a los usuarios crear, editar y organizar tareas con un sistema de autenticación y una interfaz moderna.",
+      title: dictionary.projects["4"].title,
+      description: dictionary.projects["4"].description,
       image: "/images/Task-Manager.webp",
       tags: ["React", "Node.js", "MariaDB"],
       category: "web",
@@ -74,8 +87,8 @@ export function PortfolioSection({ dictionary }: Readonly<PortfolioSectionProps>
     },
     {
       id: "5",
-      title: "Recuperación de Información",
-      description: "Sistema de recuperación de información que procesa y analiza grandes volúmenes de texto para proporcionar resultados relevantes según las consultas de búsqueda.",
+      title: dictionary.projects["5"].title,
+      description: dictionary.projects["5"].description,
       image: "/images/Information-Retrieval.webp",
       tags: ["Python"],
       category: "data",
@@ -84,8 +97,8 @@ export function PortfolioSection({ dictionary }: Readonly<PortfolioSectionProps>
     },
     {
       id: "6",
-      title: "F1 Desktop Application",
-      description: "Aplicación de escritorio para gestionar y visualizar información relacionada con la Fórmula 1, incluyendo equipos, pilotos y resultados de carreras.",
+      title: dictionary.projects["6"].title,
+      description: dictionary.projects["6"].description,
       image: "/images/f1-desktop.png",
       tags: ["Java", "JavaFX", "XML"],
       category: "web",
@@ -94,8 +107,8 @@ export function PortfolioSection({ dictionary }: Readonly<PortfolioSectionProps>
     },
     {
       id: "7",
-      title: "Unreal Engine Game Project",
-      description: "Desarrollo de un videojuego utilizando Unreal Engine, implementando mecánicas de juego, sistemas de física e interfaces interactivas.",
+      title: dictionary.projects["7"].title,
+      description: dictionary.projects["7"].description,
       image: "/images/unreal.png",
       tags: ["Unreal Engine", "C++", "Blueprint"],
       category: "game",
@@ -104,8 +117,8 @@ export function PortfolioSection({ dictionary }: Readonly<PortfolioSectionProps>
     },
     {
       id: "8",
-      title: "Servidor HTTP",
-      description: "Implementación de un servidor HTTP básico capaz de manejar peticiones GET y POST, servir archivos estáticos y procesar formularios.",
+      title: dictionary.projects["8"].title,
+      description: dictionary.projects["8"].description,
       image: "/images/HTTP-Server.webp",
       tags: ["C++", "Networking", "HTTP"],
       category: "system",
@@ -114,8 +127,8 @@ export function PortfolioSection({ dictionary }: Readonly<PortfolioSectionProps>
     },
     {
       id: "9",
-      title: "Bot de Twitter",
-      description: "Bot automatizado para Twitter que interactúa con usuarios, publica contenido programado y recopila datos de tendencias.",
+      title: dictionary.projects["9"].title,
+      description: dictionary.projects["9"].description,
       image: "/images/bot-twitter.png",
       tags: ["Python", "Twitter API", "Automation"],
       category: "data",
@@ -137,11 +150,11 @@ export function PortfolioSection({ dictionary }: Readonly<PortfolioSectionProps>
       <Tabs defaultValue="all" className="mb-8" onValueChange={setActiveCategory}>
         <div className="flex justify-center">
           <TabsList>
-            <TabsTrigger value="all">All</TabsTrigger>
-            <TabsTrigger value="web">Web</TabsTrigger>
-            <TabsTrigger value="system">System</TabsTrigger>
-            <TabsTrigger value="data">Data</TabsTrigger>
-            <TabsTrigger value="game">Games</TabsTrigger>
+            <TabsTrigger value="all">{dictionary.categories.all}</TabsTrigger>
+            <TabsTrigger value="web">{dictionary.categories.web}</TabsTrigger>
+            <TabsTrigger value="system">{dictionary.categories.system}</TabsTrigger>
+            <TabsTrigger value="data">{dictionary.categories.data}</TabsTrigger>
+            <TabsTrigger value="game">{dictionary.categories.game}</TabsTrigger>
           </TabsList>
         </div>
       </Tabs>

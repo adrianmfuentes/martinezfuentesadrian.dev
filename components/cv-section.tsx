@@ -10,6 +10,27 @@ interface CVSectionProps {
     title: string
     subtitle: string
     download: string
+    tabs: {
+      education: string
+      certifications: string
+      experience: string
+    }
+    education: {
+      items: Array<{
+        title: string
+        organization: string
+        period: string
+        description: string
+      }>
+    }
+    certifications: {
+      items: Array<{
+        title: string
+        organization: string
+        period: string
+        description: string
+      }>
+    }
   }
   lang: string
 }
@@ -39,15 +60,15 @@ export function CVSection({ dictionary, lang }: Readonly<CVSectionProps>) {
         <TabsList className="grid grid-cols-2 mb-8">
           {/*<TabsTrigger value="experience" className="gap-2">
             <Briefcase className="h-4 w-4" />
-            <span className="hidden sm:inline">Experience</span>
+            <span className="hidden sm:inline">{dictionary.tabs.experience}</span>
           </TabsTrigger>*/}
           <TabsTrigger value="education" className="gap-2">
             <GraduationCap className="h-4 w-4" />
-            <span className="hidden sm:inline">Education</span>
+            <span className="hidden sm:inline">{dictionary.tabs.education}</span>
           </TabsTrigger>
           <TabsTrigger value="certifications" className="gap-2">
             <Award className="h-4 w-4" />
-            <span className="hidden sm:inline">Certifications</span>
+            <span className="hidden sm:inline">{dictionary.tabs.certifications}</span>
           </TabsTrigger>
         </TabsList>
 
@@ -70,41 +91,29 @@ export function CVSection({ dictionary, lang }: Readonly<CVSectionProps>) {
 
         <TabsContent value="education">
           <div className="space-y-6">
-            <TimelineItem
-              title="Bachelor's in Software Engineering (Bilingual Program)"
-              organization="University of Oviedo"
-              period="2022 - Present"
-              description="Enrolled in the bilingual program, focusing on software development, algorithms, and system architecture. Participating in various coding competitions and hackathons."
-            />
-            <TimelineItem
-              title="Social Sciences High School Diploma"
-              organization="IES Aramo, Oviedo"
-              period="2020 - 2022"
-              description="Specialized in Social Sciences."
-            />
-            <TimelineItem
-              title="Compulsory Secondary Education (ESO)"
-              organization="Colegio La Milagrosa, Oviedo"
-              period="2016 - 2020"
-              description="Completed secondary education with focus on academic excellence."
-            />
+            {dictionary.education.items.map((item) => (
+              <TimelineItem
+                key={`${item.title}-${item.organization}`}
+                title={item.title}
+                organization={item.organization}
+                period={item.period}
+                description={item.description}
+              />
+            ))}
           </div>
         </TabsContent>
 
         <TabsContent value="certifications">
           <div className="space-y-6">
-            <TimelineItem
-              title="Web Development Certification"
-              organization="University of Oviedo"
-              period="2024"
-              description="Learned HTML, CSS and JS, as well as creating websites with React, Node, and MariaDB."
-            />
-            <TimelineItem
-              title="Cambridge English B2 Certificate"
-              organization="Cambridge"
-              period="2021"
-              description="Cambridge qualification demonstrating upper-intermediate proficiency in English."
-            />
+            {dictionary.certifications.items.map((item) => (
+              <TimelineItem
+                key={`${item.title}-${item.organization}`}
+                title={item.title}
+                organization={item.organization}
+                period={item.period}
+                description={item.description}
+              />
+            ))}
           </div>
         </TabsContent>
       </Tabs>
