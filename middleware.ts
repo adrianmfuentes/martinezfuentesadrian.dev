@@ -10,7 +10,7 @@ export const defaultLocale = "es"
 // Get the preferred locale from the request
 function getLocale(request: NextRequest) {
   const headers = new Headers(request.headers)
-  const acceptLanguage = headers.get("accept-language") || ""
+  const acceptLanguage = headers.get("accept-language") ?? ""
 
   // Create a negotiator instance with the headers
   const negotiatorHeaders = { "accept-language": acceptLanguage }
