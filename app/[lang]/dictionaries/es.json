@@ -56,10 +56,32 @@
     "subtitle": "Pongámonos en contacto",
     "name": "Nombre",
     "email": "Correo",
+    "subject": "Asunto",
     "message": "Mensaje",
     "send": "Enviar Mensaje",
     "success": "¡Mensaje enviado con éxito!",
-    "error": "Hubo un error al enviar tu mensaje. Por favor, inténtalo de nuevo."
+    "error": "Hubo un error al enviar tu mensaje. Por favor, inténtalo de nuevo.",
+    "priority": "Prioridad",
+    "priorityLow": "Baja",
+    "priorityMedium": "Media",
+    "priorityHigh": "Alta",
+    "placeholders": {
+      "name": "Juan Pérez",
+      "email": "ejemplo123@ejemplo.com",
+      "subject": "¿De qué se trata?",
+      "message": "Tu mensaje aquí..."
+    },
+    "validation": {
+      "nameRequired": "El nombre debe tener al menos 2 caracteres.",
+      "emailRequired": "Por favor, introduce una dirección de correo válida.",
+      "messageRequired": "El mensaje debe tener al menos 10 caracteres."
+    },
+    "confirmation": {
+      "title": "¡Gracias!",
+      "message": "Tu mensaje ha sido recibido correctamente.",
+      "response": "Responderé a tu mensaje tan pronto como sea posible.",
+      "close": "Cerrar"
+    }
   },
   "footer": {
     "rights": "Todos los derechos reservados"

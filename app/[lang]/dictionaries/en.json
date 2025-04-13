@@ -56,10 +56,32 @@
     "subtitle": "Let's get in touch",
     "name": "Name",
     "email": "Email",
+    "subject": "Subject",
     "message": "Message",
     "send": "Send Message",
     "success": "Message sent successfully!",
-    "error": "There was an error sending your message. Please try again."
+    "error": "There was an error sending your message. Please try again.",
+    "priority": "Priority",
+    "priorityLow": "Low",
+    "priorityMedium": "Medium",
+    "priorityHigh": "High",
+    "placeholders": {
+      "name": "John Doe",
+      "email": "example123@example.com",
+      "subject": "What is this regarding?",
+      "message": "Your message here..."
+    },
+    "validation": {
+      "nameRequired": "Name must be at least 2 characters.",
+      "emailRequired": "Please enter a valid email address.",
+      "messageRequired": "Message must be at least 10 characters."
+    },
+    "confirmation": {
+      "title": "Thank You!",
+      "message": "Your message has been received successfully.",
+      "response": "I'll respond to your message as soon as possible.",
+      "close": "Close"
+    }
   },
   "footer": {
     "rights": "All rights reserved"

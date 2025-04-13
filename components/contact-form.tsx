@@ -22,10 +22,32 @@ interface ContactFormProps {
     subtitle: string
     name: string
     email: string
+    subject: string
     message: string
     send: string
     success: string
     error: string
+    priority: string
+    priorityLow: string
+    priorityMedium: string
+    priorityHigh: string
+    placeholders: {
+      name: string
+      email: string
+      subject: string
+      message: string
+    }
+    validation: {
+      nameRequired: string
+      emailRequired: string
+      messageRequired: string
+    }
+    confirmation: {
+      title: string
+      message: string
+      response: string
+      close: string
+    }
   }
 }
 
@@ -35,13 +57,13 @@ export function ContactForm({ dictionary }: Readonly<ContactFormProps>) {
 
   const formSchema = z.object({
     name: z.string().min(2, {
-      message: "Name must be at least 2 characters.",
+      message: dictionary.validation.nameRequired,
     }),
     email: z.string().email({
-      message: "Please enter a valid email address.",
+      message: dictionary.validation.emailRequired,
     }),
     message: z.string().min(10, {
-      message: "Message must be at least 10 characters.",
+      message: dictionary.validation.messageRequired,
     }),
     subject: z.string().optional(),
     priority: z.enum(["low", "medium", "high"]).optional(),
@@ -118,7 +140,7 @@ export function ContactForm({ dictionary }: Readonly<ContactFormProps>) {
                       <FormItem>
                         <FormLabel>{dictionary.name}</FormLabel>
                         <FormControl>
-                          <Input placeholder="Adrián Martínez" {...field} />
+                          <Input placeholder={dictionary.placeholders.name} {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -132,7 +154,7 @@ export function ContactForm({ dictionary }: Readonly<ContactFormProps>) {
                       <FormItem>
                         <FormLabel>{dictionary.email}</FormLabel>
                         <FormControl>
-                          <Input placeholder="example123@example.com" {...field} />
+                          <Input placeholder={dictionary.placeholders.email} {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -145,9 +167,9 @@ export function ContactForm({ dictionary }: Readonly<ContactFormProps>) {
                   name="subject"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Subject</FormLabel>
+                      <FormLabel>{dictionary.subject}</FormLabel>
                       <FormControl>
-                        <Input placeholder="What is this regarding?" {...field} />
+                        <Input placeholder={dictionary.placeholders.subject} {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -159,7 +181,7 @@ export function ContactForm({ dictionary }: Readonly<ContactFormProps>) {
                   name="priority"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Priority</FormLabel>
+                      <FormLabel>{dictionary.priority}</FormLabel>
                       <div className="flex space-x-4">
                         <RadioGroup
                           defaultValue={field.value}
@@ -168,15 +190,15 @@ export function ContactForm({ dictionary }: Readonly<ContactFormProps>) {
                         >
                           <div className="flex items-center space-x-2">
                             <RadioGroupItem value="low" id="low" />
-                            <Label htmlFor="low">Low</Label>
+                            <Label htmlFor="low">{dictionary.priorityLow}</Label>
                           </div>
                           <div className="flex items-center space-x-2">
                             <RadioGroupItem value="medium" id="medium" />
-                            <Label htmlFor="medium">Medium</Label>
+                            <Label htmlFor="medium">{dictionary.priorityMedium}</Label>
                           </div>
                           <div className="flex items-center space-x-2">
                             <RadioGroupItem value="high" id="high" />
-                            <Label htmlFor="high">High</Label>
+                            <Label htmlFor="high">{dictionary.priorityHigh}</Label>
                           </div>
                         </RadioGroup>
                       </div>
@@ -192,7 +214,11 @@ export function ContactForm({ dictionary }: Readonly<ContactFormProps>) {
                     <FormItem>
                       <FormLabel>{dictionary.message}</FormLabel>
                       <FormControl>
-                        <Textarea placeholder="Your message here..." className="min-h-[150px]" {...field} />
+                        <Textarea 
+                          placeholder={dictionary.placeholders.message} 
+                          className="min-h-[150px]" 
+                          {...field} 
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -222,18 +248,18 @@ export function ContactForm({ dictionary }: Readonly<ContactFormProps>) {
       <Dialog open={showConfirmation} onOpenChange={setShowConfirmation}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle className="text-center text-xl">Thank You!</DialogTitle>
+            <DialogTitle className="text-center text-xl">{dictionary.confirmation.title}</DialogTitle>
           </DialogHeader>
           <div className="py-6 text-center">
             <div className="mx-auto w-12 h-12 rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center mb-4">
               <Send className="h-6 w-6 text-green-600 dark:text-green-300" />
             </div>
-            <p className="mb-2">Your message has been received successfully.</p>
+            <p className="mb-2">{dictionary.confirmation.message}</p>
             <p className="text-sm text-muted-foreground mb-4">
-              I'll respond to your message as soon as possible.
+              {dictionary.confirmation.response}
             </p>
           </div>
-          <Button onClick={() => setShowConfirmation(false)}>Close</Button>
+          <Button onClick={() => setShowConfirmation(false)}>{dictionary.confirmation.close}</Button>
         </DialogContent>
       </Dialog>
     </section>
