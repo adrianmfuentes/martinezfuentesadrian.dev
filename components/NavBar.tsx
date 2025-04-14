@@ -21,7 +21,7 @@ interface NavbarProps {
   }
 }
 
-export function Navbar({ lang, dictionary }: NavbarProps) {
+export function Navbar({ lang, dictionary }: Readonly<NavbarProps>) {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const pathname = usePathname()
