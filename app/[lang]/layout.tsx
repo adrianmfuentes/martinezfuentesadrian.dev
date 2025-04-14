@@ -1,12 +1,12 @@
 import type React from "react"
 import "./globals.css"
 import { Inter, Poppins } from "next/font/google"
-import { ThemeProvider } from "../../components/theme-provider"
-import { Navbar } from "../../components/navbar"
-import { Footer } from "../../components/footer"
-import { locales } from "../../middleware"
+import { ThemeProvider } from "@/components/theme-provider"
+import { Navbar } from "@/components/navbar"
+import { Footer } from "@/components/footer"
+import { locales } from "@/middleware"
 import { getDictionary } from "./dictionaries"
-import { AIChatWidget } from "../../components/ai-chat-widget"
+import { AIChatWidget } from "@/components/ai-chat-widget"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 const poppins = Poppins({
