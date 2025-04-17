@@ -2,8 +2,6 @@
 
 A modern, interactive, and internationalized personal website made by Software Engineering student Adrian Martíenz. Built with Next.js, React Three Fiber, and Tailwind CSS.
 
-![Portfolio Preview](/placeholder.svg?height=400&width=800)
-
 ## ✨ Features
 
 - **🌐 Internationalization**: Full support for multiple languages (English and Spanish)
@@ -67,4 +65,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 ---
 
-Created with ❤️ by [Your Name]
+Created with ❤️ by Adrián Martínez
