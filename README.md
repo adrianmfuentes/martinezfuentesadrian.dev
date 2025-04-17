@@ -25,7 +25,7 @@ A modern, interactive, and internationalized personal portfolio website for Soft
 
 ## 📋 Project Structure
 
-\`\`\`
+```text
 portfolio-website/
 ├── app/                    # Next.js App Router
 │   ├── [lang]/             # Language-specific routes
@@ -38,7 +38,7 @@ portfolio-website/
 ├── components/             # React components
 ├── public/                 # Static assets
 └── ...
-\`\`\`
+```
 
 ## 🚀 Getting Started
 
