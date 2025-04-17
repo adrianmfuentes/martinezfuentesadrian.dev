@@ -1,6 +1,6 @@
-# 🚀 Modern Portfolio Website
+# 🚀 Personal Website
 
-A modern, interactive, and internationalized personal portfolio website for Software Engineering students and professionals. Built with Next.js, React Three Fiber, and Tailwind CSS.
+A modern, interactive, and internationalized personal website made by Software Engineering student Adrian Martíenz. Built with Next.js, React Three Fiber, and Tailwind CSS.
 
 ![Portfolio Preview](/placeholder.svg?height=400&width=800)
 
@@ -26,7 +26,7 @@ A modern, interactive, and internationalized personal portfolio website for Soft
 ## 📋 Project Structure
 
 ```text
-portfolio-website/
+website/
 ├── app/                    # Next.js App Router
 │   ├── [lang]/             # Language-specific routes
 │   │   ├── dictionaries/   # Translation files
@@ -40,83 +40,9 @@ portfolio-website/
 └── ...
 ```
 
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Node.js 18.x or later
-- npm or yarn
-
-### Installation
-
-1. Clone the repository:
-   \`\`\`bash
-   git clone https://github.com/yourusername/portfolio-website.git
-   cd portfolio-website
-   \`\`\`
-
-2. Install dependencies:
-   \`\`\`bash
-   npm install
-   # or
-   yarn install
-   \`\`\`
-
-3. Run the development server:
-   \`\`\`bash
-   npm run dev
-   # or
-   yarn dev
-   \`\`\`
-
-4. Open [http://localhost:3000](http://localhost:3000) in your browser.
-
 ## 🌐 Internationalization
 
 The website supports multiple languages through Next.js App Router internationalization. The language files are located in `app/[lang]/dictionaries/`.
-
-To add a new language:
-
-1. Create a new JSON file in the dictionaries folder (e.g., `fr.json`)
-2. Add the language to the supported locales in `middleware.ts`
-3. Update the `getDictionary` function in `app/[lang]/dictionaries.ts`
-
-## 🎨 Customization
-
-### Personal Information
-
-Update your personal information in the dictionary files:
-- `app/[lang]/dictionaries/en.json`
-- `app/[lang]/dictionaries/es.json`
-
-### Theme Colors
-
-Modify the color scheme in `app/globals.css` by changing the CSS variables.
-
-### Projects
-
-Add your projects by updating the projects array in `components/portfolio-section.tsx`.
-
-### CV/Resume
-
-Update your CV information in the `CVSection` component and add your PDF resume files to the `public` folder.
-
-## 📷 Adding Images
-
-1. Place your images in the `public` folder
-2. Reference them in your components:
-   \`\`\`jsx
-   <Image src="/path/to/image.jpg" alt="Description" width={800} height={600} />
-   \`\`\`
-
-## 🚢 Deployment
-
-This project can be easily deployed on [Vercel](https://vercel.com/):
-
-1. Push your code to a GitHub repository
-2. Import the project in Vercel
-3. Configure your environment variables if needed
-4. Deploy!
 
 ## 📱 Mobile Optimization
 
