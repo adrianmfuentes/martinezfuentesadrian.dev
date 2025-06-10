@@ -47,6 +47,20 @@ interface Dictionary {
     subtitle: string
     viewProject: string
     viewCode: string
+    categories: {
+      all: string
+      design: string
+      web: string
+      system: string
+      data: string
+      game: string
+    }
+    projects: {
+      [key: string]: {
+        title: string
+        description: string
+      }
+    }
   }
   contact: {
     title: string
@@ -60,7 +74,6 @@ interface Dictionary {
   }
   footer: {
     rights: string
-    madeWith: string
   }
 }
 
