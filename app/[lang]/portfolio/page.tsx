@@ -26,7 +26,7 @@ export default async function PortfolioPage({
             data: 'Data',
             game: 'Game'
           },
-          projects: {}
+          projects: dict.portfolio.projects
         }} 
       />
     </div>
