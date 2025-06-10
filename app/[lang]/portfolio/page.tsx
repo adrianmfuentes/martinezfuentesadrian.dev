@@ -15,7 +15,20 @@ export default async function PortfolioPage({
 
   return (
     <div className="container mx-auto px-4 py-12">
-      <PortfolioSection dictionary={dict.portfolio} />
+      <PortfolioSection 
+        dictionary={{
+          ...dict.portfolio,
+          categories: {
+            all: 'All',
+            design: 'Design',
+            web: 'Web',
+            system: 'System',
+            data: 'Data',
+            game: 'Game'
+          },
+          projects: {}
+        }} 
+      />
     </div>
   )
 }

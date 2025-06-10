@@ -16,6 +16,7 @@ interface PortfolioSectionProps {
     viewCode: string
     categories: {
       all: string
+      design: string
       web: string
       system: string
       data: string
@@ -59,6 +60,16 @@ export function PortfolioSection({ dictionary }: Readonly<PortfolioSectionProps>
       id: "2",
       title: dictionary.projects["2"].title,
       description: dictionary.projects["2"].description,
+      image: "/images/DLP.png",
+      tags: ["Java", "Compiler", "Design"],
+      category: "design",
+      projectUrl: "",
+      codeUrl: "https://github.com/adrianmfuentes/DLP",
+    },
+    {
+      id: "3",
+      title: dictionary.projects["3"].title,
+      description: dictionary.projects["3"].description,
       image: "/images/SGDB.webp",
       tags: ["C++"],
       category: "data",
@@ -66,9 +77,9 @@ export function PortfolioSection({ dictionary }: Readonly<PortfolioSectionProps>
       codeUrl: "https://github.com/adrianmfuentes/SGDB",
     },
     {
-      id: "3",
-      title: dictionary.projects["3"].title,
-      description: dictionary.projects["3"].description,
+      id: "4",
+      title: dictionary.projects["4"].title,
+      description: dictionary.projects["4"].description,
       image: "/images/Shell.webp",
       tags: ["C"],
       category: "system",
@@ -76,9 +87,9 @@ export function PortfolioSection({ dictionary }: Readonly<PortfolioSectionProps>
       codeUrl: "https://github.com/adrianmfuentes/Shell",
     },
     {
-      id: "4",
-      title: dictionary.projects["4"].title,
-      description: dictionary.projects["4"].description,
+      id: "5",
+      title: dictionary.projects["5"].title,
+      description: dictionary.projects["5"].description,
       image: "/images/Task-Manager.webp",
       tags: ["React", "Node.js", "MariaDB"],
       category: "web",
@@ -86,9 +97,9 @@ export function PortfolioSection({ dictionary }: Readonly<PortfolioSectionProps>
       codeUrl: "https://github.com/adrianmfuentes/Task-Manager",
     },
     {
-      id: "5",
-      title: dictionary.projects["5"].title,
-      description: dictionary.projects["5"].description,
+      id: "6",
+      title: dictionary.projects["6"].title,
+      description: dictionary.projects["6"].description,
       image: "/images/Information-Retrieval.webp",
       tags: ["Python"],
       category: "data",
@@ -96,9 +107,9 @@ export function PortfolioSection({ dictionary }: Readonly<PortfolioSectionProps>
       codeUrl: "https://github.com/adrianmfuentes/Information-Retrieval",
     },
     {
-      id: "6",
-      title: dictionary.projects["6"].title,
-      description: dictionary.projects["6"].description,
+      id: "7",
+      title: dictionary.projects["7"].title,
+      description: dictionary.projects["7"].description,
       image: "/images/f1-desktop.png",
       tags: ["Java", "JavaFX", "XML"],
       category: "web",
@@ -106,9 +117,9 @@ export function PortfolioSection({ dictionary }: Readonly<PortfolioSectionProps>
       codeUrl: "https://github.com/University-of-Oviedo-Projects/SEW-F1Desktop",
     },
     {
-      id: "7",
-      title: dictionary.projects["7"].title,
-      description: dictionary.projects["7"].description,
+      id: "8",
+      title: dictionary.projects["8"].title,
+      description: dictionary.projects["8"].description,
       image: "/images/unreal.png",
       tags: ["Unreal Engine", "C++", "Blueprint"],
       category: "game",
@@ -116,9 +127,9 @@ export function PortfolioSection({ dictionary }: Readonly<PortfolioSectionProps>
       codeUrl: "https://github.com/University-of-Oviedo-Projects/SEV-Unreal",
     },
     {
-      id: "8",
-      title: dictionary.projects["8"].title,
-      description: dictionary.projects["8"].description,
+      id: "9",
+      title: dictionary.projects["9"].title,
+      description: dictionary.projects["9"].description,
       image: "/images/Server-HTTP.png",
       tags: ["C++", "Networking", "HTTP"],
       category: "system",
@@ -126,9 +137,9 @@ export function PortfolioSection({ dictionary }: Readonly<PortfolioSectionProps>
       codeUrl: "https://github.com/adrianmfuentes/HTTP-server",
     },
     {
-      id: "9",
-      title: dictionary.projects["9"].title,
-      description: dictionary.projects["9"].description,
+      id: "10",
+      title: dictionary.projects["10"].title,
+      description: dictionary.projects["10"].description,
       image: "/images/bot-twitter.png",
       tags: ["Python", "Twitter API", "Automation"],
       category: "data",
@@ -151,6 +162,7 @@ export function PortfolioSection({ dictionary }: Readonly<PortfolioSectionProps>
         <div className="flex justify-center">
           <TabsList>
             <TabsTrigger value="all">{dictionary.categories.all}</TabsTrigger>
+            <TabsTrigger value="design">{dictionary.categories.design}</TabsTrigger>
             <TabsTrigger value="web">{dictionary.categories.web}</TabsTrigger>
             <TabsTrigger value="system">{dictionary.categories.system}</TabsTrigger>
             <TabsTrigger value="data">{dictionary.categories.data}</TabsTrigger>
