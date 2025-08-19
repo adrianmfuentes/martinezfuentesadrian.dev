@@ -10,6 +10,7 @@
     "cv": "CV",
     "portfolio": "Portfolio",
     "contact": "Contact",
+    "tools": "Tools",
     "darkMode": "Dark Mode",
     "lightMode": "Light Mode"
   },
@@ -184,5 +185,27 @@
     "title": "Virtual Assistant",
     "placeholder": "Type a message...",
     "send": "Send"
+  },
+  "tools": {
+    "title": "Tools",
+    "subtitle": "Development and cybersecurity tools",
+    "description": "Explore a collection of specialized tools I've developed to facilitate development tasks, security analysis, and system administration.",
+    "comingSoon": "Coming Soon",
+    "launchTool": "Launch Tool",
+    "categories": {
+      "security": "Security",
+      "development": "Development",
+      "networking": "Networking",
+      "analysis": "Analysis"
+    },
+    "items": [
+      {
+        "id": "password-checker",
+        "name": "Password Checker",
+        "description": "Tool for checking password strength and security",
+        "category": "security",
+        "status": "coming-soon"
+      }
+    ]
   }
 }

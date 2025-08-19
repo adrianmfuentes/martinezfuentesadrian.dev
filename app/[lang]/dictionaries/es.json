@@ -10,6 +10,7 @@
     "cv": "CV",
     "portfolio": "Portfolio",
     "contact": "Contacto",
+    "tools": "Herramientas",
     "darkMode": "Modo Oscuro",
     "lightMode": "Modo Claro"
   },
@@ -183,5 +184,27 @@
     "title": "Asistente Virtual",
     "placeholder": "Escribe un mensaje...",
     "send": "Enviar"
+  },
+  "tools": {
+    "title": "Herramientas",
+    "subtitle": "Herramientas de desarrollo y ciberseguridad",
+    "description": "Explora una colección de herramientas especializadas que he desarrollado para facilitar tareas de desarrollo, análisis de seguridad y administración de sistemas.",
+    "comingSoon": "Próximamente",
+    "launchTool": "Abrir Herramienta",
+    "categories": {
+      "security": "Seguridad",
+      "development": "Desarrollo",
+      "networking": "Redes",
+      "analysis": "Análisis"
+    },
+    "items": [
+      {
+        "id": "password-checker",
+        "name": "Comprobador de Contraseñas",
+        "description": "Herramienta para comprobar la fortaleza y seguridad de las contraseñas",
+        "category": "security",
+        "status": "coming-soon"
+      }
+    ]
   }
 }

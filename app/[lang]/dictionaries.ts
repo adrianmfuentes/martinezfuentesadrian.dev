@@ -12,6 +12,7 @@ interface Dictionary {
     cv: string
     portfolio: string
     contact: string
+    tools: string
     darkMode: string
     lightMode: string
   }
@@ -74,6 +75,26 @@ interface Dictionary {
   }
   footer: {
     rights: string
+  }
+  tools: {
+    title: string
+    subtitle: string
+    description: string
+    comingSoon: string
+    launchTool: string
+    categories: {
+      security: string
+      development: string
+      networking: string
+      analysis: string
+    }
+    items: {
+      id: string
+      name: string
+      description: string
+      category: string
+      status: string
+    }[]
   }
 }
 
