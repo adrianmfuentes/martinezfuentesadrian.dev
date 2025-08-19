@@ -204,7 +204,7 @@
         "name": "Password Checker",
         "description": "Tool for checking password strength and security",
         "category": "security",
-        "status": "coming-soon"
+        "status": "available"
       }
     ]
   }

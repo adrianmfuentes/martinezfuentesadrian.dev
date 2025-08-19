@@ -3,6 +3,8 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import Link from "next/link"
+import { useParams } from "next/navigation"
 
 import { 
   Terminal, 
@@ -43,6 +45,9 @@ interface ToolsSectionProps {
 }
 
 export function ToolsSection({ dictionary }: ToolsSectionProps) {
+  const params = useParams()
+  const lang = params?.lang as string || "en"
+  
   const categoryIcons = {
     security: Shield,
     development: Code2,
@@ -60,6 +65,10 @@ export function ToolsSection({ dictionary }: ToolsSectionProps) {
       case "analysis": return "from-yellow-500/20 to-yellow-900/20 border-yellow-500/30"
       default: return "from-green-500/20 to-green-900/20 border-green-500/30"
     }
+  }
+
+  const getToolUrl = (toolId: string) => {
+    return `/${lang}/tools/${toolId}`
   }
 
   return (
@@ -147,13 +156,15 @@ export function ToolsSection({ dictionary }: ToolsSectionProps) {
                       {dictionary.comingSoon}
                     </Button>
                   ) : (
-                    <Button 
-                      className="w-full bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-black font-semibold border-0 shadow-lg shadow-green-500/30"
-                    >
-                      <Zap className="w-4 h-4 mr-2" />
-                      {dictionary.launchTool}
-                      <ExternalLink className="w-4 h-4 ml-2" />
-                    </Button>
+                    <Link href={getToolUrl(tool.id)}>
+                      <Button 
+                        className="w-full bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-black font-semibold border-0 shadow-lg shadow-green-500/30"
+                      >
+                        <Zap className="w-4 h-4 mr-2" />
+                        {dictionary.launchTool}
+                        <ExternalLink className="w-4 h-4 ml-2" />
+                      </Button>
+                    </Link>
                   )}
                 </CardContent>
               </Card>
@@ -162,22 +173,33 @@ export function ToolsSection({ dictionary }: ToolsSectionProps) {
         </div>
 
         {/* Terminal-style footer */}
-        <div className="mt-20 bg-black/70 border border-green-500/30 rounded-lg p-6 font-mono">
-          <div className="flex items-center mb-4">
-            <div className="flex space-x-2 mr-4">
-              <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-              <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-              <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+        <div className="mt-12 sm:mt-16 lg:mt-20 bg-black/70 border border-green-500/30 rounded-lg p-4 sm:p-6 font-mono">
+          <div className="flex items-center mb-3 sm:mb-4">
+            <div className="flex space-x-1.5 sm:space-x-2 mr-3 sm:mr-4">
+              <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 bg-red-500 rounded-full"></div>
+              <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 bg-yellow-500 rounded-full"></div>
+              <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 bg-green-500 rounded-full"></div>
             </div>
-            <span className="text-green-400">adrianmartinez@tools:~$</span>
+            <span className="text-green-400 text-xs sm:text-sm truncate">
+              adrianmartinez@tools:~$
+            </span>
           </div>
-          <div className="text-green-300 text-sm space-y-1">
-            <p><span className="text-green-400">&gt;</span> Status: Development in progress...</p>
-            <p><span className="text-green-400">&gt;</span> New tools will be added regularly</p>
-            <p><span className="text-green-400">&gt;</span> Stay tuned for updates!</p>
-            <div className="flex items-center mt-2">
+          <div className="text-green-300 text-xs sm:text-sm space-y-1 sm:space-y-2">
+            <p className="break-words">
+              <span className="text-green-400">&gt;</span> 
+              <span className="ml-1">Status: Development in progress...</span>
+            </p>
+            <p className="break-words">
+              <span className="text-green-400">&gt;</span> 
+              <span className="ml-1">New tools will be added regularly</span>
+            </p>
+            <p className="break-words">
+              <span className="text-green-400">&gt;</span> 
+              <span className="ml-1">Stay tuned for updates!</span>
+            </p>
+            <div className="flex items-center mt-2 sm:mt-3">
               <span className="text-green-400 mr-2">&gt;</span>
-              <div className="w-2 h-4 bg-green-400 animate-pulse"></div>
+              <div className="w-1.5 h-3 sm:w-2 sm:h-4 bg-green-400 animate-pulse"></div>
             </div>
           </div>
         </div>
