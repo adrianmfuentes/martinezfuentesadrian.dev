@@ -132,7 +132,16 @@ function analyzePassword(password: string): PasswordAnalysis {
   }
 }
 
-export function PasswordChecker({ dictionary }: PasswordCheckerProps) {
+// Función helper para convertir strength a clave del diccionario
+function getStrengthKey(strength: PasswordAnalysis["strength"]): keyof PasswordCheckerProps["dictionary"]["strengthLevels"] {
+  switch (strength) {
+    case "very-weak": return "veryWeak"
+    case "very-strong": return "veryStrong"
+    default: return strength as keyof PasswordCheckerProps["dictionary"]["strengthLevels"]
+  }
+}
+
+export function PasswordChecker({ dictionary }: Readonly<PasswordCheckerProps>) {
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
   const [analysis, setAnalysis] = useState<PasswordAnalysis | null>(null)
@@ -258,7 +267,7 @@ export function PasswordChecker({ dictionary }: PasswordCheckerProps) {
                 <div className="flex items-center justify-between flex-wrap gap-2">
                   <span className="text-gray-300 text-sm sm:text-base">{dictionary.analysis.strength}:</span>
                   <Badge className={`${getStrengthBadgeColor(analysis.strength)} text-xs sm:text-sm`}>
-                    {dictionary.strengthLevels[analysis.strength.replace("-", "") as keyof typeof dictionary.strengthLevels]}
+                    {dictionary.strengthLevels[getStrengthKey(analysis.strength)]}
                   </Badge>
                 </div>
                 <Progress 
@@ -266,7 +275,7 @@ export function PasswordChecker({ dictionary }: PasswordCheckerProps) {
                   className="h-2"
                 />
                 <p className={`text-xs sm:text-sm ${getStrengthColor(analysis.strength)} leading-relaxed`}>
-                  {dictionary.strengthRemarks[analysis.strength.replace("-", "") as keyof typeof dictionary.strengthRemarks]}
+                  {dictionary.strengthRemarks[getStrengthKey(analysis.strength)]}
                 </p>
               </div>
 

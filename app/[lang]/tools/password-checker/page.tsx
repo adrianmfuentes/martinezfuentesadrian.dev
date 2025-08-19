@@ -8,6 +8,8 @@ const spanishDict = {
   analyzeButton: "Analizar Contraseña",
   showPassword: "Mostrar contraseña",
   hidePassword: "Ocultar contraseña",
+  minLengthWarning: "Tu contraseña es muy corta! Debe tener al menos {min} caracteres.",
+  resetButton: "Analizar Nueva Contraseña",
   analysis: {
     title: "Análisis de Contraseña",
     length: "Longitud",
@@ -33,10 +35,8 @@ const spanishDict = {
     moderate: "✅ Moderada: Contraseña decente, pero puede mejorarse.",
     strong: "✅ Fuerte: Difícil de adivinar, pero considera hacerla más larga.",
     veryStrong: "✅ Muy Fuerte: ¡Excelente contraseña! Altamente segura."
-  },
-  minLengthWarning: "Tu contraseña es muy corta! Debe tener al menos {min} caracteres.",
-  resetButton: "Analizar Nueva Contraseña"
-}
+  }
+} as const
 
 const englishDict = {
   title: "Password Checker",
@@ -46,6 +46,8 @@ const englishDict = {
   analyzeButton: "Analyze Password",
   showPassword: "Show password",
   hidePassword: "Hide password",
+  minLengthWarning: "Your password is too short! It must be at least {min} characters.",
+  resetButton: "Analyze New Password",
   analysis: {
     title: "Password Analysis",
     length: "Length",
@@ -71,10 +73,8 @@ const englishDict = {
     moderate: "✅ Moderate: Decent password, but can still be improved.",
     strong: "✅ Strong: Hard to guess, but consider making it longer.",
     veryStrong: "✅ Very Strong: Excellent password! Highly secure."
-  },
-  minLengthWarning: "Your password is too short! It must be at least {min} characters.",
-  resetButton: "Analyze New Password"
-}
+  }
+} as const
 
 export default async function PasswordCheckerPage({
   params,
@@ -83,6 +83,11 @@ export default async function PasswordCheckerPage({
 }) {
   const { lang } = await params
   const dictionary = lang === "es" ? spanishDict : englishDict
+
+  // Debug en desarrollo
+  if (process.env.NODE_ENV === 'development') {
+    console.log('Dictionary strengthRemarks:', dictionary.strengthRemarks)
+  }
 
   return <PasswordChecker dictionary={dictionary} />
 }
