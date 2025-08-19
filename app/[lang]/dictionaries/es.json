@@ -203,7 +203,7 @@
         "name": "Comprobador de Contraseñas",
         "description": "Herramienta para comprobar la fortaleza y seguridad de las contraseñas",
         "category": "security",
-        "status": "coming-soon"
+        "status": "available"
       }
     ]
   }
