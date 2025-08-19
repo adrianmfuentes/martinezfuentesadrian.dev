@@ -16,6 +16,7 @@ interface NavbarProps {
     cv: string
     portfolio: string
     contact: string
+    tools: string
     darkMode: string
     lightMode: string
   }
@@ -41,6 +42,7 @@ export function Navbar({ lang, dictionary }: Readonly<NavbarProps>) {
     { href: `/${lang}/cv`, label: dictionary.cv },
     { href: `/${lang}/portfolio`, label: dictionary.portfolio },
     { href: `/${lang}/contact`, label: dictionary.contact },
+    { href: `/${lang}/tools`, label: dictionary.tools } 
   ]
 
   return (
