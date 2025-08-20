@@ -223,6 +223,13 @@
         "description": "Herramienta para comprobar la fortaleza y seguridad de las contraseñas",
         "category": "security",
         "status": "available"
+      },
+      {
+        "id": "port-scanner",
+        "name": "Escáner de Puertos",
+        "description": "Herramienta para escanear puertos TCP y verificar servicios disponibles en hosts remotos",
+        "category": "networking",
+        "status": "available"
       }
     ]
   }

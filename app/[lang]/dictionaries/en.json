@@ -224,6 +224,13 @@
         "description": "Tool for checking password strength and security",
         "category": "security",
         "status": "available"
+      },
+      {
+        "id": "port-scanner",
+        "name": "Port Scanner",
+        "description": "Tool for scanning TCP ports and verifying available services on remote hosts",
+        "category": "networking",
+        "status": "available"
       }
     ]
   }
