@@ -30,6 +30,25 @@ interface Dictionary {
       title: string
       technical: string
       soft: string
+      technicalSkills: {
+        java: string
+        python: string
+        cpp: string
+        webDevelopment: string
+        databases: string
+        linuxDocker: string
+        llm: string
+        cybersecurity: string
+      }
+      softSkills: {
+        teamwork: string
+        problemSolving: string
+        communication: string
+        timeManagement: string
+        adaptability: string
+        goalOriented: string
+        leadership: string
+      }
     }
     education: {
       title: string
@@ -42,6 +61,27 @@ interface Dictionary {
     title: string
     subtitle: string
     download: string
+    tabs: {
+      education: string
+      certifications: string
+      experience: string
+    }
+    education: {
+      items: {
+        title: string
+        organization: string
+        period: string
+        description: string
+      }[]
+    }
+    certifications: {
+      items: {
+        title: string
+        organization: string
+        period: string
+        description: string
+      }[]
+    }
   }
   portfolio: {
     title: string
@@ -68,13 +108,40 @@ interface Dictionary {
     subtitle: string
     name: string
     email: string
+    subject: string
     message: string
     send: string
     success: string
     error: string
+    priority: string
+    priorityLow: string
+    priorityMedium: string
+    priorityHigh: string
+    placeholders: {
+      name: string
+      email: string
+      subject: string
+      message: string
+    }
+    validation: {
+      nameRequired: string
+      emailRequired: string
+      messageRequired: string
+    }
+    confirmation: {
+      title: string
+      message: string
+      response: string
+      close: string
+    }
   }
   footer: {
     rights: string
+  }
+  chat: {
+    title: string
+    placeholder: string
+    send: string
   }
   tools: {
     title: string
