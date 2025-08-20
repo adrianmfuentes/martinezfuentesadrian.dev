@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation"
 import { Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { LanguageSwitcher } from "./language-switcher"
-import { ThemeToggle } from "./theme-toggle"
 
 interface NavbarProps {
   lang: string
@@ -17,8 +16,6 @@ interface NavbarProps {
     portfolio: string
     contact: string
     tools: string
-    darkMode: string
-    lightMode: string
   }
 }
 
@@ -69,7 +66,6 @@ export function Navbar({ lang, dictionary }: Readonly<NavbarProps>) {
 
           <div className="hidden md:flex items-center space-x-2">
             <LanguageSwitcher currentLang={lang} />
-            <ThemeToggle dictionary={dictionary} />
           </div>
 
           <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setIsOpen(!isOpen)}>
@@ -95,7 +91,6 @@ export function Navbar({ lang, dictionary }: Readonly<NavbarProps>) {
             ))}
             <div className="flex items-center space-x-4 pt-4 border-t">
               <LanguageSwitcher currentLang={lang} />
-              <ThemeToggle dictionary={dictionary} />
             </div>
           </div>
         </div>

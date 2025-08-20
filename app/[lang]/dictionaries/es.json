@@ -32,7 +32,26 @@
     "skills": {
       "title": "Mis Habilidades",
       "technical": "Habilidades Técnicas",
-      "soft": "Habilidades Blandas"
+      "soft": "Habilidades Blandas",
+      "technicalSkills": {
+        "java": "Java",
+        "python": "Python",
+        "cpp": "C/C++",
+        "webDevelopment": "Desarrollo Web",
+        "databases": "Bases de Datos",
+        "linuxDocker": "Linux y Docker",
+        "llm": "LLM",
+        "cybersecurity": "Ciberseguridad"
+      },
+      "softSkills": {
+        "teamwork": "Trabajo en Equipo",
+        "problemSolving": "Resolución de Problemas",
+        "communication": "Comunicación",
+        "timeManagement": "Gestión del Tiempo",
+        "adaptability": "Adaptabilidad",
+        "goalOriented": "Orientado a Objetivos",
+        "leadership": "Liderazgo"
+      }
     },
     "education": {
       "title": "Educación",

@@ -5,13 +5,11 @@ import type React from "react"
 import { useRef } from "react"
 import { motion, useInView } from "framer-motion"
 import { Card, CardContent } from "@/components/ui/card"
-import { Progress } from "@/components/ui/progress"
 import {
   Code,
   Database,
   Globe,
   Server,
-  Smartphone,
   Braces,
   Users,
   Brain,
@@ -26,12 +24,30 @@ interface SkillsSectionProps {
     title: string
     technical: string
     soft: string
+    technicalSkills: {
+      java: string
+      python: string
+      cpp: string
+      webDevelopment: string
+      databases: string
+      linuxDocker: string
+      llm: string
+      cybersecurity: string
+    }
+    softSkills: {
+      teamwork: string
+      problemSolving: string
+      communication: string
+      timeManagement: string
+      adaptability: string
+      goalOriented: string
+      leadership: string
+    }
   }
 }
 
 interface Skill {
   name: string
-  level: number
   icon: React.ReactNode
 }
 
@@ -40,26 +56,24 @@ export function SkillsSection({ dictionary }: Readonly<SkillsSectionProps>) {
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   const technicalSkills: Skill[] = [
-    { name: "Java", level: 90, icon: <Code className="h-5 w-5" /> },
-    { name: "HTML, CSS", level: 90, icon: <Smartphone className="h-5 w-5" /> },
-    { name: "React", level: 85, icon: <Globe className="h-5 w-5" /> },
-    { name: "NodeJS/Spring", level: 85, icon: <Server className="h-5 w-5" /> },
-    { name: "SQL/NoSQL", level: 85, icon: <Database className="h-5 w-5" /> },   
-    { name: "JavaScript", level: 80, icon: <Code className="h-5 w-5" /> }, 
-    { name: "Python", level: 75, icon: <Braces className="h-5 w-5" /> },
-    { name: "C/C++", level: 70, icon: <Braces className="h-5 w-5" /> },
-    { name: "C#", level: 70, icon: <Braces className="h-5 w-5" /> },   
+    { name: dictionary.technicalSkills.java, icon: <Code className="h-5 w-5" /> },
+    { name: dictionary.technicalSkills.python, icon: <Braces className="h-5 w-5" /> },
+    { name: dictionary.technicalSkills.cpp, icon: <Braces className="h-5 w-5" /> },
+    { name: dictionary.technicalSkills.webDevelopment, icon: <Globe className="h-5 w-5" /> },
+    { name: dictionary.technicalSkills.databases, icon: <Database className="h-5 w-5" /> },
+    { name: dictionary.technicalSkills.linuxDocker, icon: <Server className="h-5 w-5" /> },
+    { name: dictionary.technicalSkills.llm, icon: <Brain className="h-5 w-5" /> },
+    { name: dictionary.technicalSkills.cybersecurity, icon: <Braces className="h-5 w-5" /> }
   ]
 
   const softSkills: Skill[] = [
-    { name: "Teamwork", level: 100, icon: <Users className="h-5 w-5" /> },
-    { name: "Time Management", level: 100, icon: <Clock className="h-5 w-5" /> },
-    { name: "Adaptability", level: 100, icon: <Lightbulb className="h-5 w-5" /> },
-    { name: "Critical Thinking", level: 95, icon: <Lightbulb className="h-5 w-5" /> },
-    { name: "Problem Solving", level: 90, icon: <Brain className="h-5 w-5" /> },
-    { name: "Communication", level: 90, icon: <MessageSquare className="h-5 w-5" /> },
-    { name: "Goal Oriented", level: 90, icon: <Target className="h-5 w-5" /> },
-    { name: "Creativity", level: 80, icon: <Lightbulb className="h-5 w-5" /> },
+    { name: dictionary.softSkills.teamwork, icon: <Users className="h-5 w-5" /> },
+    { name: dictionary.softSkills.problemSolving, icon: <Brain className="h-5 w-5" /> },
+    { name: dictionary.softSkills.communication, icon: <MessageSquare className="h-5 w-5" /> },
+    { name: dictionary.softSkills.timeManagement, icon: <Clock className="h-5 w-5" /> },
+    { name: dictionary.softSkills.adaptability, icon: <Lightbulb className="h-5 w-5" /> },
+    { name: dictionary.softSkills.goalOriented, icon: <Target className="h-5 w-5" /> },
+    { name: dictionary.softSkills.leadership, icon: <Users className="h-5 w-5" /> }
   ]
 
   return (
@@ -72,20 +86,17 @@ export function SkillsSection({ dictionary }: Readonly<SkillsSectionProps>) {
         <Card>
           <CardContent className="p-6">
             <h3 className="text-xl font-semibold mb-6">{dictionary.technical}</h3>
-            <div className="space-y-6">
+            <div className="grid grid-cols-1 gap-4">
               {technicalSkills.map((skill, index) => (
                 <motion.div
                   key={skill.name}
                   initial={{ opacity: 0, x: -20 }}
                   animate={isInView ? { opacity: 1, x: 0 } : {}}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="flex items-center p-3 rounded-lg bg-secondary/50 hover:bg-secondary/70 transition-colors"
                 >
-                  <div className="flex items-center mb-2">
-                    <span className="mr-2 text-primary">{skill.icon}</span>
-                    <span className="font-medium">{skill.name}</span>
-                    <span className="ml-auto text-sm text-foreground/70">{skill.level}%</span>
-                  </div>
-                  <Progress value={skill.level} className="h-2" />
+                  <span className="mr-3 text-primary">{skill.icon}</span>
+                  <span className="font-medium">{skill.name}</span>
                 </motion.div>
               ))}
             </div>
@@ -95,20 +106,17 @@ export function SkillsSection({ dictionary }: Readonly<SkillsSectionProps>) {
         <Card>
           <CardContent className="p-6">
             <h3 className="text-xl font-semibold mb-6">{dictionary.soft}</h3>
-            <div className="space-y-6">
+            <div className="grid grid-cols-1 gap-4">
               {softSkills.map((skill, index) => (
                 <motion.div
                   key={skill.name}
                   initial={{ opacity: 0, x: 20 }}
                   animate={isInView ? { opacity: 1, x: 0 } : {}}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="flex items-center p-3 rounded-lg bg-secondary/50 hover:bg-secondary/70 transition-colors"
                 >
-                  <div className="flex items-center mb-2">
-                    <span className="mr-2 text-primary">{skill.icon}</span>
-                    <span className="font-medium">{skill.name}</span>
-                    <span className="ml-auto text-sm text-foreground/70">{skill.level}%</span>
-                  </div>
-                  <Progress value={skill.level} className="h-2" />
+                  <span className="mr-3 text-primary">{skill.icon}</span>
+                  <span className="font-medium">{skill.name}</span>
                 </motion.div>
               ))}
             </div>

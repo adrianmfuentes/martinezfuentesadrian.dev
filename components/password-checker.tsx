@@ -190,9 +190,9 @@ export function PasswordChecker({ dictionary }: Readonly<PasswordCheckerProps>) 
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-green-950 p-3 sm:p-6">
-      <div className="container mx-auto max-w-4xl pt-20 sm:pt-16 md:pt-8">
+      <div className="container mx-auto max-w-4xl pt-32 sm:pt-28 md:pt-20">
         {/* Header */}
-        <div className="text-center mb-6 sm:mb-8">
+        <div className="text-center mb-8 sm:mb-10">
           <div className="flex items-center justify-center mb-4 sm:mb-6">
             <Shield className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-green-400 mr-2 sm:mr-4" />
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-green-400 via-green-300 to-green-500 bg-clip-text text-transparent font-mono leading-tight">
