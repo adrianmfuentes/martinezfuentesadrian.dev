@@ -230,7 +230,54 @@
         "description": "Herramienta para escanear puertos TCP y verificar servicios disponibles en hosts remotos",
         "category": "networking",
         "status": "available"
+      },
+      {
+        "id": "http-headers-validator",
+        "name": "Validador de Cabeceras HTTP",
+        "description": "Herramienta para validar las cabeceras de seguridad HTTP de cualquier sitio web",
+        "category": "security",
+        "status": "available"
       }
     ]
+  },
+  "headersValidator": {
+    "title": "Validador de Cabeceras HTTP",
+    "description": "Analiza las cabeceras de seguridad HTTP de cualquier sitio web para identificar posibles vulnerabilidades y mejoras de seguridad.",
+    "urlLabel": "URL del sitio web",
+    "urlPlaceholder": "https://ejemplo.com",
+    "validateButton": "Validar Cabeceras",
+    "validating": "Validando...",
+    "resetButton": "Reiniciar",
+    "results": {
+      "title": "Resultados del Análisis",
+      "url": "URL analizada",
+      "status": "Estado de las Cabeceras",
+      "secure": "Seguras",
+      "insecure": "Inseguras",
+      "missing": "Ausentes",
+      "present": "Presentes"
+    },
+    "headers": {
+      "CORS": "CORS (Control de Acceso)",
+      "CSP": "CSP (Política de Contenido)",
+      "HSTS": "HSTS (Seguridad de Transporte)",
+      "X-Frame-Options": "X-Frame-Options",
+      "X-Content-Type-Options": "X-Content-Type-Options",
+      "Referrer-Policy": "Política de Referencia",
+      "Permissions-Policy": "Política de Permisos"
+    },
+    "descriptions": {
+      "CORS": "Controla qué orígenes pueden acceder a los recursos de tu sitio web.",
+      "CSP": "Define qué recursos pueden ser cargados para prevenir ataques XSS.",
+      "HSTS": "Fuerza el uso de HTTPS para todas las comunicaciones futuras.",
+      "X-Frame-Options": "Previene que tu sitio sea cargado en un frame/iframe por otros sitios.",
+      "X-Content-Type-Options": "Previene el MIME sniffing y fuerza el respeto del Content-Type declarado.",
+      "Referrer-Policy": "Controla cuánta información de referencia se incluye con las peticiones.",
+      "Permissions-Policy": "Controla qué características del navegador pueden ser utilizadas."
+    },
+    "errors": {
+      "invalidUrl": "Por favor, introduce una URL válida",
+      "networkError": "Error al conectar con el servidor. Inténtalo de nuevo."
+    }
   }
 }

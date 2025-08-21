@@ -1,0 +1,400 @@
+"use client"
+
+import { useState } from "react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Badge } from "@/components/ui/badge"
+import { 
+  Globe, 
+  Shield, 
+  AlertTriangle, 
+  CheckCircle,
+  XCircle,
+  Clock,
+  Eye
+} from "lucide-react"
+
+interface HeaderValidation {
+  name: string
+  key: string
+  value: string | null
+  status: "present" | "missing" | "secure" | "insecure"
+  isSecure?: boolean
+}
+
+interface HeadersValidatorProps {
+  dictionary: {
+    title: string
+    description: string
+    urlLabel: string
+    urlPlaceholder: string
+    validateButton: string
+    validating: string
+    results: {
+      title: string
+      url: string
+      status: string
+      secure: string
+      insecure: string
+      missing: string
+      present: string
+    }
+    headers: {
+      CORS: string
+      CSP: string
+      HSTS: string
+      "X-Frame-Options": string
+      "X-Content-Type-Options": string
+      "Referrer-Policy": string
+      "Permissions-Policy": string
+    }
+    descriptions: {
+      CORS: string
+      CSP: string
+      HSTS: string
+      "X-Frame-Options": string
+      "X-Content-Type-Options": string
+      "Referrer-Policy": string
+      "Permissions-Policy": string
+    }
+    errors: {
+      invalidUrl: string
+      networkError: string
+    }
+    resetButton: string
+  }
+}
+
+interface HeaderConfig {
+  key: string
+  secure?: (value: string) => boolean
+  allowReportOnly?: boolean
+}
+
+// Configuración de cabeceras esperadas (adaptado del código Python)
+const expectedHeaders: Record<string, HeaderConfig> = {
+  CORS: {
+    key: "Access-Control-Allow-Origin",
+    secure: (value: string) => value !== "*" // Inseguro: permite cualquier origen
+  },
+  CSP: {
+    key: "Content-Security-Policy",
+    allowReportOnly: true // Permite el uso de una política solo de reporte
+  },
+  HSTS: {
+    key: "Strict-Transport-Security",
+    secure: (value: string) => value.includes("max-age=31536000") // Política para 1 año
+  },
+  "X-Frame-Options": {
+    key: "X-Frame-Options",
+    secure: (value: string) => ["DENY", "SAMEORIGIN"].includes(value) // Valores seguros
+  },
+  "X-Content-Type-Options": {
+    key: "X-Content-Type-Options",
+    secure: (value: string) => value.toLowerCase() === "nosniff" // Protección contra MIME sniffing
+  },
+  "Referrer-Policy": {
+    key: "Referrer-Policy",
+    secure: (value: string) => ["no-referrer", "strict-origin"].includes(value.toLowerCase()) // Valores seguros
+  },
+  "Permissions-Policy": {
+    key: "Permissions-Policy" // Controla qué características se pueden usar en el navegador
+  }
+}
+
+function validateUrl(url: string): boolean {
+  try {
+    const parsedUrl = new URL(url)
+    return parsedUrl.protocol === 'http:' || parsedUrl.protocol === 'https:'
+  } catch {
+    return false
+  }
+}
+
+function validateHeader(name: string, info: HeaderConfig, headers: Record<string, string>): HeaderValidation {
+  const key = info.key
+  let value: string | null = null
+  let isReportOnly = false
+
+  if (headers[key]) {
+    value = headers[key]
+  } else if (name === "CSP" && info.allowReportOnly && headers["Content-Security-Policy-Report-Only"]) {
+    value = headers["Content-Security-Policy-Report-Only"]
+    isReportOnly = true
+  }
+
+  let status: "present" | "missing" | "secure" | "insecure" = "missing"
+  let isSecure: boolean | undefined = undefined
+
+  if (value) {
+    status = "present"
+    const secureFunction = info.secure
+    if (secureFunction) {
+      isSecure = secureFunction(value)
+      status = isSecure ? "secure" : "insecure"
+    }
+  }
+
+  const finalValue = value && isReportOnly ? `${value} (Report-Only)` : value
+
+  return {
+    name,
+    key,
+    value: finalValue,
+    status,
+    isSecure
+  }
+}
+
+// Función para realizar la validación de cabeceras usando un proxy
+async function analyzeHeaders(url: string): Promise<Record<string, string>> {
+  try {
+    const response = await fetch(`/api/validate-headers?url=${encodeURIComponent(url)}`)
+    if (!response.ok) throw new Error('Network error')    
+
+    const data = await response.json()
+    return data.headers || {}
+  } catch {
+    // Si falla, intentamos usar un proxy público
+    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`
+    const response = await fetch(proxyUrl)    
+    if (!response.ok) throw new Error('Network error')
+    
+    const data = await response.json()
+    const headers: Record<string, string> = {}
+    
+    // Parseamos las cabeceras del contenido HTML
+    const parser = new DOMParser()
+    const doc = parser.parseFromString(data.contents, 'text/html')
+    
+    doc.querySelectorAll('meta').forEach(meta => {
+      if (meta.hasAttribute('http-equiv')) headers[meta.getAttribute('http-equiv')!] = meta.getAttribute('content') || ''
+    })
+    
+    return headers    
+  }
+}
+
+export default function HttpHeadersValidator({ dictionary }: Readonly<HeadersValidatorProps>) {
+  const [url, setUrl] = useState("")
+  const [isValidating, setIsValidating] = useState(false)
+  const [results, setResults] = useState<{
+    url: string
+    validations: HeaderValidation[]
+    summary: {
+      total: number
+      present: number
+      secure: number
+      insecure: number
+      missing: number
+    }
+  } | null>(null)
+  const [error, setError] = useState("")
+
+  const handleValidate = async () => {
+    if (!url.trim()) {
+      setError(dictionary.errors.invalidUrl)
+      return
+    }
+
+    if (!validateUrl(url)) {
+      setError(dictionary.errors.invalidUrl)
+      return
+    }
+
+    setIsValidating(true)
+    setError("")
+    setResults(null)
+
+    try {
+      const headers = await analyzeHeaders(url)
+      
+      const validationResults = Object.entries(expectedHeaders).map(([name, info]) => 
+        validateHeader(name, info, headers)
+      )
+
+      setResults({
+        url,
+        validations: validationResults,
+        summary: {
+          total: validationResults.length,
+          present: validationResults.filter(v => v.status !== "missing").length,
+          secure: validationResults.filter(v => v.status === "secure").length,
+          insecure: validationResults.filter(v => v.status === "insecure").length,
+          missing: validationResults.filter(v => v.status === "missing").length
+        }
+      })
+    } catch (err) {
+      console.error('Validation error:', err)
+      setError(dictionary.errors.networkError)
+    } finally {
+      setIsValidating(false)
+    }
+  }
+
+  const handleReset = () => {
+    setUrl("")
+    setResults(null)
+    setError("")
+  }
+
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case "secure":
+        return <CheckCircle className="h-4 w-4 text-green-500" />
+      case "insecure":
+        return <AlertTriangle className="h-4 w-4 text-red-500" />
+      case "present":
+        return <Eye className="h-4 w-4 text-blue-500" />
+      case "missing":
+        return <XCircle className="h-4 w-4 text-gray-500" />
+      default:
+        return <Clock className="h-4 w-4 text-gray-400" />
+    }
+  }
+
+  const getStatusBadge = (status: string) => {
+    switch (status) {
+      case "secure":
+        return <Badge variant="default" className="bg-green-500">{dictionary.results.secure}</Badge>
+      case "insecure":
+        return <Badge variant="destructive">{dictionary.results.insecure}</Badge>
+      case "present":
+        return <Badge variant="secondary">{dictionary.results.present}</Badge>
+      case "missing":
+        return <Badge variant="outline">{dictionary.results.missing}</Badge>
+      default:
+        return null
+    }
+  }
+
+  return (
+    <div className="w-full max-w-4xl mx-auto space-y-6 mt-24 px-4 sm:px-6 lg:px-8">
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Shield className="h-5 w-5" />
+            {dictionary.title}
+          </CardTitle>
+          <p className="text-sm text-muted-foreground">
+            {dictionary.description}
+          </p>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <label htmlFor="url" className="text-sm font-medium">
+              {dictionary.urlLabel}
+            </label>
+            <Input
+              id="url"
+              type="url"
+              placeholder={dictionary.urlPlaceholder}
+              value={url}
+              onChange={(e) => setUrl(e.target.value)}
+              disabled={isValidating}
+            />
+          </div>
+
+          {error && (
+            <div className="flex items-center gap-2 text-sm text-red-600 bg-red-50 p-3 rounded-md">
+              <AlertTriangle className="h-4 w-4" />
+              {error}
+            </div>
+          )}
+
+          <div className="flex flex-col sm:flex-row gap-2">
+            <Button 
+              onClick={handleValidate} 
+              disabled={isValidating || !url.trim()}
+              className="flex items-center gap-2 w-full sm:w-auto"
+            >
+              {isValidating ? (
+                <>
+                  <Clock className="h-4 w-4 animate-spin" />
+                  {dictionary.validating}
+                </>
+              ) : (
+                <>
+                  <Globe className="h-4 w-4" />
+                  {dictionary.validateButton}
+                </>
+              )}
+            </Button>
+
+            {results && (
+              <Button variant="outline" onClick={handleReset} className="w-full sm:w-auto">
+                {dictionary.resetButton}
+              </Button>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+
+      {results && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Shield className="h-5 w-5" />
+              {dictionary.results.title}
+            </CardTitle>
+            <div className="text-sm text-muted-foreground">
+              <p className="break-all"><strong>{dictionary.results.url}:</strong> {results.url}</p>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            {/* Resumen */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="text-center p-3 bg-green-50 rounded-lg">
+                <div className="text-2xl font-bold text-green-600">{results.summary.secure}</div>
+                <div className="text-sm text-green-700">{dictionary.results.secure}</div>
+              </div>
+              <div className="text-center p-3 bg-red-50 rounded-lg">
+                <div className="text-2xl font-bold text-red-600">{results.summary.insecure}</div>
+                <div className="text-sm text-red-700">{dictionary.results.insecure}</div>
+              </div>
+              <div className="text-center p-3 bg-blue-50 rounded-lg">
+                <div className="text-2xl font-bold text-blue-600">{results.summary.present}</div>
+                <div className="text-sm text-blue-700">{dictionary.results.present}</div>
+              </div>
+              <div className="text-center p-3 bg-gray-50 rounded-lg">
+                <div className="text-2xl font-bold text-gray-600">{results.summary.missing}</div>
+                <div className="text-sm text-gray-700">{dictionary.results.missing}</div>
+              </div>
+            </div>
+
+            {/* Detalles de cada cabecera */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold">{dictionary.results.status}</h3>
+              <div className="space-y-3">
+                {results.validations.map((validation) => (
+                  <div key={validation.name} className="border rounded-lg p-4 space-y-2">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                      <div className="flex items-center gap-2">
+                        {getStatusIcon(validation.status)}
+                        <span className="font-medium">
+                          {dictionary.headers[validation.name as keyof typeof dictionary.headers] || validation.name}
+                        </span>
+                      </div>
+                      {getStatusBadge(validation.status)}
+                    </div>
+                    
+                    <div className="text-sm text-muted-foreground">
+                      <p><strong>Header:</strong> {validation.key}</p>
+                      {validation.value && (
+                        <p className="break-all"><strong>Value:</strong> <code className="bg-gray-100 px-1 rounded text-xs">{validation.value}</code></p>
+                      )}
+                      {dictionary.descriptions?.[validation.name as keyof typeof dictionary.descriptions] && (
+                        <p className="mt-2">{dictionary.descriptions[validation.name as keyof typeof dictionary.descriptions]}</p>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+    </div>
+  )
+}

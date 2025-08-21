@@ -163,6 +163,46 @@ interface Dictionary {
       status: string
     }[]
   }
+  headersValidator: {
+    title: string
+    description: string
+    urlLabel: string
+    urlPlaceholder: string
+    validateButton: string
+    validating: string
+    resetButton: string
+    results: {
+      title: string
+      url: string
+      status: string
+      secure: string
+      insecure: string
+      missing: string
+      present: string
+    }
+    headers: {
+      CORS: string
+      CSP: string
+      HSTS: string
+      "X-Frame-Options": string
+      "X-Content-Type-Options": string
+      "Referrer-Policy": string
+      "Permissions-Policy": string
+    }
+    descriptions: {
+      CORS: string
+      CSP: string
+      HSTS: string
+      "X-Frame-Options": string
+      "X-Content-Type-Options": string
+      "Referrer-Policy": string
+      "Permissions-Policy": string
+    }
+    errors: {
+      invalidUrl: string
+      networkError: string
+    }
+  }
 }
 
 const dictionaries: Record<string, () => Promise<Dictionary>> = {
