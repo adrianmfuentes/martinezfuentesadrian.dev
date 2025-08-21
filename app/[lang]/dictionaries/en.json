@@ -231,7 +231,54 @@
         "description": "Tool for scanning TCP ports and verifying available services on remote hosts",
         "category": "networking",
         "status": "available"
+      },
+      {
+        "id": "http-headers-validator",
+        "name": "HTTP Headers Validator",
+        "description": "Tool for validating HTTP security headers of any website",
+        "category": "security",
+        "status": "available"
       }
     ]
+  },
+  "headersValidator": {
+    "title": "HTTP Headers Validator",
+    "description": "Analyze HTTP security headers of any website to identify potential vulnerabilities and security improvements.",
+    "urlLabel": "Website URL",
+    "urlPlaceholder": "https://example.com",
+    "validateButton": "Validate Headers",
+    "validating": "Validating...",
+    "resetButton": "Reset",
+    "results": {
+      "title": "Analysis Results",
+      "url": "Analyzed URL",
+      "status": "Headers Status",
+      "secure": "Secure",
+      "insecure": "Insecure",
+      "missing": "Missing",
+      "present": "Present"
+    },
+    "headers": {
+      "CORS": "CORS (Access Control)",
+      "CSP": "CSP (Content Policy)",
+      "HSTS": "HSTS (Transport Security)",
+      "X-Frame-Options": "X-Frame-Options",
+      "X-Content-Type-Options": "X-Content-Type-Options",
+      "Referrer-Policy": "Referrer Policy",
+      "Permissions-Policy": "Permissions Policy"
+    },
+    "descriptions": {
+      "CORS": "Controls which origins can access your website's resources.",
+      "CSP": "Defines which resources can be loaded to prevent XSS attacks.",
+      "HSTS": "Forces HTTPS usage for all future communications.",
+      "X-Frame-Options": "Prevents your site from being loaded in a frame/iframe by other sites.",
+      "X-Content-Type-Options": "Prevents MIME sniffing and enforces declared Content-Type.",
+      "Referrer-Policy": "Controls how much referrer information is included with requests.",
+      "Permissions-Policy": "Controls which browser features can be used."
+    },
+    "errors": {
+      "invalidUrl": "Please enter a valid URL",
+      "networkError": "Error connecting to server. Please try again."
+    }
   }
 }
