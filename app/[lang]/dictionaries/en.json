@@ -245,6 +245,13 @@
         "description": "Tool for generating secure passwords with customizable options",
         "category": "security",
         "status": "available"
+      },
+      {
+        "id": "certificates-checker",
+        "name": "Certificates Checker",
+        "description": "Tool for checking the validity and security of SSL/TLS certificates",
+        "category": "security",
+        "status": "available"
       }
     ]
   },
