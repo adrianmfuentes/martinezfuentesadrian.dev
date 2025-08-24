@@ -237,6 +237,13 @@
         "description": "Herramienta para validar las cabeceras de seguridad HTTP de cualquier sitio web",
         "category": "security",
         "status": "available"
+      },
+      {
+        "id": "password-generator",
+        "name": "Generador de Contraseñas",
+        "description": "Herramienta para generar contraseñas seguras con opciones personalizables",
+        "category": "security",
+        "status": "available"
       }
     ]
   },
