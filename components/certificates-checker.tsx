@@ -175,30 +175,30 @@ export function CertificatesChecker({ dictionary }: Readonly<CertificatesChecker
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-blue-950 p-3 sm:p-6">
-      <div className="container mx-auto max-w-4xl mt-8 mb-8 pt-32 sm:pt-28 md:pt-20">
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-blue-950 p-2 sm:p-4 lg:p-6">
+      <div className="container mx-auto max-w-sm sm:max-w-2xl lg:max-w-4xl mt-4 sm:mt-6 lg:mt-8 mb-4 sm:mb-6 lg:mb-8 pt-24 sm:pt-28 md:pt-20">
         {/* Header */}
-        <div className="text-center mb-8 sm:mb-10">
-          <div className="flex items-center justify-center mb-4 sm:mb-6">
-            <Shield className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-blue-400 mr-2 sm:mr-4" />
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-blue-400 via-blue-300 to-blue-500 bg-clip-text text-transparent font-mono leading-tight">
+        <div className="text-center mb-6 sm:mb-8 lg:mb-10 px-2 sm:px-0">
+          <div className="flex items-center justify-center mb-3 sm:mb-4 lg:mb-6">
+            <Shield className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 text-blue-400 mr-2 sm:mr-3 lg:mr-4 flex-shrink-0" />
+            <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-blue-400 via-blue-300 to-blue-500 bg-clip-text text-transparent font-mono leading-tight">
               {dictionary.title}
             </h1>
           </div>
-          <p className="text-gray-300 max-w-2xl mx-auto leading-relaxed text-sm sm:text-base px-4 sm:px-0">
+          <p className="text-gray-300 max-w-sm sm:max-w-lg lg:max-w-2xl mx-auto leading-relaxed text-xs sm:text-sm lg:text-base px-2 sm:px-4 lg:px-0">
             {dictionary.description}
           </p>
         </div>
 
         {/* Input Section */}
-        <Card className="bg-black/70 border-blue-500/30 mb-6 sm:mb-8 mx-2 sm:mx-0">
-          <CardHeader className="pb-4 sm:pb-6">
-            <CardTitle className="text-blue-300 font-mono flex items-center text-lg sm:text-xl">
-              <Globe className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-              {dictionary.hostLabel}
+        <Card className="bg-black/70 border-blue-500/30 mb-4 sm:mb-6 lg:mb-8 mx-1 sm:mx-0">
+          <CardHeader className="pb-3 sm:pb-4 lg:pb-6 px-3 sm:px-6">
+            <CardTitle className="text-blue-300 font-mono flex items-center text-base sm:text-lg lg:text-xl">
+              <Globe className="w-4 h-4 sm:w-5 sm:h-5 mr-2 flex-shrink-0" />
+              <span className="truncate">{dictionary.hostLabel}</span>
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-3 sm:space-y-4 px-3 sm:px-6">
             <div>
               <Input
                 type="text"
@@ -206,13 +206,13 @@ export function CertificatesChecker({ dictionary }: Readonly<CertificatesChecker
                 value={host}
                 onChange={(e) => setHost(e.target.value)}
                 disabled={isChecking}
-                className="bg-gray-900/50 border-blue-500/30 text-blue-300 font-mono focus:border-blue-400 text-sm sm:text-base"
+                className="bg-gray-900/50 border-blue-500/30 text-blue-300 font-mono focus:border-blue-400 text-sm sm:text-base h-10 sm:h-11"
               />
             </div>
             
             <div>
               <label className="text-blue-300 font-mono text-sm sm:text-base mb-2 block">
-                <Server className="w-4 h-4 inline mr-2" />
+                <Server className="w-3 h-3 sm:w-4 sm:h-4 inline mr-1 sm:mr-2" />
                 {dictionary.portLabel}
               </label>
               <Input
@@ -223,9 +223,9 @@ export function CertificatesChecker({ dictionary }: Readonly<CertificatesChecker
                 disabled={isChecking}
                 min="1"
                 max="65535"
-                className="bg-gray-900/50 border-blue-500/30 text-blue-300 font-mono focus:border-blue-400 text-sm sm:text-base"
+                className="bg-gray-900/50 border-blue-500/30 text-blue-300 font-mono focus:border-blue-400 text-sm sm:text-base h-10 sm:h-11"
               />
-              <p className="text-gray-400 text-xs sm:text-sm mt-2">
+              <p className="text-gray-400 text-xs sm:text-sm mt-1 sm:mt-2">
                 {dictionary.portHelp}
               </p>
               <div className="flex flex-wrap gap-1 mt-2">
@@ -234,7 +234,7 @@ export function CertificatesChecker({ dictionary }: Readonly<CertificatesChecker
                     key={commonPort}
                     onClick={() => setPort(commonPort.toString())}
                     disabled={isChecking}
-                    className="px-2 py-1 text-xs bg-blue-500/20 text-blue-300 rounded border border-blue-500/30 hover:bg-blue-500/30 disabled:opacity-50"
+                    className="px-2 py-1 text-xs bg-blue-500/20 text-blue-300 rounded border border-blue-500/30 hover:bg-blue-500/30 disabled:opacity-50 transition-colors"
                   >
                     {commonPort}
                   </button>
@@ -243,27 +243,27 @@ export function CertificatesChecker({ dictionary }: Readonly<CertificatesChecker
             </div>
             
             {error && (
-              <div className="flex items-center text-red-400 text-xs sm:text-sm">
-                <AlertTriangle className="w-4 h-4 mr-2 flex-shrink-0" />
+              <div className="flex items-start text-red-400 text-xs sm:text-sm p-2 bg-red-500/10 rounded border border-red-500/30">
+                <AlertTriangle className="w-4 h-4 mr-2 flex-shrink-0 mt-0.5" />
                 <span className="break-words">{error}</span>
               </div>
             )}
 
-            <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row gap-2">
               <Button
                 onClick={handleCheck}
                 disabled={isChecking || !host.trim() || !port.trim()}
-                className="flex-1 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold text-sm sm:text-base py-2 sm:py-3"
+                className="flex-1 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold text-sm sm:text-base py-2.5 sm:py-3 h-10 sm:h-11"
               >
                 {isChecking ? (
                   <>
                     <Clock className="w-4 h-4 mr-2 animate-spin" />
-                    {dictionary.checking}
+                    <span className="truncate">{dictionary.checking}</span>
                   </>
                 ) : (
                   <>
                     <Shield className="w-4 h-4 mr-2" />
-                    {dictionary.checkButton}
+                    <span className="truncate">{dictionary.checkButton}</span>
                   </>
                 )}
               </Button>
@@ -272,7 +272,7 @@ export function CertificatesChecker({ dictionary }: Readonly<CertificatesChecker
                 <Button
                   onClick={handleReset}
                   variant="outline"
-                  className="border-blue-500/30 text-blue-400 hover:bg-blue-500/10 text-sm sm:text-base py-2 sm:py-3"
+                  className="border-blue-500/30 text-blue-400 hover:bg-blue-500/10 text-sm sm:text-base py-2.5 sm:py-3 h-10 sm:h-11 sm:w-auto w-full"
                 >
                   {dictionary.resetButton}
                 </Button>
@@ -283,102 +283,100 @@ export function CertificatesChecker({ dictionary }: Readonly<CertificatesChecker
 
         {/* Results Section */}
         {result && (
-          <Card className="bg-black/70 border-blue-500/30 mb-6 sm:mb-8 mx-2 sm:mx-0">
-            <CardHeader className="pb-4 sm:pb-6">
-              <CardTitle className="text-blue-300 font-mono flex items-center text-lg sm:text-xl">
-                <Shield className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                {dictionary.results.title}
+          <Card className="bg-black/70 border-blue-500/30 mb-4 sm:mb-6 lg:mb-8 mx-1 sm:mx-0">
+            <CardHeader className="pb-3 sm:pb-4 lg:pb-6 px-3 sm:px-6">
+              <CardTitle className="text-blue-300 font-mono flex items-center text-base sm:text-lg lg:text-xl">
+                <Shield className="w-4 h-4 sm:w-5 sm:h-5 mr-2 flex-shrink-0" />
+                <span className="truncate">{dictionary.results.title}</span>
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-3 sm:space-y-4 px-3 sm:px-6">
               {/* Host Info */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                <div className="flex justify-between items-center p-2 sm:p-3 bg-gray-900/50 rounded-lg border border-gray-700/50">
+              <div className="grid grid-cols-1 gap-2 sm:gap-3">
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-2 sm:p-3 bg-gray-900/50 rounded-lg border border-gray-700/50 gap-1 sm:gap-0">
                   <span className="text-gray-300 text-xs sm:text-sm">{dictionary.results.host}:</span>
-                  <span className="text-blue-400 font-mono text-sm sm:text-base">{host}:{port}</span>
+                  <span className="text-blue-400 font-mono text-sm sm:text-base break-all">{host}:{port}</span>
                 </div>
-                <div className="flex justify-between items-center p-2 sm:p-3 bg-gray-900/50 rounded-lg border border-gray-700/50">
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-2 sm:p-3 bg-gray-900/50 rounded-lg border border-gray-700/50 gap-1 sm:gap-0">
                   <span className="text-gray-300 text-xs sm:text-sm">{dictionary.results.resolvedIp}:</span>
-                  <span className="text-blue-400 font-mono text-sm sm:text-base">{result.hostIp}</span>
+                  <span className="text-blue-400 font-mono text-sm sm:text-base break-all">{result.hostIp}</span>
                 </div>
               </div>
 
               {/* Certificate Status */}
-              <div className="flex items-center justify-between p-3 sm:p-4 bg-gray-900/50 rounded-lg border border-gray-700/50">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 sm:p-4 bg-gray-900/50 rounded-lg border border-gray-700/50 gap-2 sm:gap-0">
                 <div className="flex items-center">
                   {getStatusInfo(result).icon}
                   <span className="text-gray-300 text-sm sm:text-base ml-2">{dictionary.results.status}</span>
                 </div>
-                <Badge className={getStatusInfo(result).badgeClass}>
+                <Badge className={getStatusInfo(result).badgeClass + " text-xs sm:text-sm"}>
                   {getStatusInfo(result).status}
                 </Badge>
               </div>
 
               {/* Certificate Details */}
-              <div className="space-y-3">
-                <div className="p-3 sm:p-4 bg-gray-900/50 rounded-lg border border-gray-700/50">
+              <div className="space-y-2 sm:space-y-3">
+                <div className="p-2 sm:p-3 lg:p-4 bg-gray-900/50 rounded-lg border border-gray-700/50">
                   <div className="flex items-center mb-2">
-                    <FileText className="w-4 h-4 text-blue-400 mr-2" />
-                    <span className="text-blue-300 font-semibold">{dictionary.results.subject}</span>
+                    <FileText className="w-3 h-3 sm:w-4 sm:h-4 text-blue-400 mr-2 flex-shrink-0" />
+                    <span className="text-blue-300 font-semibold text-sm sm:text-base">{dictionary.results.subject}</span>
                   </div>
-                  <p className="text-gray-300 text-sm break-all font-mono">{result.subject}</p>
+                  <p className="text-gray-300 text-xs sm:text-sm break-all font-mono leading-relaxed">{result.subject}</p>
                 </div>
 
-                <div className="p-3 sm:p-4 bg-gray-900/50 rounded-lg border border-gray-700/50">
+                <div className="p-2 sm:p-3 lg:p-4 bg-gray-900/50 rounded-lg border border-gray-700/50">
                   <div className="flex items-center mb-2">
-                    <Building className="w-4 h-4 text-blue-400 mr-2" />
-                    <span className="text-blue-300 font-semibold">{dictionary.results.issuer}</span>
+                    <Building className="w-3 h-3 sm:w-4 sm:h-4 text-blue-400 mr-2 flex-shrink-0" />
+                    <span className="text-blue-300 font-semibold text-sm sm:text-base">{dictionary.results.issuer}</span>
                   </div>
-                  <p className="text-gray-300 text-sm break-all font-mono">{result.issuer}</p>
+                  <p className="text-gray-300 text-xs sm:text-sm break-all font-mono leading-relaxed">{result.issuer}</p>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div className="p-3 sm:p-4 bg-gray-900/50 rounded-lg border border-gray-700/50">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
+                  <div className="p-2 sm:p-3 lg:p-4 bg-gray-900/50 rounded-lg border border-gray-700/50">
                     <div className="flex items-center mb-2">
-                      <Calendar className="w-4 h-4 text-green-400 mr-2" />
-                      <span className="text-green-300 font-semibold">{dictionary.results.validFrom}</span>
+                      <Calendar className="w-3 h-3 sm:w-4 sm:h-4 text-green-400 mr-2 flex-shrink-0" />
+                      <span className="text-green-300 font-semibold text-sm sm:text-base truncate">{dictionary.results.validFrom}</span>
                     </div>
-                    <p className="text-gray-300 text-sm font-mono">{result.notBefore}</p>
+                    <p className="text-gray-300 text-xs sm:text-sm font-mono break-all">{result.notBefore}</p>
                   </div>
 
-                  <div className="p-3 sm:p-4 bg-gray-900/50 rounded-lg border border-gray-700/50">
+                  <div className="p-2 sm:p-3 lg:p-4 bg-gray-900/50 rounded-lg border border-gray-700/50">
                     <div className="flex items-center mb-2">
-                      <Calendar className="w-4 h-4 text-red-400 mr-2" />
-                      <span className="text-red-300 font-semibold">{dictionary.results.validUntil}</span>
+                      <Calendar className="w-3 h-3 sm:w-4 sm:h-4 text-red-400 mr-2 flex-shrink-0" />
+                      <span className="text-red-300 font-semibold text-sm sm:text-base truncate">{dictionary.results.validUntil}</span>
                     </div>
-                    <p className="text-gray-300 text-sm font-mono">{result.notAfter}</p>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-1 gap-3">                
-                  <div className="p-3 sm:p-4 bg-gray-900/50 rounded-lg border border-gray-700/50">
-                    <div className="flex items-center mb-2">
-                      <Shield className="w-4 h-4 text-blue-400 mr-2" />
-                      <span className="text-blue-300 font-semibold">{dictionary.results.isCA}</span>
-                    </div>
-                    <p className="text-gray-300 text-sm font-mono">{result.isCA ? 'Sí' : 'No'}</p>
+                    <p className="text-gray-300 text-xs sm:text-sm font-mono break-all">{result.notAfter}</p>
                   </div>
                 </div>
 
-                <div className="p-3 sm:p-4 bg-gray-900/50 rounded-lg border border-gray-700/50">
+                <div className="p-2 sm:p-3 lg:p-4 bg-gray-900/50 rounded-lg border border-gray-700/50">
                   <div className="flex items-center mb-2">
-                    <Clock className="w-4 h-4 text-yellow-400 mr-2" />
-                    <span className="text-yellow-300 font-semibold">{dictionary.results.daysLeft}</span>
+                    <Shield className="w-3 h-3 sm:w-4 sm:h-4 text-blue-400 mr-2 flex-shrink-0" />
+                    <span className="text-blue-300 font-semibold text-sm sm:text-base">{dictionary.results.isCA}</span>
                   </div>
-                  <p className="text-gray-300 text-sm font-mono">
+                  <p className="text-gray-300 text-xs sm:text-sm font-mono">{result.isCA ? 'Sí' : 'No'}</p>
+                </div>
+
+                <div className="p-2 sm:p-3 lg:p-4 bg-gray-900/50 rounded-lg border border-gray-700/50">
+                  <div className="flex items-center mb-2">
+                    <Clock className="w-3 h-3 sm:w-4 sm:h-4 text-yellow-400 mr-2 flex-shrink-0" />
+                    <span className="text-yellow-300 font-semibold text-sm sm:text-base">{dictionary.results.daysLeft}</span>
+                  </div>
+                  <p className="text-gray-300 text-xs sm:text-sm font-mono">
                     {result.isExpired ? '¡Certificado vencido!' : `${result.daysLeft} días`}
                   </p>
                 </div>
 
                 {result.sans && result.sans.length > 0 && (
-                  <div className="p-3 sm:p-4 bg-gray-900/50 rounded-lg border border-gray-700/50">
+                  <div className="p-2 sm:p-3 lg:p-4 bg-gray-900/50 rounded-lg border border-gray-700/50">
                     <div className="flex items-center mb-2">
-                      <Link className="w-4 h-4 text-blue-400 mr-2" />
-                      <span className="text-blue-300 font-semibold">{dictionary.results.sans}</span>
+                      <Link className="w-3 h-3 sm:w-4 sm:h-4 text-blue-400 mr-2 flex-shrink-0" />
+                      <span className="text-blue-300 font-semibold text-sm sm:text-base">{dictionary.results.sans}</span>
                     </div>
                     <div className="flex flex-wrap gap-1 mt-2">
                       {result.sans.slice(0, 10).map((san) => (
-                        <Badge key={san} variant="outline" className="text-xs">
+                        <Badge key={san} variant="outline" className="text-xs break-all">
                           {san}
                         </Badge>
                       ))}
@@ -396,9 +394,9 @@ export function CertificatesChecker({ dictionary }: Readonly<CertificatesChecker
         )}
 
         {/* Terminal-style footer */}
-        <div className="mt-6 sm:mt-8 bg-black/70 border border-blue-500/30 rounded-lg p-4 sm:p-6 font-mono mx-2 sm:mx-0">
-          <div className="flex items-center mb-3 sm:mb-4">
-            <div className="flex space-x-1 sm:space-x-2 mr-3 sm:mr-4">
+        <div className="mt-4 sm:mt-6 lg:mt-8 bg-black/70 border border-blue-500/30 rounded-lg p-3 sm:p-4 lg:p-6 font-mono mx-1 sm:mx-0">
+          <div className="flex items-center mb-2 sm:mb-3 lg:mb-4">
+            <div className="flex space-x-1 sm:space-x-2 mr-2 sm:mr-3 lg:mr-4 flex-shrink-0">
               <div className="w-2 h-2 sm:w-3 sm:h-3 bg-red-500 rounded-full"></div>
               <div className="w-2 h-2 sm:w-3 sm:h-3 bg-yellow-500 rounded-full"></div>
               <div className="w-2 h-2 sm:w-3 sm:h-3 bg-green-500 rounded-full"></div>
@@ -407,8 +405,8 @@ export function CertificatesChecker({ dictionary }: Readonly<CertificatesChecker
           </div>
           <div className="text-blue-300 text-xs sm:text-sm space-y-1">
             <p><span className="text-blue-400">&gt;</span> SSL/TLS certificate validation for security auditing</p>
-            <p><span className="text-blue-400">&gt;</span> Check certificate expiration, issuer, and security configuration</p>
-            <p><span className="text-blue-400">&gt;</span> Common SSL ports: 443 (HTTPS), 993 (IMAPS), 995 (POP3S), 465/587 (SMTPS)</p>
+            <p className="break-words"><span className="text-blue-400">&gt;</span> Check certificate expiration, issuer, and security configuration</p>
+            <p className="break-words"><span className="text-blue-400">&gt;</span> Common SSL ports: 443 (HTTPS), 993 (IMAPS), 995 (POP3S), 465/587 (SMTPS)</p>
             <div className="flex items-center mt-2">
               <span className="text-blue-400 mr-2">&gt;</span>
               <div className="w-1 h-3 sm:w-2 sm:h-4 bg-blue-400 animate-pulse"></div>
