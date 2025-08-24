@@ -238,6 +238,13 @@
         "description": "Tool for validating HTTP security headers of any website",
         "category": "security",
         "status": "available"
+      },
+      {
+        "id": "password-generator",
+        "name": "Password Generator",
+        "description": "Tool for generating secure passwords with customizable options",
+        "category": "security",
+        "status": "available"
       }
     ]
   },
