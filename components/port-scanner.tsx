@@ -1,4 +1,3 @@
-
 "use client"
 
 import { useState, useRef } from "react"
@@ -109,31 +108,25 @@ function isValidHost(host: string): boolean {
 }
 
 // Función para escanear un puerto usando fetch con timeout
-async function scanPort(host: string, port: number, timeoutMs: number = 5000): Promise<boolean> {
+async function scanPortViaAPI(host: string, ports: number[]): Promise<PortScanResult[]> {
   try {
-    // Simulamos el escaneo usando fetch con timeout
-    const controller = new AbortController()
-    const timeoutId = setTimeout(() => controller.abort(), timeoutMs)
-    
-    // Intentamos conectar al puerto usando fetch
-    await fetch(`http://${host}:${port}`, {
-      method: 'HEAD',
-      mode: 'no-cors',
-      signal: controller.signal
+    const response = await fetch('/api/port-scan', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ host, ports }),
     })
     
-    clearTimeout(timeoutId)
-    return true // Si la conexión es exitosa, el puerto está abierto
-  } catch (error) {
-    // En el navegador, muchos puertos cerrados lanzan errores de CORS o de red
-    // Los errores de red suelen indicar que el puerto está cerrado
-    if (error instanceof Error) {
-      // Si es un error de timeout o abort, consideramos el puerto cerrado
-      if (error.name === 'AbortError') return false
-      // Si es un error de CORS, el puerto podría estar abierto pero bloqueado por CORS
-      if (error.message.includes('CORS') || error.message.includes('blocked')) return true
+    const data = await response.json()
+    
+    if (data.success) {
+      return data.results
+    } else {
+      throw new Error(data.error || 'Scan failed')
     }
-    return false
+  } catch (error) {
+    throw new Error(`API error: ${error}`)
   }
 }
 
@@ -224,39 +217,20 @@ export function PortScanner({ dictionary }: Readonly<PortScannerProps>) {
 
       setResults([...initialResults])
       
-      // Escanear puertos en lotes para evitar sobrecargar el navegador
-      const batchSize = 5
-      for (let i = 0; i < portsToScan.length; i += batchSize) {
-        if (abortControllerRef.current?.signal.aborted) {
-          break
-        }
-        
-        const batch = portsToScan.slice(i, i + batchSize)
-        const batchPromises = batch.map(async (port) => {
-          const isOpen = await scanPort(host.trim(), port, 3000)
-          return { port, isOpen, status: isOpen ? "open" : "closed" } as PortScanResult
-        })
-        
-        const batchResults = await Promise.all(batchPromises)
-        
-        // Actualizar resultados
-        setResults(prevResults => updateResults(prevResults, batchResults))
-        
-        // Actualizar progreso
-        const currentProgress = Math.min(i + batchSize, portsToScan.length)
-        setProgress({
-          current: currentProgress,
-          total: portsToScan.length,
-          percentage: Math.round((currentProgress / portsToScan.length) * 100)
-        })
-        
-        // Pequeña pausa entre lotes
-        await new Promise(resolve => setTimeout(resolve, 100))
-      }
-      
+      // Usar la API
+      const scanResults = await scanPortViaAPI(host.trim(), portsToScan)
+
+      setResults(scanResults)
+
+      setProgress({
+        current: portsToScan.length,
+        total: portsToScan.length,
+        percentage: 100
+      })
+
       if (!abortControllerRef.current?.signal.aborted) {
         setScanCompleted(true)
-      }
+      }      
     } catch (err) {
       console.error("Error during port scan:", err)
       setError(dictionary.errors.scanError)
