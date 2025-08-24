@@ -244,6 +244,13 @@
         "description": "Herramienta para generar contraseñas seguras con opciones personalizables",
         "category": "security",
         "status": "available"
+      },
+      {
+        "id": "certificates-checker",
+        "name": "Comprobador de Certificados",
+        "description": "Herramienta para comprobar la validez y seguridad de los certificados SSL/TLS",
+        "category": "security",
+        "status": "available"
       }
     ]
   },
