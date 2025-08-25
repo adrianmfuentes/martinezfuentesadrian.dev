@@ -20,7 +20,7 @@ interface AboutSectionProps {
   }
 }
 
-const MotionCard = motion(Card)
+const MotionCard = motion.create(Card)
 
 export function AboutSection({ dictionary }: AboutSectionProps) {
   const ref = useRef(null)
@@ -39,8 +39,8 @@ export function AboutSection({ dictionary }: AboutSectionProps) {
             src={backgroundImage}
             alt="About me"
             width={400}
-            height={500}
-            className="rounded-lg"
+            height={0}
+            className="rounded-lg h-auto"
             style={{ objectFit: 'contain' }}
             priority
           />

@@ -21,16 +21,29 @@ export async function generateStaticParams() {
   return locales.map((lang) => ({ lang }))
 }
 
+// ...existing code...
 export async function generateMetadata({
   params
 }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
   const dict = await getDictionary(lang as "en" | "es");
-  // Retorna el objeto de metadata
+  
   return {
     title: dict.metadata.title,
     description: dict.metadata.description,
     keywords: dict.metadata.keywords,
+    metadataBase: new URL('https://martinezfuentesadrian-dev.vercel.app'), 
+    openGraph: {
+      title: dict.metadata.title,
+      description: dict.metadata.description,
+      type: 'website',
+      locale: lang === 'es' ? 'es_ES' : 'en_US',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: dict.metadata.title,
+      description: dict.metadata.description,
+    },
     icons: {
       icon: '/favicon.ico',
       shortcut: '/favicon.ico',
