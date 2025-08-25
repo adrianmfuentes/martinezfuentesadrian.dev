@@ -59,9 +59,14 @@ export function ContactForm({ dictionary }: Readonly<ContactFormProps>) {
     name: z.string().min(2, {
       message: dictionary.validation.nameRequired,
     }),
-    email: z.string().email({
-      message: dictionary.validation.emailRequired,
-    }),
+    email: z.string()
+      .regex(
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+        { message: dictionary.validation.emailRequired }
+      )
+      .refine(val => !!val, {
+        message: dictionary.validation.emailRequired,
+      }),
     message: z.string().min(10, {
       message: dictionary.validation.messageRequired,
     }),
