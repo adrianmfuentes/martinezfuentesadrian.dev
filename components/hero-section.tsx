@@ -60,7 +60,12 @@ export function HeroSection({ dictionary, lang }: HeroSectionProps) {
 
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.9, duration: 0.5 }}>
             <Link href={`/${lang}/portfolio`}>
-              <Button size="lg" className="group">
+              <Button // NOSONAR
+                size="lg" 
+                className="group"
+                aria-label={`${dictionary.cta} - ${dictionary.subtitle}`}
+                role="button"
+              >
                 {dictionary.cta}
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Button>

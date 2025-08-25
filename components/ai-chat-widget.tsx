@@ -102,6 +102,7 @@ export const AIChatWidget: FC<Readonly<AIChatWidgetProps>> = ({ dictionary }) =>
         onClick={() => setIsOpen(!isOpen)}
         size="icon"
         className="fixed bottom-4 right-4 h-12 w-12 rounded-full shadow-lg z-50"
+        aria-label={isOpen ? "Cerrar chat" : "Abrir chat con asistente virtual"}
       >
         {isOpen ? <X className="h-6 w-6" /> : <MessageSquare className="h-6 w-6" />}
       </Button>
@@ -122,20 +123,23 @@ export const AIChatWidget: FC<Readonly<AIChatWidgetProps>> = ({ dictionary }) =>
           </CardHeader>
           <ScrollArea ref={scrollAreaRef} className="h-[350px] px-4 py-4" type="always">
             <div className="space-y-4">
-              {messages.map((message, index) => (
-                <div key={index} className={cn("flex", message.role === "user" ? "justify-end" : "justify-start")}>
-                  <div
-                    className={cn(
-                      "rounded-lg px-3 py-2 max-w-[80%] text-sm",
-                      message.role === "user"
-                        ? "bg-primary text-primary-foreground ml-auto" 
-                        : "bg-muted" 
-                    )}
-                  >
-                    {message.content}
+              {messages.map((message, index) => {
+                const key = `${message.role}-${message.content}-${index}`;
+                return (
+                  <div key={key} className={cn("flex", message.role === "user" ? "justify-end" : "justify-start")}>
+                    <div
+                      className={cn(
+                        "rounded-lg px-3 py-2 max-w-[80%] text-sm",
+                        message.role === "user"
+                          ? "bg-primary text-primary-foreground ml-auto" 
+                          : "bg-muted" 
+                      )}
+                    >
+                      {message.content}
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
               {isLoading && (
                 <div className="flex justify-start">
                   <div

@@ -5,7 +5,6 @@ import Image from "next/image"
 import { motion } from "framer-motion"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ExternalLink, Github } from "lucide-react" /* NOSONAR */
 
 interface PortfolioSectionProps {
@@ -151,27 +150,56 @@ export function PortfolioSection({ dictionary }: Readonly<PortfolioSectionProps>
   const filteredProjects =
     activeCategory === "all" ? projects : projects.filter((project) => project.category === activeCategory)
 
+  const categories = [
+    { value: "all", label: dictionary.categories.all },
+    { value: "design", label: dictionary.categories.design },
+    { value: "web", label: dictionary.categories.web },
+    { value: "system", label: dictionary.categories.system },
+    { value: "data", label: dictionary.categories.data },
+    { value: "game", label: dictionary.categories.game },
+  ]
+
   return (
-    <section className="py-16">
+    <section className="py-16" aria-label={dictionary.title}>
       <div className="text-center mb-12">
         <h2 className="text-3xl font-bold mb-2 font-poppins">{dictionary.title}</h2>
         <p className="text-lg text-foreground/70">{dictionary.subtitle}</p>
       </div>
 
-      <Tabs defaultValue="all" className="mb-8" onValueChange={setActiveCategory}>
+      <div className="mb-8">
         <div className="flex justify-center">
-          <TabsList>
-            <TabsTrigger value="all">{dictionary.categories.all}</TabsTrigger>
-            <TabsTrigger value="design">{dictionary.categories.design}</TabsTrigger>
-            <TabsTrigger value="web">{dictionary.categories.web}</TabsTrigger>
-            <TabsTrigger value="system">{dictionary.categories.system}</TabsTrigger>
-            <TabsTrigger value="data">{dictionary.categories.data}</TabsTrigger>
-            <TabsTrigger value="game">{dictionary.categories.game}</TabsTrigger>
-          </TabsList>
+          <div 
+            role="tablist" 
+            aria-label={dictionary.title}
+            className="inline-flex h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground"
+          >
+            {categories.map((category) => (
+              <button
+                key={category.value}
+                role="tab"
+                aria-selected={activeCategory === category.value}
+                aria-controls={`tabpanel-${category.value}`}
+                tabIndex={activeCategory === category.value ? 0 : -1}
+                onClick={() => setActiveCategory(category.value)}
+                className={`inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ${
+                  activeCategory === category.value
+                    ? "bg-background text-foreground shadow-sm"
+                    : "hover:bg-background/50"
+                }`}
+              >
+                {category.label}
+              </button>
+            ))}
+          </div>
         </div>
-      </Tabs>
+      </div>
 
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div 
+        role="tabpanel"
+        id={`tabpanel-${activeCategory}`}
+        aria-labelledby={`tab-${activeCategory}`}
+        className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
+      >
         {filteredProjects.map((project, index) => (
           <motion.div
             key={project.id}
@@ -223,14 +251,14 @@ function ProjectCard({ project, viewProject, viewCode }: Readonly<ProjectCardPro
       <CardFooter className="p-6 pt-0 flex gap-2">
         {project.projectUrl && (
           <Button variant="default" size="sm" className="gap-2" asChild>
-            <a href={project.projectUrl} target="_blank" rel="noopener noreferrer">
+            <a href={project.projectUrl} target="_blank" rel="noopener noreferrer" aria-label={`${viewProject}: ${project.title}`}>
               <ExternalLink className="h-4 w-4" />
               {viewProject}
             </a>
           </Button>
         )}
         <Button variant="outline" size="sm" className="gap-2" asChild>
-          <a href={project.codeUrl} target="_blank" rel="noopener noreferrer">
+          <a href={project.codeUrl} target="_blank" rel="noopener noreferrer" aria-label={`${viewCode}: ${project.title}`}>
             <Github className="h-4 w-4" /> {/* NOSONAR */}
             {viewCode}
           </a>

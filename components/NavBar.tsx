@@ -68,7 +68,13 @@ export function Navbar({ lang, dictionary }: Readonly<NavbarProps>) {
             <LanguageSwitcher currentLang={lang} />
           </div>
 
-          <Button variant="ghost" size="icon" className="md:hidden" onClick={() => setIsOpen(!isOpen)}>
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="md:hidden" 
+            onClick={() => setIsOpen(!isOpen)}
+            aria-label={isOpen ? "Cerrar menú de navegación" : "Abrir menú de navegación"}
+          >
             <Menu className={`h-6 w-6 ${isOpen ? "hidden" : "block"}`} />
             <X className={`h-6 w-6 ${isOpen ? "block" : "hidden"}`} />
           </Button>

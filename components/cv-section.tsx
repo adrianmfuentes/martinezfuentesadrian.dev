@@ -62,11 +62,11 @@ export function CVSection({ dictionary, lang }: Readonly<CVSectionProps>) {
             <Briefcase className="h-4 w-4" />
             <span className="hidden sm:inline">{dictionary.tabs.experience}</span>
           </TabsTrigger>*/}
-          <TabsTrigger value="education" className="gap-2">
+          <TabsTrigger value="education" className="gap-2" aria-label={dictionary.tabs.education}>
             <GraduationCap className="h-4 w-4" />
             <span className="hidden sm:inline">{dictionary.tabs.education}</span>
           </TabsTrigger>
-          <TabsTrigger value="certifications" className="gap-2">
+          <TabsTrigger value="certifications" className="gap-2" aria-label={dictionary.tabs.certifications}>
             <Award className="h-4 w-4" />
             <span className="hidden sm:inline">{dictionary.tabs.certifications}</span>
           </TabsTrigger>

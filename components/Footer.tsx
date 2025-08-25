@@ -23,9 +23,9 @@ export function Footer({ lang, dictionary }: FooterProps) {
           </div>
 
           <div className="flex space-x-4 mb-4 md:mb-0">
-            <SocialLink href="https://github.com/adrianmfuentes" icon={<Github className="h-5 w-5" />} /> {/* NOSONAR */}
-            <SocialLink href="https://linkedin.com/in/adrianmfuentes" icon={<Linkedin className="h-5 w-5" />} /> {/* NOSONAR */}
-            <SocialLink href="mailto:amf13azul@gmail.com" icon={<Mail className="h-5 w-5" />} /> {/* NOSONAR */}
+            <SocialLink href="https://github.com/adrianmfuentes" icon={<Github className="h-5 w-5" />} label="GitHub" /> {/* NOSONAR */}
+            <SocialLink href="https://linkedin.com/in/adrianmfuentes" icon={<Linkedin className="h-5 w-5" />} label="LinkedIn" /> {/* NOSONAR */}
+            <SocialLink href="mailto:amf13azul@gmail.com" icon={<Mail className="h-5 w-5" />} label="Email" /> {/* NOSONAR */}
           </div>
         </div>
 
@@ -42,15 +42,17 @@ export function Footer({ lang, dictionary }: FooterProps) {
 interface SocialLinkProps {
   href: string
   icon: React.ReactNode
+  label: string
 }
 
-function SocialLink({ href, icon }: Readonly<SocialLinkProps>) {
+function SocialLink({ href, icon, label }: Readonly<SocialLinkProps>) {
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
       className="p-2 rounded-full bg-secondary hover:bg-primary hover:text-primary-foreground transition-colors"
+      aria-label={`Enlace a perfil de ${label}`}
     >
       {icon}
     </a>
