@@ -16,8 +16,8 @@ Disallow: /*.json$
 Allow: /en/
 Allow: /es/
 
-# Bloquear herramientas si no quieres que se indexen
-Disallow: /*/tools/
+# Permitir herramientas para indexación
+Allow: /*/tools/
 
 # Indicar sitemap
 Sitemap: https://martinezfuentesadrian.dev/sitemap.xml

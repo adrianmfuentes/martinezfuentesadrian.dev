@@ -227,6 +227,7 @@ export function PasswordChecker({ dictionary }: Readonly<PasswordCheckerProps>) 
                 size="sm"
                 className="absolute right-1 top-1 h-8 w-8 p-0 text-green-400 hover:text-green-300"
                 onClick={() => setShowPassword(!showPassword)}
+                aria-label={showPassword ? dictionary.hidePassword : dictionary.showPassword}
               >
                 {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
               </Button>

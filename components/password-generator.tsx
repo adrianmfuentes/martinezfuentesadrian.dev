@@ -105,118 +105,159 @@ export function PasswordGenerator({ dictionary }: Readonly<PasswordGeneratorProp
   const strength = calculateStrength()
 
   return (
-    <div className="w-full px-4 sm:px-6 lg:px-8">
-      <Card className="w-full max-w-md sm:max-w-lg lg:max-w-2xl mx-auto mt-24 sm:mt-28 md:mt-32 lg:mt-20 mb-8 sm:mb-12">
-        <CardHeader className="pb-4 sm:pb-6 px-4 sm:px-6">
-          <CardTitle className="flex items-center gap-2 text-lg sm:text-xl lg:text-2xl">
-            <Key className="h-5 w-5 sm:h-6 sm:w-6" />
-            {dictionary.title}
-          </CardTitle>
-          <p className="text-muted-foreground text-sm sm:text-base">{dictionary.description}</p>
-        </CardHeader>
-        <CardContent className="space-y-4 sm:space-y-6 px-4 sm:px-6">
-          <div className="space-y-3 sm:space-y-4">
-            <div>
-              <label className="text-sm font-medium">{dictionary.length}</label>
-              <Input
-                type="number"
-                min={MIN_LENGTH}
-                max={100}
-                value={length}
-                onChange={(e) => setLength(Math.max(MIN_LENGTH, parseInt(e.target.value) || MIN_LENGTH))}
-                className="mt-1"
-              />
-              <p className="text-xs text-muted-foreground mt-1">
-                {dictionary.minLength}: {MIN_LENGTH}
-              </p>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-              <label className="flex items-center space-x-2 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={includeGreek}
-                  onChange={(e) => setIncludeGreek(e.target.checked)}
-                  className="rounded"
-                />
-                <span className="text-sm">{dictionary.includeGreek}</span>
-              </label>
-              <label className="flex items-center space-x-2 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={includeSpecial}
-                  onChange={(e) => setIncludeSpecial(e.target.checked)}
-                  className="rounded"
-                />
-                <span className="text-sm">{dictionary.includeSpecial}</span>
-              </label>
-            </div>
-
-            <Button onClick={generatePassword} className="w-full" size="lg">
-              <Zap className="h-4 w-4 mr-2" />
-              {dictionary.generate}
-            </Button>
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-green-950 p-3 sm:p-6">
+      <div className="container mx-auto max-w-4xl pt-32 sm:pt-28 md:pt-20">
+        {/* Header */}
+        <div className="text-center mb-8 sm:mb-10">
+          <div className="flex items-center justify-center mb-4 sm:mb-6">
+            <Key className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 text-green-400 mr-2 sm:mr-4" />
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold bg-gradient-to-r from-green-400 via-green-300 to-green-500 bg-clip-text text-transparent font-mono leading-tight">
+              {dictionary.title}
+            </h1>
           </div>
+          <p className="text-gray-300 max-w-2xl mx-auto leading-relaxed text-sm sm:text-base px-4 sm:px-0">
+            {dictionary.description}
+          </p>
+        </div>
 
-          {password && (
-            <div className="space-y-3 sm:space-y-4 p-3 sm:p-4 bg-muted rounded-lg">
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">{dictionary.strength}</span>
-                {(() => {
-                  let badgeVariant: "default" | "secondary" | "destructive";
-                  if (strength.score >= 75) {
-                    badgeVariant = "default";
-                  } else if (strength.score >= 50) {
-                    badgeVariant = "secondary";
-                  } else {
-                    badgeVariant = "destructive";
-                  }
-                  return (
-                    <Badge variant={badgeVariant} className="text-xs">
-                      {strength.label}
-                    </Badge>
-                  );
-                })()}
-              </div>
-              <Progress value={strength.score} className="h-2" />
-              
-              <div className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <div className="relative flex-1">
-                    <Input
-                      type={showPassword ? "text" : "password"}
-                      value={password}
-                      readOnly
-                      className="pr-16 sm:pr-20 font-mono text-xs sm:text-sm"
-                    />
-                    <div className="absolute right-1 sm:right-2 top-1/2 -translate-y-1/2 flex gap-0.5 sm:gap-1">
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        onClick={() => setShowPassword(!showPassword)}
-                        className="h-8 w-8 p-1 sm:h-9 sm:w-9 sm:p-2"
-                      >
-                        {showPassword ? <EyeOff className="h-3 w-3 sm:h-4 sm:w-4" /> : <Eye className="h-3 w-3 sm:h-4 sm:w-4" />}
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant="ghost"
-                        onClick={copyToClipboard}
-                        className="h-8 w-8 p-1 sm:h-9 sm:w-9 sm:p-2"
-                      >
-                        {copied ? <Check className="h-3 w-3 sm:h-4 sm:w-4" /> : <Copy className="h-3 w-3 sm:h-4 sm:w-4" />}
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-                <p className="text-xs text-muted-foreground">
-                  {copied ? dictionary.copied : dictionary.copy}
+        <Card className="bg-black/70 border-green-500/30 mb-6 sm:mb-8 mx-2 sm:mx-0">
+          <CardHeader className="pb-4 sm:pb-6">
+            <CardTitle className="text-green-300 font-mono flex items-center text-lg sm:text-xl">
+              <Key className="h-5 w-5 sm:h-6 sm:w-6 mr-2 text-green-400" />
+              {dictionary.title}
+            </CardTitle>
+            <p className="text-gray-300 text-sm sm:text-base">{dictionary.description}</p>
+          </CardHeader>
+          <CardContent className="space-y-4 sm:space-y-6">
+            <div className="space-y-3 sm:space-y-4">
+              <div>
+                <label htmlFor="password-length" className="text-sm font-medium text-green-300">{dictionary.length}</label>
+                <Input
+                  id="password-length"
+                  type="number"
+                  min={MIN_LENGTH}
+                  max={100}
+                  value={length}
+                  onChange={(e) => setLength(Math.max(MIN_LENGTH, parseInt(e.target.value) || MIN_LENGTH))}
+                  className="mt-1 bg-gray-900/50 border-green-500/30 text-green-300 font-mono focus:border-green-400"
+                />
+                <p className="text-xs text-gray-400 mt-1">
+                  {dictionary.minLength}: {MIN_LENGTH}
                 </p>
               </div>
+
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+                <label htmlFor="include-greek" className="flex items-center space-x-2 cursor-pointer">
+                  <input
+                    id="include-greek"
+                    type="checkbox"
+                    checked={includeGreek}
+                    onChange={(e) => setIncludeGreek(e.target.checked)}
+                    className="rounded accent-green-500"
+                  />
+                  <span className="text-sm text-gray-300">{dictionary.includeGreek}</span>
+                </label>
+                <label htmlFor="include-special" className="flex items-center space-x-2 cursor-pointer">
+                  <input
+                    id="include-special"
+                    type="checkbox"
+                    checked={includeSpecial}
+                    onChange={(e) => setIncludeSpecial(e.target.checked)}
+                    className="rounded accent-green-500"
+                  />
+                  <span className="text-sm text-gray-300">{dictionary.includeSpecial}</span>
+                </label>
+              </div>
+
+              <Button onClick={generatePassword} className="w-full bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-black font-semibold" size="lg">
+                <Zap className="h-4 w-4 mr-2" />
+                {dictionary.generate}
+              </Button>
             </div>
-          )}
-        </CardContent>
-      </Card>
+
+            {password && (
+              <div className="space-y-3 sm:space-y-4 p-3 sm:p-4 bg-gray-900/30 border border-green-500/30 rounded-lg">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium text-green-300">{dictionary.strength}</span>
+                  {(() => {
+                    let badgeClass: string;
+                    if (strength.score >= 75) {
+                      badgeClass = "bg-green-500/20 text-green-400 border-green-500/30";
+                    } else if (strength.score >= 50) {
+                      badgeClass = "bg-yellow-500/20 text-yellow-400 border-yellow-500/30";
+                    } else {
+                      badgeClass = "bg-red-500/20 text-red-400 border-red-500/30";
+                    }
+                    return (
+                      <Badge className={badgeClass + " text-xs"}>
+                        {strength.label}
+                      </Badge>
+                    );
+                  })()}
+                </div>
+                <Progress value={strength.score} className="h-2" />
+                
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <div className="relative flex-1">
+                      <Input
+                        type={showPassword ? "text" : "password"}
+                        value={password}
+                        readOnly
+                        className="pr-16 sm:pr-20 font-mono text-xs sm:text-sm bg-gray-900/50 border-green-500/30 text-green-300"
+                      />
+                      <div className="absolute right-1 sm:right-2 top-1/2 -translate-y-1/2 flex gap-0.5 sm:gap-1">
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => setShowPassword(!showPassword)}
+                          className="h-8 w-8 p-1 sm:h-9 sm:w-9 sm:p-2 text-green-400 hover:text-green-300"
+                        >
+                          {showPassword ? <EyeOff className="h-3 w-3 sm:h-4 sm:w-4" /> : <Eye className="h-3 w-3 sm:h-4 sm:w-4" />}
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={copyToClipboard}
+                          className="h-8 w-8 p-1 sm:h-9 sm:w-9 sm:p-2 text-green-400 hover:text-green-300"
+                        >
+                          {copied ? <Check className="h-3 w-3 sm:h-4 sm:w-4" /> : <Copy className="h-3 w-3 sm:h-4 sm:w-4" />}
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                  <p className="text-xs text-gray-400">
+                    {copied ? dictionary.copied : dictionary.copy}
+                  </p>
+                </div>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Terminal-style footer */}
+        <div className="mt-6 mb-6 sm:mt-8 bg-black/70 border border-green-500/30 rounded-lg p-3 sm:p-4 md:p-6 font-mono mx-auto max-w-4xl">
+          <div className="flex items-center mb-2 sm:mb-3 md:mb-4">
+            <div className="flex space-x-1 mr-2 sm:mr-3 md:mr-4">
+              <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3 bg-red-500 rounded-full"></div>
+              <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3 bg-yellow-500 rounded-full"></div>
+              <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3 bg-green-500 rounded-full"></div>
+            </div>
+            <span className="text-green-400 text-xs sm:text-sm break-all font-medium">adrianmartinez@password-generator:~$</span>
+          </div>
+          <div className="text-green-300 text-xs sm:text-sm space-y-1 sm:space-y-1.5">
+            <p><span className="text-green-400">&gt;</span> <span className="text-green-300">./generate_secure_password --tips</span></p>
+            <p><span className="text-green-400">&gt;</span> Use 16+ characters for maximum security</p>
+            <p><span className="text-green-400">&gt;</span> Enable special characters and Greek letters for complexity</p>
+            <p className="hidden sm:block"><span className="text-green-400">&gt;</span> Never reuse passwords across different accounts</p>
+            <p><span className="text-green-400">&gt;</span> Store passwords in a trusted password manager</p>
+            <div className="flex items-center mt-2 sm:mt-3">
+              <span className="text-green-400 mr-2">&gt;</span>
+              <div className="w-1 h-3 sm:w-1.5 sm:h-3.5 md:w-2 md:h-4 bg-green-400 animate-pulse rounded-sm"></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

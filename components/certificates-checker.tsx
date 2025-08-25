@@ -175,13 +175,13 @@ export function CertificatesChecker({ dictionary }: Readonly<CertificatesChecker
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-blue-950 p-2 sm:p-4 lg:p-6">
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-green-950 p-2 sm:p-4 lg:p-6">
       <div className="container mx-auto max-w-sm sm:max-w-2xl lg:max-w-4xl mt-4 sm:mt-6 lg:mt-8 mb-4 sm:mb-6 lg:mb-8 pt-24 sm:pt-28 md:pt-20">
         {/* Header */}
         <div className="text-center mb-6 sm:mb-8 lg:mb-10 px-2 sm:px-0">
           <div className="flex items-center justify-center mb-3 sm:mb-4 lg:mb-6">
-            <Shield className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 text-blue-400 mr-2 sm:mr-3 lg:mr-4 flex-shrink-0" />
-            <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-blue-400 via-blue-300 to-blue-500 bg-clip-text text-transparent font-mono leading-tight">
+            <Shield className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 text-green-400 mr-2 sm:mr-3 lg:mr-4 flex-shrink-0" />
+            <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold bg-gradient-to-r from-green-400 via-green-300 to-green-500 bg-clip-text text-transparent font-mono leading-tight">
               {dictionary.title}
             </h1>
           </div>
@@ -191,10 +191,10 @@ export function CertificatesChecker({ dictionary }: Readonly<CertificatesChecker
         </div>
 
         {/* Input Section */}
-        <Card className="bg-black/70 border-blue-500/30 mb-4 sm:mb-6 lg:mb-8 mx-1 sm:mx-0">
+        <Card className="bg-black/70 border-green-500/30 mb-4 sm:mb-6 lg:mb-8 mx-1 sm:mx-0">
           <CardHeader className="pb-3 sm:pb-4 lg:pb-6 px-3 sm:px-6">
-            <CardTitle className="text-blue-300 font-mono flex items-center text-base sm:text-lg lg:text-xl">
-              <Globe className="w-4 h-4 sm:w-5 sm:h-5 mr-2 flex-shrink-0" />
+            <CardTitle className="text-green-300 font-mono flex items-center text-base sm:text-lg lg:text-xl">
+              <Globe className="w-4 h-4 sm:w-5 sm:h-5 mr-2 flex-shrink-0 text-green-400" />
               <span className="truncate">{dictionary.hostLabel}</span>
             </CardTitle>
           </CardHeader>
@@ -206,13 +206,13 @@ export function CertificatesChecker({ dictionary }: Readonly<CertificatesChecker
                 value={host}
                 onChange={(e) => setHost(e.target.value)}
                 disabled={isChecking}
-                className="bg-gray-900/50 border-blue-500/30 text-blue-300 font-mono focus:border-blue-400 text-sm sm:text-base h-10 sm:h-11"
+                className="bg-gray-900/50 border-green-500/30 text-green-300 font-mono focus:border-green-400 text-sm sm:text-base h-10 sm:h-11"
               />
             </div>
             
             <div>
-              <label className="text-blue-300 font-mono text-sm sm:text-base mb-2 block">
-                <Server className="w-3 h-3 sm:w-4 sm:h-4 inline mr-1 sm:mr-2" />
+              <label className="text-green-300 font-mono text-sm sm:text-base mb-2 block">
+                <Server className="w-3 h-3 sm:w-4 sm:h-4 inline mr-1 sm:mr-2 text-green-400" />
                 {dictionary.portLabel}
               </label>
               <Input
@@ -223,7 +223,7 @@ export function CertificatesChecker({ dictionary }: Readonly<CertificatesChecker
                 disabled={isChecking}
                 min="1"
                 max="65535"
-                className="bg-gray-900/50 border-blue-500/30 text-blue-300 font-mono focus:border-blue-400 text-sm sm:text-base h-10 sm:h-11"
+                className="bg-gray-900/50 border-green-500/30 text-green-300 font-mono focus:border-green-400 text-sm sm:text-base h-10 sm:h-11"
               />
               <p className="text-gray-400 text-xs sm:text-sm mt-1 sm:mt-2">
                 {dictionary.portHelp}
@@ -234,7 +234,7 @@ export function CertificatesChecker({ dictionary }: Readonly<CertificatesChecker
                     key={commonPort}
                     onClick={() => setPort(commonPort.toString())}
                     disabled={isChecking}
-                    className="px-2 py-1 text-xs bg-blue-500/20 text-blue-300 rounded border border-blue-500/30 hover:bg-blue-500/30 disabled:opacity-50 transition-colors"
+                    className="px-2 py-1 text-xs bg-green-500/20 text-green-300 rounded border border-green-500/30 hover:bg-green-500/30 disabled:opacity-50 transition-colors"
                   >
                     {commonPort}
                   </button>
@@ -253,7 +253,7 @@ export function CertificatesChecker({ dictionary }: Readonly<CertificatesChecker
               <Button
                 onClick={handleCheck}
                 disabled={isChecking || !host.trim() || !port.trim()}
-                className="flex-1 bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold text-sm sm:text-base py-2.5 sm:py-3 h-10 sm:h-11"
+                className="flex-1 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-black font-semibold text-sm sm:text-base py-2.5 sm:py-3 h-10 sm:h-11"
               >
                 {isChecking ? (
                   <>
@@ -272,7 +272,7 @@ export function CertificatesChecker({ dictionary }: Readonly<CertificatesChecker
                 <Button
                   onClick={handleReset}
                   variant="outline"
-                  className="border-blue-500/30 text-blue-400 hover:bg-blue-500/10 text-sm sm:text-base py-2.5 sm:py-3 h-10 sm:h-11 sm:w-auto w-full"
+                  className="border-green-500/30 text-green-400 hover:bg-green-500/10 text-sm sm:text-base py-2.5 sm:py-3 h-10 sm:h-11 sm:w-auto w-full"
                 >
                   {dictionary.resetButton}
                 </Button>
@@ -283,10 +283,10 @@ export function CertificatesChecker({ dictionary }: Readonly<CertificatesChecker
 
         {/* Results Section */}
         {result && (
-          <Card className="bg-black/70 border-blue-500/30 mb-4 sm:mb-6 lg:mb-8 mx-1 sm:mx-0">
+          <Card className="bg-black/70 border-green-500/30 mb-4 sm:mb-6 lg:mb-8 mx-1 sm:mx-0">
             <CardHeader className="pb-3 sm:pb-4 lg:pb-6 px-3 sm:px-6">
-              <CardTitle className="text-blue-300 font-mono flex items-center text-base sm:text-lg lg:text-xl">
-                <Shield className="w-4 h-4 sm:w-5 sm:h-5 mr-2 flex-shrink-0" />
+              <CardTitle className="text-green-300 font-mono flex items-center text-base sm:text-lg lg:text-xl">
+                <Shield className="w-4 h-4 sm:w-5 sm:h-5 mr-2 flex-shrink-0 text-green-400" />
                 <span className="truncate">{dictionary.results.title}</span>
               </CardTitle>
             </CardHeader>
@@ -295,11 +295,11 @@ export function CertificatesChecker({ dictionary }: Readonly<CertificatesChecker
               <div className="grid grid-cols-1 gap-2 sm:gap-3">
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-2 sm:p-3 bg-gray-900/50 rounded-lg border border-gray-700/50 gap-1 sm:gap-0">
                   <span className="text-gray-300 text-xs sm:text-sm">{dictionary.results.host}:</span>
-                  <span className="text-blue-400 font-mono text-sm sm:text-base break-all">{host}:{port}</span>
+                  <span className="text-green-400 font-mono text-sm sm:text-base break-all">{host}:{port}</span>
                 </div>
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-2 sm:p-3 bg-gray-900/50 rounded-lg border border-gray-700/50 gap-1 sm:gap-0">
                   <span className="text-gray-300 text-xs sm:text-sm">{dictionary.results.resolvedIp}:</span>
-                  <span className="text-blue-400 font-mono text-sm sm:text-base break-all">{result.hostIp}</span>
+                  <span className="text-green-400 font-mono text-sm sm:text-base break-all">{result.hostIp}</span>
                 </div>
               </div>
 
@@ -318,16 +318,16 @@ export function CertificatesChecker({ dictionary }: Readonly<CertificatesChecker
               <div className="space-y-2 sm:space-y-3">
                 <div className="p-2 sm:p-3 lg:p-4 bg-gray-900/50 rounded-lg border border-gray-700/50">
                   <div className="flex items-center mb-2">
-                    <FileText className="w-3 h-3 sm:w-4 sm:h-4 text-blue-400 mr-2 flex-shrink-0" />
-                    <span className="text-blue-300 font-semibold text-sm sm:text-base">{dictionary.results.subject}</span>
+                    <FileText className="w-3 h-3 sm:w-4 sm:h-4 text-green-400 mr-2 flex-shrink-0" />
+                    <span className="text-green-300 font-semibold text-sm sm:text-base">{dictionary.results.subject}</span>
                   </div>
                   <p className="text-gray-300 text-xs sm:text-sm break-all font-mono leading-relaxed">{result.subject}</p>
                 </div>
 
                 <div className="p-2 sm:p-3 lg:p-4 bg-gray-900/50 rounded-lg border border-gray-700/50">
                   <div className="flex items-center mb-2">
-                    <Building className="w-3 h-3 sm:w-4 sm:h-4 text-blue-400 mr-2 flex-shrink-0" />
-                    <span className="text-blue-300 font-semibold text-sm sm:text-base">{dictionary.results.issuer}</span>
+                    <Building className="w-3 h-3 sm:w-4 sm:h-4 text-green-400 mr-2 flex-shrink-0" />
+                    <span className="text-green-300 font-semibold text-sm sm:text-base">{dictionary.results.issuer}</span>
                   </div>
                   <p className="text-gray-300 text-xs sm:text-sm break-all font-mono leading-relaxed">{result.issuer}</p>
                 </div>
@@ -352,8 +352,8 @@ export function CertificatesChecker({ dictionary }: Readonly<CertificatesChecker
 
                 <div className="p-2 sm:p-3 lg:p-4 bg-gray-900/50 rounded-lg border border-gray-700/50">
                   <div className="flex items-center mb-2">
-                    <Shield className="w-3 h-3 sm:w-4 sm:h-4 text-blue-400 mr-2 flex-shrink-0" />
-                    <span className="text-blue-300 font-semibold text-sm sm:text-base">{dictionary.results.isCA}</span>
+                    <Shield className="w-3 h-3 sm:w-4 sm:h-4 text-green-400 mr-2 flex-shrink-0" />
+                    <span className="text-green-300 font-semibold text-sm sm:text-base">{dictionary.results.isCA}</span>
                   </div>
                   <p className="text-gray-300 text-xs sm:text-sm font-mono">{result.isCA ? 'Sí' : 'No'}</p>
                 </div>
@@ -371,17 +371,17 @@ export function CertificatesChecker({ dictionary }: Readonly<CertificatesChecker
                 {result.sans && result.sans.length > 0 && (
                   <div className="p-2 sm:p-3 lg:p-4 bg-gray-900/50 rounded-lg border border-gray-700/50">
                     <div className="flex items-center mb-2">
-                      <Link className="w-3 h-3 sm:w-4 sm:h-4 text-blue-400 mr-2 flex-shrink-0" />
-                      <span className="text-blue-300 font-semibold text-sm sm:text-base">{dictionary.results.sans}</span>
+                      <Link className="w-3 h-3 sm:w-4 sm:h-4 text-green-400 mr-2 flex-shrink-0" />
+                      <span className="text-green-300 font-semibold text-sm sm:text-base">{dictionary.results.sans}</span>
                     </div>
                     <div className="flex flex-wrap gap-1 mt-2">
                       {result.sans.slice(0, 10).map((san) => (
-                        <Badge key={san} variant="outline" className="text-xs break-all">
+                        <Badge key={san} variant="outline" className="text-xs break-all border-green-500/30 text-green-300">
                           {san}
                         </Badge>
                       ))}
                       {result.sans.length > 10 && (
-                        <Badge variant="outline" className="text-xs">
+                        <Badge variant="outline" className="text-xs border-green-500/30 text-green-300">
                           +{result.sans.length - 10} más
                         </Badge>
                       )}
@@ -394,22 +394,22 @@ export function CertificatesChecker({ dictionary }: Readonly<CertificatesChecker
         )}
 
         {/* Terminal-style footer */}
-        <div className="mt-4 sm:mt-6 lg:mt-8 bg-black/70 border border-blue-500/30 rounded-lg p-3 sm:p-4 lg:p-6 font-mono mx-1 sm:mx-0">
+        <div className="mt-4 sm:mt-6 lg:mt-8 bg-black/70 border border-green-500/30 rounded-lg p-3 sm:p-4 lg:p-6 font-mono mx-1 sm:mx-0">
           <div className="flex items-center mb-2 sm:mb-3 lg:mb-4">
             <div className="flex space-x-1 sm:space-x-2 mr-2 sm:mr-3 lg:mr-4 flex-shrink-0">
               <div className="w-2 h-2 sm:w-3 sm:h-3 bg-red-500 rounded-full"></div>
               <div className="w-2 h-2 sm:w-3 sm:h-3 bg-yellow-500 rounded-full"></div>
               <div className="w-2 h-2 sm:w-3 sm:h-3 bg-green-500 rounded-full"></div>
             </div>
-            <span className="text-blue-400 text-xs sm:text-sm break-all">adrianmartinez@ssl-checker:~$</span>
+            <span className="text-green-400 text-xs sm:text-sm break-all">adrianmartinez@ssl-checker:~$</span>
           </div>
-          <div className="text-blue-300 text-xs sm:text-sm space-y-1">
-            <p><span className="text-blue-400">&gt;</span> SSL/TLS certificate validation for security auditing</p>
-            <p className="break-words"><span className="text-blue-400">&gt;</span> Check certificate expiration, issuer, and security configuration</p>
-            <p className="break-words"><span className="text-blue-400">&gt;</span> Common SSL ports: 443 (HTTPS), 993 (IMAPS), 995 (POP3S), 465/587 (SMTPS)</p>
+          <div className="text-green-300 text-xs sm:text-sm space-y-1">
+            <p><span className="text-green-400">&gt;</span> SSL/TLS certificate validation for security auditing</p>
+            <p className="break-words"><span className="text-green-400">&gt;</span> Check certificate expiration, issuer, and security configuration</p>
+            <p className="break-words"><span className="text-green-400">&gt;</span> Common SSL ports: 443 (HTTPS), 993 (IMAPS), 995 (POP3S), 465/587 (SMTPS)</p>
             <div className="flex items-center mt-2">
-              <span className="text-blue-400 mr-2">&gt;</span>
-              <div className="w-1 h-3 sm:w-2 sm:h-4 bg-blue-400 animate-pulse"></div>
+              <span className="text-green-400 mr-2">&gt;</span>
+              <div className="w-1 h-3 sm:w-2 sm:h-4 bg-green-400 animate-pulse"></div>
             </div>
           </div>
         </div>
