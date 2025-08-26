@@ -46,17 +46,32 @@ function handleCors(request: NextRequest, response: NextResponse) {
   return response
 }
 
+// Add security headers
+function addSecurityHeaders(response: NextResponse) {
+  response.headers.set("X-Frame-Options", "DENY")
+  response.headers.set("X-Content-Type-Options", "nosniff")
+  response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin")
+  response.headers.set("X-XSS-Protection", "1; mode=block")
+  response.headers.set("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload")
+  response.headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=(), interest-cohort=()")
+  response.headers.set("Content-Security-Policy", "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.emailjs.com https://vercel.live https://va.vercel-scripts.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://api.emailjs.com https://vitals.vercel-insights.com https://vercel.live wss://ws-us3.pusher.com; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self';")
+  
+  return response
+}
+
 export function middleware(request: NextRequest) {
   // Handle preflight requests for CORS
   if (request.method === "OPTIONS") {
     const response = new NextResponse(null, { status: 200 })
-    return handleCors(request, response)
+    const corsResponse = handleCors(request, response)
+    return addSecurityHeaders(corsResponse)
   }
 
   // Handle API routes
   if (request.nextUrl.pathname.startsWith("/api")) {
     const response = NextResponse.next()
-    return handleCors(request, response)
+    const corsResponse = handleCors(request, response)
+    return addSecurityHeaders(corsResponse)
   }
 
   // Get pathname from request
@@ -65,14 +80,18 @@ export function middleware(request: NextRequest) {
   // Check if pathname has a locale
   const pathnameHasLocale = locales.some((locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`)
 
-  // If pathname already has locale, don't redirect
-  if (pathnameHasLocale) return NextResponse.next()
+  // If pathname already has locale, apply security headers and continue
+  if (pathnameHasLocale) {
+    const response = NextResponse.next()
+    return addSecurityHeaders(response)
+  }
 
   // Redirect if there is no locale in pathname
   const locale = getLocale(request)
   request.nextUrl.pathname = `/${locale}${pathname}`
 
-  return NextResponse.redirect(request.nextUrl)
+  const response = NextResponse.redirect(request.nextUrl)
+  return addSecurityHeaders(response)
 }
 
 export const config = {
