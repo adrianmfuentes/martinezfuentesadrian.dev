@@ -7,7 +7,11 @@ import { rateLimit } from "@/lib/rate-limit"
 // Contact form validation schema
 const contactFormSchema = z.object({
   name: z.string().min(2).max(100),
-  email: z.string().email(),
+  email: z.string().min(5).max(255).refine(
+    (val) =>
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val),
+    { message: "Invalid email address" }
+  ),
   message: z.string().min(10).max(5000),
   subject: z.string().optional(),
   priority: z.enum(["low", "medium", "high"]).optional(),
@@ -44,33 +48,90 @@ function containsSpamPatterns(message: string): boolean {
   return spamPatterns.some((pattern) => pattern.test(message))
 }
 
-export async function submitContactRequest(formData: any): Promise<ContactResult> {
-  try {
-    // Rate limiting check
-    try {
-      await limiter.check(10, formData.ip || formData.email || "anonymous_user") // 10 requests per interval
-    } catch {
+function checkRateLimit(formData: any): Promise<ContactResult | null> {
+  return limiter.check(10, formData.ip || formData.email || "anonymous_user")
+    .then(() => null)
+    .catch(() => {
+      console.log("❌ Rate limit excedido");
       return {
         success: false,
         error: "Too many requests. Please try again later.",
-      }
-    }
+      };
+    });
+}
+
+function validateEmailEnv(): { valid: boolean; error?: string; templateId?: string } {
+  if (!process.env.EMAILJS_SERVICE_ID) {
+    console.error("❌ EMAILJS_SERVICE_ID no está configurado");
+    return { valid: false, error: "Email service not properly configured - SERVICE_ID missing" };
+  }
+  if (!process.env.EMAILJS_PUBLIC_KEY) {
+    console.error("❌ EMAILJS_PUBLIC_KEY no está configurado");
+    return { valid: false, error: "Email service not properly configured - PUBLIC_KEY missing" };
+  }
+  const templateId = process.env.EMAILJS_CONTACT_TEMPLATE_ID ?? process.env.EMAILJS_TEMPLATE_ID;
+  if (!templateId) {
+    console.error("❌ EMAILJS_TEMPLATE_ID no está configurado");
+    return { valid: false, error: "Email service not properly configured - TEMPLATE_ID missing" };
+  }
+  return { valid: true, templateId };
+}
+
+function handleEmailJSError(res: Response, err: string): ContactResult {
+  console.error("❌ Error de EmailJS:", err);
+  if (res.status === 400) {
+    return { success: false, error: "Invalid email configuration. Please contact the administrator." };
+  }
+  if (res.status === 401) {
+    return { success: false, error: "Email service authentication failed. Please contact the administrator." };
+  }
+  if (res.status === 402) {
+    return { success: false, error: "Email service quota exceeded. Please try again later." };
+  }
+  if (res.status === 412) {
+    return { success: false, error: "Email service authentication error. Please reconnect your email account." };
+  }
+  if (res.status >= 500) {
+    return { success: false, error: "Email service temporarily unavailable. Please try again later." };
+  }
+  return { success: false, error: "Failed to send contact request. Please try again." };
+}
+
+export async function submitContactRequest(formData: any): Promise<ContactResult> {
+  try {
+    console.log("🚀 Iniciando envío de solicitud de contacto...");
+
+    // Rate limiting check
+    const rateLimitResult = await checkRateLimit(formData);
+    if (rateLimitResult) return rateLimitResult;
 
     // Validate form data
-    const validatedData = contactFormSchema.parse(formData)
+    console.log("🔍 Validando datos del formulario...");
+    const validatedData = contactFormSchema.parse(formData);
 
     // Sanitize inputs to prevent XSS
-    const sanitizedName = DOMPurify.sanitize(validatedData.name)
-    const sanitizedEmail = DOMPurify.sanitize(validatedData.email)
-    const sanitizedMessage = DOMPurify.sanitize(validatedData.message)
-    const sanitizedSubject = validatedData.subject ? DOMPurify.sanitize(validatedData.subject) : ""
-    const contactMethod = validatedData.contactMethod
-    const priority = validatedData.priority ?? "medium"
+    console.log("🧹 Sanitizando datos...");
+    const sanitizedName = DOMPurify.sanitize(validatedData.name);
+    const sanitizedEmail = DOMPurify.sanitize(validatedData.email);
+    const sanitizedMessage = DOMPurify.sanitize(validatedData.message);
+    const sanitizedSubject = validatedData.subject ? DOMPurify.sanitize(validatedData.subject) : "";
+    const contactMethod = validatedData.contactMethod;
+    const priority = validatedData.priority ?? "medium";
 
     // Check for spam patterns
+    console.log("🛡️ Verificando patrones de spam...");
     if (containsSpamPatterns(sanitizedMessage)) {
-      return { success: false, error: "Message detected as spam." }
+      console.log("⚠️ Mensaje detectado como spam");
+      return { success: false, error: "Message detected as spam." };
     }
+
+    // Verificar variables de entorno
+    console.log("🔧 Verificando configuración de EmailJS...");
+    const envCheck = validateEmailEnv();
+    if (!envCheck.valid) return { success: false, error: envCheck.error! };
+    const templateId = envCheck.templateId!;
+
+    console.log("✅ Configuración de EmailJS verificada");
 
     // Determine template parameters for the message
     const templateParams: {
@@ -85,13 +146,18 @@ export async function submitContactRequest(formData: any): Promise<ContactResult
       from_email: sanitizedEmail,
       message: sanitizedMessage,
       contact_method: contactMethod,
-      priority: priority
-    }
-    
+      priority: priority,
+    };
+
     // Add subject if provided
     if (sanitizedSubject) {
-      templateParams.subject = sanitizedSubject
+      templateParams.subject = sanitizedSubject;
     }
+
+    console.log("📧 Enviando email via EmailJS...");
+    console.log("Service ID:", process.env.EMAILJS_SERVICE_ID);
+    console.log("Template ID:", templateId);
+    console.log("Template params:", { ...templateParams, message: "[CONTENIDO_CENSURADO]" });
 
     // Send email via EmailJS
     const res = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
@@ -102,24 +168,36 @@ export async function submitContactRequest(formData: any): Promise<ContactResult
       },
       body: JSON.stringify({
         service_id: process.env.EMAILJS_SERVICE_ID,
-        template_id: process.env.EMAILJS_CONTACT_TEMPLATE_ID ?? process.env.EMAILJS_TEMPLATE_ID,
+        template_id: templateId,
         user_id: process.env.EMAILJS_PUBLIC_KEY,
         template_params: templateParams,
       }),
-    })
+    });
+
+    console.log("📨 Respuesta de EmailJS:", res.status, res.statusText);
 
     if (!res.ok) {
-      const err = await res.text()
-      console.error("EmailJS error:", err)
-      return { success: false, error: "Failed to send contact request" }
+      const err = await res.text();
+      return handleEmailJSError(res, err);
     }
 
-    return { success: true }
+    console.log("✅ Email enviado exitosamente");
+    return { success: true };
   } catch (error) {
-    console.error("Error processing contact request:", error)
+    console.error("💥 Error general procesando solicitud de contacto:", error);
+
+    // Manejar errores específicos de validación
+    if (error instanceof z.ZodError) {
+      console.error("❌ Error de validación:", error.issues);
+      return {
+        success: false,
+        error: "Invalid form data. Please check your inputs and try again.",
+      };
+    }
+
     return {
       success: false,
-      error: error instanceof Error ? error.message : "Failed to process contact request",
-    }
+      error: error instanceof Error ? error.message : "Failed to process contact request. Please try again later.",
+    };
   }
 }
