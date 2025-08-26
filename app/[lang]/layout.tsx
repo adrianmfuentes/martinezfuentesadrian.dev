@@ -8,8 +8,6 @@ import { locales } from "@/middleware"
 import { getDictionary } from "./dictionaries"
 import { AIChatWidget } from "@/components/ai-chat-widget"
 import { Toaster } from "@/components/ui/toaster"
-import { SpeedInsights } from "@vercel/speed-insights/next"
-import { Analytics } from "@vercel/analytics/next"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 const poppins = Poppins({
@@ -86,8 +84,6 @@ export default async function RootLayout({
               }}
             />
             <Toaster />
-            <SpeedInsights />
-            <Analytics />
           </div>
         </ThemeProvider>
       </body>
