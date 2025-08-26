@@ -99,7 +99,9 @@ const expectedHeaders: Record<string, HeaderConfig> = {
   },
   "X-Content-Type-Options": {
     key: "X-Content-Type-Options",
-    secure: (value: string) => value.toLowerCase() === "nosniff" // Protección contra MIME sniffing
+    secure: (value: string) => { // Protección contra MIME sniffing
+      return value.toLowerCase() === "nosniff" || value.toLowerCase() === "nosniff, nosniff" 
+    },
   },
   "Referrer-Policy": {
     key: "Referrer-Policy",
