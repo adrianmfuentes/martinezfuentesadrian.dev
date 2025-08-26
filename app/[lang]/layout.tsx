@@ -7,6 +7,7 @@ import { Footer } from "@/components/footer"
 import { locales } from "@/middleware"
 import { getDictionary } from "./dictionaries"
 import { AIChatWidget } from "@/components/ai-chat-widget"
+import { Toaster } from "@/components/ui/toaster"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 const poppins = Poppins({
@@ -82,6 +83,7 @@ export default async function RootLayout({
                 chatSend: lang === "en" ? "Send" : "Enviar",
               }}
             />
+            <Toaster />
           </div>
         </ThemeProvider>
       </body>
