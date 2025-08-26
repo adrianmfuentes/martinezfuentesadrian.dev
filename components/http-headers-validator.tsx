@@ -84,11 +84,18 @@ const expectedHeaders: Record<string, HeaderConfig> = {
   },
   HSTS: {
     key: "Strict-Transport-Security",
-    secure: (value: string) => value.includes("max-age=31536000") // Política para 1 año
+    secure: (value: string) => {
+      // Verificar que tenga max-age y sea al menos 1 año (31536000 segundos)
+      const maxAgeRegex = /max-age=(\d+)/
+      const maxAgeMatch = maxAgeRegex.exec(value)
+      if (!maxAgeMatch) return false
+      const maxAge = parseInt(maxAgeMatch[1])
+      return maxAge >= 31536000 // 1 año mínimo
+    }
   },
   "X-Frame-Options": {
     key: "X-Frame-Options",
-    secure: (value: string) => ["DENY", "SAMEORIGIN"].includes(value) // Valores seguros
+    secure: (value: string) => ["DENY", "SAMEORIGIN"].includes(value.toUpperCase()) // Valores seguros
   },
   "X-Content-Type-Options": {
     key: "X-Content-Type-Options",
@@ -96,7 +103,10 @@ const expectedHeaders: Record<string, HeaderConfig> = {
   },
   "Referrer-Policy": {
     key: "Referrer-Policy",
-    secure: (value: string) => ["no-referrer", "strict-origin"].includes(value.toLowerCase()) // Valores seguros
+    secure: (value: string) => {
+      const secureValues = ["no-referrer", "strict-origin", "strict-origin-when-cross-origin"]
+      return secureValues.includes(value.toLowerCase())
+    }
   },
   "Permissions-Policy": {
     key: "Permissions-Policy" // Controla qué características se pueden usar en el navegador
@@ -151,28 +161,21 @@ function validateHeader(name: string, info: HeaderConfig, headers: Record<string
 async function analyzeHeaders(url: string): Promise<Record<string, string>> {
   try {
     const response = await fetch(`/api/validate-headers?url=${encodeURIComponent(url)}`)
-    if (!response.ok) throw new Error('Network error')    
-
+    
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`)
+    }
+    
     const data = await response.json()
+    
+    if (!data.success) {
+      throw new Error(data.error || 'Failed to validate headers')
+    }
+    
     return data.headers || {}
-  } catch {
-    // Si falla, intentamos usar un proxy público
-    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`
-    const response = await fetch(proxyUrl)    
-    if (!response.ok) throw new Error('Network error')
-    
-    const data = await response.json()
-    const headers: Record<string, string> = {}
-    
-    // Parseamos las cabeceras del contenido HTML
-    const parser = new DOMParser()
-    const doc = parser.parseFromString(data.contents, 'text/html')
-    
-    doc.querySelectorAll('meta').forEach(meta => {
-      if (meta.hasAttribute('http-equiv')) headers[meta.getAttribute('http-equiv')!] = meta.getAttribute('content') || ''
-    })
-    
-    return headers    
+  } catch (error) {
+    console.error('Error analyzing headers:', error)
+    throw new Error('No se pudieron obtener las cabeceras del sitio web')
   }
 }
 
@@ -210,6 +213,8 @@ export default function HttpHeadersValidator({ dictionary }: Readonly<HeadersVal
     try {
       const headers = await analyzeHeaders(url)
       
+      console.log('Headers received:', headers) // Para debugging
+      
       const validationResults = Object.entries(expectedHeaders).map(([name, info]) => 
         validateHeader(name, info, headers)
       )
@@ -227,7 +232,7 @@ export default function HttpHeadersValidator({ dictionary }: Readonly<HeadersVal
       })
     } catch (err) {
       console.error('Validation error:', err)
-      setError(dictionary.errors.networkError)
+      setError(err instanceof Error ? err.message : dictionary.errors.networkError)
     } finally {
       setIsValidating(false)
     }

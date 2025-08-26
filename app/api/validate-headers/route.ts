@@ -30,33 +30,38 @@ export async function GET(request: NextRequest) {
     
     // Lista de cabeceras que nos interesan
     const relevantHeaders = [
-      'Access-Control-Allow-Origin',
-      'Content-Security-Policy',
-      'Content-Security-Policy-Report-Only',
-      'Strict-Transport-Security',
-      'X-Frame-Options',
-      'X-Content-Type-Options',
-      'Referrer-Policy',
-      'Permissions-Policy'
+      'access-control-allow-origin',
+      'content-security-policy',
+      'content-security-policy-report-only',
+      'strict-transport-security',
+      'x-frame-options',
+      'x-content-type-options',
+      'referrer-policy',
+      'permissions-policy'
     ]
 
     relevantHeaders.forEach(headerName => {
       const value = response.headers.get(headerName)
       if (value) {
-        headers[headerName] = value
+        // Normalizar el nombre de la cabecera para que coincida con expectedHeaders
+        const normalizedName = headerName.split('-').map(word => 
+          word.charAt(0).toUpperCase() + word.slice(1)
+        ).join('-')
+        headers[normalizedName] = value
       }
     })
 
     return NextResponse.json({ 
-      url,
-      status: response.status,
-      headers 
+      success: true, 
+      headers,
+      status: response.status 
     })
+
   } catch (error) {
-    console.error('Error fetching headers:', error)
+    console.error('Error validating headers:', error)
     return NextResponse.json({ 
       error: 'Failed to fetch headers',
-      message: error instanceof Error ? error.message : 'Unknown error'
+      details: error instanceof Error ? error.message : 'Unknown error'
     }, { status: 500 })
   }
 }
