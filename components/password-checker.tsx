@@ -13,7 +13,9 @@ import {
   AlertTriangle, 
   Lock,
   Zap,
-  Key
+  Key,
+  Globe,
+  Loader2
 } from "lucide-react"
 
 interface PasswordAnalysis {
@@ -26,6 +28,11 @@ interface PasswordAnalysis {
   entropy: number
   strength: "very-weak" | "weak" | "moderate" | "strong" | "very-strong"
   remarks: string
+  pwned: {
+    count: number | null
+    loading: boolean
+    error: boolean
+  }
 }
 
 interface PasswordCheckerProps {
@@ -48,6 +55,13 @@ interface PasswordCheckerProps {
       entropy: string
       strength: string
       remarks: string
+      pwned: string
+      pwnedStatus: {
+        checking: string
+        notFound: string
+        found: string
+        error: string
+      }
     }
     strengthLevels: {
       veryWeak: string
@@ -90,6 +104,33 @@ function calculateEntropy(password: string): number {
   return charsetSize > 0 ? password.length * Math.log2(charsetSize) : 0
 }
 
+async function checkPasswordPwned(password: string): Promise<number | null> {
+  try {
+    const response = await fetch('/api/check-password', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ password }),
+    })
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`)
+    }
+
+    const data = await response.json()
+    
+    if (data.error) {
+      throw new Error(data.error)
+    }
+
+    return data.count
+  } catch (error) {
+    console.error('Error checking pwned password:', error)
+    return null
+  }
+}
+
 function analyzePassword(password: string): PasswordAnalysis {
   const lowercase = (password.match(/[a-z]/g) || []).length
   const uppercase = (password.match(/[A-Z]/g) || []).length
@@ -128,7 +169,12 @@ function analyzePassword(password: string): PasswordAnalysis {
     whitespace,
     entropy,
     strength,
-    remarks
+    remarks,
+    pwned: {
+      count: null,
+      loading: false,
+      error: false
+    }
   }
 }
 
@@ -147,12 +193,62 @@ export function PasswordChecker({ dictionary }: Readonly<PasswordCheckerProps>) 
   const [analysis, setAnalysis] = useState<PasswordAnalysis | null>(null)
   const [showAnalysis, setShowAnalysis] = useState(false)
 
-  const handleAnalyze = () => {
+  const handleAnalyze = async () => {
     if (password.length === 0) return
     
     const result = analyzePassword(password)
     setAnalysis(result)
     setShowAnalysis(true)
+    
+    // Verificar si la contraseña está filtrada
+    setAnalysis(prev => prev ? { ...prev, pwned: { ...prev.pwned, loading: true } } : null)
+    
+    const pwnedCount = await checkPasswordPwned(password)
+    
+    setAnalysis(prev => {
+      if (!prev) return null
+      return {
+        ...prev,
+        pwned: {
+          count: pwnedCount,
+          loading: false,
+          error: pwnedCount === null
+        }
+      }
+    })
+  }
+
+  const renderPwnedStatus = (pwned: PasswordAnalysis["pwned"]) => {
+    if (pwned.loading) {
+      return (
+        <div className="flex items-center text-yellow-400">
+          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+          <span className="text-sm">{dictionary.analysis.pwnedStatus.checking}</span>
+        </div>
+      )
+    }
+
+    if (pwned.error) {
+      return (
+        <Badge className="bg-gray-500/20 text-gray-400 border-gray-500/30 text-xs sm:text-sm">
+          {dictionary.analysis.pwnedStatus.error}
+        </Badge>
+      )
+    }
+
+    if (pwned.count === 0) {
+      return (
+        <Badge className="bg-green-500/20 text-green-400 border-green-500/30 text-xs sm:text-sm">
+          {dictionary.analysis.pwnedStatus.notFound}
+        </Badge>
+      )
+    }
+
+    return (
+      <Badge className="bg-red-500/20 text-red-400 border-red-500/30 text-xs sm:text-sm">
+        {dictionary.analysis.pwnedStatus.found.replace('{count}', pwned.count?.toLocaleString() || '0')}
+      </Badge>
+    )
   }
 
   const getStrengthColor = (strength: PasswordAnalysis["strength"]) => {
@@ -318,6 +414,25 @@ export function PasswordChecker({ dictionary }: Readonly<PasswordCheckerProps>) 
                   <span className="text-gray-300 font-semibold text-sm sm:text-base">{dictionary.analysis.entropy}:</span>
                   <span className="text-green-400 font-mono text-base sm:text-lg">{analysis.entropy.toFixed(2)} bits</span>
                 </div>
+              </div>
+
+              {/* Pwned Password Check */}
+              <div className="p-3 sm:p-4 bg-gradient-to-r from-purple-900/30 to-red-900/30 border border-purple-500/30 rounded-lg">
+                <div className="flex justify-between items-center flex-wrap gap-2">
+                  <div className="flex items-center">
+                    <Globe className="w-4 h-4 mr-2 text-purple-400" />
+                    <span className="text-gray-300 font-semibold text-sm sm:text-base">{dictionary.analysis.pwned}:</span>
+                  </div>
+                  <div className="flex items-center">
+                    {renderPwnedStatus(analysis.pwned)}
+                  </div>
+                </div>
+                {analysis.pwned.count && analysis.pwned.count > 0 && (
+                  <div className="mt-2 text-xs sm:text-sm text-red-400 flex items-center">
+                    <AlertTriangle className="w-4 h-4 mr-2 flex-shrink-0" />
+                    <span>Esta contraseña ha sido comprometida en filtraciones de datos. ¡Cámbiala inmediatamente!</span>
+                  </div>
+                )}
               </div>
 
               {/* Reset Button */}

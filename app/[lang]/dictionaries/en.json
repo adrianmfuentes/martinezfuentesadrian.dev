@@ -294,5 +294,49 @@
       "invalidUrl": "Please enter a valid URL",
       "networkError": "Error connecting to server. Please try again."
     }
+  },
+  "passwordChecker": {
+    "title": "Password Checker",
+    "description": "Analyze the strength and security of your passwords using entropy algorithms and verification against compromised password databases.",
+    "passwordLabel": "Password to analyze",
+    "passwordPlaceholder": "Enter your password here...",
+    "analyzeButton": "Analyze Password",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
+    "analysis": {
+      "title": "Security Analysis",
+      "length": "Length",
+      "lowercase": "Lowercase",
+      "uppercase": "Uppercase",
+      "digits": "Digits",
+      "special": "Special",
+      "whitespace": "Whitespace",
+      "entropy": "Entropy",
+      "strength": "Strength",
+      "remarks": "Remarks",
+      "pwned": "Breach Status",
+      "pwnedStatus": {
+        "checking": "Checking...",
+        "notFound": "✅ Not breached",
+        "found": "⚠️ Breached {count} times",
+        "error": "Verification error"
+      }
+    },
+    "strengthLevels": {
+      "veryWeak": "Very Weak",
+      "weak": "Weak",
+      "moderate": "Moderate",
+      "strong": "Strong",
+      "veryStrong": "Very Strong"
+    },
+    "strengthRemarks": {
+      "veryWeak": "⚠️ Very Weak: Easily guessable! Change it immediately.",
+      "weak": "⚠️ Weak: Can be cracked quickly. Use a stronger password.",
+      "moderate": "✅ Moderate: Decent password, but can still be improved.",
+      "strong": "✅ Strong: Hard to guess, but consider making it longer.",
+      "veryStrong": "✅ Very Strong: Excellent password! Highly secure."
+    },
+    "minLengthWarning": "A minimum of {min} characters is recommended for better security",
+    "resetButton": "Reset Analysis"
   }
 }

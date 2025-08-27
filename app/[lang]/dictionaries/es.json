@@ -293,5 +293,49 @@
       "invalidUrl": "Por favor, introduce una URL válida",
       "networkError": "Error al conectar con el servidor. Inténtalo de nuevo."
     }
+  },
+  "passwordChecker": {
+    "title": "Comprobador de Contraseñas",
+    "description": "Analiza la fortaleza y seguridad de tus contraseñas utilizando algoritmos de entropía y verificación contra bases de datos de contraseñas comprometidas.",
+    "passwordLabel": "Contraseña a analizar",
+    "passwordPlaceholder": "Introduce tu contraseña aquí...",
+    "analyzeButton": "Analizar Contraseña",
+    "showPassword": "Mostrar contraseña",
+    "hidePassword": "Ocultar contraseña",
+    "analysis": {
+      "title": "Análisis de Seguridad",
+      "length": "Longitud",
+      "lowercase": "Minúsculas",
+      "uppercase": "Mayúsculas",
+      "digits": "Dígitos",
+      "special": "Especiales",
+      "whitespace": "Espacios",
+      "entropy": "Entropía",
+      "strength": "Fortaleza",
+      "remarks": "Comentarios",
+      "pwned": "Estado de Filtración",
+      "pwnedStatus": {
+        "checking": "Verificando...",
+        "notFound": "✅ No filtrada",
+        "found": "⚠️ Filtrada {count} veces",
+        "error": "Error en verificación"
+      }
+    },
+    "strengthLevels": {
+      "veryWeak": "Muy Débil",
+      "weak": "Débil",
+      "moderate": "Moderada",
+      "strong": "Fuerte",
+      "veryStrong": "Muy Fuerte"
+    },
+    "strengthRemarks": {
+      "veryWeak": "⚠️ Muy Débil: ¡Fácilmente predecible! Cámbiala inmediatamente.",
+      "weak": "⚠️ Débil: Puede ser descifrada rápidamente. Usa una contraseña más fuerte.",
+      "moderate": "✅ Moderada: Contraseña decente, pero aún se puede mejorar.",
+      "strong": "✅ Fuerte: Difícil de adivinar, pero considera hacerla más larga.",
+      "veryStrong": "✅ Muy Fuerte: ¡Excelente contraseña! Altamente segura."
+    },
+    "minLengthWarning": "Se recomienda un mínimo de {min} caracteres para mayor seguridad",
+    "resetButton": "Reiniciar Análisis"
   }
 }
