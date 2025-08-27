@@ -20,7 +20,14 @@ const spanishDict = {
     whitespace: "Espacios en blanco",
     entropy: "Entropía",
     strength: "Fortaleza",
-    remarks: "Observaciones"
+    remarks: "Observaciones",
+    pwned: "Estado de Filtración",
+    pwnedStatus: {
+      checking: "Verificando...",
+      notFound: "✅ No filtrada",
+      found: "⚠️ Filtrada {count} veces",
+      error: "Error en verificación"
+    }
   },
   strengthLevels: {
     veryWeak: "Muy Débil",
@@ -58,7 +65,14 @@ const englishDict = {
     whitespace: "Whitespace characters",
     entropy: "Entropy Score",
     strength: "Strength",
-    remarks: "Remarks"
+    remarks: "Remarks",
+    pwned: "Breach Status",
+    pwnedStatus: {
+      checking: "Checking...",
+      notFound: "✅ Not breached",
+      found: "⚠️ Breached {count} times",
+      error: "Verification error"
+    }
   },
   strengthLevels: {
     veryWeak: "Very Weak",
