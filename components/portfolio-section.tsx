@@ -207,7 +207,12 @@ export function PortfolioSection({ dictionary }: Readonly<PortfolioSectionProps>
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
           >
-            <ProjectCard project={project} viewProject={dictionary.viewProject} viewCode={dictionary.viewCode} />
+            <ProjectCard 
+                project={project}
+                viewProject={dictionary.viewProject}
+                viewCode={dictionary.viewCode}
+                index={index}
+            />
           </motion.div>
         ))}
       </div>
@@ -219,9 +224,12 @@ interface ProjectCardProps {
   project: Project
   viewProject: string
   viewCode: string
+  index?: number
 }
 
-function ProjectCard({ project, viewProject, viewCode }: Readonly<ProjectCardProps>) {
+function ProjectCard({ project, viewProject, viewCode, index }: Readonly<ProjectCardProps>) {
+  const eager = typeof index === "number" && index < 3 // Eager load images for the first three projects
+  
   return (
     <Card className="overflow-hidden h-full flex flex-col">
       <div className="relative h-48">
@@ -229,6 +237,9 @@ function ProjectCard({ project, viewProject, viewCode }: Readonly<ProjectCardPro
           src={project.image || "/placeholder.svg"}
           alt={project.title}
           fill
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          priority={eager}
+          loading={eager ? "eager" : "lazy"}
           className="object-cover"
           onError={(e) => {
             // Fallback to placeholder if image fails to load
