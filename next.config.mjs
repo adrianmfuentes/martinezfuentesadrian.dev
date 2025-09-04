@@ -1,3 +1,5 @@
+import path from 'path'
+
 let userConfig
 try {
   // try to import ESM first
@@ -89,7 +91,18 @@ const nextConfig = {
         ]
       }
     ]
-  }
+  },
+  webpack(config) {
+    config.resolve = config.resolve || {}
+    config.resolve.alias = {
+      ...(config.resolve.alias || {}),
+      "@components": path.resolve(process.cwd(), "components"),
+      "@components/*": path.resolve(process.cwd(), "components"),
+      "@": path.resolve(process.cwd()),
+      "@/components": path.resolve(process.cwd(), "components"),
+    }
+    return config
+  },
 }
 
 if (userConfig) {
