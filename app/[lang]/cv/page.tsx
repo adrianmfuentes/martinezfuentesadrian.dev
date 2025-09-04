@@ -1,4 +1,4 @@
-import { CVSection } from "@/components/cv-section"
+import { CVSection } from "@components/cv-section"
 import { getDictionary } from "../dictionaries"
 
 export default async function CVPage({

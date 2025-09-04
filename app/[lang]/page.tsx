@@ -1,4 +1,4 @@
-import { HeroSection } from "@/components/hero-section"
+import { HeroSection } from "@components/hero-section"
 import { getDictionary } from "./dictionaries"
 
 export default async function Home({

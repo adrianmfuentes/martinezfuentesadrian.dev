@@ -4,7 +4,7 @@ import type React from "react"
 
 import { useRef } from "react"
 import { motion, useInView } from "framer-motion"
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent } from "@components/ui/card"
 import {
   Code,
   Database,
