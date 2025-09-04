@@ -1,16 +1,32 @@
+const fs = require('fs')
 const path = require('path')
 
 let userConfig
-try {
-  // try to import ESM first
-  userConfig = await import('./v0-user-next.config.mjs')
-} catch (e) { // NOSONAR
-  try {
-    // fallback to CJS import
-    userConfig = await import("./v0-user-next.config");
-  } catch (innerError) {  // NOSONAR
-    // no user config found, proceed without it
-    console.warn("No user next.config file found, proceeding with default configuration.");
+const root = process.cwd()
+
+// Preferir CJS user config files
+const candidates = [
+  path.join(root, 'v0-user-next.config.cjs'),
+  path.join(root, 'v0-user-next.config.js'),
+]
+
+for (const p of candidates) {
+  if (fs.existsSync(p)) {
+    try {
+      userConfig = require(p)
+      break
+    } catch (e) {
+      console.warn('Error cargando v0-user-next.config desde', p, e)
+    }
+  }
+}
+
+if (!userConfig) {
+  const mjsPath = path.join(root, 'v0-user-next.config.mjs')
+  if (fs.existsSync(mjsPath)) {
+    console.warn('Se encontró v0-user-next.config.mjs (ESM). Para cargarlo automáticamente convierte next.config.js a ESM (renombra a next.config.mjs o añade "type":"module" en package.json).')
+  } else {
+    console.warn('No user next.config file found, proceeding with default configuration.')
   }
 }
 
