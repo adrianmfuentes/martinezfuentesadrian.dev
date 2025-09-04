@@ -1,9 +1,9 @@
 "use client"
 
 import { usePathname, useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
+import { Button } from "@components/ui/button"
 import { Globe } from "lucide-react"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@components/ui/dropdown-menu"
 
 interface LanguageSwitcherProps {
   readonly currentLang: string

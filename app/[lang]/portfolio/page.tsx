@@ -1,4 +1,4 @@
-import { PortfolioSection } from "@/components/portfolio-section"
+import { PortfolioSection } from "@components/portfolio-section"
 import { getDictionary } from "../dictionaries"
 
 export default async function PortfolioPage({

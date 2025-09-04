@@ -1,4 +1,4 @@
-import HttpHeadersValidator from "@/components/http-headers-validator"
+import HttpHeadersValidator from "@components/http-headers-validator"
 import { getDictionary } from "../../dictionaries"
 
 export default async function HeadersValidatorPage({

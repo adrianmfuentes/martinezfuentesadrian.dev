@@ -1,5 +1,5 @@
-import { AboutSection } from "@/components/about-section"
-import { SkillsSection } from "@/components/skills-section"
+import { AboutSection } from "@components/about-section"
+import { SkillsSection } from "@components/skills-section"
 import { getDictionary } from "../dictionaries"
 
 export default async function AboutPage({

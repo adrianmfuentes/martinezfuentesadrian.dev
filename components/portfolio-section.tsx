@@ -3,8 +3,8 @@
 import { useState } from "react"
 import Image from "next/image"
 import { motion } from "framer-motion"
-import { Card, CardContent, CardFooter } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardFooter } from "@components/ui/card"
+import { Button } from "@components/ui/button"
 import { ExternalLink, Github } from "lucide-react" /* NOSONAR */
 
 interface PortfolioSectionProps {

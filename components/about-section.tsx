@@ -1,7 +1,7 @@
 "use client"
 
 import { useRef } from "react"
-import { Card, CardContent } from "@/components/ui/card"
+import { Card, CardContent } from "@components/ui/card"
 import { motion, useInView } from "framer-motion"
 import Image from 'next/image';
 import backgroundImage from '../public/images/me.jpg';
