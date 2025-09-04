@@ -1,4 +1,4 @@
-import path from 'path'
+const path = require('path')
 
 let userConfig
 try {
@@ -124,4 +124,4 @@ if (userConfig) {
   }
 }
 
-export default nextConfig
+module.exports = nextConfig
