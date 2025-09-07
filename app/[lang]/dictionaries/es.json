@@ -246,6 +246,13 @@
         "description": "Herramienta para comprobar la validez y seguridad de los certificados SSL/TLS",
         "category": "security",
         "status": "available"
+      },
+      {
+        "id": "web-discovery",
+        "name": "Web Discovery",
+        "description": "Herramienta para descubrir rutas y directorios ocultos en un servidor web",
+        "category": "analysis",
+        "status": "available"
       }
     ]
   },

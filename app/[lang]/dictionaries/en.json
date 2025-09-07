@@ -246,6 +246,13 @@
         "description": "Tool for checking the validity and security of SSL/TLS certificates",
         "category": "security",
         "status": "available"
+      },
+      {
+        "id": "web-discovery",
+        "name": "Web Discovery",
+        "description": "Tool for discovering hidden paths and directories on a web server",
+        "category": "analysis",
+        "status": "available"
       }
     ]
   },
