@@ -23,25 +23,21 @@
   "about": {
     "title": "Sobre Mí",
     "subtitle": "Conóceme mejor",
+    "birthDate": "2000-12-27",
     "bio": [
-      "Soy un estudiante de Ingeniería de Software de 20 años, residente en Oviedo, España, apasionado por el aprendizaje continuo y el desarrollo profesional. Mi enfoque principal es crear soluciones de software innovadoras y de alta calidad.",
-      "Aunque aún no cuento con experiencia laboral formal, he adquirido una sólida experiencia en el desarrollo de proyectos tanto individuales como en equipo, abarcando diversas áreas como desarrollo web, sistemas y más.",
-      "Me considero una persona proactiva, con habilidades destacadas en la resolución de problemas y un fuerte compromiso con el aprendizaje. Disfruto trabajando en equipo y colaborando para alcanzar objetivos comunes. Siempre estoy en busca de nuevas oportunidades para mejorar mis habilidades y adquirir experiencia valiosa.",
-      "En mi tiempo libre, disfruto de la lectura, el deporte y viajar para explorar nuevas culturas. También me apasiona mantenerme actualizado sobre las últimas tecnologías y tendencias en el desarrollo de software."
+      "Soy un estudiante de Ingeniería de Software de {age} años, con sede en Oviedo, España. Mi perfil se enfoca en la ingeniería de software, con el objetivo principal de desarrollar soluciones de alta calidad, implementando las mejores prácticas de seguridad en el proceso.",
+      "He adquirido una valiosa experiencia a través de diversos proyectos, tanto individuales como colaborativos, que han reforzado mis habilidades en distintas áreas.",
+      "Me considero una persona proactiva, con capacidad de resolución de problemas y compromiso con el aprendizaje continuo. Disfruto del trabajo en equipo y me esfuerzo por contribuir de forma significativa a los proyectos en los que me involucro.",
+      "En mi tiempo libre, me mantengo al día con las últimas tendencias dentro del sector. También disfruto de la lectura, el deporte y explorar nuevas culturas a través de los viajes."
     ],
     "skills": {
       "title": "Mis Habilidades",
       "technical": "Habilidades Técnicas",
       "soft": "Habilidades Blandas",
       "technicalSkills": {
-        "java": "Java",
-        "python": "Python",
-        "cpp": "C/C++",
-        "webDevelopment": "Desarrollo Web",
-        "databases": "Bases de Datos",
-        "linuxDocker": "Linux y Docker",
-        "llm": "LLM",
-        "cybersecurity": "Ciberseguridad"
+        "languages": "Java, Javascript/Typescript, Python, C/C++, Bash, SQL",
+        "technologies": "Linux, Docker, Bases de Datos, Desarrollo Web",
+        "interests": "Inteligencia Artificial, Ciberseguridad"
       },
       "softSkills": {
         "teamwork": "Trabajo en Equipo",
@@ -49,7 +45,6 @@
         "communication": "Comunicación",
         "timeManagement": "Gestión del Tiempo",
         "adaptability": "Adaptabilidad",
-        "goalOriented": "Orientado a Objetivos",
         "leadership": "Liderazgo"
       }
     },

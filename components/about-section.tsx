@@ -10,6 +10,7 @@ interface AboutSectionProps {
   readonly dictionary: {
     readonly title: string
     readonly subtitle: string
+    readonly birthDate: string
     readonly bio: readonly string[]
     readonly education: {
       readonly title: string
@@ -22,9 +23,29 @@ interface AboutSectionProps {
 
 const MotionCard = motion.create(Card)
 
+function getAge(birthDate: string): number {
+  const today = new Date();
+  const birth = new Date(birthDate);
+  let age = today.getFullYear() - birth.getFullYear();
+  const monthDifference = today.getMonth() - birth.getMonth();
+
+  if (monthDifference < 0 || 
+    (monthDifference === 0 && today.getDate() < birth.getDate())) {
+    age--;
+  }
+
+  return age;
+}
+
 export function AboutSection({ dictionary }: AboutSectionProps) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
+
+  const age = dictionary.birthDate ? getAge(dictionary.birthDate) : null;
+
+  const bioParagraphs = dictionary.bio.map(paragraph =>
+    paragraph.replace('{age}', age !== null ? age.toString() : 'N/A')
+  );
 
   return (
     <section className="py-16">
@@ -48,7 +69,7 @@ export function AboutSection({ dictionary }: AboutSectionProps) {
 
         <div ref={ref}>
           <div className="space-y-6">
-            {dictionary.bio.map((paragraph, index) => (
+            {bioParagraphs.map((paragraph, index) => (
               <motion.p
                 key={`bio-paragraph-${paragraph.substring(0, 10)}-${index}`}
                 className="text-foreground/80"

@@ -5,18 +5,16 @@ import type React from "react"
 import { useRef } from "react"
 import { motion, useInView } from "framer-motion"
 import { Card, CardContent } from "@components/ui/card"
+
 import {
   Code,
   Database,
   Globe,
-  Server,
-  Braces,
   Users,
   Brain,
   Clock,
   MessageSquare,
   Lightbulb,
-  Target,
 } from "lucide-react"
 
 interface SkillsSectionProps {
@@ -25,14 +23,9 @@ interface SkillsSectionProps {
     technical: string
     soft: string
     technicalSkills: {
-      java: string
-      python: string
-      cpp: string
-      webDevelopment: string
-      databases: string
-      linuxDocker: string
-      llm: string
-      cybersecurity: string
+      languages: string
+      technologies: string
+      interests: string
     }
     softSkills: {
       teamwork: string
@@ -40,7 +33,6 @@ interface SkillsSectionProps {
       communication: string
       timeManagement: string
       adaptability: string
-      goalOriented: string
       leadership: string
     }
   }
@@ -56,14 +48,9 @@ export function SkillsSection({ dictionary }: Readonly<SkillsSectionProps>) {
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
   const technicalSkills: Skill[] = [
-    { name: dictionary.technicalSkills.java, icon: <Code className="h-5 w-5" /> },
-    { name: dictionary.technicalSkills.python, icon: <Braces className="h-5 w-5" /> },
-    { name: dictionary.technicalSkills.cpp, icon: <Braces className="h-5 w-5" /> },
-    { name: dictionary.technicalSkills.webDevelopment, icon: <Globe className="h-5 w-5" /> },
-    { name: dictionary.technicalSkills.databases, icon: <Database className="h-5 w-5" /> },
-    { name: dictionary.technicalSkills.linuxDocker, icon: <Server className="h-5 w-5" /> },
-    { name: dictionary.technicalSkills.llm, icon: <Brain className="h-5 w-5" /> },
-    { name: dictionary.technicalSkills.cybersecurity, icon: <Braces className="h-5 w-5" /> }
+    { name: dictionary.technicalSkills.languages, icon: <Code className="h-5 w-5" /> },
+    { name: dictionary.technicalSkills.technologies, icon: <Globe className="h-5 w-5" /> },
+    { name: dictionary.technicalSkills.interests, icon: <Database className="h-5 w-5" /> }
   ]
 
   const softSkills: Skill[] = [
@@ -72,7 +59,6 @@ export function SkillsSection({ dictionary }: Readonly<SkillsSectionProps>) {
     { name: dictionary.softSkills.communication, icon: <MessageSquare className="h-5 w-5" /> },
     { name: dictionary.softSkills.timeManagement, icon: <Clock className="h-5 w-5" /> },
     { name: dictionary.softSkills.adaptability, icon: <Lightbulb className="h-5 w-5" /> },
-    { name: dictionary.softSkills.goalOriented, icon: <Target className="h-5 w-5" /> },
     { name: dictionary.softSkills.leadership, icon: <Users className="h-5 w-5" /> }
   ]
 
@@ -82,11 +68,11 @@ export function SkillsSection({ dictionary }: Readonly<SkillsSectionProps>) {
         <h2 className="text-3xl font-bold mb-2 font-poppins">{dictionary.title}</h2>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-8">
-        <Card>
-          <CardContent className="p-6">
+      <div className="grid md:grid-cols-2 gap-8 items-stretch">
+        <Card className="h-full">
+          <CardContent className="p-6 h-full flex flex-col">
             <h3 className="text-xl font-semibold mb-6">{dictionary.technical}</h3>
-            <div className="grid grid-cols-1 gap-4">
+            <div className="grid grid-cols-1 gap-4 flex-1">
               {technicalSkills.map((skill, index) => (
                 <motion.div
                   key={skill.name}
@@ -103,10 +89,10 @@ export function SkillsSection({ dictionary }: Readonly<SkillsSectionProps>) {
           </CardContent>
         </Card>
 
-        <Card>
-          <CardContent className="p-6">
+        <Card className="h-full">
+          <CardContent className="p-6 h-full flex flex-col">
             <h3 className="text-xl font-semibold mb-6">{dictionary.soft}</h3>
-            <div className="grid grid-cols-1 gap-4">
+            <div className="grid grid-cols-1 gap-4 flex-1">
               {softSkills.map((skill, index) => (
                 <motion.div
                   key={skill.name}
