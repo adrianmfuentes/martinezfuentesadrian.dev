@@ -215,8 +215,6 @@ export default function HttpHeadersValidator({ dictionary }: Readonly<HeadersVal
     try {
       const headers = await analyzeHeaders(url)
       
-      console.log('Headers received:', headers) // Para debugging
-      
       const validationResults = Object.entries(expectedHeaders).map(([name, info]) => 
         validateHeader(name, info, headers)
       )
