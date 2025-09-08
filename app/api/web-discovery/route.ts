@@ -22,7 +22,7 @@ async function checkPath(
     path: string,
     req: NextRequest,
     results: Array<[string, number]>,
-    lock?: Lock,
+    lock?: Lock
 ): Promise<void> {
     // Construir URL: si path ya es absoluta, usarla; si no, combinar con baseUrl
     const url = (path.startsWith('http://') || path.startsWith('https://'))
@@ -30,7 +30,7 @@ async function checkPath(
         : new URL(path, baseUrl).toString()
 
     const controller = new AbortController()
-    const timeoutId = setTimeout(() => controller.abort(), 3000)
+    const timeoutId = setTimeout(() => controller.abort(), 5000)
 
     try {
         let resp: Response | null = null
@@ -52,7 +52,7 @@ async function checkPath(
 
         if (!resp) return
 
-        if ([200, 301, 302].includes(resp.status)) {
+        if ([200, 301, 302, 403, 401].includes(resp.status)) {
             if (lock) await lock.acquire()
             try {
                 results.push([url, resp.status])
@@ -94,15 +94,14 @@ export async function GET(request: NextRequest) {
                 .split(/\r?\n/)
                 .map(s => s.trim())
                 .filter(s => s && !s.startsWith('#'))
-                .slice(0, 100) // tope para evitar ficheros enormes
 
-            const qIndex = pathParam.indexOf('?')
+           const qIndex = pathParam.indexOf('?')
             const pathOnly = qIndex >= 0 ? pathParam.slice(0, qIndex) : pathParam
             const queryPart = qIndex >= 0 ? pathParam.slice(qIndex) : ''
 
             // Ejecutar con concurrencia limitada y timeout global para evitar bloqueos
             const concurrency = 3 // ajustar según entorno
-            const maxResults = 50 // tope para devolver resultados parciales rápido
+            const maxResults = 100 // tope para devolver resultados parciales rápido
             const overallTimeoutMs = 25_000 // timeout global (ms)
 
             const lock = new SimpleLock()
