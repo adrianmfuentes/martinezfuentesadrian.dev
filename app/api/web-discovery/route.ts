@@ -30,7 +30,7 @@ async function checkPath(
         : new URL(path, baseUrl).toString()
 
     const controller = new AbortController()
-    const timeoutId = setTimeout(() => controller.abort(), 5000)
+    const timeoutId = setTimeout(() => controller.abort(), 3000)
 
     try {
         let resp: Response | null = null
@@ -60,6 +60,12 @@ async function checkPath(
                 if (lock) lock.release()
             }
         }
+    } catch (err) {
+        if ((err as any).name === 'AbortError') {
+            console.warn(`Request timed out for ${url}`)
+        } else {
+            console.warn(`Error fetching ${url}:`, err)
+        }
     } finally {
         clearTimeout(timeoutId)
     }
@@ -88,15 +94,16 @@ export async function GET(request: NextRequest) {
                 .split(/\r?\n/)
                 .map(s => s.trim())
                 .filter(s => s && !s.startsWith('#'))
+                .slice(0, 100) // tope para evitar ficheros enormes
 
             const qIndex = pathParam.indexOf('?')
             const pathOnly = qIndex >= 0 ? pathParam.slice(0, qIndex) : pathParam
             const queryPart = qIndex >= 0 ? pathParam.slice(qIndex) : ''
 
             // Ejecutar con concurrencia limitada y timeout global para evitar bloqueos
-            const concurrency = 10 // ajustar según entorno
-            const maxResults = 500 // tope para devolver resultados parciales rápido
-            const overallTimeoutMs = 60_000 // timeout global (ms)
+            const concurrency = 3 // ajustar según entorno
+            const maxResults = 50 // tope para devolver resultados parciales rápido
+            const overallTimeoutMs = 25_000 // timeout global (ms)
 
             const lock = new SimpleLock()
             let index = 0

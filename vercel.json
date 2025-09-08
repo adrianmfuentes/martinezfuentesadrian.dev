@@ -36,7 +36,7 @@
     }
   ],
   "functions": {
-    "pages/api/web-discovery.js": {
+    "app/api/web-discovery/route.ts": {
       "maxDuration": 30
     }
   }
