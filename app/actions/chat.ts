@@ -94,7 +94,7 @@ export async function sendChatMessage(message: string, previousMessages: Message
     // Call Groq API
     const completion = await groq.chat.completions.create({
       messages: conversationHistory,
-      model: "llama3-8b-8192",
+      model: "llama-3.1-8b-instant",
       temperature: 0.7,
       max_tokens: 1024,
       top_p: 1,
