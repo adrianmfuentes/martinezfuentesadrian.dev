@@ -40,13 +40,6 @@ export async function testEmailJSConfiguration(): Promise<{
   }
 
   try {
-    // Intentar hacer una llamada de prueba a EmailJS (sin enviar email real)
-    console.log("🧪 Configuración de EmailJS:")
-    console.log("Service ID:", process.env.EMAILJS_SERVICE_ID)
-    console.log("Template ID:", templateId)
-    console.log("Public Key:", process.env.EMAILJS_PUBLIC_KEY?.substring(0, 8) + "...")
-    console.log("Site URL:", process.env.SITE_URL ?? "http://localhost")
-
     return {
       success: true,
       errors: [],

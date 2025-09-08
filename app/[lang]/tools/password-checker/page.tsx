@@ -97,11 +97,5 @@ export default async function PasswordCheckerPage({
 }) {
   const { lang } = await params
   const dictionary = lang === "es" ? spanishDict : englishDict
-
-  // Debug en desarrollo
-  if (process.env.NODE_ENV === 'development') {
-    console.log('Dictionary strengthRemarks:', dictionary.strengthRemarks)
-  }
-
   return <PasswordChecker dictionary={dictionary} />
 }

@@ -94,9 +94,7 @@ export function ContactForm({ dictionary }: Readonly<ContactFormProps>) {
     setIsSubmitting(true)
     setSubmitStatus({ type: null, message: '' })
 
-    try {
-      console.log("🚀 Enviando formulario de contacto...");
-      
+    try {      
       // Sanitize inputs
       const sanitizedValues = {
         name: values.name.trim(),
@@ -110,9 +108,7 @@ export function ContactForm({ dictionary }: Readonly<ContactFormProps>) {
       // Send contact request using server action
       const result = await submitContactRequest(sanitizedValues)
 
-      if (result.success) {
-        console.log("✅ Formulario enviado exitosamente");
-        
+      if (result.success) {        
         // Mostrar notificación de éxito elegante
         toast({
           title: "¡Mensaje enviado con éxito! ✨",

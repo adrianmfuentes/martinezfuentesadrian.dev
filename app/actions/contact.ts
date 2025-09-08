@@ -52,7 +52,6 @@ function checkRateLimit(formData: any): Promise<ContactResult | null> {
   return limiter.check(10, formData.ip || formData.email || "anonymous_user")
     .then(() => null)
     .catch(() => {
-      console.log("❌ Rate limit excedido");
       return {
         success: false,
         error: "Too many requests. Please try again later.",
@@ -99,18 +98,14 @@ function handleEmailJSError(res: Response, err: string): ContactResult {
 
 export async function submitContactRequest(formData: any): Promise<ContactResult> {
   try {
-    console.log("🚀 Iniciando envío de solicitud de contacto...");
-
     // Rate limiting check
     const rateLimitResult = await checkRateLimit(formData);
     if (rateLimitResult) return rateLimitResult;
 
     // Validate form data
-    console.log("🔍 Validando datos del formulario...");
     const validatedData = contactFormSchema.parse(formData);
 
     // Sanitize inputs to prevent XSS
-    console.log("🧹 Sanitizando datos...");
     const sanitizedName = DOMPurify.sanitize(validatedData.name);
     const sanitizedEmail = DOMPurify.sanitize(validatedData.email);
     const sanitizedMessage = DOMPurify.sanitize(validatedData.message);
@@ -119,19 +114,14 @@ export async function submitContactRequest(formData: any): Promise<ContactResult
     const priority = validatedData.priority ?? "medium";
 
     // Check for spam patterns
-    console.log("🛡️ Verificando patrones de spam...");
     if (containsSpamPatterns(sanitizedMessage)) {
-      console.log("⚠️ Mensaje detectado como spam");
       return { success: false, error: "Message detected as spam." };
     }
 
     // Verificar variables de entorno
-    console.log("🔧 Verificando configuración de EmailJS...");
     const envCheck = validateEmailEnv();
     if (!envCheck.valid) return { success: false, error: envCheck.error! };
     const templateId = envCheck.templateId!;
-
-    console.log("✅ Configuración de EmailJS verificada");
 
     // Determine template parameters for the message
     const templateParams: {
@@ -154,11 +144,6 @@ export async function submitContactRequest(formData: any): Promise<ContactResult
       templateParams.subject = sanitizedSubject;
     }
 
-    console.log("📧 Enviando email via EmailJS...");
-    console.log("Service ID:", process.env.EMAILJS_SERVICE_ID);
-    console.log("Template ID:", templateId);
-    console.log("Template params:", { ...templateParams, message: "[CONTENIDO_CENSURADO]" });
-
     // Send email via EmailJS
     const res = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
       method: "POST",
@@ -174,14 +159,11 @@ export async function submitContactRequest(formData: any): Promise<ContactResult
       }),
     });
 
-    console.log("📨 Respuesta de EmailJS:", res.status, res.statusText);
-
     if (!res.ok) {
       const err = await res.text();
       return handleEmailJSError(res, err);
     }
 
-    console.log("✅ Email enviado exitosamente");
     return { success: true };
   } catch (error) {
     console.error("💥 Error general procesando solicitud de contacto:", error);
