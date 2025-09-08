@@ -4,6 +4,19 @@ import { join } from 'path'
 
 export type Lock = { acquire: () => Promise<void>; release: () => void }
 
+class SimpleLock implements Lock {
+    private _locked = false
+    async acquire() {
+        while (this._locked) {
+            await new Promise((r) => setTimeout(r, 1))
+        }
+        this._locked = true
+    }
+    release() {
+        this._locked = false
+    }
+}
+
 async function checkPath(
     baseUrl: string,
     path: string,
@@ -28,10 +41,10 @@ async function checkPath(
                 resp = await fetch(url, { method: 'GET', redirect: 'manual', signal: controller.signal })
             }
         } catch (e) {
-            console.warn(`HEAD request failed for ${url}, trying GET. Error:`, e)            
+            console.warn(`HEAD request failed for ${url}, trying GET. Error:`, e)
             try { // Si HEAD falla, intentar GET
                 resp = await fetch(url, { method: 'GET', redirect: 'manual', signal: controller.signal })
-            } catch (e) { 
+            } catch (e) {
                 console.warn(`GET request failed for ${url}. Error:`, e)
                 return
             }
@@ -40,7 +53,6 @@ async function checkPath(
         if (!resp) return
 
         if ([200, 301, 302].includes(resp.status)) {
-            console.log(`[${resp.status}] ${url}`)
             if (lock) await lock.acquire()
             try {
                 results.push([url, resp.status])
@@ -77,15 +89,59 @@ export async function GET(request: NextRequest) {
                 .map(s => s.trim())
                 .filter(s => s && !s.startsWith('#'))
 
-            // Iterar secuencialmente — concatenar cada palabra AL FINAL del path
             const qIndex = pathParam.indexOf('?')
             const pathOnly = qIndex >= 0 ? pathParam.slice(0, qIndex) : pathParam
             const queryPart = qIndex >= 0 ? pathParam.slice(qIndex) : ''
 
-            for (const w of words) {
-                const appended = pathOnly.endsWith('/') ? pathOnly + encodeURIComponent(w) : pathOnly + '/' + encodeURIComponent(w)
-                const target = appended + queryPart
-                await checkPath(baseUrl, target, request, results)
+            // Ejecutar con concurrencia limitada y timeout global para evitar bloqueos
+            const concurrency = 10 // ajustar según entorno
+            const maxResults = 500 // tope para devolver resultados parciales rápido
+            const overallTimeoutMs = 60_000 // timeout global (ms)
+
+            const lock = new SimpleLock()
+            let index = 0
+            let aborted = false
+
+            const worker = async () => {
+                while (!aborted) {
+                    const i = index++
+                    if (i >= words.length) break
+
+                    // Comprobar tope de resultados de forma sincronizada
+                    await lock.acquire()
+                    try {
+                        if (results.length >= maxResults) {
+                            aborted = true
+                            break
+                        }
+                    } finally {
+                        lock.release()
+                    }
+
+                    const w = words[i]
+                    const appended = pathOnly.endsWith('/') ? pathOnly + encodeURIComponent(w) : pathOnly + '/' + encodeURIComponent(w)
+                    const target = appended + queryPart
+                    try {
+                        await checkPath(baseUrl, target, request, results, lock)
+                    } catch (e) {
+                        console.warn('checkPath error for', target, e)
+                    }
+                }
+            }
+
+            const runners = Array.from({ length: concurrency }, () => worker())
+
+            try {
+                await Promise.race([
+                    Promise.all(runners),
+                    new Promise<void>((resolve) => setTimeout(() => {
+                        aborted = true
+                        console.warn('Web discovery overall timeout reached')
+                        resolve()
+                    }, overallTimeoutMs))
+                ])
+            } catch (err) {
+                console.warn('Web discovery stopped early:', err)
             }
 
             return NextResponse.json({ success: true, results }, { status: 200 })
@@ -93,10 +149,9 @@ export async function GET(request: NextRequest) {
             console.error('Error reading static wordlist:', err)
             return NextResponse.json({ success: false, error: 'Error reading wordlist' }, { status: 500 })
         }
-        
+
     } catch (err) {
         console.error('Error in web-discovery GET handler:', err)
         return NextResponse.json({ success: false, error: 'Internal error' }, { status: 500 })
     }
 }
-            
