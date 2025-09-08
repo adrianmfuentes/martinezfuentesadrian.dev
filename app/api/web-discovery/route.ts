@@ -102,7 +102,7 @@ export async function GET(request: NextRequest) {
             // Ejecutar con concurrencia limitada y timeout global para evitar bloqueos
             const concurrency = 3 // ajustar según entorno
             const maxResults = 100 // tope para devolver resultados parciales rápido
-            const overallTimeoutMs = 35_000 // timeout global (ms)
+            const overallTimeoutMs = 30_000 // timeout global (ms)
 
             const lock = new SimpleLock()
             let index = 0
