@@ -29,8 +29,8 @@ export function WebDiscovery({ dictionary }: { readonly dictionary?: DictShape }
 
     (async () => {
       try {
-        setProgress(15)
-        setCurrentStep('Validando URL...')
+        setProgress(33)
+        setCurrentStep('Conectar')
         
         let parsed: URL
         try {
@@ -43,20 +43,17 @@ export function WebDiscovery({ dictionary }: { readonly dictionary?: DictShape }
         setBaseUrlState(baseUrl)
         const originalPath = (parsed.pathname || '/') + (parsed.search || '')
 
-        setProgress(35)
-        setCurrentStep('Conectando con el servidor...')
-
         // Ya no se usa ninguna plantilla; siempre enviamos el path original
         const apiUrl = `/api/web-discovery?baseUrl=${encodeURIComponent(baseUrl)}&path=${encodeURIComponent(originalPath)}`
 
-        setProgress(50)
-        setCurrentStep('Iniciando descubrimiento...')
+        setProgress(66)
+        setCurrentStep('Escanear')
 
         const res = await fetch(apiUrl)
         if (!res.ok) throw new Error(`API responded with ${res.status}`)
 
-        setProgress(75)
-        setCurrentStep('Procesando resultados...')
+        setProgress(90)
+        setCurrentStep('Procesar')
 
         const json = await res.json()
         if (Array.isArray(json.results)) {
@@ -210,19 +207,19 @@ export function WebDiscovery({ dictionary }: { readonly dictionary?: DictShape }
               {/* Indicadores de pasos */}
               <div className="flex items-center justify-between">
                 {Object.entries({
-                  1: 'Validar',
-                  2: 'Conectar',
-                  3: 'Escanear',
-                  4: 'Procesar',
-                  5: 'Finalizar'
+                  1: 'Conectar',
+                  2: 'Escanear',
+                  3: 'Procesar',
                 }).map(([step, label]) => {
-                  const threshold = Number(step) * 20
+                  const stepNum = Number(step)
+                  // Umbrales ajustados para 3 pasos: 33%, 66%, 100%
+                  const threshold = stepNum * 33.33
                   
                   const getStepClasses = () => {
                     if (progress >= threshold) {
                       return 'bg-green-400 border-green-400 shadow-lg shadow-green-400/50'
                     }
-                    if (progress >= threshold - 20) {
+                    if (progress >= threshold - 33.33) {
                       return 'bg-green-600 border-green-500 animate-pulse'
                     }
                     return 'bg-gray-700 border-gray-600'
