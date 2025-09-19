@@ -144,6 +144,16 @@ export function PortfolioSection({ dictionary }: Readonly<PortfolioSectionProps>
       category: "data",
       projectUrl: "",
       codeUrl: "https://github.com/adrianmfuentes/Twitter-Bot",
+    },
+    {
+      id: "11",
+      title: dictionary.projects["11"].title,
+      description: dictionary.projects["11"].description,
+      image: "/images/url-shortener-cover.png",
+      tags: ["Java", "Spring", "MongoDB", "Web"],
+      category: "web",
+      projectUrl: "",
+      codeUrl: "https://github.com/adrianmfuentes/url-shortener"
     }
   ]
 

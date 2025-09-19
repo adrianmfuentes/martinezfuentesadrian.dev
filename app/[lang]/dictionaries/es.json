@@ -118,44 +118,48 @@
     },
     "projects": {
       "1": {
-        "title": "WiChat - Plataforma de juego tipo Quiz",
+        "title": "WiChat - Plataforma de juego tipo Quiz (2025)",
         "description": "Desarrollo de una aplicación web tipo concurso inspirada en el programa de televisión 'Saber y Ganar'. La plataforma ofrece juego multijugador en tiempo real, desafíos cronometrados, clasificaciones y diferentes categorías de preguntas."
       },
       "2": {
-        "title": "DLP - Haciendo un compilador desde cero",
+        "title": "DLP - Haciendo un compilador desde cero (2025)",
         "description": "Desarrollo de un compilador desde cero utilizando Java. Incluye análisis léxico, sintáctico y generación de código."
       },
       "3": {
-        "title": "Sistema de Gestión de Bases de Datos",
+        "title": "Sistema de Gestión de Bases de Datos (2025)",
         "description": "Implementación desde cero de un sistema de gestión de bases de datos (SGBD) utilizando C++. Incluye funcionalidades como consultas básicas, almacenamiento de datos y optimización de índices."
       },
       "4": {
-        "title": "Shell",
+        "title": "Shell (2025)",
         "description": "Desarrollo de un shell funcional en C que soporta comandos básicos, redirección de entrada/salida y ejecución de procesos en segundo plano."
       },
       "5": {
-        "title": "Gestor de Tareas",
+        "title": "Gestor de Tareas (2024)",
         "description": "Aplicación web para la gestión de tareas que permite a los usuarios crear, editar y organizar tareas con un sistema de autenticación y una interfaz moderna."
       },
       "6": {
-        "title": "Recuperación de Información",
+        "title": "Recuperación de Información (2024)",
         "description": "Sistema de recuperación de información que procesa y analiza grandes volúmenes de texto para proporcionar resultados relevantes según las consultas de búsqueda."
       },
       "7": {
-        "title": "F1 Desktop Application",
+        "title": "F1 Desktop Application (2024)",
         "description": "Aplicación de escritorio para gestionar y visualizar información relacionada con la Fórmula 1, incluyendo equipos, pilotos y resultados de carreras."
       },
       "8": {
-        "title": "Unreal Engine Game Project",
+        "title": "Unreal Engine Game Project (2024)",
         "description": "Desarrollo de un videojuego utilizando Unreal Engine, implementando mecánicas de juego, sistemas de física e interfaces interactivas."
       },
       "9": {
-        "title": "Servidor HTTP",
+        "title": "Servidor HTTP (2025)",
         "description": "Implementación de un servidor HTTP básico capaz de manejar peticiones GET y POST, servir archivos estáticos y procesar formularios."
       },
       "10": {
-        "title": "Bot de Twitter",
+        "title": "Bot de Twitter (2025)",
         "description": "Bot automatizado para Twitter que interactúa con usuarios, publica contenido programado y recopila datos de tendencias."
+      },
+      "11": {
+        "title": "Acortador de URLs (2025)",
+        "description": "Aplicación web que permite a los usuarios acortar URLs largas. Desarrollada con Spring y MongoDB."
       }
     }
   },
