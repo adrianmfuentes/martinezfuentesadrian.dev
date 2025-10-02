@@ -35,9 +35,12 @@
       "technical": "Habilidades Técnicas",
       "soft": "Habilidades Blandas",
       "technicalSkills": {
-        "languages": "Java, Javascript/Typescript, Python, C/C++, Bash, SQL",
-        "technologies": "Linux, Docker, Bases de Datos, Desarrollo Web",
-        "interests": "Inteligencia Artificial, Ciberseguridad"
+        "languages": "Java, Javascript/Typescript, Python, Bash, SQL",
+        "frameworks": "React, Node, Express, Spring",
+        "versionControl": "Git, GitHub",
+        "cloud": "AWS, Azure, Vercel, Docker",
+        "databases": "MySQL, PostgreSQL, MongoDB",
+        "interests": "Sistemas Inteligentes, Ciberseguridad"
       },
       "softSkills": {
         "teamwork": "Trabajo en Equipo",
