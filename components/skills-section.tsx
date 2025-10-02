@@ -25,6 +25,10 @@ interface SkillsSectionProps {
     technicalSkills: {
       languages: string
       technologies: string
+      frameworks: string
+      versionControl: string
+      cloud: string
+      databases: string
       interests: string
     }
     softSkills: {
@@ -49,8 +53,11 @@ export function SkillsSection({ dictionary }: Readonly<SkillsSectionProps>) {
 
   const technicalSkills: Skill[] = [
     { name: dictionary.technicalSkills.languages, icon: <Code className="h-5 w-5" /> },
-    { name: dictionary.technicalSkills.technologies, icon: <Globe className="h-5 w-5" /> },
-    { name: dictionary.technicalSkills.interests, icon: <Database className="h-5 w-5" /> }
+    { name: dictionary.technicalSkills.cloud, icon: <Globe className="h-5 w-5" /> },
+    { name: dictionary.technicalSkills.frameworks, icon: <Code className="h-5 w-5" /> },
+    { name: dictionary.technicalSkills.databases, icon: <Database className="h-5 w-5" /> },
+    { name: dictionary.technicalSkills.versionControl, icon: <Code className="h-5 w-5" /> },    
+    { name: dictionary.technicalSkills.interests, icon: <Lightbulb className="h-5 w-5" /> }
   ]
 
   const softSkills: Skill[] = [
