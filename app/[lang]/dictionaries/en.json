@@ -95,13 +95,19 @@
           "title": "Web Development Certification",
           "organization": "University of Oviedo",
           "period": "2024",
-          "description": "Learned HTML, CSS and JS, as well as creating websites with React, Node, and MariaDB."
+          "description": "Certification in web development technologies, including HTML, CSS, JavaScript, and modern frameworks."
         },
         {
           "title": "Cambridge English B2 Certificate",
           "organization": "Cambridge",
           "period": "2021",
           "description": "Cambridge qualification demonstrating upper-intermediate proficiency in English."
+        },
+        {
+          "title": "Esquema Nacional de Seguridad (CCN-Cert)",
+          "organization": "Centro Criptológico Nacional",
+          "period": "2025",
+          "description": "Certification in the National Security Framework, focusing on information security management and best practices."
         }
       ]
     }
