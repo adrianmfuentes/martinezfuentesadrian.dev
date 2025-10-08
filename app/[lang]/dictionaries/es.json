@@ -95,19 +95,29 @@
           "title": "Certificación en Desarrollo Web",
           "organization": "Universidad de Oviedo",
           "period": "2024",
-          "description": "Aprendí HTML, CSS y JS, así como la creación de sitios web con React, Node y MariaDB."
+          "description": "Aprendí HTML, CSS y JS, así como la creación de sitios web con React, Node y MariaDB.",
+          "pdfUrl": "/certificates/Copia de Certificado - Curso Online en Desarrollo de Aplicaciones Web TalentUO (150 h) - 71743428B.pdf"
         },
         {
           "title": "Certificado Cambridge English B2",
           "organization": "Cambridge",
           "period": "2021",
-          "description": "Certificación Cambridge que demuestra un nivel intermedio-alto de dominio del inglés."
+          "description": "Certificación Cambridge que demuestra un nivel intermedio-alto de dominio del inglés.",
+          "pdfUrl": "/certificates/CERTIFICADO B2 INGLES.pdf"
         },
         {
           "title": "Esquema Nacional de Seguridad (CCN-Cert ENS)",
           "organization": "Centro Criptológico Nacional",
           "period": "2025",
-          "description": "Certificación en el Esquema Nacional de Seguridad, centrada en la gestión de la seguridad de la información y las mejores prácticas."
+          "description": "Certificación en el Esquema Nacional de Seguridad, centrada en la gestión de la seguridad de la información y las mejores prácticas.",
+          "pdfUrl": "/certificates/Expediente_CCN_CERT.pdf"
+        },
+        {
+          "title": "Google: Inteligencia Artificial y Productividad",
+          "organization": "Google",
+          "period": "2024",
+          "description": "Curso de Google sobre inteligencia artificial y su aplicación en la productividad personal y profesional.",
+          "pdfUrl": "/certificates/certificado-google-ia.pdf"
         }
       ]
     }

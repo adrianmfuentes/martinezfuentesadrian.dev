@@ -1,9 +1,11 @@
 "use client"
 
+import { useState, useEffect } from "react"
 import { Button } from "@components/ui/button"
 import { Card, CardContent } from "@components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs"
-import { Download, GraduationCap, Award } from "lucide-react"
+import { Download, GraduationCap, Award, Eye, ExternalLink } from "lucide-react"
+import { CertificateViewer } from "@components/certificate-viewer"
 
 interface CVSectionProps {
   dictionary: {
@@ -29,6 +31,7 @@ interface CVSectionProps {
         organization: string
         period: string
         description: string
+        pdfUrl?: string // Optional URL to the PDF certificate
       }>
     }
   }
@@ -36,6 +39,9 @@ interface CVSectionProps {
 }
 
 export function CVSection({ dictionary, lang }: Readonly<CVSectionProps>) {
+  // Estado para controlar el modal
+  const [viewingCertificate, setViewingCertificate] = useState<{ url: string; title: string } | null>(null)
+
   const handleDownload = () => {
     // Download the CV in the selected language
     const cvPath = `${window.location.origin}${lang === "en" ? "/cv/cv_en.pdf" : "/cv/cv_es.pdf"}`
@@ -56,7 +62,7 @@ export function CVSection({ dictionary, lang }: Readonly<CVSectionProps>) {
         </Button>
       </div>
 
-      <Tabs defaultValue="education" className="max-w-3xl mx-auto">
+      <Tabs defaultValue="education" className="max-w-6xl mx-auto">
         <TabsList className="grid grid-cols-2 mb-8">
           {/*<TabsTrigger value="experience" className="gap-2">
             <Briefcase className="h-4 w-4" />
@@ -104,7 +110,7 @@ export function CVSection({ dictionary, lang }: Readonly<CVSectionProps>) {
         </TabsContent>
 
         <TabsContent value="certifications">
-          <div className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {dictionary.certifications.items.map((item) => (
               <TimelineItem
                 key={`${item.title}-${item.organization}`}
@@ -112,11 +118,23 @@ export function CVSection({ dictionary, lang }: Readonly<CVSectionProps>) {
                 organization={item.organization}
                 period={item.period}
                 description={item.description}
+                pdfUrl={item.pdfUrl}
+                onViewCertificate={(url) => setViewingCertificate({ url, title: item.title })}
               />
             ))}
           </div>
         </TabsContent>
       </Tabs>
+
+      {/* Renderiza el modal para ver el certificado */}
+      {viewingCertificate && (
+        <CertificateViewer
+          pdfUrl={viewingCertificate.url}
+          title={viewingCertificate.title}
+          isOpen={!!viewingCertificate}
+          onClose={() => setViewingCertificate(null)}
+        />
+      )}
     </section>
   )
 }
@@ -126,15 +144,50 @@ interface TimelineItemProps {
   organization: string
   period: string
   description: string
+  pdfUrl?: string // Optional URL to the PDF certificate
+  onViewCertificate?: (pdfUrl: string) => void
 }
 
-function TimelineItem({ title, organization, period, description }: Readonly<TimelineItemProps>) {
+function TimelineItem({ title, organization, period, description, pdfUrl, onViewCertificate }: Readonly<TimelineItemProps>) {
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768)
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
+  const handleCertificateAction = () => {
+    if (pdfUrl) {
+      if (isMobile) {
+        // En móviles, abrir directamente en nueva pestaña
+        window.open(pdfUrl, '_blank')
+      } else {
+        // En desktop, usar el modal
+        onViewCertificate?.(pdfUrl)
+      }
+    }
+  }
+
   return (
     <Card>
       <CardContent className="p-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-2">
           <h3 className="font-semibold text-lg">{title}</h3>
-          <span className="text-sm text-foreground/70">{period}</span>
+          <div className="flex items-center gap-4">
+            <span className="text-sm text-foreground/70">{period}</span>
+            {pdfUrl && (
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handleCertificateAction}
+                aria-label={`${isMobile ? 'Abrir' : 'Ver'} certificado de ${title}`}
+              >
+                {isMobile ? <ExternalLink className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+              </Button>
+            )}
+          </div>
         </div>
         <p className="text-primary font-medium mb-2">{organization}</p>
         <p className="text-foreground/80">{description}</p>
