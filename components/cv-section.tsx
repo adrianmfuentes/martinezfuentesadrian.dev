@@ -5,7 +5,8 @@ import { Button } from "@components/ui/button"
 import { Card, CardContent } from "@components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs"
 import { Download, GraduationCap, Award, Eye, ExternalLink } from "lucide-react"
-import { CertificateViewer } from "@components/certificate-viewer"
+import dynamic from "next/dynamic"
+const CertificateViewer = dynamic(() => import("@components/certificate-viewer.client"), { ssr: false })
 
 interface CVSectionProps {
   dictionary: {
