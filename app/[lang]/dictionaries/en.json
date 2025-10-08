@@ -95,19 +95,29 @@
           "title": "Web Development Certification",
           "organization": "University of Oviedo",
           "period": "2024",
-          "description": "Certification in web development technologies, including HTML, CSS, JavaScript, and modern frameworks."
+          "description": "Certification in web development technologies, including HTML, CSS, JavaScript, and modern frameworks.",
+          "pdfUrl": "/certificates/Copia de Certificado - Curso Online en Desarrollo de Aplicaciones Web TalentUO (150 h) - 71743428B.pdf"
         },
         {
           "title": "Cambridge English B2 Certificate",
           "organization": "Cambridge",
           "period": "2021",
-          "description": "Cambridge qualification demonstrating upper-intermediate proficiency in English."
+          "description": "Cambridge qualification demonstrating upper-intermediate proficiency in English.",
+          "pdfUrl": "/certificates/CERTIFICADO B2 INGLES.pdf"
         },
         {
-          "title": "Esquema Nacional de Seguridad (CCN-Cert)",
-          "organization": "Centro Criptológico Nacional",
+          "title": "National Security Framework (CCN-Cert)",
+          "organization": "National Cryptologic Center",
           "period": "2025",
-          "description": "Certification in the National Security Framework, focusing on information security management and best practices."
+          "description": "Certification in the National Security Framework, focusing on information security management and best practices.",
+          "pdfUrl": "/certificates/Expediente_CCN_CERT.pdf"
+        },
+        {
+          "title": "Google: Artificial Intelligence & Productivity",
+          "organization": "Google",
+          "period": "2024",
+          "description": "Google course on artificial intelligence and its application in personal and professional productivity.",
+          "pdfUrl": "/certificates/certificado-google-ia.pdf"
         }
       ]
     }
