@@ -52,7 +52,7 @@ export function PortfolioSection({ dictionary }: Readonly<PortfolioSectionProps>
       image: "/images/wichat.png",
       tags: ["React", "Node.js", "Express", "Oracle", "Docker", "GitHub", "Socket.io"],
       category: "web",
-      projectUrl: "https://wichat.ddns.net/",
+      projectUrl: "",
       codeUrl: "https://github.com/Arquisoft/wichat_en2b",
     },
     {
