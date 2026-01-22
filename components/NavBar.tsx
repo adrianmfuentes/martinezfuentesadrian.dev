@@ -58,6 +58,7 @@ export function Navbar({ lang, dictionary }: Readonly<NavbarProps>) {
                 key={item.href}
                 href={item.href}
                 className={`text-sm font-medium transition-colors hover:text-primary ${pathname === item.href ? "text-primary" : "text-foreground/80"}`}
+                aria-label={`Ir a ${item.label}`}
               >
                 {item.label}
               </Link>
@@ -91,6 +92,7 @@ export function Navbar({ lang, dictionary }: Readonly<NavbarProps>) {
                 href={item.href}
                 className={`block py-2 text-base font-medium transition-colors hover:text-primary ${pathname === item.href ? "text-primary" : "text-foreground/80"}`}
                 onClick={() => setIsOpen(false)}
+                aria-label={`Ir a ${item.label}`}
               >
                 {item.label}
               </Link>

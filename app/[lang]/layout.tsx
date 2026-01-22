@@ -4,10 +4,11 @@ import { Inter, Poppins } from "next/font/google"
 import { ThemeProvider } from "@components/theme-provider"
 import { Navbar } from "@components/navbar"
 import { Footer } from "@components/footer"
-import { locales } from "@/middleware"
 import { getDictionary } from "./dictionaries"
 import { AIChatWidget } from "@components/ai-chat-widget"
 import { Toaster } from "@components/ui/toaster"
+
+const locales = ["en", "es"]
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 const poppins = Poppins({
@@ -63,30 +64,25 @@ export default async function RootLayout({
   const { lang } = await params;
   const dict = await getDictionary(lang as "en" | "es");
   return (
-    <html lang={lang} className="dark" suppressHydrationWarning>
-      <body className={`${inter.variable} ${poppins.variable} font-sans`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          forcedTheme="dark"
-          enableSystem={false}
-          disableTransitionOnChange
-        >
-          <div className="flex min-h-screen flex-col">
-            <Navbar lang={lang} dictionary={dict.navigation} />
-            <main className="flex-1">{children}</main>
-            <Footer lang={lang} dictionary={dict.footer} />
-	          <AIChatWidget
-              dictionary={{
-                chatTitle: lang === "en" ? "Virtual Assistant" : "Asistente Virtual",
-                chatPlaceholder: lang === "en" ? "Type a message..." : "Escribe un mensaje...",
-                chatSend: lang === "en" ? "Send" : "Enviar",
-              }}
-            />
-            <Toaster />
-          </div>
-        </ThemeProvider>
-      </body>
-    </html>
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="dark"
+      enableSystem={true}
+      disableTransitionOnChange={false}
+    >
+      <div className="flex min-h-screen flex-col">
+        <Navbar lang={lang} dictionary={dict.navigation} />
+        <main className="flex-1">{children}</main>
+        <Footer lang={lang} dictionary={dict.footer} />
+        <AIChatWidget
+          dictionary={{
+            chatTitle: dict.chat.title,
+            chatPlaceholder: dict.chat.placeholder,
+            chatSend: dict.chat.send,
+          }}
+        />
+        <Toaster />
+      </div>
+    </ThemeProvider>
   );
 }

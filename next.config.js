@@ -1,40 +1,8 @@
-const fs = require('fs')
 const path = require('path')
-
-let userConfig
-const root = process.cwd()
-
-// Preferir CJS user config files
-const candidates = [
-  path.join(root, 'v0-user-next.config.cjs'),
-  path.join(root, 'v0-user-next.config.js'),
-]
-
-for (const p of candidates) {
-  if (fs.existsSync(p)) {
-    try {
-      userConfig = require(p)
-      break
-    } catch (e) {
-      console.warn('Error cargando v0-user-next.config desde', p, e)
-    }
-  }
-}
-
-if (!userConfig) {
-  const mjsPath = path.join(root, 'v0-user-next.config.mjs')
-  if (fs.existsSync(mjsPath)) {
-    console.warn('Se encontró v0-user-next.config.mjs (ESM). Para cargarlo automáticamente convierte next.config.js a ESM (renombra a next.config.mjs o añade "type":"module" en package.json).')
-  } else {
-    console.warn('No user next.config file found, proceeding with default configuration.')
-  }
-}
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
+  turbopack: {},
   typescript: {
     ignoreBuildErrors: true,
   },
@@ -54,8 +22,8 @@ const nextConfig = {
         headers: [
           {
             key: "Access-Control-Allow-Origin",
-            value: process.env.NODE_ENV === "production" 
-              ? "https://martinezfuentesadrian.dev" 
+            value: process.env.NODE_ENV === "production"
+              ? "https://martinezfuentesadrian.dev"
               : "http://localhost:3000"
           },
           {
@@ -119,25 +87,6 @@ const nextConfig = {
     }
     return config
   },
-}
-
-if (userConfig) {
-  // ESM imports will have a "default" property
-  const config = userConfig.default || userConfig
-
-  for (const key in config) {
-    if (
-      typeof nextConfig[key] === 'object' &&
-      !Array.isArray(nextConfig[key])
-    ) {
-      nextConfig[key] = {
-        ...nextConfig[key],
-        ...config[key],
-      }
-    } else {
-      nextConfig[key] = config[key]
-    }
-  }
 }
 
 module.exports = nextConfig

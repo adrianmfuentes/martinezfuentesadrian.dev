@@ -154,6 +154,16 @@ export function PortfolioSection({ dictionary }: Readonly<PortfolioSectionProps>
       category: "web",
       projectUrl: "",
       codeUrl: "https://github.com/adrianmfuentes/url-shortener"
+    },
+    {
+      id: "12",
+      title: dictionary.projects["12"].title,
+      description: dictionary.projects["12"].description,
+      image: "/images/nutritionai.png",
+      tags: ["Android", "Jetpack Compose", "Node.js", "PostgreSQL", "AI"],
+      category: "web",
+      projectUrl: "",
+      codeUrl: "https://github.com/adrianmfuentes/nutritionai"
     }
   ]
 

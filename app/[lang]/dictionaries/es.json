@@ -36,6 +36,7 @@
       "soft": "Habilidades Blandas",
       "technicalSkills": {
         "languages": "Java, Javascript/Typescript, Python, Bash, SQL",
+        "technologies": "AWS, Azure, Vercel, Docker, Git, GitHub",
         "frameworks": "React, Node, Express, Spring",
         "versionControl": "Git, GitHub",
         "cloud": "AWS, Azure, Vercel, Docker",
@@ -179,6 +180,10 @@
       "11": {
         "title": "Acortador de URLs (2025)",
         "description": "Aplicación web que permite a los usuarios acortar URLs largas. Desarrollada con Spring y MongoDB."
+      },
+      "12": {
+        "title": "Nutrition AI (2025)",
+        "description": "Asistente de nutrición impulsado por IA que analiza fotos de alimentos, rastrea la ingesta nutricional y ofrece información sobre la salud utilizando visión por computadora y aprendizaje automático."
       }
     }
   },

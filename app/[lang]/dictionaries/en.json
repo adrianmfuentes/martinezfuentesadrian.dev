@@ -36,6 +36,7 @@
       "soft": "Soft Skills",
       "technicalSkills": {
         "languages": "Java, Javascript/Typescript, Python, Bash, SQL",
+        "technologies": "AWS, Azure, Vercel, Docker, Git, GitHub",
         "frameworks": "React, Node, Express, Spring",
         "versionControl": "Git, GitHub",
         "cloud": "AWS, Azure, Vercel, Docker",
@@ -179,6 +180,10 @@
       "11": {
         "title": "Url Shortener (2025)",
         "description": "Web application that allows users to shorten long URLs. Made using Spring & MongoDB"
+      },
+      "12": {
+        "title": "Nutrition AI (2025)",
+        "description": "Complete nutrition tracking application that uses Artificial Intelligence to analyze food images and provide detailed nutritional information. Built for Android."
       }
     }
   },
