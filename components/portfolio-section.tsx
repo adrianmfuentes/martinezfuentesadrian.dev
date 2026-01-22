@@ -152,7 +152,7 @@ export function PortfolioSection({ dictionary }: Readonly<PortfolioSectionProps>
       image: "/images/url-shortener-cover.png",
       tags: ["Java", "Spring", "MongoDB", "Web"],
       category: "web",
-      projectUrl: "",
+      projectUrl: "https://url-shortener.amfserver.duckdns.org/",
       codeUrl: "https://github.com/adrianmfuentes/url-shortener"
     },
     {
