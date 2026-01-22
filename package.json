@@ -42,7 +42,6 @@
     "@radix-ui/react-tooltip": "^1.1.6",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.4.2",
-    "@types/react-pdf": "^7.0.0",
     "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.2.0",
     "autoprefixer": "^10.4.20",
@@ -56,6 +55,7 @@
     "groq-sdk": "^0.19.0",
     "input-otp": "1.4.1",
     "isomorphic-dompurify": "^2.23.0",
+    "jsdom": "^27.4.0",
     "lucide-react": "^0.454.0",
     "negotiator": "latest",
     "next": "16.0.10",
@@ -88,6 +88,9 @@
     "tailwindcss": "^3.4.17",
     "typescript": "^5"
   },
+  "engines": {
+    "node": ">=18"
+  },
   "pnpm": {
     "overrides": {
       "glob": "^10.5.0",
@@ -96,7 +99,9 @@
       "tar": "^7.5.4",
       "lodash": "^4.17.23",
       "@smithy/config-resolver": "^4.4.0",
-      "undici": "^6.23.0"
+      "undici": "^6.23.0",
+      "node-domexception": "latest",
+      "rimraf": "latest"
     }
   }
 }
