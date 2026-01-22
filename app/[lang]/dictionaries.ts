@@ -25,20 +25,20 @@ interface Dictionary {
   about: {
     title: string
     subtitle: string
+    birthDate: string
     bio: string[]
     skills: {
       title: string
       technical: string
       soft: string
       technicalSkills: {
-        java: string
-        python: string
-        cpp: string
-        webDevelopment: string
+        languages: string
+        technologies: string
+        frameworks: string
+        versionControl: string
+        cloud: string
         databases: string
-        linuxDocker: string
-        llm: string
-        cybersecurity: string
+        interests: string
       }
       softSkills: {
         teamwork: string
@@ -46,7 +46,6 @@ interface Dictionary {
         communication: string
         timeManagement: string
         adaptability: string
-        goalOriented: string
         leadership: string
       }
     }
