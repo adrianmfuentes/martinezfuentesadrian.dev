@@ -110,7 +110,7 @@ export function PortfolioSection({ dictionary }: Readonly<PortfolioSectionProps>
       title: dictionary.projects["7"].title,
       description: dictionary.projects["7"].description,
       image: "/images/f1-desktop.png",
-      tags: ["Java", "JavaFX", "XML"],
+      tags: ["Javascript", "HTML", "CSS", "PHP"],
       category: "web",
       projectUrl: "https://university-of-oviedo-projects.github.io/SEW-F1Desktop/",
       codeUrl: "https://github.com/University-of-Oviedo-Projects/SEW-F1Desktop",
@@ -260,6 +260,7 @@ function ProjectCard({ project, viewProject, viewCode, index }: Readonly<Project
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           priority={eager}
           loading={eager ? "eager" : "lazy"}
+          placeholder="blur"
           className="object-cover"
           onError={(e) => {
             // Fallback to placeholder if image fails to load
