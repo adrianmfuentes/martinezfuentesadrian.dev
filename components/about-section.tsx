@@ -125,10 +125,10 @@ export function AboutSection({ dictionary }: AboutSectionProps) {
           return (
             <motion.div key={index} variants={itemVariants}>
               <Card className="h-full bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20 hover:border-primary/40 transition-all duration-300">
-                <CardContent className="p-6 text-center flex flex-col items-center justify-center">
-                  <Icon className="h-6 w-6 text-primary mb-2" />
-                  <p className="text-2xl sm:text-3xl font-bold text-primary">{stat.value}</p>
-                  <p className="text-xs sm:text-sm text-foreground/70 mt-1">{stat.label}</p>
+                <CardContent className="p-3 sm:p-6 text-center flex flex-col items-center justify-center gap-1.5 min-h-fit">
+                  <Icon className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
+                  <p className="text-sm sm:text-3xl font-bold text-primary break-words leading-tight">{stat.value}</p>
+                  <p className="text-[0.65rem] sm:text-sm text-foreground/70 leading-tight line-clamp-2">{stat.label}</p>
                 </CardContent>
               </Card>
             </motion.div>

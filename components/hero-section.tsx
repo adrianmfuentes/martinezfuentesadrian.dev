@@ -48,13 +48,13 @@ const StatCard = ({ label, value, icon: Icon, delay }: { label: string; value: s
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ delay, duration: 0.6 }}
-    className="group hover:bg-primary/10 transition-all duration-300 px-6 py-4 rounded-lg border border-primary/30 backdrop-blur-sm"
+    className="group hover:bg-primary/10 transition-all duration-300 px-3 sm:px-6 py-3 sm:py-5 rounded-lg border border-primary/30 backdrop-blur-sm min-h-fit"
   >
-    <div className="flex items-center gap-3 mb-2">
-      <div className="text-primary">{Icon}</div>
-      <p className="text-sm font-medium text-foreground/70">{label}</p>
+    <div className="flex flex-col items-center gap-1.5 mb-1.5">
+      <div className="text-primary text-xs sm:text-base">{Icon}</div>
+      <p className="text-[0.65rem] sm:text-sm text-foreground/70 text-center leading-tight line-clamp-2">{label}</p>
     </div>
-    <p className="text-2xl font-bold text-primary">{value}</p>
+    <p className="text-sm sm:text-2xl font-bold text-primary text-center break-words leading-tight">{value}</p>
   </motion.div>
 )
 
@@ -235,7 +235,7 @@ export function HeroSection({ dictionary, stats, lang, contactLabel, cvLabel }: 
       </div>
 
       {/* Decorative scroll indicator */}
-      <div className="absolute bottom-10 left-0 right-0 z-10 flex justify-center">
+      <div className="absolute bottom-2 left-0 right-0 z-0 flex justify-center pointer-events-none">
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 0.7, y: 0 }}
