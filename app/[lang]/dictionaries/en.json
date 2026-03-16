@@ -7,7 +7,7 @@
   "navigation": {
     "home": "Home",
     "about": "About Me",
-    "cv": "CV",
+    "cv": "Education",
     "portfolio": "Portfolio",
     "contact": "Contact",
     "tools": "Tools",
@@ -24,6 +24,12 @@
     "title": "About Me",
     "subtitle": "Get to know me better",
     "birthDate": "2004-12-27",
+    "stats": {
+      "yearsStudying": "3+ years",
+      "projectsCompleted": "10+ projects",
+      "certifications": "4 certifications",
+      "yearsExperience": "1 year"
+    },
     "bio": [
       "I am a {age}-year-old software engineering student based in Oviedo, Spain. My profile is focused on software engineering, with the main goal of developing high-quality solutions, implementing the best security practices in the process.",
       "I have gained valuable experience through various projects, both individual and collaborative, which have strengthened my skills in different areas.",
