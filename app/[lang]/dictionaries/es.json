@@ -7,7 +7,7 @@
   "navigation": {
     "home": "Inicio",
     "about": "Sobre Mí",
-    "cv": "CV",
+    "cv": "Formación",
     "portfolio": "Portfolio",
     "contact": "Contacto",
     "tools": "Herramientas",
@@ -24,6 +24,12 @@
     "title": "Sobre Mí",
     "subtitle": "Conóceme mejor",
     "birthDate": "2004-12-27",
+    "stats": {
+      "yearsStudying": "3+ años",
+      "projectsCompleted": "10+ proyectos",
+      "certifications": "4 certificaciones",
+      "yearsExperience": "1 año"
+    },
     "bio": [
       "Soy un estudiante de Ingeniería de Software de {age} años, con sede en Oviedo, España. Mi perfil se enfoca en la ingeniería de software, con el objetivo principal de desarrollar soluciones de alta calidad, implementando las mejores prácticas de seguridad en el proceso.",
       "He adquirido una valiosa experiencia a través de diversos proyectos, tanto individuales como colaborativos, que han reforzado mis habilidades en distintas áreas.",

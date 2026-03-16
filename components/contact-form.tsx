@@ -244,100 +244,9 @@ export function ContactForm({ dictionary }: Readonly<ContactFormProps>) {
         )}
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left Column - Info & Alternative Contact Methods */}
+          {/* Right Column - Form (First on mobile, last on desktop) */}
           <motion.div
-            className="lg:col-span-1 space-y-6"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            {/* Contact Methods Card */}
-            <motion.div variants={itemVariants}>
-              <Card className="h-full backdrop-blur-sm border-primary/20 hover:border-primary/40 transition-colors duration-300">
-                <CardHeader>
-                  <CardTitle className="text-lg flex items-center gap-2">
-                    <Zap className="h-5 w-5 text-primary" />
-                    {dictionary.contactMethods.title}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  {/* Email */}
-                  <motion.a
-                    href={`mailto:${dictionary.contactMethods.email.value}`}
-                    className="flex items-start gap-3 p-3 rounded-lg bg-secondary/50 hover:bg-secondary/75 transition-colors group cursor-pointer"
-                    whileHover={{ x: 4 }}
-                  >
-                    <Mail className="h-5 w-5 text-primary mt-0.5 group-hover:scale-110 transition-transform" />
-                    <div className="flex-1 min-w-0">
-                      <p className="font-medium text-sm">{dictionary.contactMethods.email.label}</p>
-                      <p className="text-xs text-foreground/60 truncate hover:text-foreground underline">{dictionary.contactMethods.email.value}</p>
-                      <p className="text-xs text-primary mt-1">{dictionary.contactMethods.email.responseTime}</p>
-                    </div>
-                  </motion.a>
-
-                  {/* LinkedIn */}
-                  <motion.a
-                    href={dictionary.contactMethods.linkedin.value}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-start gap-3 p-3 rounded-lg bg-secondary/50 hover:bg-secondary/75 transition-colors group cursor-pointer"
-                    whileHover={{ x: 4 }}
-                  >
-                    <Linkedin className="h-5 w-5 text-primary mt-0.5 group-hover:scale-110 transition-transform" />
-                    <div className="flex-1 min-w-0">
-                      <p className="font-medium text-sm">{dictionary.contactMethods.linkedin.label}</p>
-                      <p className="text-xs text-foreground/60 hover:text-foreground underline">{dictionary.contactMethods.linkedin.contact_title}</p>
-                      <p className="text-xs text-primary mt-1">{dictionary.contactMethods.linkedin.responseTime}</p>
-                    </div>
-                  </motion.a>
-
-                  {/* GitHub */}
-                  <motion.a
-                    href={dictionary.contactMethods.github.value}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-start gap-3 p-3 rounded-lg bg-secondary/50 hover:bg-secondary/75 transition-colors group cursor-pointer"
-                    whileHover={{ x: 4 }}
-                  >
-                    <Github className="h-5 w-5 text-primary mt-0.5 group-hover:scale-110 transition-transform" />
-                    <div className="flex-1 min-w-0">
-                      <p className="font-medium text-sm">{dictionary.contactMethods.github.label}</p>
-                      <p className="text-xs text-foreground/60 hover:text-foreground underline">{dictionary.contactMethods.github.contact_title}</p>
-                      <p className="text-xs text-primary mt-1">{dictionary.contactMethods.github.responseTime}</p>
-                    </div>
-                  </motion.a>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* Response Time Info */}
-            <motion.div variants={itemVariants}>
-              <Card className="bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20">
-                <CardContent className="pt-6">
-                  <div className="flex items-start gap-3">
-                    <Clock className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                    <div>
-                      <p className="font-medium text-sm mb-2">{dictionary.formInfo.responseTime}</p>
-                      <p className="text-xs text-foreground/70 mb-3">{dictionary.formInfo.available}</p>
-                      <div className="space-y-1">
-                        {dictionary.formInfo.availability.map((item, index) => (
-                          <div key={index} className="flex items-center gap-2 text-xs">
-                            <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-                            {item}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          </motion.div>
-
-          {/* Right Column - Form */}
-          <motion.div
-            className="lg:col-span-2"
+            className="lg:col-span-2 order-first lg:order-last"
             variants={containerVariants}
             initial="hidden"
             whileInView="visible"
@@ -499,6 +408,96 @@ export function ContactForm({ dictionary }: Readonly<ContactFormProps>) {
                 </Form>
               </CardContent>
             </Card>
+          </motion.div>
+
+          {/* Left Column - Info & Alternative Contact Methods (Second on mobile, first on desktop) */}
+          <motion.div
+            className="lg:col-span-1 space-y-6 order-last lg:order-first"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
+            {/* Contact Methods Card */}
+            <motion.div variants={itemVariants}>
+              <Card className="h-full backdrop-blur-sm border-primary/20 hover:border-primary/40 transition-colors duration-300">
+                <CardHeader>
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <Zap className="h-5 w-5 text-primary" />
+                    {dictionary.contactMethods.title}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {/* Email */}
+                  <motion.a
+                    href={`mailto:${dictionary.contactMethods.email.value}`}
+                    className="flex items-start gap-3 p-3 rounded-lg bg-secondary/50 hover:bg-secondary/75 transition-colors group cursor-pointer"
+                    whileHover={{ x: 4 }}
+                  >
+                    <Mail className="h-5 w-5 text-primary mt-0.5 group-hover:scale-110 transition-transform" />
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-sm">{dictionary.contactMethods.email.label}</p>
+                      <p className="text-xs text-foreground/60 truncate hover:text-foreground underline">{dictionary.contactMethods.email.value}</p>
+                      <p className="text-xs text-primary mt-1">{dictionary.contactMethods.email.responseTime}</p>
+                    </div>
+                  </motion.a>
+
+                  {/* LinkedIn */}
+                  <motion.a
+                    href={dictionary.contactMethods.linkedin.value}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-start gap-3 p-3 rounded-lg bg-secondary/50 hover:bg-secondary/75 transition-colors group cursor-pointer"
+                    whileHover={{ x: 4 }}
+                  >
+                    <Linkedin className="h-5 w-5 text-primary mt-0.5 group-hover:scale-110 transition-transform" />
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-sm">{dictionary.contactMethods.linkedin.label}</p>
+                      <p className="text-xs text-foreground/60 hover:text-foreground underline">{dictionary.contactMethods.linkedin.contact_title}</p>
+                      <p className="text-xs text-primary mt-1">{dictionary.contactMethods.linkedin.responseTime}</p>
+                    </div>
+                  </motion.a>
+
+                  {/* GitHub */}
+                  <motion.a
+                    href={dictionary.contactMethods.github.value}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-start gap-3 p-3 rounded-lg bg-secondary/50 hover:bg-secondary/75 transition-colors group cursor-pointer"
+                    whileHover={{ x: 4 }}
+                  >
+                    <Github className="h-5 w-5 text-primary mt-0.5 group-hover:scale-110 transition-transform" />
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-sm">{dictionary.contactMethods.github.label}</p>
+                      <p className="text-xs text-foreground/60 hover:text-foreground underline">{dictionary.contactMethods.github.contact_title}</p>
+                      <p className="text-xs text-primary mt-1">{dictionary.contactMethods.github.responseTime}</p>
+                    </div>
+                  </motion.a>
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            {/* Response Time Info - Simplified */}
+            <motion.div variants={itemVariants}>
+              <Card className="bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20">
+                <CardContent className="pt-6">
+                  <div className="flex items-start gap-3">
+                    <Clock className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                    <div>
+                      <p className="text-xs text-foreground/70 mb-3 font-medium">{dictionary.formInfo.available}</p>
+                      <div className="space-y-1">
+                        {dictionary.formInfo.availability.map((item, index) => (
+                          <div key={index} className="flex items-center gap-2 text-xs">
+                            <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+                            {item}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
           </motion.div>
         </div>
       </div>

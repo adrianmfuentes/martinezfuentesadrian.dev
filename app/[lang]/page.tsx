@@ -15,7 +15,13 @@ export default async function Home({
 
   return (
     <div>
-      <HeroSection dictionary={dict.home} lang={lang} />
+      <HeroSection 
+        dictionary={dict.home} 
+        stats={dict.about.stats}
+        lang={lang}
+        contactLabel={dict.navigation.contact}
+        cvLabel={dict.navigation.cv}
+      />
     </div>
   );
 }

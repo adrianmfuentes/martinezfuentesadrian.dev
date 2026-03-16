@@ -17,7 +17,6 @@ export default async function AboutPage({
   return (
     <div className="container mx-auto px-4 py-12">
       <AboutSection dictionary={dict.about} />
-      <SkillsSection dictionary={dict.about.skills} />
     </div>
   )
 }
