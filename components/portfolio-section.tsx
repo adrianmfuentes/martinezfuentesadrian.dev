@@ -62,7 +62,7 @@ export function PortfolioSection({ dictionary }: Readonly<PortfolioSectionProps>
       image: "/images/DLP.png",
       tags: ["Java", "Compiler", "Design"],
       category: "design",
-      projectUrl: "",
+      projectUrl: "https://novacode.amfserver.duckdns.org/",
       codeUrl: "https://github.com/adrianmfuentes/DLP",
     },
     {
@@ -76,26 +76,6 @@ export function PortfolioSection({ dictionary }: Readonly<PortfolioSectionProps>
       codeUrl: "https://github.com/adrianmfuentes/SGDB",
     },
     {
-      id: "4",
-      title: dictionary.projects["4"].title,
-      description: dictionary.projects["4"].description,
-      image: "/images/Shell.webp",
-      tags: ["C"],
-      category: "system",
-      projectUrl: "",
-      codeUrl: "https://github.com/adrianmfuentes/Shell",
-    },
-    {
-      id: "5",
-      title: dictionary.projects["5"].title,
-      description: dictionary.projects["5"].description,
-      image: "/images/Task-Manager.webp",
-      tags: ["React", "Node.js", "MariaDB"],
-      category: "web",
-      projectUrl: "",
-      codeUrl: "https://github.com/adrianmfuentes/Task-Manager",
-    },
-    {
       id: "6",
       title: dictionary.projects["6"].title,
       description: dictionary.projects["6"].description,
@@ -106,32 +86,12 @@ export function PortfolioSection({ dictionary }: Readonly<PortfolioSectionProps>
       codeUrl: "https://github.com/adrianmfuentes/Information-Retrieval",
     },
     {
-      id: "7",
-      title: dictionary.projects["7"].title,
-      description: dictionary.projects["7"].description,
-      image: "/images/f1-desktop.png",
-      tags: ["Javascript", "HTML", "CSS", "PHP"],
-      category: "web",
-      projectUrl: "https://university-of-oviedo-projects.github.io/SEW-F1Desktop/",
-      codeUrl: "https://github.com/University-of-Oviedo-Projects/SEW-F1Desktop",
-    },
-    {
       id: "8",
       title: dictionary.projects["8"].title,
       description: dictionary.projects["8"].description,
-      image: "/images/unreal.png",
-      tags: ["Unreal Engine", "C++", "Blueprint"],
-      category: "game",
-      projectUrl: "",
-      codeUrl: "https://github.com/University-of-Oviedo-Projects/SEV-Unreal",
-    },
-    {
-      id: "9",
-      title: dictionary.projects["9"].title,
-      description: dictionary.projects["9"].description,
       image: "/images/Server-HTTP.png",
       tags: ["C++", "Networking", "HTTP"],
-      category: "system",
+      category: "web",
       projectUrl: "",
       codeUrl: "https://github.com/adrianmfuentes/HTTP-server",
     },
@@ -139,26 +99,6 @@ export function PortfolioSection({ dictionary }: Readonly<PortfolioSectionProps>
       id: "10",
       title: dictionary.projects["10"].title,
       description: dictionary.projects["10"].description,
-      image: "/images/bot-twitter.png",
-      tags: ["Python", "Twitter API", "Automation"],
-      category: "data",
-      projectUrl: "",
-      codeUrl: "https://github.com/adrianmfuentes/Twitter-Bot",
-    },
-    {
-      id: "11",
-      title: dictionary.projects["11"].title,
-      description: dictionary.projects["11"].description,
-      image: "/images/url-shortener-cover.png",
-      tags: ["Java", "Spring", "MongoDB", "Web"],
-      category: "web",
-      projectUrl: "https://url-shortener.amfserver.duckdns.org/",
-      codeUrl: "https://github.com/adrianmfuentes/url-shortener"
-    },
-    {
-      id: "12",
-      title: dictionary.projects["12"].title,
-      description: dictionary.projects["12"].description,
       image: "/images/nutritionai.png",
       tags: ["Android", "Jetpack Compose", "Node.js", "PostgreSQL", "AI"],
       category: "web",
@@ -174,9 +114,7 @@ export function PortfolioSection({ dictionary }: Readonly<PortfolioSectionProps>
     { value: "all", label: dictionary.categories.all },
     { value: "design", label: dictionary.categories.design },
     { value: "web", label: dictionary.categories.web },
-    { value: "system", label: dictionary.categories.system },
     { value: "data", label: dictionary.categories.data },
-    { value: "game", label: dictionary.categories.game },
   ]
 
   return (
@@ -252,7 +190,7 @@ function ProjectCard({ project, viewProject, viewCode, index }: Readonly<Project
   
   return (
     <Card className="overflow-hidden h-full flex flex-col">
-      <div className="relative h-48">
+      <div className="relative h-64" suppressHydrationWarning>
         <Image
           src={project.image || "/placeholder.svg"}
           alt={project.title}
@@ -260,7 +198,6 @@ function ProjectCard({ project, viewProject, viewCode, index }: Readonly<Project
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           priority={eager}
           loading={eager ? "eager" : "lazy"}
-          placeholder="blur"
           className="object-cover"
           onError={(e) => {
             // Fallback to placeholder if image fails to load
