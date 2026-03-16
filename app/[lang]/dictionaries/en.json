@@ -92,31 +92,27 @@
       "items": [
         {
           "title": "Web Development Certification",
-          "organization": "University of Oviedo",
+          "organization": "University of Oviedo - TalentUO",
           "period": "2024",
-          "description": "Certification in web development technologies, including HTML, CSS, JavaScript, and modern frameworks.",
-          "pdfUrl": "/certificates/Copia de Certificado - Curso Online en Desarrollo de Aplicaciones Web TalentUO (150 h) - 71743428B.pdf"
+          "description": "Certification in web development technologies, including HTML, CSS, JavaScript, and modern frameworks."
         },
         {
           "title": "Cambridge English B2 Certificate",
           "organization": "Cambridge",
           "period": "2021",
-          "description": "Cambridge qualification demonstrating upper-intermediate proficiency in English.",
-          "pdfUrl": "/certificates/CERTIFICADO B2 INGLES.pdf"
+          "description": "Cambridge qualification demonstrating upper-intermediate proficiency in English."
         },
         {
-          "title": "National Security Framework (CCN-Cert)",
+          "title": "National Security Framework",
           "organization": "National Cryptologic Center",
           "period": "2025",
-          "description": "Certification in the National Security Framework, focusing on information security management and best practices.",
-          "pdfUrl": "/certificates/Expediente_CCN_CERT.pdf"
+          "description": "Certification in the National Security Framework, focusing on information security management and best practices."
         },
         {
           "title": "Google: Artificial Intelligence & Productivity",
           "organization": "Google",
           "period": "2024",
-          "description": "Google course on artificial intelligence and its application in personal and professional productivity.",
-          "pdfUrl": "/certificates/certificado-google-ia.pdf"
+          "description": "Google course on artificial intelligence and its application in personal and professional productivity."
         }
       ]
     },
@@ -197,7 +193,7 @@
   },
   "contact": {
     "title": "Contact Me",
-    "subtitle": "Let's get in touch",
+    "description": "Have a question or proposal? I'd love to hear from you. Fill out the form or choose your preferred way to contact me.",
     "name": "Name",
     "email": "Email",
     "subject": "Subject",
@@ -225,6 +221,36 @@
       "message": "Your message has been received successfully.",
       "response": "I'll respond to your message as soon as possible.",
       "close": "Close"
+    },
+    "contactMethods": {
+      "title": "Other ways to contact me",
+      "email": {
+        "label": "Email",
+        "value": "amf13azul@gmail.com",
+        "responseTime": "I respond in 24-48 hours"
+      },
+      "linkedin": {
+        "label": "LinkedIn",
+        "contact_title": "Check out my LinkedIn",
+        "value": "https://www.linkedin.com/in/adrianmfuentese",
+        "responseTime": "Quick response"
+      },
+      "github": {
+        "label": "GitHub",
+        "contact_title": "Check out my GitHub",
+        "value": "https://github.com/adrianmfuentes",
+        "responseTime": "Open discussions"
+      }
+    },
+    "formInfo": {
+      "responseTime": "Estimated response time: 48 hours",
+      "available": "Available for:",
+      "availability": [
+        "Consultation",
+        "Expert assessment", 
+        "Collaborations", 
+        "Job opportunities"
+      ]
     }
   },
   "footer": {

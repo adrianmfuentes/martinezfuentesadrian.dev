@@ -4,23 +4,26 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
-import { Card, CardContent } from "@components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@components/ui/card"
 import { Button } from "@components/ui/button"
 import { Input } from "@components/ui/input"
 import { Textarea } from "@components/ui/textarea"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@components/ui/form"
 import { toast } from "@/hooks/use-toast"
-import { Send, Loader2, CheckCircle, XCircle } from 'lucide-react'
+import { Send, Loader2, CheckCircle, XCircle, Mail, Linkedin, Github, MessageSquare, Clock, Zap } from 'lucide-react'
 import { submitContactRequest } from "@/app/actions/contact"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@components/ui/dialog"
 import { RadioGroup, RadioGroupItem } from "@components/ui/radio-group"
 import { Label } from "@components/ui/label"
-import { Alert, AlertDescription } from "@components/ui/alert" 
+import { Alert, AlertDescription } from "@components/ui/alert"
+import { Separator } from "@components/ui/separator"
+import Link from "next/link"
+import { motion } from "framer-motion"
 
 interface ContactFormProps {
   dictionary: {
     title: string
-    subtitle: string
+    description: string
     name: string
     email: string
     subject: string
@@ -48,6 +51,31 @@ interface ContactFormProps {
       message: string
       response: string
       close: string
+    }
+    contactMethods: {
+      title: string
+      email: {
+        label: string
+        value: string
+        responseTime: string
+      }
+      linkedin: {
+        label: string
+        contact_title: string
+        value: string
+        responseTime: string
+      }
+      github: {
+        label: string
+        contact_title: string
+        value: string
+        responseTime: string
+      }
+    }
+    formInfo: {
+      responseTime: string
+      available: string
+      availability: string[]
     }
   }
 }
@@ -95,7 +123,6 @@ export function ContactForm({ dictionary }: Readonly<ContactFormProps>) {
     setSubmitStatus({ type: null, message: '' })
 
     try {      
-      // Sanitize inputs
       const sanitizedValues = {
         name: values.name.trim(),
         email: values.email.trim(),
@@ -105,11 +132,9 @@ export function ContactForm({ dictionary }: Readonly<ContactFormProps>) {
         contactMethod: "message" as const,
       }
 
-      // Send contact request using server action
       const result = await submitContactRequest(sanitizedValues)
 
       if (result.success) {        
-        // Mostrar notificación de éxito elegante
         toast({
           title: "¡Mensaje enviado con éxito! ✨",
           description: "Gracias por contactarme. Te responderé lo antes posible.",
@@ -131,7 +156,6 @@ export function ContactForm({ dictionary }: Readonly<ContactFormProps>) {
       
       const errorMessage = error instanceof Error ? error.message : "Error desconocido"
       
-      // Determinar el tipo de error y mostrar mensaje apropiado
       let userFriendlyMessage = ""
       if (errorMessage.includes("Rate limit") || errorMessage.includes("Too many requests")) {
         userFriendlyMessage = "Has enviado demasiados mensajes. Por favor, espera un momento antes de intentar de nuevo."
@@ -167,17 +191,37 @@ export function ContactForm({ dictionary }: Readonly<ContactFormProps>) {
     }
   }
 
+  const containerVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.6,
+        staggerChildren: 0.1,
+      },
+    },
+  }
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 10 },
+    visible: { opacity: 1, y: 0 },
+  }
+
   return (
-    <section className="py-16">
+    <section className="py-16 px-4 sm:px-6 lg:px-8">
       <div className="text-center mb-12">
-        <h2 className="text-3xl font-bold mb-2 font-poppins">{dictionary.title}</h2>
-        <p className="text-lg text-foreground/70">{dictionary.subtitle}</p>
+        <h2 className="text-3xl sm:text-4xl font-bold mb-2 font-poppins">{dictionary.title}</h2>
+        <p className="text-base text-foreground/60 max-w-2xl mx-auto">{dictionary.description}</p>
       </div>
 
-      <div className="max-w-3xl mx-auto">
-        {/* Alert de estado */}
+      <div className="max-w-6xl mx-auto">
         {submitStatus.type && (
-          <div className="mb-6">
+          <motion.div
+            className="mb-6"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
             <Alert className={`${
               submitStatus.type === 'success' 
                 ? 'border-green-200 bg-green-50 dark:border-green-800 dark:bg-green-950' 
@@ -196,151 +240,298 @@ export function ContactForm({ dictionary }: Readonly<ContactFormProps>) {
                 {submitStatus.message}
               </AlertDescription>
             </Alert>
-          </div>
+          </motion.div>
         )}
 
-        <Card>
-          <CardContent className="p-6">
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <FormField
-                    control={form.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>{dictionary.name}</FormLabel>
-                        <FormControl>
-                          <Input placeholder={dictionary.placeholders.name} {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Left Column - Info & Alternative Contact Methods */}
+          <motion.div
+            className="lg:col-span-1 space-y-6"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
+            {/* Contact Methods Card */}
+            <motion.div variants={itemVariants}>
+              <Card className="h-full backdrop-blur-sm border-primary/20 hover:border-primary/40 transition-colors duration-300">
+                <CardHeader>
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <Zap className="h-5 w-5 text-primary" />
+                    {dictionary.contactMethods.title}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {/* Email */}
+                  <motion.a
+                    href={`mailto:${dictionary.contactMethods.email.value}`}
+                    className="flex items-start gap-3 p-3 rounded-lg bg-secondary/50 hover:bg-secondary/75 transition-colors group cursor-pointer"
+                    whileHover={{ x: 4 }}
+                  >
+                    <Mail className="h-5 w-5 text-primary mt-0.5 group-hover:scale-110 transition-transform" />
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-sm">{dictionary.contactMethods.email.label}</p>
+                      <p className="text-xs text-foreground/60 truncate hover:text-foreground underline">{dictionary.contactMethods.email.value}</p>
+                      <p className="text-xs text-primary mt-1">{dictionary.contactMethods.email.responseTime}</p>
+                    </div>
+                  </motion.a>
 
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>{dictionary.email}</FormLabel>
-                        <FormControl>
-                          <Input placeholder={dictionary.placeholders.email} {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
+                  {/* LinkedIn */}
+                  <motion.a
+                    href={dictionary.contactMethods.linkedin.value}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-start gap-3 p-3 rounded-lg bg-secondary/50 hover:bg-secondary/75 transition-colors group cursor-pointer"
+                    whileHover={{ x: 4 }}
+                  >
+                    <Linkedin className="h-5 w-5 text-primary mt-0.5 group-hover:scale-110 transition-transform" />
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-sm">{dictionary.contactMethods.linkedin.label}</p>
+                      <p className="text-xs text-foreground/60 hover:text-foreground underline">{dictionary.contactMethods.linkedin.contact_title}</p>
+                      <p className="text-xs text-primary mt-1">{dictionary.contactMethods.linkedin.responseTime}</p>
+                    </div>
+                  </motion.a>
 
-                <FormField
-                  control={form.control}
-                  name="subject"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{dictionary.subject}</FormLabel>
-                      <FormControl>
-                        <Input placeholder={dictionary.placeholders.subject} {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                  {/* GitHub */}
+                  <motion.a
+                    href={dictionary.contactMethods.github.value}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-start gap-3 p-3 rounded-lg bg-secondary/50 hover:bg-secondary/75 transition-colors group cursor-pointer"
+                    whileHover={{ x: 4 }}
+                  >
+                    <Github className="h-5 w-5 text-primary mt-0.5 group-hover:scale-110 transition-transform" />
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-sm">{dictionary.contactMethods.github.label}</p>
+                      <p className="text-xs text-foreground/60 hover:text-foreground underline">{dictionary.contactMethods.github.contact_title}</p>
+                      <p className="text-xs text-primary mt-1">{dictionary.contactMethods.github.responseTime}</p>
+                    </div>
+                  </motion.a>
+                </CardContent>
+              </Card>
+            </motion.div>
 
-                <FormField
-                  control={form.control}
-                  name="priority"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{dictionary.priority}</FormLabel>
-                      <div className="flex space-x-4">
-                        <RadioGroup
-                          defaultValue={field.value}
-                          onValueChange={field.onChange}
-                          className="flex space-x-2"
-                        >
-                          <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="low" id="low" />
-                            <Label htmlFor="low">{dictionary.priorityLow}</Label>
+            {/* Response Time Info */}
+            <motion.div variants={itemVariants}>
+              <Card className="bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20">
+                <CardContent className="pt-6">
+                  <div className="flex items-start gap-3">
+                    <Clock className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                    <div>
+                      <p className="font-medium text-sm mb-2">{dictionary.formInfo.responseTime}</p>
+                      <p className="text-xs text-foreground/70 mb-3">{dictionary.formInfo.available}</p>
+                      <div className="space-y-1">
+                        {dictionary.formInfo.availability.map((item, index) => (
+                          <div key={index} className="flex items-center gap-2 text-xs">
+                            <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+                            {item}
                           </div>
-                          <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="medium" id="medium" />
-                            <Label htmlFor="medium">{dictionary.priorityMedium}</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="high" id="high" />
-                            <Label htmlFor="high">{dictionary.priorityHigh}</Label>
-                          </div>
-                        </RadioGroup>
+                        ))}
                       </div>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </motion.div>
 
-                <FormField
-                  control={form.control}
-                  name="message"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>{dictionary.message}</FormLabel>
-                      <FormControl>
-                        <Textarea 
-                          placeholder={dictionary.placeholders.message} 
-                          className="min-h-[150px]" 
-                          {...field} 
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+          {/* Right Column - Form */}
+          <motion.div
+            className="lg:col-span-2"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
+            <Card className="backdrop-blur-sm border-primary/20 hover:border-primary/40 transition-all duration-300 shadow-lg hover:shadow-xl">
+              <CardHeader className="pb-4">
+                <CardTitle className="text-2xl flex items-center gap-2">
+                  <MessageSquare className="h-6 w-6 text-primary" />
+                  Envía tu mensaje
+                </CardTitle>
+                <CardDescription>Completa el formulario y me pondré en contacto contigo</CardDescription>
+              </CardHeader>
+              <Separator className="mb-0" />
+              <CardContent className="p-6">
+                <Form {...form}>
+                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                      <FormField
+                        control={form.control}
+                        name="name"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-sm font-medium">{dictionary.name}</FormLabel>
+                            <FormControl>
+                              <div className="relative">
+                                <Input
+                                  placeholder={dictionary.placeholders.name}
+                                  {...field}
+                                  className="pl-10"
+                                />
+                                <MessageSquare className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground pointer-events-none" />
+                              </div>
+                            </FormControl>
+                            <FormMessage className="text-xs" />
+                          </FormItem>
+                        )}
+                      />
 
-                <Button 
-                  type="submit" 
-                  className="w-full gap-2 transition-all duration-200" 
-                  disabled={isSubmitting}
-                  size="lg"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className="h-4 w-4 animate-spin" />
-                      Enviando mensaje...
-                    </>
-                  ) : submitStatus.type === 'success' ? ( // NOSONAR
-                    <>
-                      <CheckCircle className="h-4 w-4" />
-                      ¡Enviado!
-                    </>
-                  ) : (
-                    <>
-                      <Send className="h-4 w-4" />
-                      {dictionary.send}
-                    </>
-                  )}
-                </Button>
-              </form>
-            </Form>
-          </CardContent>
-        </Card>
+                      <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-sm font-medium">{dictionary.email}</FormLabel>
+                            <FormControl>
+                              <div className="relative">
+                                <Input
+                                  placeholder={dictionary.placeholders.email}
+                                  {...field}
+                                  className="pl-10"
+                                />
+                                <Mail className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground pointer-events-none" />
+                              </div>
+                            </FormControl>
+                            <FormMessage className="text-xs" />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
+                    <FormField
+                      control={form.control}
+                      name="subject"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-sm font-medium">{dictionary.subject}</FormLabel>
+                          <FormControl>
+                            <div className="relative">
+                              <Input
+                                placeholder={dictionary.placeholders.subject}
+                                {...field}
+                                className="pl-10"
+                              />
+                              <Zap className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground pointer-events-none" />
+                            </div>
+                          </FormControl>
+                          <FormMessage className="text-xs" />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="priority"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-sm font-medium">{dictionary.priority}</FormLabel>
+                          <RadioGroup
+                            defaultValue={field.value}
+                            onValueChange={field.onChange}
+                            className="flex gap-4 pt-2"
+                          >
+                            <motion.div className="flex items-center space-x-2 cursor-pointer group" whileHover={{ scale: 1.05 }}>
+                              <RadioGroupItem value="low" id="low" />
+                              <Label htmlFor="low" className="cursor-pointer text-sm group-hover:text-primary transition-colors">{dictionary.priorityLow}</Label>
+                            </motion.div>
+                            <motion.div className="flex items-center space-x-2 cursor-pointer group" whileHover={{ scale: 1.05 }}>
+                              <RadioGroupItem value="medium" id="medium" />
+                              <Label htmlFor="medium" className="cursor-pointer text-sm group-hover:text-primary transition-colors">{dictionary.priorityMedium}</Label>
+                            </motion.div>
+                            <motion.div className="flex items-center space-x-2 cursor-pointer group" whileHover={{ scale: 1.05 }}>
+                              <RadioGroupItem value="high" id="high" />
+                              <Label htmlFor="high" className="cursor-pointer text-sm group-hover:text-primary transition-colors">{dictionary.priorityHigh}</Label>
+                            </motion.div>
+                          </RadioGroup>
+                          <FormMessage className="text-xs" />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="message"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-sm font-medium">{dictionary.message}</FormLabel>
+                          <FormControl>
+                            <Textarea 
+                              placeholder={dictionary.placeholders.message}
+                              className="min-h-[160px] resize-none"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage className="text-xs" />
+                        </FormItem>
+                      )}
+                    />
+
+                    <motion.div
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <Button 
+                        type="submit"
+                        className="w-full gap-2 transition-all duration-200 text-base font-medium py-6"
+                        disabled={isSubmitting}
+                        size="lg"
+                      >
+                        {isSubmitting ? (
+                          <>
+                            <Loader2 className="h-5 w-5 animate-spin" />
+                            Enviando...
+                          </>
+                        ) : submitStatus.type === 'success' ? (
+                          <>
+                            <CheckCircle className="h-5 w-5" />
+                            ¡Enviado!
+                          </>
+                        ) : (
+                          <>
+                            <Send className="h-5 w-5" />
+                            {dictionary.send}
+                          </>
+                        )}
+                      </Button>
+                    </motion.div>
+                  </form>
+                </Form>
+              </CardContent>
+            </Card>
+          </motion.div>
+        </div>
       </div>
 
       {/* Confirmation Dialog */}
       <Dialog open={showConfirmation} onOpenChange={setShowConfirmation}>
-        <DialogContent>
+        <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-center text-xl">{dictionary.confirmation.title}</DialogTitle>
+            <DialogTitle className="text-center text-2xl">{dictionary.confirmation.title}</DialogTitle>
           </DialogHeader>
-          <div className="py-6 text-center">
-            <div className="mx-auto w-12 h-12 rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center mb-4">
-              <Send className="h-6 w-6 text-green-600 dark:text-green-300" />
-            </div>
-            <p className="mb-2">{dictionary.confirmation.message}</p>
-            <p className="text-sm text-muted-foreground mb-4">
+          <motion.div
+            className="py-6 text-center"
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+          >
+            <motion.div
+              className="mx-auto w-16 h-16 rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center mb-4"
+              animate={{ scale: [1, 1.1, 1] }}
+              transition={{ duration: 0.6, repeat: 1 }}
+            >
+              <CheckCircle className="h-8 w-8 text-green-600 dark:text-green-300" />
+            </motion.div>
+            <p className="font-medium mb-2 text-lg">{dictionary.confirmation.message}</p>
+            <p className="text-sm text-muted-foreground mb-6">
               {dictionary.confirmation.response}
             </p>
-          </div>
-          <Button onClick={() => setShowConfirmation(false)}>{dictionary.confirmation.close}</Button>
+          </motion.div>
+          <Button 
+            onClick={() => setShowConfirmation(false)} 
+            className="w-full"
+          >
+            {dictionary.confirmation.close}
+          </Button>
         </DialogContent>
       </Dialog>
     </section>
