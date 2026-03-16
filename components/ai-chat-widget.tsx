@@ -40,7 +40,13 @@ export const AIChatWidget: FC<Readonly<AIChatWidgetProps>> = ({ dictionary }) =>
   // Scroll to bottom when messages change
   useEffect(() => {
     if (scrollAreaRef.current) {
-      scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight
+      // Esperar a que el DOM se actualice antes de hacer scroll
+      setTimeout(() => {
+        const scrollElement = scrollAreaRef.current?.querySelector('[data-radix-scroll-area-viewport]')
+        if (scrollElement) {
+          scrollElement.scrollTop = scrollElement.scrollHeight
+        }
+      }, 0)
     }
   }, [messages])
 

@@ -92,31 +92,27 @@
       "items": [
         {
           "title": "Certificación en Desarrollo Web",
-          "organization": "Universidad de Oviedo",
+          "organization": "Universidad de Oviedo - TalentUO",
           "period": "2024",
-          "description": "Aprendí HTML, CSS y JS, así como la creación de sitios web con React, Node y MariaDB.",
-          "pdfUrl": "/certificates/Copia de Certificado - Curso Online en Desarrollo de Aplicaciones Web TalentUO (150 h) - 71743428B.pdf"
+          "description": "Aprendí HTML, CSS y JS, así como la creación de sitios web con React, Node y MariaDB."
         },
         {
           "title": "Certificado Cambridge English B2",
           "organization": "Cambridge",
           "period": "2021",
-          "description": "Certificación Cambridge que demuestra un nivel intermedio-alto de dominio del inglés.",
-          "pdfUrl": "/certificates/CERTIFICADO B2 INGLES.pdf"
+          "description": "Certificación Cambridge que demuestra un nivel intermedio-alto de dominio del inglés."
         },
         {
-          "title": "Esquema Nacional de Seguridad (CCN-Cert ENS)",
+          "title": "Esquema Nacional de Seguridad",
           "organization": "Centro Criptológico Nacional",
           "period": "2025",
-          "description": "Certificación en el Esquema Nacional de Seguridad, centrada en la gestión de la seguridad de la información y las mejores prácticas.",
-          "pdfUrl": "/certificates/Expediente_CCN_CERT.pdf"
+          "description": "Certificación en el Esquema Nacional de Seguridad, centrada en la gestión de la seguridad de la información y las mejores prácticas."
         },
         {
           "title": "Google: Inteligencia Artificial y Productividad",
           "organization": "Google",
           "period": "2024",
-          "description": "Curso de Google sobre inteligencia artificial y su aplicación en la productividad personal y profesional.",
-          "pdfUrl": "/certificates/certificado-google-ia.pdf"
+          "description": "Curso de Google sobre inteligencia artificial y su aplicación en la productividad personal y profesional."
         }
       ]
     },
@@ -197,7 +193,7 @@
   },
   "contact": {
     "title": "Contáctame",
-    "subtitle": "Pongámonos en contacto",
+    "description": "¿Tienes una pregunta o propuesta? Me encantaría saber de ti. Completa el formulario o elige tu forma preferida de contacto.",
     "name": "Nombre",
     "email": "Correo",
     "subject": "Asunto",
@@ -225,6 +221,36 @@
       "message": "Tu mensaje ha sido recibido correctamente.",
       "response": "Responderé a tu mensaje tan pronto como sea posible.",
       "close": "Cerrar"
+    },
+    "contactMethods": {
+      "title": "Otras formas de contactarme",
+      "email": {
+        "label": "Email",
+        "value": "amf13azul@gmail.com",
+        "responseTime": "Respondo en 24-48 horas"
+      },
+      "linkedin": {
+        "label": "LinkedIn",
+        "contact_title": "Conecta conmigo en LinkedIn",
+        "value": "https://www.linkedin.com/in/adrianmfuentese",
+        "responseTime": "Respuesta rápida"
+      },
+      "github": {
+        "label": "GitHub",
+        "contact_title": "Consulta mi GitHub",
+        "value": "https://github.com/adrianmfuentes",
+        "responseTime": "Discusiones abiertas"
+      }
+    },
+    "formInfo": {
+      "responseTime": "Tiempo de respuesta estimado: 48 horas",
+      "available": "Disponible para:",
+      "availability": [
+        "Consultoría", 
+        "Peritaciones", 
+        "Colaboraciones", 
+        "Oportunidades laborales"
+      ]
     }
   },
   "footer": {
