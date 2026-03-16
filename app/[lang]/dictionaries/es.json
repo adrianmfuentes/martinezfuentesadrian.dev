@@ -63,6 +63,8 @@
     "title": "Currículum Vitae",
     "subtitle": "Mi trayectoria profesional",
     "download": "Descargar CV",
+    "involvement": "Mi Participación",
+    "about_grade": "Sobre el grado",
     "tabs": {
       "education": "Educación",
       "certifications": "Certificaciones",
@@ -74,19 +76,15 @@
           "title": "Grado en Ingeniería Informática (Programa Bilingüe)",
           "organization": "Universidad de Oviedo",
           "period": "2022 - Presente",
-          "description": "Inscrito en el programa bilingüe, enfocado en desarrollo de software, algoritmos y arquitectura de sistemas. Participación en diversas competiciones de programación y hackathones."
-        },
-        {
-          "title": "Bachillerato de Ciencias Sociales",
-          "organization": "IES Aramo, Oviedo",
-          "period": "2020 - 2022",
-          "description": "Especializado en Ciencias Sociales."
-        },
-        {
-          "title": "Educación Secundaria Obligatoria (ESO)",
-          "organization": "Colegio La Milagrosa, Oviedo",
-          "period": "2016 - 2020",
-          "description": ""
+          "gpa": "7,303/10",
+          "honours": "Matrícula de Honor en Arquitectura de Software",
+          "description": [
+              "Cursado en el programa bilingüe",
+              "Grado presencial de 4 años en la Escuela de Ingeniería Informática de la Universidad de Oviedo.",
+              "Aprendizaje sobre los conceptos base de la informática, incluyendo programación, algoritmos, estructuras de datos, sistemas operativos, redes y bases de datos.",
+              "Inmersión en desarrollo web, arquitectura de software y ciberseguridad.",
+              "Participación en proyectos prácticos y colaborativos que han reforzado mis habilidades técnicas y de trabajo en equipo."
+          ]
         }
       ]
     },
@@ -119,6 +117,24 @@
           "period": "2024",
           "description": "Curso de Google sobre inteligencia artificial y su aplicación en la productividad personal y profesional.",
           "pdfUrl": "/certificates/certificado-google-ia.pdf"
+        }
+      ]
+    },
+    "experience": {
+      "items": [
+        {
+          "title": "Becario como Ingeniero de Software",
+          "organization": "Indra ATM Sistemas",
+          "location": "Gijón, España",
+          "period": "2026 - Presente",
+          "department": "iTEC & Soluciones Internas",
+          "description": [
+            "Apoyo a la gestión de proyectos mediante metodologías ágiles",
+            "Seguimiento y control de hitos: uso de herramientas profesionales como Jira para supervisar el avance de las tareas y garantizar el cumplimiento de los plazos.",
+            "Comunicación interdepartamental: colaboración en la gestión de la comunicación entre el equipo técnico y las distintas partes interesadas para facilitar el flujo de trabajo.",
+            "Documentación de procesos: preparación y actualización de informes de progreso y de la documentación técnica necesaria para el ciclo de vida de entrega del software.",
+            "Optimización del flujo de trabajo: aprendizaje y aplicación de métricas de rendimiento para identificar cuellos de botella en el proceso de desarrollo."
+          ]
         }
       ]
     }

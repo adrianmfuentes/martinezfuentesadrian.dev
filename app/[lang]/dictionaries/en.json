@@ -63,6 +63,8 @@
     "title": "Curriculum Vitae",
     "subtitle": "My professional journey",
     "download": "Download CV",
+    "involvement": "My Involvement",
+    "about_grade": "About the Bachelor",
     "tabs": {
       "education": "Education",
       "certifications": "Certifications",
@@ -74,19 +76,15 @@
           "title": "Bachelor's in Software Engineering (Bilingual Program)",
           "organization": "University of Oviedo",
           "period": "2022 - Present",
-          "description": "Enrolled in the bilingual program, focusing on software development, algorithms, and system architecture. Participating in various coding competitions and hackathons."
-        },
-        {
-          "title": "Social Sciences High School Diploma",
-          "organization": "IES Aramo, Oviedo",
-          "period": "2020 - 2022",
-          "description": "Specialized in Social Sciences."
-        },
-        {
-          "title": "Compulsory Secondary Education (ESO)",
-          "organization": "Colegio La Milagrosa, Oviedo",
-          "period": "2016 - 2020",
-          "description": ""
+          "gpa": "7.303/10",
+          "honours": "Honours in Software Architecture",
+          "description": [
+              "Enrolled in the bilingual program",
+              "4-year on-campus bachelor in the School of Computer Engineering at the University of Oviedo.",
+              "Learning about the basic concepts of computer science, including programming, algorithms, data structures, operating systems, networks and databases.",
+              "Immersion in web development, software architecture and cybersecurity.",
+              "Participation in practical projects and collaborative efforts that have strengthened my technical skills and teamwork abilities."
+          ]
         }
       ]
     },
@@ -119,6 +117,24 @@
           "period": "2024",
           "description": "Google course on artificial intelligence and its application in personal and professional productivity.",
           "pdfUrl": "/certificates/certificado-google-ia.pdf"
+        }
+      ]
+    },
+    "experience": {
+      "items": [
+        {
+          "title": "Intern as Software Engineer",
+          "organization": "Indra ATM Systems",
+          "location": "Gijón, España",
+          "period": "2026 - Present",
+          "department": "iTEC & Internal Solutions",
+          "description": [
+            "Support in project management using agile methodologies",
+            "Tracking and control of milestones: use of professional tools like Jira to monitor task progress and ensure deadline compliance.",
+            "Interdepartmental communication: collaboration in managing communication between the technical team and various stakeholders to facilitate workflow.",
+            "Process documentation: preparation and updating of progress reports and necessary technical documentation for the software delivery lifecycle.",
+            "Workflow optimization: learning and applying performance metrics to identify bottlenecks in the development process."
+          ]
         }
       ]
     }
