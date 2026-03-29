@@ -27,3 +27,5 @@ yarn-error.log*
 next-env.d.ts
 .vercel
 extensiones.txt
+CLAUDE.md
+.claude/settings.local.json

@@ -28,7 +28,7 @@
       "yearsStudying": "3+ años",
       "projectsCompleted": "10+ proyectos",
       "certifications": "4 certificaciones",
-      "yearsExperience": "1 año"
+      "yearsExperience": "2 meses"
     },
     "bio": [
       "Soy un estudiante de Ingeniería de Software de {age} años, con sede en Oviedo, España. Mi perfil se enfoca en la ingeniería de software, con el objetivo principal de desarrollar soluciones de alta calidad, implementando las mejores prácticas de seguridad en el proceso.",
@@ -69,6 +69,7 @@
     "title": "Currículum Vitae",
     "subtitle": "Mi trayectoria profesional",
     "download": "Descargar CV",
+    "view_online": "Ver CV Online",
     "involvement": "Mi Participación",
     "about_grade": "Sobre el grado",
     "tabs": {
