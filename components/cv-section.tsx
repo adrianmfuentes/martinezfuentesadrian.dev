@@ -13,6 +13,7 @@ interface CVSectionProps {
     title: string
     subtitle: string
     download: string
+    view_online: string
     involvement: string
     about_grade: string
     tabs: {
@@ -70,10 +71,16 @@ export function CVSection({ dictionary, lang }: Readonly<CVSectionProps>) {
         <p className="text-lg text-foreground/70">{dictionary.subtitle}</p>
       </div>
 
-      <div className="flex justify-center mb-8">
+      <div className="flex justify-center gap-3 mb-8">
         <Button onClick={handleDownload} className="gap-2">
           <Download className="h-4 w-4" />
           {dictionary.download}
+        </Button>
+        <Button variant="outline" asChild className="gap-2">
+          <a href="https://adrianmfuentes.github.io/cv" target="_blank" rel="noopener noreferrer">
+            <ExternalLink className="h-4 w-4" />
+            {dictionary.view_online}
+          </a>
         </Button>
       </div>
 

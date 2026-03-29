@@ -28,7 +28,7 @@
       "yearsStudying": "3+ years",
       "projectsCompleted": "10+ projects",
       "certifications": "4 certifications",
-      "yearsExperience": "1 year"
+      "yearsExperience": "2 months"
     },
     "bio": [
       "I am a {age}-year-old software engineering student based in Oviedo, Spain. My profile is focused on software engineering, with the main goal of developing high-quality solutions, implementing the best security practices in the process.",
@@ -69,6 +69,7 @@
     "title": "Curriculum Vitae",
     "subtitle": "My professional journey",
     "download": "Download CV",
+    "view_online": "View CV Online",
     "involvement": "My Involvement",
     "about_grade": "About the Bachelor",
     "tabs": {

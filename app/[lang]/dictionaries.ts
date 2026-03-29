@@ -1,4 +1,6 @@
 import "server-only"
+import { cache } from "react"
+import { getExperienceCounter, getContentOverride, computeExperienceLabel } from "@/lib/kv"
 
 interface Dictionary {
   metadata: {
@@ -27,6 +29,12 @@ interface Dictionary {
     subtitle: string
     birthDate: string
     bio: string[]
+    stats: {
+      yearsStudying: string
+      projectsCompleted: string
+      certifications: string
+      yearsExperience: string
+    }
     skills: {
       title: string
       technical: string
@@ -60,6 +68,9 @@ interface Dictionary {
     title: string
     subtitle: string
     download: string
+    view_online: string
+    involvement: string
+    about_grade: string
     tabs: {
       education: string
       certifications: string
@@ -70,7 +81,9 @@ interface Dictionary {
         title: string
         organization: string
         period: string
-        description: string
+        gpa?: string
+        honours?: string
+        description: string | string[]
       }[]
     }
     certifications: {
@@ -79,6 +92,17 @@ interface Dictionary {
         organization: string
         period: string
         description: string
+        pdfUrl?: string
+      }[]
+    }
+    experience: {
+      items: {
+        title: string
+        organization: string
+        location: string
+        period: string
+        department: string
+        description: string | string[]
       }[]
     }
   }
@@ -205,10 +229,31 @@ interface Dictionary {
 }
 
 const dictionaries: Record<string, () => Promise<Dictionary>> = {
-  en: () => import("./dictionaries/en.json").then((module) => module.default),
-  es: () => import("./dictionaries/es.json").then((module) => module.default),
+  en: () => import("./dictionaries/en.json").then((module) => module.default as unknown as Dictionary),
+  es: () => import("./dictionaries/es.json").then((module) => module.default as unknown as Dictionary),
 }
 
-export const getDictionary = async (locale: "en" | "es") => {
-  return dictionaries[locale]()
-}
+export const getDictionary = cache(async (locale: "en" | "es"): Promise<Dictionary> => {
+  const base = await dictionaries[locale]()
+
+  try {
+    const [expOverride, eduOverride, certOverride, counter] = await Promise.all([
+      getContentOverride<Dictionary["cv"]["experience"]>(locale, "experience"),
+      getContentOverride<Dictionary["cv"]["education"]>(locale, "education"),
+      getContentOverride<Dictionary["cv"]["certifications"]>(locale, "certifications"),
+      getExperienceCounter(),
+    ])
+
+    if (expOverride) base.cv.experience = expOverride
+    if (eduOverride) base.cv.education = eduOverride
+    if (certOverride) base.cv.certifications = certOverride
+
+    if (counter.autoIncrement && counter.startDate) {
+      base.about.stats.yearsExperience = computeExperienceLabel(counter.startDate, locale)
+    }
+  } catch {
+    // KV unavailable — return static JSON as-is
+  }
+
+  return base
+})
