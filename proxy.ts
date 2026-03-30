@@ -3,7 +3,7 @@ import type { NextRequest } from "next/server"
 
 const COOKIE_NAME = "admin_session"
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
 
   // Login page is always accessible
