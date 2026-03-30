@@ -9,9 +9,28 @@ permissions:
   pull-requests: write
 
 jobs:
+  # Build must pass before any merge happens
+  build:
+    runs-on: ubuntu-latest
+    if: github.actor == 'dependabot[bot]'
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: latest
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "pnpm"
+
+      - run: pnpm install
+      - run: pnpm build
+
   auto-merge:
     runs-on: ubuntu-latest
-    # Only act on Dependabot PRs
+    needs: build   # only runs if build job succeeded
     if: github.actor == 'dependabot[bot]'
 
     steps:
@@ -21,19 +40,17 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      # Enable auto-merge for patch and minor updates.
-      # GitHub will merge automatically once all required status checks pass
-      # (i.e. the "CI / build" check from ci.yml).
-      - name: Enable auto-merge (patch / minor)
+      # patch / minor → merge directly (build already passed above)
+      - name: Merge patch and minor updates
         if: |
           steps.meta.outputs.update-type == 'version-update:semver-patch' ||
           steps.meta.outputs.update-type == 'version-update:semver-minor'
-        run: gh pr merge --auto --squash "$PR_URL"
+        run: gh pr merge --squash "$PR_URL"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PR_URL: ${{ github.event.pull_request.html_url }}
 
-      # Label major updates so you can review them manually
+      # major → label for manual review, never auto-merged
       - name: Label major updates for manual review
         if: steps.meta.outputs.update-type == 'version-update:semver-major'
         run: gh pr edit "$PR_URL" --add-label "major-update"
