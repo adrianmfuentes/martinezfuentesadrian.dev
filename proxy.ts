@@ -3,8 +3,29 @@ import type { NextRequest } from "next/server"
 
 const COOKIE_NAME = "admin_session"
 
+const ALLOWED_IPS = (process.env.ADMIN_ALLOWED_IPS ?? "")
+  .split(",")
+  .map((ip) => ip.trim())
+  .filter(Boolean)
+
+function getClientIp(request: NextRequest): string {
+  return (
+    request.headers.get("x-forwarded-for")?.split(",")[0].trim() ??
+    request.headers.get("x-real-ip") ??
+    ""
+  )
+}
+
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
+
+  // Block by IP before anything else
+  if (ALLOWED_IPS.length > 0) {
+    const ip = getClientIp(request)
+    if (!ALLOWED_IPS.includes(ip)) {
+      return new NextResponse(null, { status: 403 })
+    }
+  }
 
   // Login page is always accessible
   if (pathname === "/admin/login") return NextResponse.next()
