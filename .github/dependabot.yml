@@ -1,6 +1,36 @@
 version: 2
 updates:
+  # npm packages — group patch/minor into one weekly PR, security PRs open immediately
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 10
+    groups:
+      # All non-major updates in a single PR per week
+      patch-and-minor:
+        update-types:
+          - "minor"
+          - "patch"
+    labels:
+      - "dependencies"
+    ignore:
+      # Major version bumps require manual review — Dependabot will still open
+      # individual PRs for these but they won't be auto-merged
+      []
+
+  # Keep GitHub Actions up to date too
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    groups:
+      actions:
+        patterns:
+          - "*"
+    labels:
+      - "dependencies"
+      - "github-actions"
