@@ -9,13 +9,32 @@ const nextConfig = {
   images: {
     formats: ['image/webp', 'image/avif'],
   },
+  // Remove the X-Powered-By: Next.js header (minor security + removes one header)
+  poweredByHeader: false,
+
   experimental: {
     webpackBuildWorker: true,
     parallelServerBuildTraces: true,
     parallelServerCompiles: true,
+    // Required to use the forbidden() function in server components
+    authInterrupts: true,
   },
   async headers() {
     return [
+      {
+        // Long-lived cache for immutable public images
+        source: "/images/:path*",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+        ],
+      },
+      {
+        // PDFs may be updated; cache for 1 day, serve stale for 7 days while revalidating
+        source: "/cv/:path*",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" },
+        ],
+      },
       {
         // Configuración CORS para todas las rutas de API
         source: "/api/:path*",
