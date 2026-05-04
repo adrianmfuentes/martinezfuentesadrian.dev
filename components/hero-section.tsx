@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { Button } from "@components/ui/button"
-import { ArrowRight, Code2, Zap, BookOpen, Target } from "lucide-react"
+import { ArrowRight, Code2, BookOpen, Target, GitBranch } from "lucide-react"
 import { motion } from "framer-motion"
 import { useState, useEffect } from "react"
 
@@ -43,7 +43,7 @@ const FloatingShape = ({ delay, duration, x, y, size }: { delay: number; duratio
   />
 )
 
-const StatCard = ({ label, value, icon: Icon, delay }: { label: string; value: string; icon: React.ReactNode; delay: number }) => (
+const StatCard = ({ label, value, icon: Icon, delay, smallValue }: { label: string; value: string; icon: React.ReactNode; delay: number; smallValue?: boolean }) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
@@ -54,7 +54,7 @@ const StatCard = ({ label, value, icon: Icon, delay }: { label: string; value: s
       <div className="text-primary text-xs sm:text-base">{Icon}</div>
       <p className="text-[0.65rem] sm:text-sm text-foreground/70 text-center leading-tight line-clamp-2">{label}</p>
     </div>
-    <p className="text-sm sm:text-2xl font-bold text-primary text-center break-words leading-tight">{value}</p>
+    <p className={`font-bold text-primary text-center break-words leading-tight ${smallValue ? "text-xs sm:text-base" : "text-sm sm:text-2xl"}`}>{value}</p>
   </motion.div>
 )
 
@@ -71,15 +71,26 @@ const CursorGlow = ({ mousePosition }: { mousePosition: { x: number; y: number }
 
 export function HeroSection({ dictionary, stats, lang, contactLabel, cvLabel }: HeroSectionProps) {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  const [githubStats, setGithubStats] = useState<{ commits: number; repos: number } | null>(null)
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY })
     }
-
     window.addEventListener("mousemove", handleMouseMove)
     return () => window.removeEventListener("mousemove", handleMouseMove)
   }, [])
+
+  useEffect(() => {
+    fetch("/api/github-stats")
+      .then(res => res.json())
+      .then(data => setGithubStats(data))
+      .catch(() => {})
+  }, [])
+
+  const githubValue = githubStats
+    ? `+${githubStats.commits.toLocaleString()} commits`
+    : "..."
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -168,15 +179,16 @@ export function HeroSection({ dictionary, stats, lang, contactLabel, cvLabel }: 
             className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8"
           >
             <StatCard
-              label={lang === "es" ? "Años estudiando" : "Years studying"}
-              value={stats.yearsStudying}
-              icon={<BookOpen className="h-5 w-5" />}
+              label={lang === "es" ? "Stack Principal" : "Main Stack"}
+              value="Java · Python · Web"
+              icon={<Code2 className="h-5 w-5" />}
               delay={1}
+              smallValue
             />
             <StatCard
               label={lang === "es" ? "Proyectos" : "Projects"}
               value={stats.projectsCompleted}
-              icon={<Code2 className="h-5 w-5" />}
+              icon={<BookOpen className="h-5 w-5" />}
               delay={1.1}
             />
             <StatCard
@@ -186,9 +198,9 @@ export function HeroSection({ dictionary, stats, lang, contactLabel, cvLabel }: 
               delay={1.2}
             />
             <StatCard
-              label={lang === "es" ? "Experiencia" : "Experience"}
-              value={stats.yearsExperience}
-              icon={<Zap className="h-5 w-5" />}
+              label={lang === "es" ? "Actividad" : "Activity"}
+              value={githubValue}
+              icon={<GitBranch className="h-5 w-5" />}
               delay={1.3}
             />
           </motion.div>
