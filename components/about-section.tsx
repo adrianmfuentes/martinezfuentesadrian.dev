@@ -4,7 +4,7 @@ import { useRef } from "react"
 import { Card, CardContent } from "@components/ui/card"
 import { motion, useInView } from "framer-motion"
 import Image from 'next/image';
-import backgroundImage from '../public/images/me.jpg';
+import backgroundImage from '../public/images/me.jpeg';
 import { Rocket, Lightbulb, Users, Zap, BookOpen, Award, ArrowRight } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@components/ui/button"
