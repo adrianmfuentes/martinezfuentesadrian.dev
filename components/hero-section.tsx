@@ -18,6 +18,7 @@ interface HeroSectionProps {
     readonly projectsCompleted: string
     readonly certifications: string
     readonly yearsExperience: string
+    readonly techstack: string
   }
   readonly lang: string
   readonly contactLabel: string
@@ -180,7 +181,7 @@ export function HeroSection({ dictionary, stats, lang, contactLabel, cvLabel }: 
           >
             <StatCard
               label={lang === "es" ? "Stack Principal" : "Main Stack"}
-              value="Java · Python · Web"
+              value={stats.techstack}
               icon={<Code2 className="h-5 w-5" />}
               delay={1}
               smallValue
