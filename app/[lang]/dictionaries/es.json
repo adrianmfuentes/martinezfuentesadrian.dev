@@ -26,9 +26,10 @@
     "birthDate": "2004-12-27",
     "stats": {
       "yearsStudying": "3+ años",
-      "projectsCompleted": "10+ proyectos",
+      "projectsCompleted": "+10 proyectos",
       "certifications": "4 certificaciones",
-      "yearsExperience": "2 meses"
+      "yearsExperience": "2 meses",
+      "techstack": "Java · Python · React"
     },
     "bio": [
       "Soy un estudiante de Ingeniería de Software de {age} años, con sede en Oviedo, España. Mi perfil se enfoca en la ingeniería de software, con el objetivo principal de desarrollar soluciones de alta calidad, implementando las mejores prácticas de seguridad en el proceso.",

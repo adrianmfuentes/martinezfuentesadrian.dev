@@ -26,9 +26,10 @@
     "birthDate": "2004-12-27",
     "stats": {
       "yearsStudying": "3+ years",
-      "projectsCompleted": "10+ projects",
+      "projectsCompleted": "+10 projects",
       "certifications": "4 certifications",
-      "yearsExperience": "2 months"
+      "yearsExperience": "2 months",
+      "techstack": "Java · Python · React"
     },
     "bio": [
       "I am a {age}-year-old software engineering student based in Oviedo, Spain. My profile is focused on software engineering, with the main goal of developing high-quality solutions, implementing the best security practices in the process.",
