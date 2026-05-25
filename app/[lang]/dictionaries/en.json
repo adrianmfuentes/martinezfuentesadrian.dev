@@ -27,7 +27,7 @@
     "stats": {
       "yearsStudying": "+3 years",
       "projectsCompleted": "+10 projects",
-      "certifications": "4 certifications",
+      "certifications": "5 certifications",
       "yearsExperience": "2 months",
       "techstack": "Java · Python · React"
     },
@@ -121,6 +121,12 @@
           "organization": "Google",
           "period": "2024",
           "description": "Google course on artificial intelligence and its application in personal and professional productivity."
+        },
+        {
+          "title": "AWS Serverless Architecture University Microcredential",
+          "organization": "University of Oviedo - NextDigital",
+          "period": "2026",
+          "description": "University microcredential in serverless architectures with microservices on AWS, issued as a European Digital Credential for Learning."
         }
       ]
     },
