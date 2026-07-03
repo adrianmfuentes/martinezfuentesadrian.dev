@@ -60,8 +60,8 @@ export function CVSection({ dictionary, lang }: Readonly<CVSectionProps>) {
 
   const handleDownload = () => {
     // Download the CV in the selected language
-    const cvPath = `${window.location.origin}${lang === "en" ? "/cv/cv_en.pdf" : "/cv/cv_es.pdf"}`
-    window.open(cvPath, "_blank")
+    const cvPath = `${globalThis.location.origin}${lang === "en" ? "/cv/cv_en.pdf" : "/cv/cv_es.pdf"}`
+    globalThis.open(cvPath, "_blank")
   }
 
   return (

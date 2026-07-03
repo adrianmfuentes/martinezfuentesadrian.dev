@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import fs from 'fs/promises'
-import { join } from 'path'
+import fs from 'node:fs/promises'
+import { join } from 'node:path'
 
 export type Lock = { acquire: () => Promise<void>; release: () => void }
 

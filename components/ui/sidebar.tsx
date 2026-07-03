@@ -108,8 +108,8 @@ const SidebarProvider = React.forwardRef<
         }
       }
 
-      window.addEventListener("keydown", handleKeyDown)
-      return () => window.removeEventListener("keydown", handleKeyDown)
+      globalThis.addEventListener("keydown", handleKeyDown)
+      return () => globalThis.removeEventListener("keydown", handleKeyDown)
     }, [toggleSidebar])
 
     // We add a state so that we can do data-state="expanded" or "collapsed".
@@ -260,7 +260,7 @@ const Sidebar = React.forwardRef<
 Sidebar.displayName = "Sidebar"
 
 const SidebarTrigger = React.forwardRef<
-  React.ElementRef<typeof Button>,
+  React.ComponentRef<typeof Button>,
   React.ComponentProps<typeof Button>
 >(({ className, onClick, ...props }, ref) => {
   const { toggleSidebar } = useSidebar()
@@ -333,7 +333,7 @@ const SidebarInset = React.forwardRef<
 SidebarInset.displayName = "SidebarInset"
 
 const SidebarInput = React.forwardRef<
-  React.ElementRef<typeof Input>,
+  React.ComponentRef<typeof Input>,
   React.ComponentProps<typeof Input>
 >(({ className, ...props }, ref) => {
   return (
@@ -381,7 +381,7 @@ const SidebarFooter = React.forwardRef<
 SidebarFooter.displayName = "SidebarFooter"
 
 const SidebarSeparator = React.forwardRef<
-  React.ElementRef<typeof Separator>,
+  React.ComponentRef<typeof Separator>,
   React.ComponentProps<typeof Separator>
 >(({ className, ...props }, ref) => {
   return (
@@ -653,7 +653,7 @@ const SidebarMenuSkeleton = React.forwardRef<
   // Deterministic pseudo-random width between 50 to 90%, derived from a stable id.
   const id = React.useId()
   const width = React.useMemo(() => {
-    const hash = Array.from(id).reduce((acc, char) => acc + char.charCodeAt(0), 0)
+    const hash = Array.from(id).reduce((acc, char) => acc + (char.codePointAt(0) ?? 0), 0)
     return `${(hash % 40) + 50}%`
   }, [id])
 

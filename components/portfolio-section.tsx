@@ -41,71 +41,67 @@ interface Project {
   codeUrl: string
 }
 
+type ProjectMetadata = Omit<Project, "title" | "description">
+
+const PROJECT_METADATA: ProjectMetadata[] = [
+  {
+    id: "1",
+    image: "/images/wichat.png",
+    tags: ["React", "Node.js", "Express", "Oracle", "Docker", "GitHub", "Socket.io"],
+    category: "web",
+    projectUrl: "",
+    codeUrl: "https://github.com/Arquisoft/wichat_en2b",
+  },
+  {
+    id: "2",
+    image: "/images/DLP.png",
+    tags: ["Java", "Compiler", "Design"],
+    category: "design",
+    projectUrl: "https://novacode.amfserver.duckdns.org/",
+    codeUrl: "https://github.com/adrianmfuentes/DLP",
+  },
+  {
+    id: "3",
+    image: "/images/SGDB.webp",
+    tags: ["C++"],
+    category: "data",
+    projectUrl: "",
+    codeUrl: "https://github.com/adrianmfuentes/SGDB",
+  },
+  {
+    id: "6",
+    image: "/images/Information-Retrieval.webp",
+    tags: ["Python"],
+    category: "data",
+    projectUrl: "",
+    codeUrl: "https://github.com/adrianmfuentes/Information-Retrieval",
+  },
+  {
+    id: "8",
+    image: "/images/Server-HTTP.png",
+    tags: ["C++", "Networking", "HTTP"],
+    category: "web",
+    projectUrl: "",
+    codeUrl: "https://github.com/adrianmfuentes/HTTP-server",
+  },
+  {
+    id: "10",
+    image: "/images/nutritionai.png",
+    tags: ["Android", "Jetpack Compose", "Node.js", "PostgreSQL", "AI"],
+    category: "web",
+    projectUrl: "",
+    codeUrl: "https://github.com/adrianmfuentes/nutritionai",
+  },
+]
+
 export function PortfolioSection({ dictionary }: Readonly<PortfolioSectionProps>) {
   const [activeCategory, setActiveCategory] = useState("all")
 
-  const projects: Project[] = [
-    {
-      id: "1",
-      title: dictionary.projects["1"].title,
-      description: dictionary.projects["1"].description,
-      image: "/images/wichat.png",
-      tags: ["React", "Node.js", "Express", "Oracle", "Docker", "GitHub", "Socket.io"],
-      category: "web",
-      projectUrl: "",
-      codeUrl: "https://github.com/Arquisoft/wichat_en2b",
-    },
-    {
-      id: "2",
-      title: dictionary.projects["2"].title,
-      description: dictionary.projects["2"].description,
-      image: "/images/DLP.png",
-      tags: ["Java", "Compiler", "Design"],
-      category: "design",
-      projectUrl: "https://novacode.amfserver.duckdns.org/",
-      codeUrl: "https://github.com/adrianmfuentes/DLP",
-    },
-    {
-      id: "3",
-      title: dictionary.projects["3"].title,
-      description: dictionary.projects["3"].description,
-      image: "/images/SGDB.webp",
-      tags: ["C++"],
-      category: "data",
-      projectUrl: "",
-      codeUrl: "https://github.com/adrianmfuentes/SGDB",
-    },
-    {
-      id: "6",
-      title: dictionary.projects["6"].title,
-      description: dictionary.projects["6"].description,
-      image: "/images/Information-Retrieval.webp",
-      tags: ["Python"],
-      category: "data",
-      projectUrl: "",
-      codeUrl: "https://github.com/adrianmfuentes/Information-Retrieval",
-    },
-    {
-      id: "8",
-      title: dictionary.projects["8"].title,
-      description: dictionary.projects["8"].description,
-      image: "/images/Server-HTTP.png",
-      tags: ["C++", "Networking", "HTTP"],
-      category: "web",
-      projectUrl: "",
-      codeUrl: "https://github.com/adrianmfuentes/HTTP-server",
-    },
-    {
-      id: "10",
-      title: dictionary.projects["10"].title,
-      description: dictionary.projects["10"].description,
-      image: "/images/nutritionai.png",
-      tags: ["Android", "Jetpack Compose", "Node.js", "PostgreSQL", "AI"],
-      category: "web",
-      projectUrl: "",
-      codeUrl: "https://github.com/adrianmfuentes/nutritionai"
-    }
-  ]
+  const projects: Project[] = PROJECT_METADATA.map((meta) => ({
+    ...meta,
+    title: dictionary.projects[meta.id].title,
+    description: dictionary.projects[meta.id].description,
+  }))
 
   const filteredProjects =
     activeCategory === "all" ? projects : projects.filter((project) => project.category === activeCategory)

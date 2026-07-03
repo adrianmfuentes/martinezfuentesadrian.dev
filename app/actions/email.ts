@@ -6,7 +6,7 @@ import { rateLimit } from "@/lib/rate-limit"
 
 const contactFormSchema = z.object({
   name: z.string().min(2).max(100),
-  email: z.string().email(),
+  email: z.email(),
   message: z.string().min(10).max(5000),
 })
 

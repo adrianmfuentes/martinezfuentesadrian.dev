@@ -72,24 +72,24 @@ interface PortScannerProps {
 function parsePorts(portString: string): number[] {
   if (portString.includes('-')) {
     // Rango de puertos (ej: 80-90)
-    const [start, end] = portString.split('-').map(p => parseInt(p.trim()))
-    if (isNaN(start) || isNaN(end) || start > end || start < 1 || end > 65535) {
+    const [start, end] = portString.split('-').map(p => Number.parseInt(p.trim()))
+    if (Number.isNaN(start) || Number.isNaN(end) || start > end || start < 1 || end > 65535) {
       throw new Error('Invalid port range')
     }
     return Array.from({ length: end - start + 1 }, (_, i) => start + i)
   } else if (portString.includes(',')) {
     // Lista de puertos separados por comas
     return portString.split(',').map(p => {
-      const port = parseInt(p.trim())
-      if (isNaN(port) || port < 1 || port > 65535) {
+      const port = Number.parseInt(p.trim())
+      if (Number.isNaN(port) || port < 1 || port > 65535) {
         throw new Error('Invalid port number')
       }
       return port
     })
   } else {
     // Puerto individual
-    const port = parseInt(portString.trim())
-    if (isNaN(port) || port < 1 || port > 65535) {
+    const port = Number.parseInt(portString.trim())
+    if (Number.isNaN(port) || port < 1 || port > 65535) {
       throw new Error('Invalid port number')
     }
     return [port]

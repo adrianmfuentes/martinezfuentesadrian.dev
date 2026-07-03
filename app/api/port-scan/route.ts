@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { Socket } from 'net'
+import { Socket } from 'node:net'
 import { z } from 'zod'
 
 const portScanSchema = z.object({

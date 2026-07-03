@@ -88,7 +88,7 @@ export function usePdfViewerLogic() {
 
   const goToPrevPage = () => setPageNumber((prev) => Math.max(prev - 1, 1))
   const goToNextPage = () => setPageNumber((prev) => Math.min(prev + 1, numPages || 1))
-  const zoomIn = () => setScale((prev) => Math.min(prev + 0.2, 3.0))
+  const zoomIn = () => setScale((prev) => Math.min(prev + 0.2, 3))
   const zoomOut = () => setScale((prev) => Math.max(prev - 0.2, 0.3))
 
   return {

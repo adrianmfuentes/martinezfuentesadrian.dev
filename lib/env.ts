@@ -8,8 +8,8 @@
  */
 export function getBaseUrl(): string {
   // Check if we're in browser environment
-  if (typeof window !== 'undefined') {
-    return window.location.origin
+  if (typeof globalThis.window !== 'undefined') {
+    return globalThis.location.origin
   }
 
   // Check for custom app URL

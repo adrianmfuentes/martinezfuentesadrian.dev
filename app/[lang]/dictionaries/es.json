@@ -373,24 +373,26 @@
     }
   },
   "passwordChecker": {
-    "title": "Comprobador de Contraseñas",
-    "description": "Analiza la fortaleza y seguridad de tus contraseñas utilizando algoritmos de entropía y verificación contra bases de datos de contraseñas comprometidas.",
-    "passwordLabel": "Contraseña a analizar",
-    "passwordPlaceholder": "Introduce tu contraseña aquí...",
+    "title": "Verificador de Contraseñas",
+    "description": "Analiza la fortaleza de tus contraseñas calculando la entropía y verificando la diversidad de caracteres para mejorar tu seguridad digital.",
+    "passwordLabel": "Ingresa tu contraseña",
+    "passwordPlaceholder": "Escribe tu contraseña aquí...",
     "analyzeButton": "Analizar Contraseña",
     "showPassword": "Mostrar contraseña",
     "hidePassword": "Ocultar contraseña",
+    "minLengthWarning": "Tu contraseña es muy corta! Debe tener al menos {min} caracteres.",
+    "resetButton": "Analizar Nueva Contraseña",
     "analysis": {
-      "title": "Análisis de Seguridad",
+      "title": "Análisis de Contraseña",
       "length": "Longitud",
       "lowercase": "Minúsculas",
       "uppercase": "Mayúsculas",
       "digits": "Dígitos",
-      "special": "Especiales",
-      "whitespace": "Espacios",
+      "special": "Caracteres especiales",
+      "whitespace": "Espacios en blanco",
       "entropy": "Entropía",
       "strength": "Fortaleza",
-      "remarks": "Comentarios",
+      "remarks": "Observaciones",
       "pwned": "Estado de Filtración",
       "pwnedStatus": {
         "checking": "Verificando...",
@@ -407,13 +409,130 @@
       "veryStrong": "Muy Fuerte"
     },
     "strengthRemarks": {
-      "veryWeak": "⚠️ Muy Débil: ¡Fácilmente predecible! Cámbiala inmediatamente.",
-      "weak": "⚠️ Débil: Puede ser descifrada rápidamente. Usa una contraseña más fuerte.",
-      "moderate": "✅ Moderada: Contraseña decente, pero aún se puede mejorar.",
+      "veryWeak": "⚠️ Muy Débil: ¡Fácilmente adivinable! Cámbiala inmediatamente.",
+      "weak": "⚠️ Débil: Puede ser crackeada rápidamente. Usa una contraseña más fuerte.",
+      "moderate": "✅ Moderada: Contraseña decente, pero puede mejorarse.",
       "strong": "✅ Fuerte: Difícil de adivinar, pero considera hacerla más larga.",
       "veryStrong": "✅ Muy Fuerte: ¡Excelente contraseña! Altamente segura."
+    }
+  },
+  "certificatesChecker": {
+    "title": "Verificador de Certificados SSL/TLS",
+    "description": "Analiza certificados SSL/TLS de sitios web para verificar su validez, emisor, fechas de expiración y configuración de seguridad.",
+    "hostLabel": "Host a verificar",
+    "hostPlaceholder": "ejemplo.com o 192.168.1.1",
+    "portLabel": "Puerto SSL/TLS",
+    "portPlaceholder": "443",
+    "portHelp": "Puerto donde se ejecuta el servicio SSL/TLS. Puertos comunes:",
+    "checkButton": "Verificar Certificado",
+    "checking": "Verificando...",
+    "results": {
+      "title": "Información del Certificado",
+      "host": "Host",
+      "resolvedIp": "IP Resuelta",
+      "subject": "Sujeto",
+      "issuer": "Emisor",
+      "validFrom": "Válido desde",
+      "validUntil": "Válido hasta",
+      "algorithm": "Algoritmo",
+      "isCA": "Es CA",
+      "daysLeft": "Días restantes",
+      "status": "Estado",
+      "sans": "Nombres alternativos (SANs)"
     },
-    "minLengthWarning": "Se recomienda un mínimo de {min} caracteres para mayor seguridad",
-    "resetButton": "Reiniciar Análisis"
+    "status": {
+      "valid": "Válido",
+      "expired": "Vencido",
+      "expiringSoon": "Expira pronto"
+    },
+    "errors": {
+      "invalidHost": "Host inválido. Ingresa una dirección IP válida o nombre de dominio.",
+      "invalidPort": "Puerto inválido. Debe estar entre 1 y 65535.",
+      "connectionError": "Error de conexión. Verifica el host y puerto.",
+      "certificateError": "Error al obtener el certificado. Verifica que el servicio SSL/TLS esté disponible."
+    },
+    "resetButton": "Nueva Verificación"
+  },
+  "portScanner": {
+    "title": "Escáner de Puertos",
+    "description": "Analiza la accesibilidad de puertos TCP en hosts remotos para verificar servicios disponibles y realizar auditorías de seguridad básicas.",
+    "hostLabel": "Host a escanear",
+    "hostPlaceholder": "ejemplo.com o 192.168.1.1",
+    "portsLabel": "Puertos a escanear",
+    "portsPlaceholder": "80, 22-25, 443",
+    "portsHelp": "Ingresa puertos individuales (80), rangos (22-25) o listas separadas por comas (80,443,22-25)",
+    "scanButton": "Iniciar Escaneo",
+    "stopButton": "Detener",
+    "scanning": "Escaneando...",
+    "results": {
+      "title": "Resultados del Escaneo",
+      "host": "Host",
+      "resolvedIp": "IP Resuelta",
+      "totalPorts": "Puertos Totales",
+      "openPorts": "Puertos Abiertos",
+      "closedPorts": "Puertos Cerrados",
+      "progress": "Progreso del Escaneo",
+      "status": "Estado"
+    },
+    "portStatus": {
+      "open": "Abierto",
+      "closed": "Cerrado",
+      "scanning": "Escaneando"
+    },
+    "errors": {
+      "invalidHost": "Host inválido. Ingresa una dirección IP válida o nombre de dominio.",
+      "invalidPorts": "Puertos inválidos. Usa formato: 80, 22-25, o 80,443",
+      "scanError": "Error durante el escaneo. Verifica la conectividad.",
+      "networkError": "Error de red. Verifica tu conexión a internet."
+    },
+    "resetButton": "Nuevo Escaneo"
+  },
+  "webDiscovery": {
+    "title": "Descubrimiento de Contenido Web",
+    "description": "Explora rutas y recursos de un sitio web. Útil para auditorías y pruebas de reconocimiento.",
+    "urlLabel": "URL objetivo",
+    "urlPlaceholder": "https://ejemplo.com",
+    "wordlistLabel": "Wordlist",
+    "wordlistPlaceholder": "Selecciona o pega rutas separadas por líneas",
+    "threadsLabel": "Hilos",
+    "threadsHelp": "Número de hilos concurrentes para el escaneo",
+    "scanButton": "Iniciar Búsqueda",
+    "stopButton": "Detener",
+    "randomAgent": "User-Agent aleatorio",
+    "userAgentLabel": "User-Agent personalizado",
+    "refererLabel": "Referer (opcional)",
+    "delayLabel": "Retardo (seg)",
+    "debugLabel": "Mostrar cabeceras en 403 (debug)",
+    "scanning": "Escaneando...",
+    "results": {
+      "title": "Resultados",
+      "url": "URL",
+      "status": "Código",
+      "total": "Total encontrados"
+    },
+    "errors": {
+      "invalidUrl": "URL inválida. Incluye http:// o https://",
+      "wordlistMissing": "Wordlist vacía. Añade rutas para escanear.",
+      "scanError": "Error durante el escaneo. Revisa los parámetros."
+    },
+    "resetButton": "Nuevo Escaneo"
+  },
+  "passwordGenerator": {
+    "title": "Generador de Contraseñas",
+    "description": "Genera contraseñas seguras con opciones personalizables",
+    "length": "Longitud de la contraseña",
+    "minLength": "Mínimo",
+    "includeGreek": "Incluir caracteres griegos (αβγ...)",
+    "includeSpecial": "Incluir símbolos (!@#...)",
+    "generate": "Generar Contraseña",
+    "copy": "Haz clic para copiar",
+    "copied": "¡Copiado al portapapeles!",
+    "strength": "Fortaleza de la contraseña",
+    "weak": "Débil",
+    "medium": "Media",
+    "strong": "Fuerte",
+    "veryStrong": "Muy Fuerte",
+    "show": "Mostrar",
+    "hide": "Ocultar"
   }
 }

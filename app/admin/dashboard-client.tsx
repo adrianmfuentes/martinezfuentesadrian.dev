@@ -23,7 +23,7 @@ interface DashboardData {
 
 // ─── Top-level component ────────────────────────────────────────────────────
 
-export function DashboardClient({ initialData }: { initialData: DashboardData }) {
+export function DashboardClient({ initialData }: Readonly<{ initialData: DashboardData }>) {
   const router = useRouter()
   const [lang, setLang] = useState<Lang>("es")
   const [counter, setCounter] = useState<ExperienceCounter>(initialData.counter)
@@ -149,7 +149,7 @@ export function DashboardClient({ initialData }: { initialData: DashboardData })
 
 // ─── Language bar ───────────────────────────────────────────────────────────
 
-function LangBar({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void }) {
+function LangBar({ lang, setLang }: Readonly<{ lang: Lang; setLang: (l: Lang) => void }>) {
   return (
     <div className="flex gap-2 mb-5">
       {(["es", "en"] as Lang[]).map((l) => (
@@ -175,13 +175,13 @@ function CounterTab({
   onSave,
   saving,
   saved,
-}: {
+}: Readonly<{
   counter: ExperienceCounter
   onChange: (c: ExperienceCounter) => void
   onSave: () => void
   saving: boolean
   saved: boolean
-}) {
+}>) {
   const previewEs = computeExperienceLabel(counter.startDate || "2026-01-29", "es")
   const previewEn = computeExperienceLabel(counter.startDate || "2026-01-29", "en")
 
@@ -243,14 +243,14 @@ function SectionEditor({
   onSave,
   saving,
   saved,
-}: {
+}: Readonly<{
   items: any[]
   fields: string[]
   emptyItem: Record<string, any>
   onSave: (items: any[]) => void
   saving: boolean
   saved: boolean
-}) {
+}>) {
   const [items, setItems] = useState<any[]>(initialItems)
 
   // Sync when parent switches language
@@ -303,19 +303,27 @@ function ItemCard({
   fields,
   onUpdate,
   onRemove,
-}: {
+}: Readonly<{
   item: any
   fields: string[]
   onUpdate: (field: string, value: any) => void
   onRemove: () => void
-}) {
+}>) {
   const [open, setOpen] = useState(false)
 
   return (
     <Card className="overflow-hidden">
       <div
+        role="button"
+        tabIndex={0}
         className="flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-muted/40 transition-colors"
         onClick={() => setOpen((v) => !v)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault()
+            setOpen((v) => !v)
+          }
+        }}
       >
         <div className="flex-1 min-w-0">
           <p className="font-medium text-sm truncate">{item.title || "(untitled)"}</p>
@@ -365,11 +373,11 @@ function FieldInput({
   field,
   value,
   onChange,
-}: {
+}: Readonly<{
   field: string
   value: any
   onChange: (v: any) => void
-}) {
+}>) {
   const label = field.charAt(0).toUpperCase() + field.slice(1)
   const isArray = Array.isArray(value)
   const isLongText = field === "description" || isArray
@@ -412,11 +420,11 @@ function SaveButton({
   onSave,
   saving,
   saved,
-}: {
+}: Readonly<{
   onSave: () => void
   saving: boolean
   saved: boolean
-}) {
+}>) {
   return (
     <Button onClick={onSave} disabled={saving} className="gap-2 min-w-28">
       {saved ? (

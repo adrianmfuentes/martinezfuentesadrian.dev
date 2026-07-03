@@ -11,7 +11,7 @@ const poppins = Poppins({
   variable: "--font-poppins",
 })
 
-export default function ClientHtml({ children }: { children: React.ReactNode }) {
+export default function ClientHtml({ children }: Readonly<{ children: React.ReactNode }>) {
   const pathname = usePathname()
   const lang = pathname.startsWith('/es') ? 'es' : 'en'
 

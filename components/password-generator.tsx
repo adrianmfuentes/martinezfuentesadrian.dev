@@ -138,7 +138,7 @@ export function PasswordGenerator({ dictionary }: Readonly<PasswordGeneratorProp
                   min={MIN_LENGTH}
                   max={100}
                   value={length}
-                  onChange={(e) => setLength(Math.max(MIN_LENGTH, parseInt(e.target.value) || MIN_LENGTH))}
+                  onChange={(e) => setLength(Math.max(MIN_LENGTH, Number.parseInt(e.target.value) || MIN_LENGTH))}
                   className="mt-1 bg-gray-900/50 border-green-500/30 text-green-300 font-mono focus:border-green-400"
                 />
                 <p className="text-xs text-gray-400 mt-1">

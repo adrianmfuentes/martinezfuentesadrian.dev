@@ -50,7 +50,7 @@ export function TimePickerDemo({ date, setDate }: Readonly<TimePickerProps>) {
 
   const handleHourChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number.parseInt(e.target.value)
-    if (isNaN(value)) {
+    if (Number.isNaN(value)) {
       setHour("")
       return
     }
@@ -62,7 +62,7 @@ export function TimePickerDemo({ date, setDate }: Readonly<TimePickerProps>) {
 
   const handleMinuteChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number.parseInt(e.target.value)
-    if (isNaN(value)) {
+    if (Number.isNaN(value)) {
       setMinute("")
       return
     }
@@ -74,7 +74,7 @@ export function TimePickerDemo({ date, setDate }: Readonly<TimePickerProps>) {
 
   const handleSecondChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number.parseInt(e.target.value)
-    if (isNaN(value)) {
+    if (Number.isNaN(value)) {
       setSecond("")
       return
     }

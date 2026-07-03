@@ -1,5 +1,5 @@
-import * as tls from "tls"
-import { Socket } from "net"
+import * as tls from "node:tls"
+import { Socket } from "node:net"
 
 interface CertificateInfo {
   subject: string

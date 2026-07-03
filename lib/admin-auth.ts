@@ -7,20 +7,20 @@ const enc = new TextEncoder()
 const dec = new TextDecoder()
 
 function b64uEncode(input: string): string {
-  return btoa(input).replace(/\+/g, "-").replace(/\//g, "_").replace(/=/g, "")
+  return btoa(input).replaceAll("+", "-").replaceAll("/", "_").replaceAll("=", "")
 }
 
 function b64uEncodeBytes(bytes: Uint8Array): string {
-  return btoa(String.fromCharCode(...bytes))
-    .replace(/\+/g, "-")
-    .replace(/\//g, "_")
-    .replace(/=/g, "")
+  return btoa(String.fromCodePoint(...bytes))
+    .replaceAll("+", "-")
+    .replaceAll("/", "_")
+    .replaceAll("=", "")
 }
 
 function b64uDecodeBytes(input: string): Uint8Array {
-  const base64 = input.replace(/-/g, "+").replace(/_/g, "/")
+  const base64 = input.replaceAll("-", "+").replaceAll("_", "/")
   const padded = base64 + "==".slice((base64.length % 4) || 4)
-  return Uint8Array.from(atob(padded), (c) => c.charCodeAt(0))
+  return Uint8Array.from(atob(padded), (c) => c.codePointAt(0) ?? 0)
 }
 
 function b64uDecodeString(input: string): string {
