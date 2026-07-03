@@ -30,7 +30,7 @@ function ViewerHeader({ title, isMobile, scale, zoomIn, zoomOut, onClose, pdfUrl
   pdfUrl: string
 }>) {
   const openInNewTab = () => {
-    window.open(pdfUrl, '_blank')
+    globalThis.open(pdfUrl, '_blank')
   }
 
   return (
@@ -171,7 +171,7 @@ export function CertificateViewer({ pdfUrl, title, isOpen, onClose }: Readonly<C
   } = usePdfViewerLogic()
 
   const openInNewTab = () => {
-    window.open(pdfUrl, '_blank')
+    globalThis.open(pdfUrl, '_blank')
   }
 
   return (

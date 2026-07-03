@@ -26,15 +26,15 @@ export function usePdfViewerLogic() {
   // Detectar si es móvil y configurar
   useEffect(() => {
     const checkMobile = () => {
-      const mobile = window.innerWidth < 768
+      const mobile = globalThis.innerWidth < 768
       setIsMobile(mobile)
-      
+
       if (containerRef.current) {
         setContainerWidth(containerRef.current.clientWidth)
       }
-      
+
       if (!mobile) {
-        if (window.innerWidth < 1024) {
+        if (globalThis.innerWidth < 1024) {
           setScale(0.6)
         } else {
           setScale(0.8)
@@ -43,8 +43,8 @@ export function usePdfViewerLogic() {
     }
 
     checkMobile()
-    window.addEventListener('resize', checkMobile)
-    return () => window.removeEventListener('resize', checkMobile)
+    globalThis.addEventListener('resize', checkMobile)
+    return () => globalThis.removeEventListener('resize', checkMobile)
   }, [])
 
   // Actualizar ancho del contenedor cuando cambie
@@ -73,8 +73,8 @@ export function usePdfViewerLogic() {
       checkScrollNeeded()
     }
 
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
+    globalThis.addEventListener('resize', handleResize)
+    return () => globalThis.removeEventListener('resize', handleResize)
   }, [checkScrollNeeded])
 
   function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
