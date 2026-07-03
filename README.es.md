@@ -1,6 +1,6 @@
 # martinezfuentesadrian.dev
 
-Sitio web personal y portfolio de Adrián Martínez Fuentes, construido con Next.js. El sitio es bilingüe (inglés y español), incluye un conjunto de pequeñas herramientas web orientadas a seguridad, y está desplegado en Vercel.
+Sitio web personal y portfolio de Adrián Martínez Fuentes, construido con Next.js. El sitio es bilingüe (inglés y español), incluye un conjunto de pequeñas herramientas web orientadas a seguridad, y se ejecuta como contenedor Docker en un servidor propio.
 
 Sitio en producción: https://martinezfuentesadrian.dev
 
@@ -84,7 +84,9 @@ Ninguna de estas variables es necesaria para navegar el sitio en local, pero las
 
 ## Despliegue e integración continua
 
-El sitio se despliega en Vercel con cada push a `main`. GitHub Actions ejecuta una comprobación de build en cada push y pull request, y un conjunto de workflows programados mantiene las dependencias actualizadas y abre automáticamente pull requests con actualizaciones de dependencias y seguridad.
+La aplicación se empaqueta como imagen Docker (`Dockerfile`, usando el output standalone de Next.js). En cada push a `main`, GitHub Actions construye esa imagen para `linux/arm64`, la publica en el GitHub Container Registry, y la despliega por SSH en un servidor propio con Docker y Nginx Proxy Manager (`docker-compose.yml`). GitHub Actions también ejecuta una comprobación de build y de auditoría de dependencias en cada push y pull request, y Dependabot mantiene las dependencias actualizadas, fusionando automáticamente las actualizaciones menores una vez que el build pasa.
+
+Desplegar requiere los siguientes secrets del repositorio: `SSH_HOST`, `SSH_USER`, `SSH_PRIVATE_KEY`, `SSH_DEPLOY_PATH`, y opcionalmente `SSH_PORT`. El servidor necesita un fichero `.env` persistente en `SSH_DEPLOY_PATH` junto a `docker-compose.yml`, con las variables de entorno indicadas arriba.
 
 ## Licencia
 
