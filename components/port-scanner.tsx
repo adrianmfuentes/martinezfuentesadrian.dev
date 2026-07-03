@@ -478,7 +478,7 @@ export function PortScanner({ dictionary }: Readonly<PortScannerProps>) {
           </div>
           <div className="text-blue-300 text-xs sm:text-sm space-y-1">
             <p><span className="text-blue-400">&gt;</span> Note: Browser-based port scanning has limitations due to CORS policies</p>
-            <p><span className="text-blue-400">&gt;</span> Some ports may appear closed even if they're open due to security restrictions</p>
+            <p><span className="text-blue-400">&gt;</span> Some ports may appear closed even if they&apos;re open due to security restrictions</p>
             <p><span className="text-blue-400">&gt;</span> For comprehensive scanning, use command-line tools like nmap</p>
             <div className="flex items-center mt-2">
               <span className="text-blue-400 mr-2">&gt;</span>

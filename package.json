@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint .",
     "test:emailjs": "node scripts/test-emailjs.js"
   },
   "dependencies": {
@@ -59,10 +59,9 @@
     "jsdom": "^27.4.0",
     "lucide-react": "^0.454.0",
     "negotiator": ">=0.6.1",
-    "next": "16.2.1",
+    "next": "16.2.10",
     "next-themes": "latest",
     "node-forge": "^1.4.0",
-    "nodemailer": "^8.0.4",
     "pdfjs-dist": "^5.4.296",
     "react": "^19.2.3",
     "react-day-picker": "9.13.0",
@@ -82,9 +81,10 @@
   "devDependencies": {
     "@types/negotiator": "^0.6.3",
     "@types/node": "^22",
-    "@types/nodemailer": "^6.4.17",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "eslint": "^9.39.4",
+    "eslint-config-next": "16.2.10",
     "imagemin-cli": "^8.0.0",
     "imagemin-pngquant": "^10.0.0",
     "imagemin-webp": "^8.0.0",
@@ -97,15 +97,15 @@
   },
   "pnpm": {
     "overrides": {
-      "dompurify": ">=3.3.2",
-      "fast-xml-parser": ">=5.5.7",
+      "dompurify": ">=3.4.11",
+      "fast-xml-parser": ">=5.7.0",
       "svgo": ">=2.8.1",
       "file-type": ">=21.3.1",
       "glob": "^10.5.0",
       "node-forge": ">=1.4.0",
       "js-yaml@^3.14.0": "^3.14.2",
       "tar": "^7.5.11",
-      "lodash": "^4.17.23",
+      "lodash": ">=4.18.0",
       "@smithy/config-resolver": "^4.4.0",
       "undici": "^6.24.0",
       "node-domexception": "latest",
@@ -115,10 +115,12 @@
       "cross-spawn": ">=6.0.6",
       "http-cache-semantics": ">=4.1.1",
       "got": ">=11.8.5",
-      "minimatch": ">=9.0.7",
-      "brace-expansion": ">=5.0.5",
       "picomatch": ">=4.0.4",
-      "yaml": ">=2.8.3"
+      "yaml": ">=2.8.3",
+      "postcss": ">=8.5.10",
+      "ws": ">=8.21.0",
+      "form-data": ">=4.0.6",
+      "uuid": ">=11.1.1"
     }
   }
 }
