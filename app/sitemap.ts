@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://martinezfuentesadrian.dev'
+  const baseUrl = 'https://amf.amfserver.duckdns.org'
   const currentDate = new Date()
   
   // Rutas principales en ambos idiomas

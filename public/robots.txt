@@ -20,7 +20,7 @@ Allow: /es/
 Allow: /*/tools/
 
 # Indicar sitemap
-Sitemap: https://martinezfuentesadrian.dev/sitemap.xml
+Sitemap: https://amf.amfserver.duckdns.org/sitemap.xml
 
 # Configuración para bots de redes sociales
 User-agent: facebookexternalhit

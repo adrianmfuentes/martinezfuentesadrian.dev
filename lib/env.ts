@@ -53,8 +53,7 @@ export function isDevelopment(): boolean {
 export function getCorsOrigins(): string[] {
   if (isProduction()) {
     return [
-      'https://martinezfuentesadrian.dev',
-      'https://www.martinezfuentesadrian.dev'
+      'https://amf.amfserver.duckdns.org'
     ]
   }
   
