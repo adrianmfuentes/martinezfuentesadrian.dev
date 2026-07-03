@@ -1,68 +1,95 @@
-# 🚀 Personal Website
+# martinezfuentesadrian.dev
 
-A modern, interactive, and internationalized personal website made by Software Engineering student Adrian Martíenz. Built with Next.js, React Three Fiber, and Tailwind CSS.
+Personal website and portfolio of Adrian Martinez Fuentes, built with Next.js. The site is bilingual (English and Spanish), includes a set of small security-oriented web tools, and is deployed on Vercel.
 
-## ✨ Features
+Live site: https://martinezfuentesadrian.dev
 
-- **🌐 Internationalization**: Full support for multiple languages (English and Spanish)
-- **🎨 Modern Design**: Clean, professional UI with dark/light mode
-- **📱 Responsive**: Fully responsive design for all devices
-- **🔄 Interactive Elements**: 3D animations, parallax effects, and smooth transitions
-- **🔍 SEO Optimized**: Meta tags and structured data for better search engine visibility
-- **⚡ Performance Optimized**: Fast loading times and optimized assets
+## Overview
 
-## 🛠️ Technologies
+The project serves as a portfolio, CV and contact point, and also hosts a handful of standalone utilities (port scanner, HTTP header validator, certificate checker, password tools, and a basic web discovery tool) that double as demonstrations of the kind of work the site's author does. All user-facing pages live under a language-prefixed route (`/en` or `/es`), with translations stored as JSON dictionaries.
 
-- **Framework**: [Next.js](https://nextjs.org/) (App Router)
-- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
-- **UI Components**: [shadcn/ui](https://ui.shadcn.com/)
-- **3D Graphics**: [React Three Fiber](https://docs.pmnd.rs/react-three-fiber)
-- **Animations**: [Framer Motion](https://www.framer.com/motion/)
-- **Form Handling**: [React Hook Form](https://react-hook-form.com/) with [Zod](https://github.com/colinhacks/zod)
-- **Icons**: [Lucide React](https://lucide.dev/)
+## Tech stack
 
-## 📋 Project Structure
+- Next.js 16 (App Router, Turbopack)
+- React 19 and TypeScript
+- Tailwind CSS with shadcn/ui components (built on Radix primitives)
+- React Three Fiber and Drei for the 3D elements on the home page
+- Framer Motion for page and component transitions
+- React Hook Form with Zod for form validation
+- Groq SDK for the chat feature
+- Upstash Redis for rate limiting
+- EmailJS for the contact form
+
+## Project structure
 
 ```text
-website/
-├── app/                    # Next.js App Router
-│   ├── [lang]/             # Language-specific routes
-│   │   ├── dictionaries/   # Translation files
-│   │   ├── about/          # About page
-│   │   ├── cv/             # CV page
-│   │   ├── portfolio/      # Portfolio page
-│   │   ├── contact/        # Contact page
-│   │   └── page.tsx        # Home page
-├── components/             # React components
-├── public/                 # Static assets
-└── ...
+app/
+  [lang]/            Localized pages (about, cv, portfolio, contact, tools/*)
+  [lang]/dictionaries/  en.json and es.json translation files
+  api/                 API routes (certificate check, password check, port scan,
+                        header validation, web discovery)
+  actions/              Server actions (contact form, email, chat, PDF handling)
+components/
+  ui/                   Base shadcn/ui components
+lib/                    Shared utilities (env handling, rate limiting, etc.)
+scripts/                Maintenance and test scripts
 ```
 
-## 🌐 Internationalization
+## Security tools
 
-The website supports multiple languages through Next.js App Router internationalization. The language files are located in `app/[lang]/dictionaries/`.
+A set of small tools is available under `/tools`, each implemented as its own route and API endpoint:
 
-## 📱 Mobile Optimization
+- Certificate checker: inspects a domain's TLS certificate details.
+- HTTP headers validator: reviews the security headers returned by a given URL.
+- Password checker and generator: evaluates password strength and generates strong passwords.
+- Port scanner: performs a basic scan against a target host, limited by browser CORS constraints.
+- Web discovery: gathers publicly available information about a target site.
 
-The website is fully responsive and optimized for mobile devices. Key mobile features include:
+These tools are meant for personal, authorized use and educational purposes.
 
-- Responsive navigation with hamburger menu
-- Touch-friendly interactive elements
-- Optimized 3D rendering for mobile devices
-- Properly sized text and UI elements
+## Getting started
 
-## 🔒 License
+Requirements: Node.js 18 or later, and pnpm.
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+```bash
+pnpm install
+pnpm dev
+```
 
-## 🙏 Acknowledgements
+The site will be available at `http://localhost:3000`.
 
-- [Next.js](https://nextjs.org/) - The React Framework
-- [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
-- [shadcn/ui](https://ui.shadcn.com/) - UI components
-- [React Three Fiber](https://docs.pmnd.rs/react-three-fiber) - Three.js React renderer
-- [Framer Motion](https://www.framer.com/motion/) - Animation library
+Other useful commands:
 
----
+```bash
+pnpm build          # Production build
+pnpm start          # Start the production build
+pnpm lint           # Run ESLint
+pnpm test:emailjs   # Test the EmailJS integration
+```
 
-Created with ❤️ by Adrián Martínez
+### Environment variables
+
+The application reads configuration from environment variables at runtime. Copy `.env.example` if present, or set the following as needed:
+
+| Variable | Purpose |
+| --- | --- |
+| `EMAILJS_SERVICE_ID`, `EMAILJS_PUBLIC_KEY`, `EMAILJS_CONTACT_TEMPLATE_ID` | Contact form delivery via EmailJS |
+| `GROQ_API_KEY` | Chat feature |
+| `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` | Rate limiting storage |
+| `ADMIN_SECRET`, `ADMIN_PASSWORD`, `ADMIN_ALLOWED_IPS` | Admin panel authentication and access control |
+| `GITHUB_TOKEN` | Higher rate limits for the GitHub stats API |
+| `SITE_URL` | Base URL used for links and email templates |
+
+None of these are required to browse the site locally, but individual features that depend on them will be disabled or return an error until they are set.
+
+## Deployment and CI
+
+The site is deployed to Vercel on every push to `main`. GitHub Actions runs a build check on pushes and pull requests, and a set of scheduled workflows keep dependencies current and automatically open pull requests for dependency and security updates.
+
+## License
+
+This is a personal project. The source code is public for reference, but it is not licensed for reuse or redistribution.
+
+## Contact
+
+Adrian Martinez Fuentes — reachable through the contact form on the site.
