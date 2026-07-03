@@ -1,5 +1,9 @@
 # martinezfuentesadrian.dev
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=adrianmfuentes_martinezfuentesadrian.dev&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=adrianmfuentes_martinezfuentesadrian.dev)
+
+Leer en español: [README.es.md](README.es.md)
+
 Personal website and portfolio of Adrian Martinez Fuentes, built with Next.js. The site is bilingual (English and Spanish), includes a set of small security-oriented web tools, and runs as a Docker container on a self-hosted server.
 
 Live site: https://amf.amfserver.duckdns.org
