@@ -185,18 +185,17 @@ const CarouselContent = React.forwardRef<
 CarouselContent.displayName = "CarouselContent"
 
 const CarouselItem = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
+  HTMLFieldSetElement,
+  React.HTMLAttributes<HTMLFieldSetElement>
 >(({ className, ...props }, ref) => {
   const { orientation } = useCarousel()
 
   return (
-    <div
+    <fieldset
       ref={ref}
-      role="group" /* NOSONAR: WAI-ARIA carousel pattern requires role="group" on slides */
       aria-roledescription="slide"
       className={cn(
-        "min-w-0 shrink-0 grow-0 basis-full",
+        "m-0 min-w-0 shrink-0 grow-0 basis-full border-0 p-0",
         orientation === "horizontal" ? "pl-4" : "pt-4",
         className
       )}
