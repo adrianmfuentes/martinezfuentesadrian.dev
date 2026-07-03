@@ -45,6 +45,14 @@ type ProjectMetadata = Omit<Project, "title" | "description">
 
 const PROJECT_METADATA: ProjectMetadata[] = [
   {
+    id: "6",
+    image: "/images/svaes_logo_512.png",
+    tags: ["Python", "FastAPI", "Angular", "Rust", "PostgreSQL"],
+    category: "web",
+    projectUrl: "",
+    codeUrl: "https://github.com/adrianmfuentes/SVAES",
+  },
+  {
     id: "1",
     image: "/images/wichat.png",
     tags: ["React", "Node.js", "Express", "Oracle", "Docker", "GitHub", "Socket.io"],
@@ -67,14 +75,6 @@ const PROJECT_METADATA: ProjectMetadata[] = [
     category: "data",
     projectUrl: "",
     codeUrl: "https://github.com/adrianmfuentes/SGDB",
-  },
-  {
-    id: "6",
-    image: "/images/Information-Retrieval.webp",
-    tags: ["Python"],
-    category: "data",
-    projectUrl: "",
-    codeUrl: "https://github.com/adrianmfuentes/Information-Retrieval",
   },
   {
     id: "8",

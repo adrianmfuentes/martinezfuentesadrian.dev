@@ -61,7 +61,7 @@
     },
     "education": {
       "title": "Education",
-      "degree": "Bachelor's Degree in Software Engineering",
+      "degree": "BSc in Software Engineering (English-taught)",
       "university": "University of Oviedo",
       "period": "2022 - Present"
     }
@@ -81,18 +81,30 @@
     "education": {
       "items": [
         {
-          "title": "Bachelor's in Software Engineering (Bilingual Program)",
+          "title": "BSc in Software Engineering (English-taught)",
           "organization": "University of Oviedo",
           "period": "2022 - Present",
-          "gpa": "7.303/10",
-          "honours": "Honours in Software Architecture",
+          "gpa": "7.465/10",
           "description": [
-              "Enrolled in the bilingual program",
+              "Enrolled in the English-taught bilingual program",
               "4-year on-campus bachelor in the School of Computer Engineering at the University of Oviedo.",
               "Learning about the basic concepts of computer science, including programming, algorithms, data structures, operating systems, networks and databases.",
               "Immersion in web development, software architecture and cybersecurity.",
+              "Elective: Computer Forensics and Auditing.",
               "Participation in practical projects and collaborative efforts that have strengthened my technical skills and teamwork abilities."
           ]
+        },
+        {
+          "title": "Honors in Software Architecture",
+          "organization": "University of Oviedo",
+          "period": "2025",
+          "description": "Achieved the highest honors distinction in the Software Architecture course. Awarded best course project among all teams for outstanding application of software architecture principles."
+        },
+        {
+          "title": "Honors in ASLEPI",
+          "organization": "University of Oviedo",
+          "period": "2026",
+          "description": "Matrícula de Honor in ASLEPI (Social, Legal, Ethical and Professional Aspects of Computing)."
         }
       ]
     },
@@ -184,8 +196,8 @@
         "description": "Web application for task management that allows users to create, edit, and organize tasks with an authentication system and a modern interface."
       },
       "6": {
-        "title": "Information Retrieval",
-        "description": "Information retrieval system that processes and analyzes large volumes of text to provide relevant results according to search queries."
+        "title": "SVAES - Automated Software Delivery Verification System (BSc Thesis)",
+        "description": "My final degree project: a multi-tenant platform that automatically verifies the coherence, integrity, and completeness of software deliveries across external systems, combining a FastAPI backend, an Angular frontend, and a Rust verification engine."
       },
       "7": {
         "title": "F1 Desktop Application",

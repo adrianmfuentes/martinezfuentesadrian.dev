@@ -40,7 +40,7 @@ const dictionary = {
     "1": { title: "WiChat", description: "A quiz game app" },
     "2": { title: "DLP Compiler", description: "A design language processor" },
     "3": { title: "SGDB", description: "A database engine" },
-    "6": { title: "Information Retrieval", description: "An IR system" },
+    "6": { title: "SVAES", description: "A software delivery verification system" },
     "8": { title: "HTTP Server", description: "A C++ HTTP server" },
     "10": { title: "NutritionAI", description: "An AI nutrition app" },
   },
@@ -55,7 +55,7 @@ describe("PortfolioSection", () => {
     expect(screen.getByText("WiChat")).toBeInTheDocument()
     expect(screen.getByText("DLP Compiler")).toBeInTheDocument()
     expect(screen.getByText("SGDB")).toBeInTheDocument()
-    expect(screen.getByText("Information Retrieval")).toBeInTheDocument()
+    expect(screen.getByText("SVAES")).toBeInTheDocument()
     expect(screen.getByText("HTTP Server")).toBeInTheDocument()
     expect(screen.getByText("NutritionAI")).toBeInTheDocument()
   })
@@ -95,7 +95,7 @@ describe("PortfolioSection", () => {
     fireEvent.click(screen.getByRole("tab", { name: dictionary.categories.data }))
 
     expect(screen.getByText("SGDB")).toBeInTheDocument()
-    expect(screen.getByText("Information Retrieval")).toBeInTheDocument()
+    expect(screen.queryByText("SVAES")).not.toBeInTheDocument()
     expect(screen.queryByText("WiChat")).not.toBeInTheDocument()
     expect(screen.queryByText("DLP Compiler")).not.toBeInTheDocument()
   })
