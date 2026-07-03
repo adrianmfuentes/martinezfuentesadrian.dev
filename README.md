@@ -84,7 +84,9 @@ None of these are required to browse the site locally, but individual features t
 
 ## Deployment and CI
 
-The app is packaged as a Docker image (`Dockerfile`, using Next.js's standalone output). On every push to `main`, GitHub Actions builds that image for `linux/arm64`, pushes it to the GitHub Container Registry, and deploys it over SSH to a self-hosted server running Docker and Nginx Proxy Manager (`docker-compose.yml`). GitHub Actions also runs a build and dependency audit check on every push and pull request, and Dependabot keeps dependencies current, with patch and minor updates merged automatically once the build passes.
+The app is packaged as a Docker image (`Dockerfile`, using Next.js's standalone output). On every push to `main`, GitHub Actions builds that image for `linux/arm64`, pushes it to the GitHub Container Registry, and deploys it over SSH to a self-hosted server running Docker and Nginx Proxy Manager (`docker-compose.yml`). GitHub Actions also runs a build and dependency audit check on every push and pull request, a SonarQube scan with a quality gate (`sonar.yml`, `sonar-project.properties`), and Dependabot keeps dependencies current, with patch and minor updates merged automatically once the build passes.
+
+Static analysis with SonarQube requires the repository secrets `SONAR_TOKEN` and `SONAR_HOST_URL`, pointing at a SonarQube server.
 
 Deploying requires the following repository secrets: `SSH_HOST`, `SSH_USER`, `SSH_PRIVATE_KEY`, `SSH_DEPLOY_PATH`, and optionally `SSH_PORT`. The server needs a persistent `.env` file at `SSH_DEPLOY_PATH` alongside `docker-compose.yml`, holding the runtime variables listed above.
 
