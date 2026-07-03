@@ -234,8 +234,8 @@ function TimelineItem({ title, organization, period, description, pdfUrl, onView
               <>
                 {(involvementLabel || aboutGradeLabel) && <h4 className="font-semibold text-sm mb-3">{involvementLabel || aboutGradeLabel}</h4>}
                 <ul className="space-y-2 pl-4">
-                  {description.map((item, idx) => (
-                    <li key={idx} className="text-sm list-disc marker:text-foreground/50">{item}</li>
+                  {description.map((item) => (
+                    <li key={item} className="text-sm list-disc marker:text-foreground/50">{item}</li>
                   ))}
                 </ul>
               </>

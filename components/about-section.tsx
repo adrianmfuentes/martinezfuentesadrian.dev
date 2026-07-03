@@ -120,10 +120,10 @@ export function AboutSection({ dictionary }: AboutSectionProps) {
         whileInView="visible"
         viewport={{ once: true }}
       >
-        {stats.map((stat, index) => {
+        {stats.map((stat) => {
           const Icon = stat.icon;
           return (
-            <motion.div key={index} variants={itemVariants}>
+            <motion.div key={stat.label} variants={itemVariants}>
               <Card className="h-full bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20 hover:border-primary/40 transition-all duration-300">
                 <CardContent className="p-3 sm:p-6 text-center flex flex-col items-center justify-center gap-1.5 min-h-fit">
                   <Icon className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
@@ -173,7 +173,7 @@ export function AboutSection({ dictionary }: AboutSectionProps) {
               const Icon = bioIcons[index % bioIcons.length];
               return (
                 <motion.div
-                  key={`bio-paragraph-${index}`}
+                  key={paragraph}
                   className="flex gap-4"
                   variants={itemVariants}
                 >
@@ -248,9 +248,9 @@ export function AboutSection({ dictionary }: AboutSectionProps) {
                   <div>
                     <p className="text-sm font-medium text-foreground/70 mb-3">Lenguajes</p>
                     <div className="flex flex-wrap gap-2">
-                      {technicalSkillsList.slice(0, 5).map((skill, idx) => (
+                      {technicalSkillsList.slice(0, 5).map((skill) => (
                         <span
-                          key={idx}
+                          key={skill}
                           className="px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium"
                         >
                           {skill.trim()}
@@ -261,9 +261,9 @@ export function AboutSection({ dictionary }: AboutSectionProps) {
                   <div>
                     <p className="text-sm font-medium text-foreground/70 mb-3">Frameworks</p>
                     <div className="flex flex-wrap gap-2">
-                      {dictionary.skills.technicalSkills.frameworks.split(", ").map((skill, idx) => (
+                      {dictionary.skills.technicalSkills.frameworks.split(", ").map((skill) => (
                         <span
-                          key={idx}
+                          key={skill}
                           className="px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium"
                         >
                           {skill.trim()}
@@ -274,9 +274,9 @@ export function AboutSection({ dictionary }: AboutSectionProps) {
                   <div>
                     <p className="text-sm font-medium text-foreground/70 mb-3">Cloud</p>
                     <div className="flex flex-wrap gap-2">
-                      {dictionary.skills.technicalSkills.cloud.split(", ").map((skill, idx) => (
+                      {dictionary.skills.technicalSkills.cloud.split(", ").map((skill) => (
                         <span
-                          key={idx}
+                          key={skill}
                           className="px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium"
                         >
                           {skill.trim()}
@@ -298,9 +298,9 @@ export function AboutSection({ dictionary }: AboutSectionProps) {
                   <h4 className="text-2xl font-semibold">{dictionary.skills.soft}</h4>
                 </div>
                 <div className="grid grid-cols-2 gap-3">
-                  {softSkillsList.map((skill, idx) => (
+                  {softSkillsList.map((skill) => (
                     <div
-                      key={idx}
+                      key={skill}
                       className="p-3 rounded-lg bg-primary/5 border border-primary/10 hover:border-primary/30 transition-all"
                     >
                       <p className="text-sm font-medium text-foreground/70">{skill}</p>

@@ -7,11 +7,7 @@ import { rateLimit } from "@/lib/rate-limit"
 // Contact form validation schema
 const contactFormSchema = z.object({
   name: z.string().min(2).max(100),
-  email: z.string().min(5).max(255).refine(
-    (val) =>
-      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val),
-    { message: "Invalid email address" }
-  ),
+  email: z.email({ message: "Invalid email address" }).min(5).max(255),
   message: z.string().min(10).max(5000),
   subject: z.string().optional(),
   priority: z.enum(["low", "medium", "high"]).optional(),

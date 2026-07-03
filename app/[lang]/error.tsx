@@ -21,7 +21,7 @@ const dict = {
   },
 }
 
-export default function Error({
+export default function ErrorPage({
   error,
   reset,
 }: Readonly<{
