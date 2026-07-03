@@ -34,7 +34,7 @@ export async function generateMetadata({
     title: dict.metadata.title,
     description: dict.metadata.description,
     keywords: dict.metadata.keywords,
-    metadataBase: new URL('https://martinezfuentesadrian-dev.vercel.app'), 
+    metadataBase: new URL('https://martinezfuentesadrian.dev'),
     openGraph: {
       title: dict.metadata.title,
       description: dict.metadata.description,
