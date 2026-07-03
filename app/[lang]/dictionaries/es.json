@@ -61,7 +61,7 @@
     },
     "education": {
       "title": "Educación",
-      "degree": "Grado en Ingeniería Informática del Software",
+      "degree": "Grado en Ingeniería del Software (impartido en inglés)",
       "university": "Universidad de Oviedo",
       "period": "2022 - Presente"
     }
@@ -81,18 +81,30 @@
     "education": {
       "items": [
         {
-          "title": "Grado en Ingeniería Informática (Programa Bilingüe)",
+          "title": "Grado en Ingeniería del Software (impartido en inglés)",
           "organization": "Universidad de Oviedo",
           "period": "2022 - Presente",
-          "gpa": "7,303/10",
-          "honours": "Matrícula de Honor en Arquitectura de Software",
+          "gpa": "7,465/10",
           "description": [
-              "Cursado en el programa bilingüe",
+              "Cursado en el programa bilingüe impartido en inglés",
               "Grado presencial de 4 años en la Escuela de Ingeniería Informática de la Universidad de Oviedo.",
               "Aprendizaje sobre los conceptos base de la informática, incluyendo programación, algoritmos, estructuras de datos, sistemas operativos, redes y bases de datos.",
               "Inmersión en desarrollo web, arquitectura de software y ciberseguridad.",
+              "Optativa: Informática Forense y Auditoría.",
               "Participación en proyectos prácticos y colaborativos que han reforzado mis habilidades técnicas y de trabajo en equipo."
           ]
+        },
+        {
+          "title": "Matrícula de Honor en Arquitectura de Software",
+          "organization": "Universidad de Oviedo",
+          "period": "2025",
+          "description": "Obtuve la máxima distinción de honor en la asignatura de Arquitectura de Software. Premiado como mejor proyecto de curso entre todos los equipos por la aplicación sobresaliente de los principios de arquitectura de software."
+        },
+        {
+          "title": "Matrícula de Honor en ASLEPI",
+          "organization": "Universidad de Oviedo",
+          "period": "2026",
+          "description": "Matrícula de Honor en ASLEPI (Aspectos Sociales, Legales, Éticos y Profesionales de la Informática)."
         }
       ]
     },
@@ -184,8 +196,8 @@
         "description": "Aplicación web para la gestión de tareas que permite a los usuarios crear, editar y organizar tareas con un sistema de autenticación y una interfaz moderna."
       },
       "6": {
-        "title": "Recuperación de Información",
-        "description": "Sistema de recuperación de información que procesa y analiza grandes volúmenes de texto para proporcionar resultados relevantes según las consultas de búsqueda."
+        "title": "SVAES - Sistema de Verificación Automática de Entregas de Software (TFG)",
+        "description": "Mi Trabajo de Fin de Grado: una plataforma multi-tenant que verifica automáticamente la coherencia, integridad y completitud de las entregas de software en sistemas externos, combinando un backend en FastAPI, un frontend en Angular y un motor de verificación en Rust."
       },
       "7": {
         "title": "F1 Desktop Application",
