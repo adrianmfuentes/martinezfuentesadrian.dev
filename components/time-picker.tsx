@@ -18,8 +18,10 @@ export function TimePickerDemo({ date, setDate }: Readonly<TimePickerProps>) {
   const [minute, setMinute] = React.useState<number | string>(date ? date.getMinutes() : "")
   const [second, setSecond] = React.useState<number | string>(date ? date.getSeconds() : "")
 
-  // Update component state when date changes
-  React.useEffect(() => {
+  // Reset component state when the parent passes a new date instance
+  const [prevDate, setPrevDate] = React.useState(date)
+  if (date !== prevDate) {
+    setPrevDate(date)
     if (date) {
       setHour(date.getHours())
       setMinute(date.getMinutes())
@@ -29,7 +31,7 @@ export function TimePickerDemo({ date, setDate }: Readonly<TimePickerProps>) {
       setMinute("")
       setSecond("")
     }
-  }, [date])
+  }
 
   // Update date object when time changes
   const handleTimeChange = React.useCallback(() => {
