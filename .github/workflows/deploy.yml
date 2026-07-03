@@ -1,14 +1,42 @@
 name: Deploy
 
 on:
-  push:
-    branches: [main]
+  workflow_dispatch:
 
 env:
   IMAGE: ghcr.io/${{ github.repository }}
 
 jobs:
+  check-sonar:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+    steps:
+      - name: Verify latest SonarCloud analysis passed
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data } = await github.rest.actions.listWorkflowRuns({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              workflow_id: 'sonar.yml',
+              branch: 'main',
+              status: 'completed',
+              per_page: 1,
+            })
+            const run = data.workflow_runs[0]
+            if (!run) {
+              core.setFailed('No completed SonarCloud workflow run found for main.')
+              return
+            }
+            if (run.conclusion !== 'success') {
+              core.setFailed(`Latest SonarCloud run did not pass (conclusion: ${run.conclusion}): ${run.html_url}`)
+              return
+            }
+            core.info(`Latest SonarCloud run passed: ${run.html_url}`)
+
   build-and-push:
+    needs: check-sonar
     runs-on: ubuntu-latest
     permissions:
       contents: read
