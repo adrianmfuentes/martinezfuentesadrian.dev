@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, type ReactNode } from "react"
 import { useRouter } from "next/navigation"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -251,36 +251,32 @@ function SectionEditor({
   saving: boolean
   saved: boolean
 }>) {
-  const [items, setItems] = useState<any[]>(initialItems)
+  const [items, setItems] = useState<{ key: string; data: any }[]>(() => toKeyedItems(initialItems))
 
   // Sync when parent switches language
   const [prevInitialItems, setPrevInitialItems] = useState(initialItems)
   if (initialItems !== prevInitialItems) {
     setPrevInitialItems(initialItems)
-    setItems(initialItems)
+    setItems(toKeyedItems(initialItems))
   }
 
-  const update = (idx: number, field: string, value: any) => {
-    setItems((prev) => {
-      const next = [...prev]
-      next[idx] = { ...next[idx], [field]: value }
-      return next
-    })
+  const update = (key: string, field: string, value: any) => {
+    setItems((prev) => prev.map((it) => (it.key === key ? { key, data: { ...it.data, [field]: value } } : it)))
   }
 
-  const remove = (idx: number) => setItems((prev) => prev.filter((_, i) => i !== idx))
+  const remove = (key: string) => setItems((prev) => prev.filter((it) => it.key !== key))
 
-  const add = () => setItems((prev) => [...prev, { ...emptyItem }])
+  const add = () => setItems((prev) => [...prev, { key: crypto.randomUUID(), data: { ...emptyItem } }])
 
   return (
     <div className="space-y-3">
-      {items.map((item, idx) => (
+      {items.map(({ key, data }) => (
         <ItemCard
-          key={idx}
-          item={item}
+          key={key}
+          item={data}
           fields={fields}
-          onUpdate={(field, value) => update(idx, field, value)}
-          onRemove={() => remove(idx)}
+          onUpdate={(field, value) => update(key, field, value)}
+          onRemove={() => remove(key)}
         />
       ))}
 
@@ -290,10 +286,14 @@ function SectionEditor({
       </Button>
 
       <div className="flex justify-end pt-2">
-        <SaveButton onSave={() => onSave(items)} saving={saving} saved={saved} />
+        <SaveButton onSave={() => onSave(items.map((it) => it.data))} saving={saving} saved={saved} />
       </div>
     </div>
   )
+}
+
+function toKeyedItems(items: any[]) {
+  return items.map((data) => ({ key: crypto.randomUUID(), data }))
 }
 
 // ─── Item card ──────────────────────────────────────────────────────────────
@@ -313,33 +313,23 @@ function ItemCard({
 
   return (
     <Card className="overflow-hidden">
-      <div
-        role="button"
-        tabIndex={0}
-        className="flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-muted/40 transition-colors"
-        onClick={() => setOpen((v) => !v)}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault()
-            setOpen((v) => !v)
-          }
-        }}
-      >
-        <div className="flex-1 min-w-0">
+      <div className="flex items-center justify-between px-4 py-3 hover:bg-muted/40 transition-colors">
+        <button
+          type="button"
+          className="flex-1 min-w-0 text-left cursor-pointer"
+          onClick={() => setOpen((v) => !v)}
+        >
           <p className="font-medium text-sm truncate">{item.title || "(untitled)"}</p>
           {item.organization && (
             <p className="text-xs text-muted-foreground truncate">{item.organization}</p>
           )}
-        </div>
+        </button>
         <div className="flex items-center gap-1 ml-3 flex-shrink-0">
           <Button
             variant="ghost"
             size="icon"
             className="h-7 w-7 text-destructive hover:text-destructive"
-            onClick={(e) => {
-              e.stopPropagation()
-              onRemove()
-            }}
+            onClick={onRemove}
           >
             <Trash2 className="h-3.5 w-3.5" />
           </Button>
@@ -425,21 +415,28 @@ function SaveButton({
   saving: boolean
   saved: boolean
 }>) {
+  let content: ReactNode
+  if (saved) {
+    content = (
+      <>
+        <Check className="h-4 w-4" />
+        Saved
+      </>
+    )
+  } else if (saving) {
+    content = "Saving…"
+  } else {
+    content = (
+      <>
+        <Save className="h-4 w-4" />
+        Save
+      </>
+    )
+  }
+
   return (
     <Button onClick={onSave} disabled={saving} className="gap-2 min-w-28">
-      {saved ? (
-        <>
-          <Check className="h-4 w-4" />
-          Saved
-        </>
-      ) : saving ? (
-        "Saving…"
-      ) : (
-        <>
-          <Save className="h-4 w-4" />
-          Save
-        </>
-      )}
+      {content}
     </Button>
   )
 }

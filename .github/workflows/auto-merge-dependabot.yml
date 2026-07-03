@@ -4,15 +4,13 @@ on:
   pull_request:
     branches: [main]
 
-permissions:
-  contents: write
-  pull-requests: write
-
 jobs:
   # Build must pass before any merge happens
   build:
     runs-on: ubuntu-latest
     if: github.actor == 'dependabot[bot]'
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
 
@@ -30,6 +28,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: build   # only runs if build job succeeded
     if: github.actor == 'dependabot[bot]'
+    permissions:
+      contents: write
+      pull-requests: write
 
     steps:
       - name: Fetch Dependabot metadata

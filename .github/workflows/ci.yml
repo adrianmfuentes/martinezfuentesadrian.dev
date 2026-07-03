@@ -23,7 +23,7 @@ jobs:
           cache: "pnpm"
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --ignore-scripts
 
       - name: Audit dependencies (high/critical)
         run: pnpm audit --audit-level=high

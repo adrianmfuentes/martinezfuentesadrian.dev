@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, type ReactNode } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
@@ -113,11 +113,7 @@ export function ContactForm({ dictionary }: Readonly<ContactFormProps>) {
       message: dictionary.validation.nameRequired,
     }),
     email: z.string()
-      .regex(
-        /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-        { message: dictionary.validation.emailRequired }
-      )
-      .refine(val => !!val, {
+      .refine(val => /^[^\s@]+@[^\s@]+$/.test(val) && val.includes("."), {
         message: dictionary.validation.emailRequired,
       }),
     message: z.string().min(10, {
@@ -226,6 +222,30 @@ export function ContactForm({ dictionary }: Readonly<ContactFormProps>) {
   const itemVariants = {
     hidden: { opacity: 0, y: 10 },
     visible: { opacity: 1, y: 0 },
+  }
+
+  let submitButtonContent: ReactNode
+  if (isSubmitting) {
+    submitButtonContent = (
+      <>
+        <Loader2 className="h-5 w-5 animate-spin" />
+        Enviando...
+      </>
+    )
+  } else if (submitStatus.type === 'success') {
+    submitButtonContent = (
+      <>
+        <CheckCircle className="h-5 w-5" />
+        ¡Enviado!
+      </>
+    )
+  } else {
+    submitButtonContent = (
+      <>
+        <Send className="h-5 w-5" />
+        {dictionary.send}
+      </>
+    )
   }
 
   return (
@@ -406,22 +426,7 @@ export function ContactForm({ dictionary }: Readonly<ContactFormProps>) {
                         disabled={isSubmitting}
                         size="lg"
                       >
-                        {isSubmitting ? (
-                          <>
-                            <Loader2 className="h-5 w-5 animate-spin" />
-                            Enviando...
-                          </>
-                        ) : submitStatus.type === 'success' ? (
-                          <>
-                            <CheckCircle className="h-5 w-5" />
-                            ¡Enviado!
-                          </>
-                        ) : (
-                          <>
-                            <Send className="h-5 w-5" />
-                            {dictionary.send}
-                          </>
-                        )}
+                        {submitButtonContent}
                       </Button>
                     </motion.div>
                   </form>
@@ -506,8 +511,8 @@ export function ContactForm({ dictionary }: Readonly<ContactFormProps>) {
                     <div>
                       <p className="text-xs text-foreground/70 mb-3 font-medium">{dictionary.formInfo.available}</p>
                       <div className="space-y-1">
-                        {dictionary.formInfo.availability.map((item, index) => (
-                          <div key={index} className="flex items-center gap-2 text-xs">
+                        {dictionary.formInfo.availability.map((item) => (
+                          <div key={item} className="flex items-center gap-2 text-xs">
                             <div className="w-1.5 h-1.5 rounded-full bg-primary" />
                             {item}
                           </div>

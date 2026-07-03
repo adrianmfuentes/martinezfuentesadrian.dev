@@ -52,6 +52,15 @@ export function PasswordGenerator({ dictionary }: Readonly<PasswordGeneratorProp
   const [showPassword, setShowPassword] = useState(true)
   const [copied, setCopied] = useState(false)
 
+  const getSecureRandomIndex = (max: number) => {
+    const range = 256 - (256 % max)
+    let byte: number
+    do {
+      byte = crypto.getRandomValues(new Uint8Array(1))[0]
+    } while (byte >= range)
+    return byte % max
+  }
+
   const generatePassword = () => {
     let characterPool = LATIN_CHARACTERS + DIGITS
 
@@ -62,8 +71,8 @@ export function PasswordGenerator({ dictionary }: Readonly<PasswordGeneratorProp
       characterPool += SPECIAL_CHARACTERS
     }
 
-    const newPassword = Array.from({ length }, () => 
-      characterPool[Math.floor(Math.random() * characterPool.length)]
+    const newPassword = Array.from({ length }, () =>
+      characterPool[getSecureRandomIndex(characterPool.length)]
     ).join('')
 
     setPassword(newPassword)
