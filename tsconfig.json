@@ -23,16 +23,15 @@
         "name": "next"
       }
     ],
-    "baseUrl": ".",
     "paths": {
       "@/*": [
         "./*"
       ],
       "@components/*": [
-        "components/*"
+        "./components/*"
       ],
       "@lib/*": [
-        "lib/*"
+        "./lib/*"
       ]
     }
   },
