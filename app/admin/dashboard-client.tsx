@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -254,9 +254,11 @@ function SectionEditor({
   const [items, setItems] = useState<any[]>(initialItems)
 
   // Sync when parent switches language
-  useEffect(() => {
+  const [prevInitialItems, setPrevInitialItems] = useState(initialItems)
+  if (initialItems !== prevInitialItems) {
+    setPrevInitialItems(initialItems)
     setItems(initialItems)
-  }, [initialItems])
+  }
 
   const update = (idx: number, field: string, value: any) => {
     setItems((prev) => {
