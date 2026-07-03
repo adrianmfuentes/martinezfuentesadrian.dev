@@ -84,7 +84,9 @@ Ninguna de estas variables es necesaria para navegar el sitio en local, pero las
 
 ## Despliegue e integración continua
 
-La aplicación se empaqueta como imagen Docker (`Dockerfile`, usando el output standalone de Next.js). En cada push a `main`, GitHub Actions construye esa imagen para `linux/arm64`, la publica en el GitHub Container Registry, y la despliega por SSH en un servidor propio con Docker y Nginx Proxy Manager (`docker-compose.yml`). GitHub Actions también ejecuta una comprobación de build y de auditoría de dependencias en cada push y pull request, y Dependabot mantiene las dependencias actualizadas, fusionando automáticamente las actualizaciones menores una vez que el build pasa.
+La aplicación se empaqueta como imagen Docker (`Dockerfile`, usando el output standalone de Next.js). En cada push a `main`, GitHub Actions construye esa imagen para `linux/arm64`, la publica en el GitHub Container Registry, y la despliega por SSH en un servidor propio con Docker y Nginx Proxy Manager (`docker-compose.yml`). GitHub Actions también ejecuta una comprobación de build y de auditoría de dependencias en cada push y pull request, un análisis de SonarQube con quality gate (`sonar.yml`, `sonar-project.properties`), y Dependabot mantiene las dependencias actualizadas, fusionando automáticamente las actualizaciones menores una vez que el build pasa.
+
+El análisis estático con SonarQube requiere los secrets del repositorio `SONAR_TOKEN` y `SONAR_HOST_URL`, apuntando a un servidor SonarQube.
 
 Desplegar requiere los siguientes secrets del repositorio: `SSH_HOST`, `SSH_USER`, `SSH_PRIVATE_KEY`, `SSH_DEPLOY_PATH`, y opcionalmente `SSH_PORT`. El servidor necesita un fichero `.env` persistente en `SSH_DEPLOY_PATH` junto a `docker-compose.yml`, con las variables de entorno indicadas arriba.
 
