@@ -1,5 +1,9 @@
 # martinezfuentesadrian.dev
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=adrianmfuentes_martinezfuentesadrian.dev&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=adrianmfuentes_martinezfuentesadrian.dev)
+
+Read in English: [README.md](README.md)
+
 Sitio web personal y portfolio de Adrián Martínez Fuentes, construido con Next.js. El sitio es bilingüe (inglés y español), incluye un conjunto de pequeñas herramientas web orientadas a seguridad, y se ejecuta como contenedor Docker en un servidor propio.
 
 Sitio en producción: https://amf.amfserver.duckdns.org
