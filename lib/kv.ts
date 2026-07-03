@@ -1,7 +1,6 @@
 import { Redis } from "@upstash/redis"
-import { computeExperienceLabel } from "./experience"
 
-export { computeExperienceLabel }
+export { computeExperienceLabel } from "./experience"
 
 export interface ExperienceCounter {
   startDate: string   // "YYYY-MM-DD"

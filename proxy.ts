@@ -60,17 +60,17 @@ async function verifyToken(token: string): Promise<boolean> {
       ["verify"]
     )
 
-    const base64 = sigEncoded.replace(/-/g, "+").replace(/_/g, "/")
+    const base64 = sigEncoded.replaceAll("-", "+").replaceAll("_", "/")
     const padded = base64 + "==".slice((base64.length % 4) || 4)
-    const sigBytes = Uint8Array.from(atob(padded), (c) => c.charCodeAt(0))
+    const sigBytes = Uint8Array.from(atob(padded), (c) => c.codePointAt(0) ?? 0)
 
     const valid = await crypto.subtle.verify("HMAC", key, sigBytes, enc.encode(payload))
     if (!valid) return false
 
-    const pb64 = payload.replace(/-/g, "+").replace(/_/g, "/")
+    const pb64 = payload.replaceAll("-", "+").replaceAll("_", "/")
     const pp = pb64 + "==".slice((pb64.length % 4) || 4)
     const decoded = new TextDecoder().decode(
-      Uint8Array.from(atob(pp), (c) => c.charCodeAt(0))
+      Uint8Array.from(atob(pp), (c) => c.codePointAt(0) ?? 0)
     )
     const data = JSON.parse(decoded)
     return data.exp > Date.now()

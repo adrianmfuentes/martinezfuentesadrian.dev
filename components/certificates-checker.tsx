@@ -84,8 +84,8 @@ function isValidHost(host: string): boolean {
 }
 
 function isValidPort(port: string): boolean {
-  const portNum = parseInt(port)
-  return !isNaN(portNum) && portNum >= 1 && portNum <= 65535
+  const portNum = Number.parseInt(port)
+  return !Number.isNaN(portNum) && portNum >= 1 && portNum <= 65535
 }
 
 async function checkCertificate(host: string, port: number): Promise<CertificateInfo> {
@@ -135,7 +135,7 @@ export function CertificatesChecker({ dictionary }: Readonly<CertificatesChecker
     setResult(null)
     
     try {
-      const certInfo = await checkCertificate(host.trim(), parseInt(port.trim()))
+      const certInfo = await checkCertificate(host.trim(), Number.parseInt(port.trim()))
       setResult(certInfo)
     } catch (err) {
       console.error("Error checking certificate:", err)

@@ -6,10 +6,12 @@ export async function POST(request: Request) {
       return Response.json({ error: 'Password is required' }, { status: 400 })
     }
 
-    // Crear hash SHA-1 de la contraseña
+    // SHA-1 is mandated by the HaveIBeenPwned Range API's k-anonymity model
+    // (https://haveibeenpwned.com/API/v3#PwnedPasswords): only a 5-char hash
+    // prefix is sent, never the password or a credential-store hash.
     const encoder = new TextEncoder()
     const data = encoder.encode(password)
-    const hashBuffer = await crypto.subtle.digest('SHA-1', data)
+    const hashBuffer = await crypto.subtle.digest('SHA-1', data) // NOSONAR
     const hashArray = Array.from(new Uint8Array(hashBuffer))
     const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('').toUpperCase()
     
@@ -35,7 +37,7 @@ export async function POST(request: Request) {
     for (const hashLine of hashes) {
       const [hashSuffix, count] = hashLine.trim().split(':')
       if (hashSuffix === suffix) {
-        return Response.json({ count: parseInt(count, 10) })
+        return Response.json({ count: Number.parseInt(count, 10) })
       }
     }
     

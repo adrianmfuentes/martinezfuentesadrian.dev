@@ -56,7 +56,7 @@ function ViewerHeader({ title, isMobile, scale, zoomIn, zoomOut, onClose, pdfUrl
               <span className="text-xs sm:text-sm text-muted-foreground px-1 sm:px-2 min-w-[45px] sm:min-w-[60px] text-center">
                 {Math.round(scale * 100)}%
               </span>
-              <Button variant="ghost" size="sm" onClick={zoomIn} disabled={scale >= 3.0}>
+              <Button variant="ghost" size="sm" onClick={zoomIn} disabled={scale >= 3}>
                 <ZoomIn className="h-3 w-3 sm:h-4 sm:w-4" />
               </Button>
             </div>

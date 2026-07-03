@@ -7,6 +7,6 @@ export const metadata: Metadata = {
 
 // ThemeProvider + fonts are inherited from app/client-html.tsx (root layout)
 // This layout strips out the portfolio Navbar/Footer/AIChatWidget
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+export default function AdminLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return <>{children}</>
 }

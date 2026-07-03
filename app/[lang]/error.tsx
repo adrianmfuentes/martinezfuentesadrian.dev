@@ -24,10 +24,10 @@ const dict = {
 export default function Error({
   error,
   reset,
-}: {
+}: Readonly<{
   error: Error & { digest?: string }
   reset: () => void
-}) {
+}>) {
   const pathname = usePathname() ?? ""
   const lang: "en" | "es" = pathname.startsWith("/en") ? "en" : "es"
   const t = dict[lang]

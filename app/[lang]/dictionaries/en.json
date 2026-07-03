@@ -374,21 +374,23 @@
   },
   "passwordChecker": {
     "title": "Password Checker",
-    "description": "Analyze the strength and security of your passwords using entropy algorithms and verification against compromised password databases.",
-    "passwordLabel": "Password to analyze",
-    "passwordPlaceholder": "Enter your password here...",
+    "description": "Analyze the strength of your passwords by calculating entropy and checking character diversity to improve your digital security.",
+    "passwordLabel": "Enter your password",
+    "passwordPlaceholder": "Type your password here...",
     "analyzeButton": "Analyze Password",
     "showPassword": "Show password",
     "hidePassword": "Hide password",
+    "minLengthWarning": "Your password is too short! It must be at least {min} characters.",
+    "resetButton": "Analyze New Password",
     "analysis": {
-      "title": "Security Analysis",
+      "title": "Password Analysis",
       "length": "Length",
-      "lowercase": "Lowercase",
-      "uppercase": "Uppercase",
+      "lowercase": "Lowercase letters",
+      "uppercase": "Uppercase letters",
       "digits": "Digits",
-      "special": "Special",
-      "whitespace": "Whitespace",
-      "entropy": "Entropy",
+      "special": "Special characters",
+      "whitespace": "Whitespace characters",
+      "entropy": "Entropy Score",
       "strength": "Strength",
       "remarks": "Remarks",
       "pwned": "Breach Status",
@@ -412,8 +414,125 @@
       "moderate": "✅ Moderate: Decent password, but can still be improved.",
       "strong": "✅ Strong: Hard to guess, but consider making it longer.",
       "veryStrong": "✅ Very Strong: Excellent password! Highly secure."
+    }
+  },
+  "certificatesChecker": {
+    "title": "SSL/TLS Certificate Checker",
+    "description": "Analyze SSL/TLS certificates from websites to verify their validity, issuer, expiration dates, and security configuration.",
+    "hostLabel": "Host to check",
+    "hostPlaceholder": "example.com or 192.168.1.1",
+    "portLabel": "SSL/TLS Port",
+    "portPlaceholder": "443",
+    "portHelp": "Port where the SSL/TLS service is running. Common ports:",
+    "checkButton": "Check Certificate",
+    "checking": "Checking...",
+    "results": {
+      "title": "Certificate Information",
+      "host": "Host",
+      "resolvedIp": "Resolved IP",
+      "subject": "Subject",
+      "issuer": "Issuer",
+      "validFrom": "Valid from",
+      "validUntil": "Valid until",
+      "algorithm": "Algorithm",
+      "isCA": "Is CA",
+      "daysLeft": "Days left",
+      "status": "Status",
+      "sans": "Subject Alternative Names (SANs)"
     },
-    "minLengthWarning": "A minimum of {min} characters is recommended for better security",
-    "resetButton": "Reset Analysis"
+    "status": {
+      "valid": "Valid",
+      "expired": "Expired",
+      "expiringSoon": "Expiring soon"
+    },
+    "errors": {
+      "invalidHost": "Invalid host. Enter a valid IP address or domain name.",
+      "invalidPort": "Invalid port. Must be between 1 and 65535.",
+      "connectionError": "Connection error. Check the host and port.",
+      "certificateError": "Error getting certificate. Verify that the SSL/TLS service is available."
+    },
+    "resetButton": "New Check"
+  },
+  "portScanner": {
+    "title": "Port Scanner",
+    "description": "Analyze TCP port accessibility on remote hosts to verify available services and perform basic security audits.",
+    "hostLabel": "Host to scan",
+    "hostPlaceholder": "example.com or 192.168.1.1",
+    "portsLabel": "Ports to scan",
+    "portsPlaceholder": "80, 22-25, 443",
+    "portsHelp": "Enter individual ports (80), ranges (22-25), or comma-separated lists (80,443,22-25)",
+    "scanButton": "Start Scan",
+    "stopButton": "Stop",
+    "scanning": "Scanning...",
+    "results": {
+      "title": "Scan Results",
+      "host": "Host",
+      "resolvedIp": "Resolved IP",
+      "totalPorts": "Total Ports",
+      "openPorts": "Open Ports",
+      "closedPorts": "Closed Ports",
+      "progress": "Scan Progress",
+      "status": "Status"
+    },
+    "portStatus": {
+      "open": "Open",
+      "closed": "Closed",
+      "scanning": "Scanning"
+    },
+    "errors": {
+      "invalidHost": "Invalid host. Enter a valid IP address or domain name.",
+      "invalidPorts": "Invalid ports. Use format: 80, 22-25, or 80,443",
+      "scanError": "Error during scan. Check connectivity.",
+      "networkError": "Network error. Check your internet connection."
+    },
+    "resetButton": "New Scan"
+  },
+  "webDiscovery": {
+    "title": "Web Content Discovery",
+    "description": "Enumerate paths and resources on a website. Useful for reconnaissance and audits.",
+    "urlLabel": "Target URL",
+    "urlPlaceholder": "https://example.com",
+    "wordlistLabel": "Wordlist",
+    "wordlistPlaceholder": "Select or paste newline-separated paths",
+    "threadsLabel": "Threads",
+    "threadsHelp": "Number of concurrent worker threads for scanning",
+    "scanButton": "Start Discovery",
+    "stopButton": "Stop",
+    "randomAgent": "Random User-Agent",
+    "userAgentLabel": "Custom User-Agent",
+    "refererLabel": "Referer (optional)",
+    "delayLabel": "Delay (sec)",
+    "debugLabel": "Show headers on 403 (debug)",
+    "scanning": "Scanning...",
+    "results": {
+      "title": "Results",
+      "url": "URL",
+      "status": "Status code",
+      "total": "Total found"
+    },
+    "errors": {
+      "invalidUrl": "Invalid URL. Include http:// or https://",
+      "wordlistMissing": "Empty wordlist. Add paths to scan.",
+      "scanError": "Error during discovery. Check parameters."
+    },
+    "resetButton": "New Discovery"
+  },
+  "passwordGenerator": {
+    "title": "Password Generator",
+    "description": "Generate secure passwords with customizable options",
+    "length": "Password length",
+    "minLength": "Minimum",
+    "includeGreek": "Include Greek characters (αβγ...)",
+    "includeSpecial": "Include symbols (!@#...)",
+    "generate": "Generate Password",
+    "copy": "Click to copy",
+    "copied": "Copied to clipboard!",
+    "strength": "Password strength",
+    "weak": "Weak",
+    "medium": "Medium",
+    "strong": "Strong",
+    "veryStrong": "Very Strong",
+    "show": "Show",
+    "hide": "Hide"
   }
 }

@@ -77,7 +77,7 @@ export function AboutSection({ dictionary }: AboutSectionProps) {
   const age = dictionary.birthDate ? getAge(dictionary.birthDate) : null;
 
   const bioParagraphs = dictionary.bio.map(paragraph =>
-    paragraph.replace('{age}', age !== null ? age.toString() : 'N/A')
+    paragraph.replace('{age}', age === null ? 'N/A' : age.toString())
   );
 
   const stats = [

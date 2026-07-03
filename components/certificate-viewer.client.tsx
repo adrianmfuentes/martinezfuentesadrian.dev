@@ -1,3 +1,2 @@
 "use client"
-import { CertificateViewer } from "./certificate-viewer";
-export default CertificateViewer;
+export { CertificateViewer as default } from "./certificate-viewer";

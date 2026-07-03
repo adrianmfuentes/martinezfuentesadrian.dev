@@ -78,8 +78,8 @@ export function HeroSection({ dictionary, stats, lang, contactLabel, cvLabel }: 
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({ x: e.clientX, y: e.clientY })
     }
-    window.addEventListener("mousemove", handleMouseMove)
-    return () => window.removeEventListener("mousemove", handleMouseMove)
+    globalThis.addEventListener("mousemove", handleMouseMove)
+    return () => globalThis.removeEventListener("mousemove", handleMouseMove)
   }, [])
 
   useEffect(() => {

@@ -89,7 +89,7 @@ const expectedHeaders: Record<string, HeaderConfig> = {
       const maxAgeRegex = /max-age=(\d+)/
       const maxAgeMatch = maxAgeRegex.exec(value)
       if (!maxAgeMatch) return false
-      const maxAge = parseInt(maxAgeMatch[1])
+      const maxAge = Number.parseInt(maxAgeMatch[1])
       return maxAge >= 31536000 // 1 año mínimo
     }
   },

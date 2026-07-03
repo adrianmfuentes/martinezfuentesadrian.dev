@@ -226,6 +226,169 @@ interface Dictionary {
       networkError: string
     }
   }
+  passwordChecker: {
+    title: string
+    description: string
+    passwordLabel: string
+    passwordPlaceholder: string
+    analyzeButton: string
+    showPassword: string
+    hidePassword: string
+    minLengthWarning: string
+    resetButton: string
+    analysis: {
+      title: string
+      length: string
+      lowercase: string
+      uppercase: string
+      digits: string
+      special: string
+      whitespace: string
+      entropy: string
+      strength: string
+      remarks: string
+      pwned: string
+      pwnedStatus: {
+        checking: string
+        notFound: string
+        found: string
+        error: string
+      }
+    }
+    strengthLevels: {
+      veryWeak: string
+      weak: string
+      moderate: string
+      strong: string
+      veryStrong: string
+    }
+    strengthRemarks: {
+      veryWeak: string
+      weak: string
+      moderate: string
+      strong: string
+      veryStrong: string
+    }
+  }
+  certificatesChecker: {
+    title: string
+    description: string
+    hostLabel: string
+    hostPlaceholder: string
+    portLabel: string
+    portPlaceholder: string
+    portHelp: string
+    checkButton: string
+    checking: string
+    results: {
+      title: string
+      host: string
+      resolvedIp: string
+      subject: string
+      issuer: string
+      validFrom: string
+      validUntil: string
+      algorithm: string
+      isCA: string
+      daysLeft: string
+      status: string
+      sans: string
+    }
+    status: {
+      valid: string
+      expired: string
+      expiringSoon: string
+    }
+    errors: {
+      invalidHost: string
+      invalidPort: string
+      connectionError: string
+      certificateError: string
+    }
+    resetButton: string
+  }
+  portScanner: {
+    title: string
+    description: string
+    hostLabel: string
+    hostPlaceholder: string
+    portsLabel: string
+    portsPlaceholder: string
+    portsHelp: string
+    scanButton: string
+    stopButton: string
+    scanning: string
+    results: {
+      title: string
+      host: string
+      resolvedIp: string
+      totalPorts: string
+      openPorts: string
+      closedPorts: string
+      progress: string
+      status: string
+    }
+    portStatus: {
+      open: string
+      closed: string
+      scanning: string
+    }
+    errors: {
+      invalidHost: string
+      invalidPorts: string
+      scanError: string
+      networkError: string
+    }
+    resetButton: string
+  }
+  webDiscovery: {
+    title: string
+    description: string
+    urlLabel: string
+    urlPlaceholder: string
+    wordlistLabel: string
+    wordlistPlaceholder: string
+    threadsLabel: string
+    threadsHelp: string
+    scanButton: string
+    stopButton: string
+    randomAgent: string
+    userAgentLabel: string
+    refererLabel: string
+    delayLabel: string
+    debugLabel: string
+    scanning: string
+    results: {
+      title: string
+      url: string
+      status: string
+      total: string
+    }
+    errors: {
+      invalidUrl: string
+      wordlistMissing: string
+      scanError: string
+    }
+    resetButton: string
+  }
+  passwordGenerator: {
+    title: string
+    description: string
+    length: string
+    minLength: string
+    includeGreek: string
+    includeSpecial: string
+    generate: string
+    copy: string
+    copied: string
+    strength: string
+    weak: string
+    medium: string
+    strong: string
+    veryStrong: string
+    show: string
+    hide: string
+  }
 }
 
 const dictionaries: Record<string, () => Promise<Dictionary>> = {
