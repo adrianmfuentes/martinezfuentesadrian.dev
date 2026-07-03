@@ -13,13 +13,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          # SonarQube needs full history for blame/new-code analysis
+          # SonarQube Cloud needs full history for blame/new-code analysis
           fetch-depth: 0
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: 10
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -30,13 +28,12 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: SonarQube Scan
+      - name: SonarQube Cloud Scan
         uses: sonarsource/sonarqube-scan-action@v8
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
 
-      - name: SonarQube Quality Gate
+      - name: SonarQube Cloud Quality Gate
         uses: sonarsource/sonarqube-quality-gate-action@v1
         timeout-minutes: 5
         env:
