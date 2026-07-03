@@ -9,7 +9,7 @@ export default function NotFound() {
         href="/es"
         className="absolute left-6 top-6 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
       >
-        ← martinezfuentesadrian.dev
+        ← amf.amfserver.duckdns.org
       </Link>
 
       <p

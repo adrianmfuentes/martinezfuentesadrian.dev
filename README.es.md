@@ -2,7 +2,7 @@
 
 Sitio web personal y portfolio de Adrián Martínez Fuentes, construido con Next.js. El sitio es bilingüe (inglés y español), incluye un conjunto de pequeñas herramientas web orientadas a seguridad, y se ejecuta como contenedor Docker en un servidor propio.
 
-Sitio en producción: https://martinezfuentesadrian.dev
+Sitio en producción: https://amf.amfserver.duckdns.org
 
 ## Descripción general
 

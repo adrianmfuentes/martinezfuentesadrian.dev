@@ -2,7 +2,7 @@
 
 Personal website and portfolio of Adrian Martinez Fuentes, built with Next.js. The site is bilingual (English and Spanish), includes a set of small security-oriented web tools, and runs as a Docker container on a self-hosted server.
 
-Live site: https://martinezfuentesadrian.dev
+Live site: https://amf.amfserver.duckdns.org
 
 ## Overview
 

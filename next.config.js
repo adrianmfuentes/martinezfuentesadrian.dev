@@ -53,7 +53,7 @@ const nextConfig = {
           {
             key: "Access-Control-Allow-Origin",
             value: process.env.NODE_ENV === "production"
-              ? "https://martinezfuentesadrian.dev"
+              ? "https://amf.amfserver.duckdns.org"
               : "http://localhost:3000"
           },
           {

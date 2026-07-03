@@ -10,8 +10,8 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Adrián Martínez Fuentes - Portafolio',
     description: 'Explora mi trabajo en desarrollo web y herramientas útiles.',
-    url: 'https://martinezfuentesadrian.dev',
-    siteName: 'martinezfuentesadrian.dev',
+    url: 'https://amf.amfserver.duckdns.org',
+    siteName: 'Adrián Martínez Fuentes',
   },
   twitter: {
     card: 'summary_large_image',
