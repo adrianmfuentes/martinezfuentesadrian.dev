@@ -181,17 +181,17 @@ function TimelineItem({ title, organization, period, description, pdfUrl, onView
   const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 768)
+    const checkMobile = () => setIsMobile(globalThis.innerWidth < 768)
     checkMobile()
-    window.addEventListener('resize', checkMobile)
-    return () => window.removeEventListener('resize', checkMobile)
+    globalThis.addEventListener('resize', checkMobile)
+    return () => globalThis.removeEventListener('resize', checkMobile)
   }, [])
 
   const handleCertificateAction = () => {
     if (pdfUrl) {
       if (isMobile) {
         // En móviles, abrir directamente en nueva pestaña
-        window.open(pdfUrl, '_blank')
+        globalThis.open(pdfUrl, '_blank')
       } else {
         // En desktop, usar el modal
         onViewCertificate?.(pdfUrl)

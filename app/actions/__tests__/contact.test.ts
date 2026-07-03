@@ -1,0 +1,237 @@
+// @vitest-environment node
+import { describe, it, expect, beforeEach, afterEach, vi } from "vitest"
+
+const { checkMock } = vi.hoisted(() => ({ checkMock: vi.fn().mockResolvedValue(undefined) }))
+
+vi.mock("@/lib/rate-limit", () => ({
+  rateLimit: vi.fn(() => ({ check: checkMock })),
+}))
+
+import { submitContactRequest } from "@/app/actions/contact"
+
+const validFormData = {
+  name: "John Doe",
+  email: "john@example.com",
+  message: "This is a perfectly valid, non-spammy message body.",
+  contactMethod: "message",
+}
+
+function mockFetchOnce(response: Partial<Response> & { ok: boolean; status?: number; text?: () => Promise<string> }) {
+  const fetchMock = vi.fn().mockResolvedValue({
+    ok: response.ok,
+    status: response.status ?? (response.ok ? 200 : 500),
+    text: response.text ?? (async () => "error body"),
+  })
+  vi.stubGlobal("fetch", fetchMock)
+  return fetchMock
+}
+
+describe("submitContactRequest", () => {
+  beforeEach(() => {
+    checkMock.mockReset().mockResolvedValue(undefined)
+    vi.stubEnv("EMAILJS_SERVICE_ID", "service_id")
+    vi.stubEnv("EMAILJS_PUBLIC_KEY", "public_key")
+    vi.stubEnv("EMAILJS_CONTACT_TEMPLATE_ID", "template_id")
+    vi.stubEnv("SITE_URL", "https://site.example")
+  })
+
+  afterEach(() => {
+    vi.unstubAllEnvs()
+    vi.unstubAllGlobals()
+  })
+
+  it("succeeds for a valid submission and calls EmailJS", async () => {
+    const fetchMock = mockFetchOnce({ ok: true })
+
+    const result = await submitContactRequest(validFormData)
+
+    expect(result).toEqual({ success: true })
+    expect(fetchMock).toHaveBeenCalledTimes(1)
+    const [url, options] = fetchMock.mock.calls[0]
+    expect(url).toBe("https://api.emailjs.com/api/v1.0/email/send")
+    const body = JSON.parse(options.body)
+    expect(body.service_id).toBe("service_id")
+    expect(body.template_id).toBe("template_id")
+    expect(body.user_id).toBe("public_key")
+    expect(body.template_params.from_name).toBe("John Doe")
+    expect(body.template_params.from_email).toBe("john@example.com")
+    expect(body.template_params.priority).toBe("medium")
+  })
+
+  it("includes subject in template params when provided", async () => {
+    const fetchMock = mockFetchOnce({ ok: true })
+
+    await submitContactRequest({ ...validFormData, subject: "Hello there", priority: "high" })
+
+    const [, options] = fetchMock.mock.calls[0]
+    const body = JSON.parse(options.body)
+    expect(body.template_params.subject).toBe("Hello there")
+    expect(body.template_params.priority).toBe("high")
+  })
+
+  it("returns a generic error when validation fails (name too short)", async () => {
+    mockFetchOnce({ ok: true })
+
+    const result = await submitContactRequest({ ...validFormData, name: "A" })
+
+    expect(result.success).toBe(false)
+    expect(result.error).toBe("Invalid form data. Please check your inputs and try again.")
+  })
+
+  it("returns a generic error when the email is invalid", async () => {
+    mockFetchOnce({ ok: true })
+
+    const result = await submitContactRequest({ ...validFormData, email: "not-an-email" })
+
+    expect(result.success).toBe(false)
+    expect(result.error).toBe("Invalid form data. Please check your inputs and try again.")
+  })
+
+  it("returns a generic error when the message is too short", async () => {
+    mockFetchOnce({ ok: true })
+
+    const result = await submitContactRequest({ ...validFormData, message: "short" })
+
+    expect(result.success).toBe(false)
+    expect(result.error).toBe("Invalid form data. Please check your inputs and try again.")
+  })
+
+  it("returns a generic error when contactMethod is not 'message'", async () => {
+    mockFetchOnce({ ok: true })
+
+    const result = await submitContactRequest({ ...validFormData, contactMethod: "phone" })
+
+    expect(result.success).toBe(false)
+    expect(result.error).toBe("Invalid form data. Please check your inputs and try again.")
+  })
+
+  it.each([
+    ["buy viagra now", "buy viagra"],
+    ["check out this casino tonight", "casino"],
+    ["click javascript:doEvil() for a surprise", "javascript:"],
+  ])("rejects a spam message: %s", async (message) => {
+    mockFetchOnce({ ok: true })
+
+    const result = await submitContactRequest({ ...validFormData, message })
+
+    expect(result).toEqual({ success: false, error: "Message detected as spam." })
+  })
+
+  // NOTE: DOMPurify.sanitize() runs before containsSpamPatterns(), and it strips
+  // <script> tags and the onerror= attribute entirely. As a result the /<script>/i
+  // and /onerror=/i spam patterns can never actually match — they are dead code.
+  // These cases document the (surprising) real behavior: the message is treated
+  // as clean and the email is sent.
+  it.each([
+    ["<script>alert(1)</script> please read"],
+    ["<img src=x onerror=alert(1)> look at this"],
+  ])("does NOT flag as spam once DOMPurify has stripped the dangerous markup: %s", async (message) => {
+    mockFetchOnce({ ok: true })
+
+    const result = await submitContactRequest({ ...validFormData, message })
+
+    expect(result).toEqual({ success: true })
+  })
+
+  it("returns SERVICE_ID missing error when EMAILJS_SERVICE_ID is unset", async () => {
+    vi.stubEnv("EMAILJS_SERVICE_ID", "")
+    mockFetchOnce({ ok: true })
+
+    const result = await submitContactRequest(validFormData)
+
+    expect(result).toEqual({
+      success: false,
+      error: "Email service not properly configured - SERVICE_ID missing",
+    })
+  })
+
+  it("returns PUBLIC_KEY missing error when EMAILJS_PUBLIC_KEY is unset", async () => {
+    vi.stubEnv("EMAILJS_PUBLIC_KEY", "")
+    mockFetchOnce({ ok: true })
+
+    const result = await submitContactRequest(validFormData)
+
+    expect(result).toEqual({
+      success: false,
+      error: "Email service not properly configured - PUBLIC_KEY missing",
+    })
+  })
+
+  it("returns TEMPLATE_ID missing error when neither template env var is set", async () => {
+    vi.stubEnv("EMAILJS_CONTACT_TEMPLATE_ID", "")
+    mockFetchOnce({ ok: true })
+
+    const result = await submitContactRequest(validFormData)
+
+    expect(result).toEqual({
+      success: false,
+      error: "Email service not properly configured - TEMPLATE_ID missing",
+    })
+  })
+
+  it("falls back to EMAILJS_TEMPLATE_ID when EMAILJS_CONTACT_TEMPLATE_ID is unset", async () => {
+    // NOTE: the source uses `??` (nullish coalescing), not `||`, so stubbing
+    // EMAILJS_CONTACT_TEMPLATE_ID to an empty string would NOT trigger the
+    // fallback (empty string is not null/undefined). It must be actually deleted.
+    delete process.env.EMAILJS_CONTACT_TEMPLATE_ID
+    vi.stubEnv("EMAILJS_TEMPLATE_ID", "fallback_template")
+    const fetchMock = mockFetchOnce({ ok: true })
+
+    const result = await submitContactRequest(validFormData)
+
+    expect(result).toEqual({ success: true })
+    const [, options] = fetchMock.mock.calls[0]
+    const body = JSON.parse(options.body)
+    expect(body.template_id).toBe("fallback_template")
+  })
+
+  it.each([
+    [400, "Invalid email configuration. Please contact the administrator."],
+    [401, "Email service authentication failed. Please contact the administrator."],
+    [402, "Email service quota exceeded. Please try again later."],
+    [412, "Email service authentication error. Please reconnect your email account."],
+    [500, "Email service temporarily unavailable. Please try again later."],
+    [503, "Email service temporarily unavailable. Please try again later."],
+  ])("maps EmailJS status %i to the correct error message", async (status, expectedError) => {
+    mockFetchOnce({ ok: false, status })
+
+    const result = await submitContactRequest(validFormData)
+
+    expect(result).toEqual({ success: false, error: expectedError })
+  })
+
+  it("returns a fallback error for an unmapped non-ok status", async () => {
+    mockFetchOnce({ ok: false, status: 404 })
+
+    const result = await submitContactRequest(validFormData)
+
+    expect(result).toEqual({ success: false, error: "Failed to send contact request. Please try again." })
+  })
+
+  it("returns a rate-limit error when the limiter rejects", async () => {
+    checkMock.mockRejectedValueOnce(new Error("Rate limit exceeded"))
+    mockFetchOnce({ ok: true })
+
+    const result = await submitContactRequest(validFormData)
+
+    expect(result).toEqual({
+      success: false,
+      error: "Too many requests. Please try again later.",
+    })
+  })
+
+  it("passes ip, then email, then 'anonymous_user' as the rate-limit token in priority order", async () => {
+    mockFetchOnce({ ok: true })
+
+    await submitContactRequest({ ...validFormData, ip: "1.2.3.4" }) // NOSONAR test fixture IP, not a real host
+    expect(checkMock).toHaveBeenCalledWith(10, "1.2.3.4") // NOSONAR test fixture IP, not a real host
+
+    checkMock.mockClear()
+    await submitContactRequest(validFormData)
+    expect(checkMock).toHaveBeenCalledWith(10, "john@example.com")
+
+    checkMock.mockClear()
+    await submitContactRequest({ ...validFormData, email: undefined })
+    expect(checkMock).toHaveBeenCalledWith(10, "anonymous_user")
+  })
+})
