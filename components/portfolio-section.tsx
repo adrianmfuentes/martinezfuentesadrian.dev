@@ -39,6 +39,7 @@ interface Project {
   category: string
   projectUrl: string
   codeUrl: string
+  imageFit?: "cover" | "contain"
 }
 
 type ProjectMetadata = Omit<Project, "title" | "description">
@@ -49,8 +50,9 @@ const PROJECT_METADATA: ProjectMetadata[] = [
     image: "/images/svaes_logo_512.png",
     tags: ["Python", "FastAPI", "Angular", "Rust", "PostgreSQL"],
     category: "web",
-    projectUrl: "",
+    projectUrl: "https://svaes.amfserver.duckdns.org/",
     codeUrl: "https://github.com/adrianmfuentes/SVAES",
+    imageFit: "contain",
   },
   {
     id: "1",
@@ -184,9 +186,11 @@ interface ProjectCardProps {
 function ProjectCard({ project, viewProject, viewCode, index }: Readonly<ProjectCardProps>) {
   const eager = typeof index === "number" && index < 3 // Eager load images for the first three projects
   
+  const isContain = project.imageFit === "contain"
+
   return (
     <Card className="overflow-hidden h-full flex flex-col">
-      <div className="relative h-64" suppressHydrationWarning>
+      <div className={`relative h-64 ${isContain ? "bg-muted/30 p-8" : ""}`} suppressHydrationWarning>
         <Image
           src={project.image || "/placeholder.svg"}
           alt={project.title}
@@ -194,7 +198,7 @@ function ProjectCard({ project, viewProject, viewCode, index }: Readonly<Project
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           priority={eager}
           loading={eager ? "eager" : "lazy"}
-          className="object-cover"
+          className={isContain ? "object-contain" : "object-cover"}
           onError={(e) => {
             // Fallback to placeholder if image fails to load
             const target = e.target as HTMLImageElement
