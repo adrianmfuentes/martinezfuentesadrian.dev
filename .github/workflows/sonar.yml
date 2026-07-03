@@ -1,4 +1,4 @@
-name: SonarQube
+name: SonarCloud Analysis
 
 on:
   push:
@@ -7,13 +7,12 @@ on:
     branches: [main]
 
 jobs:
-  scan:
+  sonarcloud:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
         with:
-          # SonarQube Cloud needs full history for blame/new-code analysis
           fetch-depth: 0
 
       - name: Setup pnpm
@@ -28,15 +27,14 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: SonarQube Cloud Scan
-        uses: sonarsource/sonarqube-scan-action@v8
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: https://sonarcloud.io
+      - name: Lint
+        run: pnpm lint
 
-      - name: SonarQube Cloud Quality Gate
-        uses: sonarsource/sonarqube-quality-gate-action@v1
-        timeout-minutes: 5
+      - name: Build
+        run: pnpm build
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarqube-scan-action@713881670b6b3676cda39549040e2d88c70d582e # v8.2.0
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: https://sonarcloud.io
