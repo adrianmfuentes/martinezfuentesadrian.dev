@@ -331,7 +331,7 @@ export function WebDiscovery({ dictionary }: { readonly dictionary?: DictShape }
           </div>
           <div className="space-y-1">
             <p className="text-xs sm:text-sm"><span className="text-green-400">&gt;</span> Ejecuta un escaneo básico de descubrimiento web</p>
-            <p className="hidden sm:block text-xs"><span className="text-green-400">&gt;</span> Pega la URL y pulsa "{t('scanButton','Start Discovery')}"</p>
+            <p className="hidden sm:block text-xs"><span className="text-green-400">&gt;</span> Pega la URL y pulsa &quot;{t('scanButton','Start Discovery')}&quot;</p>
             <div className="flex items-center mt-2">
               <span className="text-green-400 mr-2 text-xs sm:text-sm">&gt;</span>
               <div className="w-1 h-2 sm:h-3 bg-green-400 animate-pulse rounded-sm"></div>
