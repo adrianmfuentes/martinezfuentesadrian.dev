@@ -8,7 +8,7 @@
  */
 export function getBaseUrl(): string {
   // Check if we're in browser environment
-  if (typeof globalThis.window !== 'undefined') {
+  if (globalThis.window !== undefined) {
     return globalThis.location.origin
   }
 
