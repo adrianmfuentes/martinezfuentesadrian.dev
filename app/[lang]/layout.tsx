@@ -1,21 +1,11 @@
 import type React from "react"
-import "./globals.css"
-import { Inter, Poppins } from "next/font/google"
-import { ThemeProvider } from "@components/theme-provider"
 import { Navbar } from "@components/NavBar"
 import { Footer } from "@components/Footer"
 import { getDictionary } from "./dictionaries"
-import { AIChatWidget } from "@components/ai-chat-widget"
+import { AIChatWidgetLoader } from "@components/ai-chat-widget-loader"
 import { Toaster } from "@components/ui/toaster"
 
 const locales = ["en", "es"]
-
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
-const poppins = Poppins({
-  weight: ["300", "400", "500", "600", "700"],
-  subsets: ["latin"],
-  variable: "--font-poppins",
-})
 
 export const dynamicParams = false;
 
@@ -64,25 +54,18 @@ export default async function RootLayout({
   const { lang } = await params;
   const dict = await getDictionary(lang as "en" | "es");
   return (
-    <ThemeProvider
-      attribute="class"
-      defaultTheme="dark"
-      enableSystem={true}
-      disableTransitionOnChange={false}
-    >
-      <div className="flex min-h-screen flex-col">
-        <Navbar lang={lang} dictionary={dict.navigation} />
-        <main className="flex-1">{children}</main>
-        <Footer lang={lang} dictionary={dict.footer} />
-        <AIChatWidget
-          dictionary={{
-            chatTitle: dict.chat.title,
-            chatPlaceholder: dict.chat.placeholder,
-            chatSend: dict.chat.send,
-          }}
-        />
-        <Toaster />
-      </div>
-    </ThemeProvider>
+    <div className="flex min-h-screen flex-col">
+      <Navbar lang={lang} dictionary={dict.navigation} />
+      <main className="flex-1">{children}</main>
+      <Footer lang={lang} dictionary={dict.footer} />
+      <AIChatWidgetLoader
+        dictionary={{
+          chatTitle: dict.chat.title,
+          chatPlaceholder: dict.chat.placeholder,
+          chatSend: dict.chat.send,
+        }}
+      />
+      <Toaster />
+    </div>
   );
 }

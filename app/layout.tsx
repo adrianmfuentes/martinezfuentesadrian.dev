@@ -1,6 +1,14 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import ClientHtml from './client-html'
+import { Inter, Poppins } from "next/font/google"
+import { ThemeProvider } from "@components/theme-provider"
+
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
+const poppins = Poppins({
+  weight: ["300", "400", "500", "600", "700"],
+  subsets: ["latin"],
+  variable: "--font-poppins",
+})
 
 export const metadata: Metadata = {
   title: 'Adrián Martínez Fuentes - Desarrollador Full Stack',
@@ -26,8 +34,17 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <ClientHtml>
-      {children}
-    </ClientHtml>
+    <html lang="es" className="dark" suppressHydrationWarning>
+      <body className={`${inter.variable} ${poppins.variable} font-sans`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem={true}
+          disableTransitionOnChange={false}
+        >
+          {children}
+        </ThemeProvider>
+      </body>
+    </html>
   );
 }

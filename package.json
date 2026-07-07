@@ -72,6 +72,7 @@
     "react-resizable-panels": "^2.1.7",
     "recharts": "2.15.0",
     "server-only": "latest",
+    "sharp": "^0.34.5",
     "sonner": "^1.7.1",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
@@ -130,6 +131,9 @@
       "ws": ">=8.21.0",
       "form-data": ">=4.0.6",
       "uuid": ">=11.1.1"
-    }
+    },
+    "onlyBuiltDependencies": [
+      "sharp"
+    ]
   }
 }

@@ -1,6 +1,7 @@
 "use server"
 
 import { rateLimit } from "@/lib/rate-limit"
+import { getClientIp } from "@/lib/get-client-ip"
 import { Groq } from "groq-sdk"
 
 // Type for chat messages
@@ -27,7 +28,8 @@ export async function sendChatMessage(message: string, previousMessages: Message
   try {
     // Rate limiting check
     try {
-      await limiter.check(20, "chat_message") // 20 requests per hour
+      const ip = await getClientIp()
+      await limiter.check(ip)
     } catch {
       return {
         success: false,

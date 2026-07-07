@@ -1,6 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
 import fs from 'node:fs/promises'
 import { join } from 'node:path'
+import { isBlockedHost } from '@/lib/ssrf-guard'
+import { getClientIp } from '@/lib/get-client-ip'
+import { rateLimit } from '@/lib/rate-limit'
+
+// Fetches attacker-supplied URLs dozens of times per request — throttle harder than a typical API route.
+const limiter = rateLimit({
+  interval: 60 * 60 * 1000,
+  uniqueTokenPerInterval: 500,
+  limit: 10,
+})
 
 export type Lock = { acquire: () => Promise<void>; release: () => void }
 
@@ -73,6 +83,13 @@ async function checkPath(
 
 export async function GET(request: NextRequest) {
     try {
+        const ip = await getClientIp()
+        try {
+            await limiter.check(ip)
+        } catch {
+            return NextResponse.json({ success: false, error: 'Too many requests. Please try again later.' }, { status: 429 })
+        }
+
         const urlObj = new URL(request.url)
         const searchParams = urlObj.searchParams
 
@@ -81,6 +98,21 @@ export async function GET(request: NextRequest) {
 
         if (!baseUrl || !pathParam) {
             return NextResponse.json({ error: 'baseUrl and path query params are required' }, { status: 400 })
+        }
+
+        // A path starting with http(s):// bypasses baseUrl entirely (see checkPath below),
+        // so the SSRF check must target whichever host is actually reached.
+        let effectiveHost: string
+        try {
+            effectiveHost = new URL(
+                pathParam.startsWith('http://') || pathParam.startsWith('https://') ? pathParam : baseUrl
+            ).hostname
+        } catch {
+            return NextResponse.json({ success: false, error: 'Invalid baseUrl or path' }, { status: 400 })
+        }
+
+        if (await isBlockedHost(effectiveHost)) {
+            return NextResponse.json({ success: false, error: 'Host not allowed' }, { status: 400 })
         }
 
         const results: Array<[string, number]> = []

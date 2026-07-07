@@ -1,15 +1,25 @@
 // @vitest-environment node
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest"
 
-const { checkMock, createMock } = vi.hoisted(() => ({
+// get-client-ip.ts imports "server-only", which throws when resolved outside
+// of the "react-server" export condition. Vitest doesn't set that condition,
+// so we stub the marker package to a no-op.
+vi.mock("server-only", () => ({}))
+
+const { checkMock, createMock, headersGetMock } = vi.hoisted(() => ({
   checkMock: vi.fn().mockResolvedValue(undefined),
   createMock: vi.fn().mockResolvedValue({
     choices: [{ message: { content: "Hello there!" } }],
   }),
+  headersGetMock: vi.fn((name: string) => (name === "x-forwarded-for" ? "1.2.3.4" : null)), // NOSONAR test fixture IP, not a real host
 }))
 
 vi.mock("@/lib/rate-limit", () => ({
   rateLimit: vi.fn(() => ({ check: checkMock })),
+}))
+
+vi.mock("next/headers", () => ({
+  headers: vi.fn().mockResolvedValue({ get: headersGetMock }),
 }))
 
 vi.mock("groq-sdk", () => ({
@@ -40,10 +50,10 @@ describe("sendChatMessage", () => {
     expect(createMock).toHaveBeenCalledTimes(1)
   })
 
-  it("checks the rate limiter with the shared 'chat_message' token", async () => {
+  it("checks the rate limiter with the caller's IP, not a shared token", async () => {
     await sendChatMessage("Hello, how are you?", [])
 
-    expect(checkMock).toHaveBeenCalledWith(20, "chat_message")
+    expect(checkMock).toHaveBeenCalledWith("1.2.3.4") // NOSONAR test fixture IP, not a real host
   })
 
   it("includes previous messages and the new user message in the conversation history", async () => {

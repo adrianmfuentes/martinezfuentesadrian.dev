@@ -7,7 +7,10 @@ RUN corepack enable
 FROM base AS deps
 WORKDIR /app
 COPY package.json pnpm-lock.yaml .npmrc ./
-RUN pnpm install --frozen-lockfile --ignore-scripts
+# Not --ignore-scripts: sharp (Next.js Image Optimization) needs its install
+# script to fetch its native binary. pnpm's onlyBuiltDependencies allowlist
+# (package.json) still blocks build scripts for every other dependency.
+RUN pnpm install --frozen-lockfile
 
 # ---- Build ----
 FROM base AS builder

@@ -4,6 +4,19 @@ import { NextRequest } from "next/server"
 
 let mockBehavior: "connect" | "timeout" | "error" = "connect"
 
+// get-client-ip.ts imports "server-only", which throws when resolved outside
+// of the "react-server" export condition. Vitest doesn't set that condition,
+// so we stub the marker package to a no-op.
+vi.mock("server-only", () => ({}))
+
+vi.mock("next/headers", () => ({
+  headers: vi.fn().mockResolvedValue({ get: () => null }),
+}))
+
+vi.mock("@/lib/ssrf-guard", () => ({
+  isBlockedHost: vi.fn().mockResolvedValue(false),
+}))
+
 vi.mock("node:net", () => {
   const { EventEmitter } = require("node:events")
 

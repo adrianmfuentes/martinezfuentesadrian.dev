@@ -1,10 +1,22 @@
 // @vitest-environment node
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest"
 
-const { checkMock } = vi.hoisted(() => ({ checkMock: vi.fn().mockResolvedValue(undefined) }))
+// get-client-ip.ts imports "server-only", which throws when resolved outside
+// of the "react-server" export condition. Vitest doesn't set that condition,
+// so we stub the marker package to a no-op.
+vi.mock("server-only", () => ({}))
+
+const { checkMock, headersGetMock } = vi.hoisted(() => ({
+  checkMock: vi.fn().mockResolvedValue(undefined),
+  headersGetMock: vi.fn().mockReturnValue(null),
+}))
 
 vi.mock("@/lib/rate-limit", () => ({
   rateLimit: vi.fn(() => ({ check: checkMock })),
+}))
+
+vi.mock("next/headers", () => ({
+  headers: vi.fn().mockResolvedValue({ get: headersGetMock }),
 }))
 
 import { submitContactRequest } from "@/app/actions/contact"
@@ -29,6 +41,7 @@ function mockFetchOnce(response: Partial<Response> & { ok: boolean; status?: num
 describe("submitContactRequest", () => {
   beforeEach(() => {
     checkMock.mockReset().mockResolvedValue(undefined)
+    headersGetMock.mockReset().mockReturnValue(null)
     vi.stubEnv("EMAILJS_SERVICE_ID", "service_id")
     vi.stubEnv("EMAILJS_PUBLIC_KEY", "public_key")
     vi.stubEnv("EMAILJS_CONTACT_TEMPLATE_ID", "template_id")
@@ -220,18 +233,28 @@ describe("submitContactRequest", () => {
     })
   })
 
-  it("passes ip, then email, then 'anonymous_user' as the rate-limit token in priority order", async () => {
+  it("rate-limits using the server-derived x-forwarded-for IP, ignoring any client-supplied ip field", async () => {
+    headersGetMock.mockImplementation((name: string) =>
+      name === "x-forwarded-for" ? "1.2.3.4, 10.0.0.1" : null
+    )
     mockFetchOnce({ ok: true })
 
-    await submitContactRequest({ ...validFormData, ip: "1.2.3.4" }) // NOSONAR test fixture IP, not a real host
-    expect(checkMock).toHaveBeenCalledWith(10, "1.2.3.4") // NOSONAR test fixture IP, not a real host
+    // A client-supplied "ip" field must never be trusted (trivially spoofable) —
+    // the real IP always comes from the reverse proxy's x-forwarded-for header.
+    await submitContactRequest({ ...validFormData, ip: "9.9.9.9" }) // NOSONAR test fixture IP, not a real host
+    expect(checkMock).toHaveBeenCalledWith("1.2.3.4") // NOSONAR test fixture IP, not a real host
+  })
 
-    checkMock.mockClear()
+  it("falls back to x-real-ip, then 'unknown', when x-forwarded-for is absent", async () => {
+    mockFetchOnce({ ok: true })
+
+    headersGetMock.mockImplementation((name: string) => (name === "x-real-ip" ? "5.6.7.8" : null)) // NOSONAR test fixture IP
     await submitContactRequest(validFormData)
-    expect(checkMock).toHaveBeenCalledWith(10, "john@example.com")
+    expect(checkMock).toHaveBeenCalledWith("5.6.7.8") // NOSONAR test fixture IP, not a real host
 
     checkMock.mockClear()
-    await submitContactRequest({ ...validFormData, email: undefined })
-    expect(checkMock).toHaveBeenCalledWith(10, "anonymous_user")
+    headersGetMock.mockReturnValue(null)
+    await submitContactRequest(validFormData)
+    expect(checkMock).toHaveBeenCalledWith("unknown")
   })
 })

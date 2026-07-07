@@ -1,10 +1,19 @@
 // @vitest-environment node
 import { describe, it, expect, vi, afterEach } from "vitest"
 
+// get-client-ip.ts imports "server-only", which throws when resolved outside
+// of the "react-server" export condition. Vitest doesn't set that condition,
+// so we stub the marker package to a no-op.
+vi.mock("server-only", () => ({}))
+
 vi.mock("@/lib/admin-auth", () => ({
   ADMIN_COOKIE: "admin_session",
   verifyAdminPassword: vi.fn(),
   createSessionToken: vi.fn(),
+}))
+
+vi.mock("next/headers", () => ({
+  headers: vi.fn().mockResolvedValue({ get: () => null }),
 }))
 
 function makeRequest(body: unknown) {
