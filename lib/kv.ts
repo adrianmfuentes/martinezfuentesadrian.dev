@@ -1,6 +1,9 @@
 import { Redis } from "@upstash/redis"
+import { unstable_cache } from "next/cache"
 
 export { computeExperienceLabel } from "./experience"
+
+export const CMS_CONTENT_TAG = "cms-content"
 
 export interface ExperienceCounter {
   startDate: string   // "YYYY-MM-DD"
@@ -60,3 +63,27 @@ export async function setContentOverride<T>(
   if (!redis) throw new Error("Redis not configured")
   await redis.set(`content:${lang}:cv:${section}`, data)
 }
+
+export interface CmsOverrides {
+  expOverride: unknown | null
+  eduOverride: unknown | null
+  certOverride: unknown | null
+  counter: ExperienceCounter
+}
+
+// Wraps the live Redis lookups in Next's Data Cache so pages stay statically
+// rendered instead of going fully dynamic on every request. Admin saves call
+// revalidateTag(CMS_CONTENT_TAG) to pick up edits immediately.
+export const getCachedCmsOverrides = unstable_cache(
+  async (locale: string): Promise<CmsOverrides> => {
+    const [expOverride, eduOverride, certOverride, counter] = await Promise.all([
+      getContentOverride(locale, "experience"),
+      getContentOverride(locale, "education"),
+      getContentOverride(locale, "certifications"),
+      getExperienceCounter(),
+    ])
+    return { expOverride, eduOverride, certOverride, counter }
+  },
+  ["cms-overrides"],
+  { tags: [CMS_CONTENT_TAG], revalidate: 3600 }
+)

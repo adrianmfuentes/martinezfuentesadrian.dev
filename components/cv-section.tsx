@@ -26,9 +26,9 @@ interface CVSectionProps {
         title: string
         organization: string
         period: string
-        gpa: string
-        honours: string
-        description: string
+        gpa?: string
+        honours?: string
+        description: string | string[]
       }>
     }
     certifications: {

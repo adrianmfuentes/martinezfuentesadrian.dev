@@ -3,21 +3,21 @@ export interface RateLimitOptions {
     limit: number // Max number of requests per interval
     uniqueTokenPerInterval: number // Max number of unique tokens to track
   }
-  
+
   export function rateLimit(options: RateLimitOptions) {
-    const { interval, uniqueTokenPerInterval } = options
+    const { interval, limit, uniqueTokenPerInterval } = options
     const tokenCache = new Map<string, number[]>()
-  
+
     return {
-      check: (maxTokens: number, token: string) =>
+      check: (token: string, maxTokens: number = limit) =>
         new Promise<void>((resolve, reject) => {
           const now = Date.now()
           const tokenKey = token
-  
+
           // Initialize or get the token's timestamps
           let tokenTimestamps = tokenCache.get(tokenKey) || []
           tokenTimestamps = tokenTimestamps.filter((timestamp) => now - timestamp < interval)
-  
+
           // Check if the token has exceeded the rate limit
           if (tokenTimestamps.length >= maxTokens) {
             return reject(new Error("Rate limit exceeded"))

@@ -38,7 +38,7 @@ const FloatingShape = ({ delay, duration, x, y, size }: { delay: number; duratio
     transition={{
       delay,
       duration,
-      repeat: Number.POSITIVE_INFINITY,
+      repeat: 1,
       ease: "easeInOut",
     }}
   />

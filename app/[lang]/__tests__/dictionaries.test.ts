@@ -7,10 +7,9 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest"
 vi.mock("server-only", () => ({}))
 
 vi.mock("@/lib/kv", () => {
-  const getExperienceCounter = vi.fn()
-  const getContentOverride = vi.fn()
+  const getCachedCmsOverrides = vi.fn()
   const computeExperienceLabel = vi.fn()
-  return { getExperienceCounter, getContentOverride, computeExperienceLabel }
+  return { getCachedCmsOverrides, computeExperienceLabel, CMS_CONTENT_TAG: "cms-content" }
 })
 
 async function importDictionaries() {
@@ -19,9 +18,22 @@ async function importDictionaries() {
 
 async function importKvMock() {
   return (await import("@/lib/kv")) as unknown as {
-    getExperienceCounter: ReturnType<typeof vi.fn>
-    getContentOverride: ReturnType<typeof vi.fn>
+    getCachedCmsOverrides: ReturnType<typeof vi.fn>
     computeExperienceLabel: ReturnType<typeof vi.fn>
+  }
+}
+
+function overrides(partial: {
+  expOverride?: unknown
+  eduOverride?: unknown
+  certOverride?: unknown
+  counter: { startDate: string; autoIncrement: boolean }
+}) {
+  return {
+    expOverride: partial.expOverride ?? null,
+    eduOverride: partial.eduOverride ?? null,
+    certOverride: partial.certOverride ?? null,
+    counter: partial.counter,
   }
 }
 
@@ -37,8 +49,9 @@ describe("app/[lang]/dictionaries", () => {
 
   it("loads the static english dictionary when KV has no overrides", async () => {
     const kv = await importKvMock()
-    kv.getContentOverride.mockResolvedValue(null)
-    kv.getExperienceCounter.mockResolvedValue({ startDate: "2026-01-29", autoIncrement: false })
+    kv.getCachedCmsOverrides.mockResolvedValue(
+      overrides({ counter: { startDate: "2026-01-29", autoIncrement: false } })
+    )
 
     const { getDictionary } = await importDictionaries()
     const dict = await getDictionary("en")
@@ -50,8 +63,9 @@ describe("app/[lang]/dictionaries", () => {
 
   it("loads the static spanish dictionary when KV has no overrides", async () => {
     const kv = await importKvMock()
-    kv.getContentOverride.mockResolvedValue(null)
-    kv.getExperienceCounter.mockResolvedValue({ startDate: "2026-01-29", autoIncrement: false })
+    kv.getCachedCmsOverrides.mockResolvedValue(
+      overrides({ counter: { startDate: "2026-01-29", autoIncrement: false } })
+    )
 
     const { getDictionary } = await importDictionaries()
     const dict = await getDictionary("es")
@@ -66,13 +80,14 @@ describe("app/[lang]/dictionaries", () => {
     const eduOverride = { items: [{ title: "Override Edu" }] }
     const certOverride = { items: [{ title: "Override Cert" }] }
 
-    kv.getContentOverride.mockImplementation(async (_locale: string, section: string) => {
-      if (section === "experience") return expOverride
-      if (section === "education") return eduOverride
-      if (section === "certifications") return certOverride
-      return null
-    })
-    kv.getExperienceCounter.mockResolvedValue({ startDate: "2026-01-29", autoIncrement: false })
+    kv.getCachedCmsOverrides.mockResolvedValue(
+      overrides({
+        expOverride,
+        eduOverride,
+        certOverride,
+        counter: { startDate: "2026-01-29", autoIncrement: false },
+      })
+    )
 
     const { getDictionary } = await importDictionaries()
     const dict = await getDictionary("en")
@@ -84,11 +99,12 @@ describe("app/[lang]/dictionaries", () => {
 
   it("leaves a section untouched when its override is null", async () => {
     const kv = await importKvMock()
-    kv.getContentOverride.mockImplementation(async (_locale: string, section: string) => {
-      if (section === "experience") return { items: [{ title: "Only Exp Overridden" }] }
-      return null
-    })
-    kv.getExperienceCounter.mockResolvedValue({ startDate: "2026-01-29", autoIncrement: false })
+    kv.getCachedCmsOverrides.mockResolvedValue(
+      overrides({
+        expOverride: { items: [{ title: "Only Exp Overridden" }] },
+        counter: { startDate: "2026-01-29", autoIncrement: false },
+      })
+    )
 
     const { getDictionary } = await importDictionaries()
     const dict = await getDictionary("en")
@@ -101,8 +117,9 @@ describe("app/[lang]/dictionaries", () => {
 
   it("recomputes yearsExperience when the counter has autoIncrement enabled", async () => {
     const kv = await importKvMock()
-    kv.getContentOverride.mockResolvedValue(null)
-    kv.getExperienceCounter.mockResolvedValue({ startDate: "2020-01-01", autoIncrement: true })
+    kv.getCachedCmsOverrides.mockResolvedValue(
+      overrides({ counter: { startDate: "2020-01-01", autoIncrement: true } })
+    )
     kv.computeExperienceLabel.mockReturnValue("computed-label")
 
     const { getDictionary } = await importDictionaries()
@@ -114,8 +131,9 @@ describe("app/[lang]/dictionaries", () => {
 
   it("does NOT recompute yearsExperience when autoIncrement is false", async () => {
     const kv = await importKvMock()
-    kv.getContentOverride.mockResolvedValue(null)
-    kv.getExperienceCounter.mockResolvedValue({ startDate: "2020-01-01", autoIncrement: false })
+    kv.getCachedCmsOverrides.mockResolvedValue(
+      overrides({ counter: { startDate: "2020-01-01", autoIncrement: false } })
+    )
 
     const { getDictionary } = await importDictionaries()
     const dict = await getDictionary("en")
@@ -126,8 +144,7 @@ describe("app/[lang]/dictionaries", () => {
 
   it("does NOT recompute yearsExperience when startDate is empty", async () => {
     const kv = await importKvMock()
-    kv.getContentOverride.mockResolvedValue(null)
-    kv.getExperienceCounter.mockResolvedValue({ startDate: "", autoIncrement: true })
+    kv.getCachedCmsOverrides.mockResolvedValue(overrides({ counter: { startDate: "", autoIncrement: true } }))
 
     const { getDictionary } = await importDictionaries()
     const dict = await getDictionary("en")
@@ -138,8 +155,7 @@ describe("app/[lang]/dictionaries", () => {
 
   it("swallows a KV error and returns the static JSON unchanged", async () => {
     const kv = await importKvMock()
-    kv.getContentOverride.mockRejectedValue(new Error("KV down"))
-    kv.getExperienceCounter.mockResolvedValue({ startDate: "2026-01-29", autoIncrement: true })
+    kv.getCachedCmsOverrides.mockRejectedValue(new Error("KV down"))
 
     const { getDictionary } = await importDictionaries()
     const dict = await getDictionary("en")

@@ -6,6 +6,19 @@ vi.mock("node:fs/promises", () => ({
   default: { readFile: vi.fn() },
 }))
 
+// get-client-ip.ts imports "server-only", which throws when resolved outside
+// of the "react-server" export condition. Vitest doesn't set that condition,
+// so we stub the marker package to a no-op.
+vi.mock("server-only", () => ({}))
+
+vi.mock("next/headers", () => ({
+  headers: vi.fn().mockResolvedValue({ get: () => null }),
+}))
+
+vi.mock("@/lib/ssrf-guard", () => ({
+  isBlockedHost: vi.fn().mockResolvedValue(false),
+}))
+
 function makeRequest(query: string) {
   return new NextRequest(`http://localhost/api/web-discovery${query}`)
 }

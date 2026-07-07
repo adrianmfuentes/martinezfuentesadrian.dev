@@ -7,6 +7,7 @@ vi.mock("next/headers", () => ({
 
 vi.mock("next/cache", () => ({
   revalidatePath: vi.fn(),
+  revalidateTag: vi.fn(),
 }))
 
 vi.mock("@/lib/admin-auth", () => ({
@@ -17,6 +18,7 @@ vi.mock("@/lib/admin-auth", () => ({
 vi.mock("@/lib/kv", () => ({
   setContentOverride: vi.fn(),
   setExperienceCounter: vi.fn(),
+  CMS_CONTENT_TAG: "cms-content",
 }))
 
 function makeRequest(body: unknown) {
@@ -66,7 +68,7 @@ describe("POST /api/admin/save", () => {
     await mockAuthorized(true)
     const { POST } = await import("@/app/api/admin/save/route")
     const { setExperienceCounter } = await import("@/lib/kv")
-    const { revalidatePath } = await import("next/cache")
+    const { revalidatePath, revalidateTag } = await import("next/cache")
 
     const data = { startDate: "2020-01-01", autoIncrement: false }
     const response = await POST(makeRequest({ type: "counter", data }))
@@ -75,6 +77,7 @@ describe("POST /api/admin/save", () => {
     const body = await response.json()
     expect(body).toEqual({ ok: true })
     expect(setExperienceCounter).toHaveBeenCalledWith(data)
+    expect(revalidateTag).toHaveBeenCalledWith("cms-content", { expire: 0 })
     expect(revalidatePath).toHaveBeenCalledWith("/es/about", "page")
     expect(revalidatePath).toHaveBeenCalledWith("/en/about", "page")
     expect(revalidatePath).toHaveBeenCalledTimes(2)
@@ -84,7 +87,7 @@ describe("POST /api/admin/save", () => {
     await mockAuthorized(true)
     const { POST } = await import("@/app/api/admin/save/route")
     const { setContentOverride } = await import("@/lib/kv")
-    const { revalidatePath } = await import("next/cache")
+    const { revalidatePath, revalidateTag } = await import("next/cache")
 
     const data = { title: "hello" }
     const response = await POST(
@@ -95,6 +98,7 @@ describe("POST /api/admin/save", () => {
     const body = await response.json()
     expect(body).toEqual({ ok: true })
     expect(setContentOverride).toHaveBeenCalledWith("en", "experience", data)
+    expect(revalidateTag).toHaveBeenCalledWith("cms-content", { expire: 0 })
     expect(revalidatePath).toHaveBeenCalledWith("/en/cv", "page")
     expect(revalidatePath).toHaveBeenCalledWith("/en/about", "page")
     expect(revalidatePath).toHaveBeenCalledTimes(2)

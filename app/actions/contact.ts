@@ -3,6 +3,7 @@
 import { z } from "zod"
 import DOMPurify from "isomorphic-dompurify"
 import { rateLimit } from "@/lib/rate-limit"
+import { getClientIp } from "@/lib/get-client-ip"
 
 // Contact form validation schema
 const contactFormSchema = z.object({
@@ -44,15 +45,17 @@ function containsSpamPatterns(message: string): boolean {
   return spamPatterns.some((pattern) => pattern.test(message))
 }
 
-function checkRateLimit(formData: any): Promise<ContactResult | null> {
-  return limiter.check(10, formData.ip || formData.email || "anonymous_user")
-    .then(() => null)
-    .catch(() => {
-      return {
-        success: false,
-        error: "Too many requests. Please try again later.",
-      };
-    });
+async function checkRateLimit(): Promise<ContactResult | null> {
+  const ip = await getClientIp()
+  try {
+    await limiter.check(ip)
+    return null
+  } catch {
+    return {
+      success: false,
+      error: "Too many requests. Please try again later.",
+    };
+  }
 }
 
 function validateEmailEnv(): { valid: boolean; error?: string; templateId?: string } {
@@ -95,7 +98,7 @@ function handleEmailJSError(res: Response, err: string): ContactResult {
 export async function submitContactRequest(formData: any): Promise<ContactResult> {
   try {
     // Rate limiting check
-    const rateLimitResult = await checkRateLimit(formData);
+    const rateLimitResult = await checkRateLimit();
     if (rateLimitResult) return rateLimitResult;
 
     // Validate form data

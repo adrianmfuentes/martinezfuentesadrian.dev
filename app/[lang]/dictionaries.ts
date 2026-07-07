@@ -1,6 +1,6 @@
 import "server-only"
 import { cache } from "react"
-import { getExperienceCounter, getContentOverride, computeExperienceLabel } from "@/lib/kv"
+import { getCachedCmsOverrides, computeExperienceLabel } from "@/lib/kv"
 
 interface Dictionary {
   metadata: {
@@ -34,6 +34,7 @@ interface Dictionary {
       projectsCompleted: string
       certifications: string
       yearsExperience: string
+      techstack: string
     }
     skills: {
       title: string
@@ -128,7 +129,7 @@ interface Dictionary {
   }
   contact: {
     title: string
-    subtitle: string
+    description: string
     name: string
     email: string
     subject: string
@@ -156,6 +157,31 @@ interface Dictionary {
       message: string
       response: string
       close: string
+    }
+    contactMethods: {
+      title: string
+      email: {
+        label: string
+        value: string
+        responseTime: string
+      }
+      linkedin: {
+        label: string
+        contact_title: string
+        value: string
+        responseTime: string
+      }
+      github: {
+        label: string
+        contact_title: string
+        value: string
+        responseTime: string
+      }
+    }
+    formInfo: {
+      responseTime: string
+      available: string
+      availability: string[]
     }
   }
   footer: {
@@ -400,16 +426,11 @@ export const getDictionary = cache(async (locale: "en" | "es"): Promise<Dictiona
   const base = await dictionaries[locale]()
 
   try {
-    const [expOverride, eduOverride, certOverride, counter] = await Promise.all([
-      getContentOverride<Dictionary["cv"]["experience"]>(locale, "experience"),
-      getContentOverride<Dictionary["cv"]["education"]>(locale, "education"),
-      getContentOverride<Dictionary["cv"]["certifications"]>(locale, "certifications"),
-      getExperienceCounter(),
-    ])
+    const { expOverride, eduOverride, certOverride, counter } = await getCachedCmsOverrides(locale)
 
-    if (expOverride) base.cv.experience = expOverride
-    if (eduOverride) base.cv.education = eduOverride
-    if (certOverride) base.cv.certifications = certOverride
+    if (expOverride) base.cv.experience = expOverride as Dictionary["cv"]["experience"]
+    if (eduOverride) base.cv.education = eduOverride as Dictionary["cv"]["education"]
+    if (certOverride) base.cv.certifications = certOverride as Dictionary["cv"]["certifications"]
 
     if (counter.autoIncrement && counter.startDate) {
       base.about.stats.yearsExperience = computeExperienceLabel(counter.startDate, locale)

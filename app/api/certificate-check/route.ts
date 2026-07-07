@@ -1,5 +1,15 @@
 import * as tls from "node:tls"
 import { Socket } from "node:net"
+import { isBlockedHost } from "@/lib/ssrf-guard"
+import { getClientIp } from "@/lib/get-client-ip"
+import { rateLimit } from "@/lib/rate-limit"
+
+// Opens raw TLS connections to attacker-supplied hosts — throttle harder than a typical API route.
+const limiter = rateLimit({
+  interval: 60 * 60 * 1000,
+  uniqueTokenPerInterval: 500,
+  limit: 20,
+})
 
 interface CertificateInfo {
   subject: string
@@ -96,6 +106,13 @@ export async function getCertificateInfo(host: string, port: number): Promise<Ce
 
 export async function POST(request: Request) {
   try {
+    const ip = await getClientIp()
+    try {
+      await limiter.check(ip)
+    } catch {
+      return Response.json({ success: false, error: 'Too many requests. Please try again later.' }, { status: 429 })
+    }
+
     const { host, port } = await request.json()
 
     if (!host || typeof host !== 'string') {
@@ -110,6 +127,10 @@ export async function POST(request: Request) {
         { success: false, error: 'Port must be a number between 1 and 65535' },
         { status: 400 }
       )
+    }
+
+    if (await isBlockedHost(host)) {
+      return Response.json({ success: false, error: 'Host not allowed' }, { status: 400 })
     }
 
     const certificate = await getCertificateInfo(host, port)

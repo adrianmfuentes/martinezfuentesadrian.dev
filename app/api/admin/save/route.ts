@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server"
 import { cookies } from "next/headers"
 import { verifySessionToken, ADMIN_COOKIE } from "@/lib/admin-auth"
-import { setContentOverride, setExperienceCounter, ContentSection } from "@/lib/kv"
-import { revalidatePath } from "next/cache"
+import { setContentOverride, setExperienceCounter, ContentSection, CMS_CONTENT_TAG } from "@/lib/kv"
+import { revalidatePath, revalidateTag } from "next/cache"
 
 async function verifyRequest(): Promise<boolean> {
   const cookieStore = await cookies()
@@ -21,6 +21,7 @@ export async function POST(request: Request) {
 
     if (type === "counter") {
       await setExperienceCounter(body.data)
+      revalidateTag(CMS_CONTENT_TAG, { expire: 0 })
       revalidatePath("/es/about", "page")
       revalidatePath("/en/about", "page")
     } else if (type === "content") {
@@ -30,6 +31,7 @@ export async function POST(request: Request) {
         data: unknown
       }
       await setContentOverride(lang, section, data)
+      revalidateTag(CMS_CONTENT_TAG, { expire: 0 })
       revalidatePath(`/${lang}/cv`, "page")
       revalidatePath(`/${lang}/about`, "page")
     } else {

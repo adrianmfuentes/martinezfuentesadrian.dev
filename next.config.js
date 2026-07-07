@@ -5,9 +5,6 @@ const nextConfig = {
   turbopack: {},
   // Self-contained server bundle for the Docker image (see Dockerfile)
   output: 'standalone',
-  typescript: {
-    ignoreBuildErrors: true,
-  },
   images: {
     formats: ['image/webp', 'image/avif'],
   },
@@ -96,7 +93,7 @@ const nextConfig = {
           },
           {
             key: "Content-Security-Policy",
-            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.emailjs.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://api.emailjs.com; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self';"
+            value: "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.emailjs.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://api.emailjs.com; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self';"
           },
           {
             key: "Permissions-Policy",
