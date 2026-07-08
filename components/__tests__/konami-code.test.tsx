@@ -184,3 +184,166 @@ describe("KonamiCode with interactive shell", () => {
     expect(screen.getByText("command not found: nonsense")).toBeInTheDocument()
   })
 })
+
+function setupShell() {
+  render(<KonamiCode lang="en" dictionary={shellDictionaryNoBoot} />)
+  pressKonamiCode()
+  const input = screen.getByLabelText(shellDictionaryNoBoot.inputPlaceholder) as HTMLInputElement
+  return input
+}
+
+function runCommand(input: HTMLInputElement, value: string) {
+  fireEvent.change(input, { target: { value } })
+  fireEvent.submit(input.closest("form")!)
+}
+
+describe("KonamiCode shell commands", () => {
+  it("prints help, whoami, about, skills, ls and sudo output", () => {
+    const input = setupShell()
+    const { commands } = shellDictionaryNoBoot
+
+    runCommand(input, "help")
+    expect(screen.getByText(commands.help)).toBeInTheDocument()
+
+    runCommand(input, "about")
+    expect(screen.getByText(commands.about)).toBeInTheDocument()
+
+    runCommand(input, "skills")
+    expect(screen.getByText(commands.skills)).toBeInTheDocument()
+
+    runCommand(input, "ls")
+    expect(screen.getByText(commands.ls)).toBeInTheDocument()
+
+    runCommand(input, "sudo rm -rf /")
+    expect(screen.getByText(commands.sudo)).toBeInTheDocument()
+  })
+
+  it("shows a not-found message for cd with an invalid page", () => {
+    const input = setupShell()
+    runCommand(input, "cd nowhere")
+    expect(screen.getByText("command not found: cd nowhere")).toBeInTheDocument()
+  })
+
+  it("shows theme usage when no value is given, and changes theme when valid", () => {
+    const input = setupShell()
+    const { commands } = shellDictionaryNoBoot
+
+    runCommand(input, "theme")
+    expect(screen.getByText(commands.themeUsage)).toBeInTheDocument()
+
+    runCommand(input, "theme dark")
+    expect(screen.getByText("Theme set to dark.")).toBeInTheDocument()
+    expect(mockSetTheme).toHaveBeenCalledWith("dark")
+  })
+
+  it("toggles the matrix rain intensity", () => {
+    const input = setupShell()
+    const { commands } = shellDictionaryNoBoot
+    runCommand(input, "matrix")
+    expect(screen.getByText(commands.matrixOn)).toBeInTheDocument()
+  })
+
+  it("clears the history when running clear", () => {
+    const input = setupShell()
+    const { commands } = shellDictionaryNoBoot
+    runCommand(input, "help")
+    expect(screen.getByText(commands.help)).toBeInTheDocument()
+
+    runCommand(input, "clear")
+    expect(screen.queryByText(commands.help)).not.toBeInTheDocument()
+  })
+
+  it("echoes back the given text", () => {
+    const input = setupShell()
+    runCommand(input, "echo hello world")
+    expect(screen.getByText("hello world")).toBeInTheDocument()
+  })
+
+  it("prints the current date", () => {
+    const input = setupShell()
+    runCommand(input, "date")
+    expect(input.closest("div.relative")?.textContent).toMatch(/\d/)
+  })
+
+  it("closes the terminal after running exit", async () => {
+    const input = setupShell()
+    runCommand(input, "exit")
+
+    await waitFor(() => {
+      expect(screen.queryByRole("dialog")).not.toBeInTheDocument()
+    })
+  })
+
+  it("only logs the prompt line when submitting an empty command", () => {
+    const input = setupShell()
+    const history = screen.getByText("Achievement unlocked: Konami Code.").parentElement!
+    fireEvent.submit(input.closest("form")!)
+    expect(history.querySelectorAll("p")).toHaveLength(3)
+  })
+
+  it("plays a key tick sound while typing without throwing", () => {
+    const input = setupShell()
+    expect(() => fireEvent.keyDown(input, { key: "h" })).not.toThrow()
+  })
+
+  it("stops propagation when clicking directly on the input", () => {
+    const input = setupShell()
+    expect(() => fireEvent.click(input)).not.toThrow()
+  })
+
+  it("navigates command history with ArrowUp and ArrowDown", () => {
+    const input = setupShell()
+    fireEvent.keyDown(input, { key: "ArrowUp" })
+    expect(input.value).toBe("")
+
+    runCommand(input, "help")
+    runCommand(input, "whoami")
+
+    fireEvent.keyDown(input, { key: "ArrowUp" })
+    expect(input.value).toBe("whoami")
+
+    fireEvent.keyDown(input, { key: "ArrowUp" })
+    expect(input.value).toBe("help")
+
+    fireEvent.keyDown(input, { key: "ArrowDown" })
+    expect(input.value).toBe("whoami")
+
+    fireEvent.keyDown(input, { key: "ArrowDown" })
+    expect(input.value).toBe("")
+  })
+
+  it("toggles mute and persists the preference", () => {
+    setupShell()
+    const muteButton = screen.getByRole("button", { name: shellDictionaryNoBoot.muteHint })
+    fireEvent.click(muteButton)
+    expect(screen.getByRole("button", { name: shellDictionaryNoBoot.unmuteHint })).toBeInTheDocument()
+    expect(window.localStorage.getItem("konami-sound-muted")).toBe("true")
+  })
+
+  it("focuses the input when clicking the backdrop in shell phase", () => {
+    const input = setupShell()
+    fireEvent.click(screen.getByRole("dialog"))
+    expect(document.activeElement).toBe(input)
+  })
+})
+
+describe("KonamiCode boot phase interactions", () => {
+  it("skips the boot sequence when any key is pressed", () => {
+    render(<KonamiCode lang="en" dictionary={shellDictionary} />)
+    pressKonamiCode()
+
+    expect(screen.queryByLabelText(shellDictionary.inputPlaceholder)).not.toBeInTheDocument()
+    fireEvent.keyDown(document, { key: "x" })
+
+    expect(screen.getByLabelText(shellDictionary.inputPlaceholder)).toBeInTheDocument()
+  })
+
+  it("skips the boot sequence when the backdrop is clicked", () => {
+    render(<KonamiCode lang="en" dictionary={shellDictionary} />)
+    pressKonamiCode()
+
+    fireEvent.click(screen.getByRole("dialog"))
+
+    expect(screen.getByLabelText(shellDictionary.inputPlaceholder)).toBeInTheDocument()
+  })
+})
