@@ -79,11 +79,7 @@ export function PortfolioSection({ dictionary, statuses }: Readonly<PortfolioSec
         viewport={{ once: true, amount: 0.15 }}
       >
         {projects.map((project, index) => (
-          <motion.div
-            key={project.id}
-            variants={itemVariants}
-            className={project.featured ? "sm:col-span-2" : ""}
-          >
+          <motion.div key={project.id} variants={itemVariants}>
             <ProjectCard
               project={project}
               viewProject={dictionary.viewProject}
@@ -118,7 +114,7 @@ function ProjectCard({ project, viewProject, viewCode, featuredLabel, status, st
   return (
     <Card className="group overflow-hidden h-full flex flex-col transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/10 hover:border-primary/40">
       <div
-        className={`relative overflow-hidden ${project.featured ? "h-72 lg:h-80" : "h-64"} ${isContain ? "bg-muted/30 p-8" : ""}`}
+        className={`relative overflow-hidden h-64 ${isContain ? "bg-muted/30 p-8" : ""}`}
         suppressHydrationWarning
       >
         <Image

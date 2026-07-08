@@ -247,13 +247,40 @@
   },
   "konami": {
     "title": "Modo desarrollador desbloqueado",
+    "bootLines": [
+      "BIOS v2.6.26 -- iniciando consola de desarrollador...",
+      "Comprobando niveles de café................. OK",
+      "Cargando runtime de Next.js.................. OK",
+      "Montando Tailwind CSS........................ OK",
+      "Arrancando demasiados proyectos paralelos.... OK",
+      "Acceso concedido."
+    ],
     "lines": [
       "Logro desbloqueado: Código Konami.",
       "Has encontrado el easter egg del desarrollador.",
       "Dato curioso: esta web corre con Next.js, Tailwind y demasiado café.",
-      "Gracias por explorar. Ahora ve a construir algo genial."
+      "Escribe 'help' para ver qué puede hacer esta terminal."
     ],
-    "closeHint": "Pulsa Esc o haz clic aquí para cerrar"
+    "prompt": "guest@adrianmf",
+    "closeHint": "Pulsa Esc o escribe 'exit' para cerrar",
+    "muteHint": "Silenciar sonido",
+    "unmuteHint": "Activar sonido",
+    "inputPlaceholder": "Escribe un comando...",
+    "commands": {
+      "help": "Comandos disponibles: help, whoami, about, skills, ls, cd <página>, theme <light|dark>, matrix, sudo, date, echo <texto>, clear, exit",
+      "whoami": "guest -- alguien con la curiosidad suficiente para encontrar esto.",
+      "about": "Adrian Martinez Fuentes -- estudiante de ingeniería del software que construye cosas y a veces las rompe a propósito.",
+      "skills": "TypeScript, React, Next.js, Node.js, un interés creciente en seguridad, y curiosidad sin límites.",
+      "ls": "about  cv  portfolio  tools  blog  contact",
+      "sudo": "Permiso denegado: buen intento.",
+      "navigating": "Abriendo /{page} ...",
+      "notFound": "comando no encontrado: {cmd} -- escribe 'help' para ver la lista de comandos.",
+      "themeUsage": "Uso: theme <light|dark>",
+      "themeSet": "Tema cambiado a {theme}.",
+      "matrixOn": "Lluvia de Matrix intensificada.",
+      "matrixOff": "Lluvia de Matrix de vuelta a la normalidad.",
+      "exit": "Cerrando sesión..."
+    }
   },
   "blog": {
     "title": "Blog",

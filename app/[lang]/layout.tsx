@@ -67,7 +67,7 @@ export default async function RootLayout({
         }}
       />
       <Toaster />
-      <KonamiCode dictionary={dict.konami} />
+      <KonamiCode dictionary={dict.konami} lang={lang} />
     </div>
   );
 }

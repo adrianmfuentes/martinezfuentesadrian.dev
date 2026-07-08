@@ -247,13 +247,40 @@
   },
   "konami": {
     "title": "Developer mode unlocked",
+    "bootLines": [
+      "BIOS v2.6.26 -- initializing developer console...",
+      "Checking coffee levels..................... OK",
+      "Loading Next.js runtime..................... OK",
+      "Mounting Tailwind CSS....................... OK",
+      "Spinning up too many side projects.......... OK",
+      "Access granted."
+    ],
     "lines": [
       "Achievement unlocked: Konami Code.",
       "You just found the developer easter egg.",
       "Fun fact: this site runs on Next.js, Tailwind, and way too much coffee.",
-      "Thanks for exploring. Now go build something cool."
+      "Type 'help' to see what this terminal can do."
     ],
-    "closeHint": "Press Esc or click here to close"
+    "prompt": "guest@adrianmf",
+    "closeHint": "Press Esc or type 'exit' to close",
+    "muteHint": "Mute sound",
+    "unmuteHint": "Unmute sound",
+    "inputPlaceholder": "Type a command...",
+    "commands": {
+      "help": "Available commands: help, whoami, about, skills, ls, cd <page>, theme <light|dark>, matrix, sudo, date, echo <text>, clear, exit",
+      "whoami": "guest -- just someone curious enough to find this.",
+      "about": "Adrian Martinez Fuentes -- software engineering student who builds things and occasionally breaks them on purpose.",
+      "skills": "TypeScript, React, Next.js, Node.js, a growing interest in security, and relentless curiosity.",
+      "ls": "about  cv  portfolio  tools  blog  contact",
+      "sudo": "Permission denied: nice try.",
+      "navigating": "Opening /{page} ...",
+      "notFound": "command not found: {cmd} -- type 'help' for a list of commands.",
+      "themeUsage": "Usage: theme <light|dark>",
+      "themeSet": "Theme set to {theme}.",
+      "matrixOn": "Matrix rain intensified.",
+      "matrixOff": "Matrix rain back to normal.",
+      "exit": "Closing session..."
+    }
   },
   "blog": {
     "title": "Blog",

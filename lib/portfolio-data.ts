@@ -15,7 +15,6 @@ export const PROJECT_METADATA: ProjectMetadata[] = [
     tags: ["Python", "FastAPI", "Angular", "Rust", "PostgreSQL"],
     projectUrl: "https://svaes.amfserver.duckdns.org/",
     codeUrl: "https://github.com/adrianmfuentes/SVAES",
-    imageFit: "contain",
     featured: true,
   },
   {
