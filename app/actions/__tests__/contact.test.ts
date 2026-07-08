@@ -146,39 +146,19 @@ describe("submitContactRequest", () => {
     expect(result).toEqual({ success: true })
   })
 
-  it("returns SERVICE_ID missing error when EMAILJS_SERVICE_ID is unset", async () => {
-    vi.stubEnv("EMAILJS_SERVICE_ID", "")
+  it.each([
+    ["EMAILJS_SERVICE_ID", "SERVICE_ID"],
+    ["EMAILJS_PUBLIC_KEY", "PUBLIC_KEY"],
+    ["EMAILJS_CONTACT_TEMPLATE_ID", "TEMPLATE_ID"],
+  ])("returns %s missing error when %s is unset", async (envVar, label) => {
+    vi.stubEnv(envVar, "")
     mockFetchOnce({ ok: true })
 
     const result = await submitContactRequest(validFormData)
 
     expect(result).toEqual({
       success: false,
-      error: "Email service not properly configured - SERVICE_ID missing",
-    })
-  })
-
-  it("returns PUBLIC_KEY missing error when EMAILJS_PUBLIC_KEY is unset", async () => {
-    vi.stubEnv("EMAILJS_PUBLIC_KEY", "")
-    mockFetchOnce({ ok: true })
-
-    const result = await submitContactRequest(validFormData)
-
-    expect(result).toEqual({
-      success: false,
-      error: "Email service not properly configured - PUBLIC_KEY missing",
-    })
-  })
-
-  it("returns TEMPLATE_ID missing error when neither template env var is set", async () => {
-    vi.stubEnv("EMAILJS_CONTACT_TEMPLATE_ID", "")
-    mockFetchOnce({ ok: true })
-
-    const result = await submitContactRequest(validFormData)
-
-    expect(result).toEqual({
-      success: false,
-      error: "Email service not properly configured - TEMPLATE_ID missing",
+      error: `Email service not properly configured - ${label} missing`,
     })
   })
 

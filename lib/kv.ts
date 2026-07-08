@@ -41,6 +41,16 @@ export async function setExperienceCounter(data: ExperienceCounter): Promise<voi
   await redis.set("experience:counter", data)
 }
 
+export async function incrementVisitCount(): Promise<number | null> {
+  const redis = getRedis()
+  if (!redis) return null
+  try {
+    return await redis.incr("visits:total")
+  } catch {
+    return null
+  }
+}
+
 export async function getContentOverride<T>(
   lang: string,
   section: ContentSection
@@ -65,9 +75,9 @@ export async function setContentOverride<T>(
 }
 
 export interface CmsOverrides {
-  expOverride: unknown | null
-  eduOverride: unknown | null
-  certOverride: unknown | null
+  expOverride: unknown
+  eduOverride: unknown
+  certOverride: unknown
   counter: ExperienceCounter
 }
 

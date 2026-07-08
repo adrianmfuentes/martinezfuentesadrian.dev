@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from "vitest"
-import { render, screen, fireEvent } from "@testing-library/react"
+import { render, screen } from "@testing-library/react"
 import { PortfolioSection } from "@components/portfolio-section"
 
 vi.mock("framer-motion", () => {
@@ -28,13 +28,10 @@ const dictionary = {
   subtitle: "My projects",
   viewProject: "View project",
   viewCode: "View code",
-  categories: {
-    all: "All",
-    design: "Design",
-    web: "Web",
-    system: "System",
-    data: "Data",
-    game: "Game",
+  featured: "Featured Project",
+  status: {
+    online: "Live",
+    offline: "Demo offline",
   },
   projects: {
     "1": { title: "WiChat", description: "A quiz game app" },
@@ -47,7 +44,7 @@ const dictionary = {
 }
 
 describe("PortfolioSection", () => {
-  it("renders the section title, subtitle and all project titles by default", () => {
+  it("renders the section title, subtitle and every project without tabs", () => {
     render(<PortfolioSection dictionary={dictionary} />)
     expect(screen.getByText(dictionary.title)).toBeInTheDocument()
     expect(screen.getByText(dictionary.subtitle)).toBeInTheDocument()
@@ -58,46 +55,15 @@ describe("PortfolioSection", () => {
     expect(screen.getByText("SVAES")).toBeInTheDocument()
     expect(screen.getByText("HTTP Server")).toBeInTheDocument()
     expect(screen.getByText("NutritionAI")).toBeInTheDocument()
+
+    expect(screen.queryAllByRole("tab")).toHaveLength(0)
   })
 
-  it("renders the category tabs with 'all' selected by default", () => {
-    render(<PortfolioSection dictionary={dictionary} />)
-    const tabs = screen.getAllByRole("tab")
-    expect(tabs).toHaveLength(4)
-
-    const allTab = screen.getByRole("tab", { name: dictionary.categories.all })
-    expect(allTab).toHaveAttribute("aria-selected", "true")
-
-    const designTab = screen.getByRole("tab", { name: dictionary.categories.design })
-    expect(designTab).toHaveAttribute("aria-selected", "false")
-  })
-
-  it("filters projects to only the selected category when a tab is clicked", () => {
+  it("marks the flagship project as featured", () => {
     render(<PortfolioSection dictionary={dictionary} />)
 
-    const designTab = screen.getByRole("tab", { name: dictionary.categories.design })
-    fireEvent.click(designTab)
-
-    expect(designTab).toHaveAttribute("aria-selected", "true")
-    const allTab = screen.getByRole("tab", { name: dictionary.categories.all })
-    expect(allTab).toHaveAttribute("aria-selected", "false")
-
-    // Only the "design" category project (DLP Compiler, id "2") should remain.
-    expect(screen.getByText("DLP Compiler")).toBeInTheDocument()
-    // "WiChat" (web) and "SGDB" (data) should have been filtered out.
-    expect(screen.queryByText("WiChat")).not.toBeInTheDocument()
-    expect(screen.queryByText("SGDB")).not.toBeInTheDocument()
-  })
-
-  it("filters projects to the data category", () => {
-    render(<PortfolioSection dictionary={dictionary} />)
-
-    fireEvent.click(screen.getByRole("tab", { name: dictionary.categories.data }))
-
-    expect(screen.getByText("SGDB")).toBeInTheDocument()
-    expect(screen.queryByText("SVAES")).not.toBeInTheDocument()
-    expect(screen.queryByText("WiChat")).not.toBeInTheDocument()
-    expect(screen.queryByText("DLP Compiler")).not.toBeInTheDocument()
+    expect(screen.getByText(dictionary.featured)).toBeInTheDocument()
+    expect(screen.getByText("SVAES")).toBeInTheDocument()
   })
 
   it("renders a 'view project' link only for projects that have a projectUrl", () => {
@@ -117,5 +83,27 @@ describe("PortfolioSection", () => {
     expect(
       screen.getByRole("link", { name: `${dictionary.viewCode}: WiChat` })
     ).toHaveAttribute("href", "https://github.com/Arquisoft/wichat_en2b")
+  })
+
+  it("shows a live-status badge only for projects with a known demo status", () => {
+    render(
+      <PortfolioSection
+        dictionary={dictionary}
+        statuses={{
+          "https://svaes.amfserver.duckdns.org/": "online",
+          "https://novacode.amfserver.duckdns.org/": "offline",
+        }}
+      />
+    )
+
+    expect(screen.getByText(dictionary.status.online)).toBeInTheDocument()
+    expect(screen.getByText(dictionary.status.offline)).toBeInTheDocument()
+  })
+
+  it("hides the status badge when no status data is available for a project", () => {
+    render(<PortfolioSection dictionary={dictionary} />)
+
+    expect(screen.queryByText(dictionary.status.online)).not.toBeInTheDocument()
+    expect(screen.queryByText(dictionary.status.offline)).not.toBeInTheDocument()
   })
 })

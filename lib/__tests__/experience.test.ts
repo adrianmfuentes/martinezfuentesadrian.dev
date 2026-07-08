@@ -6,56 +6,23 @@ describe("computeExperienceLabel", () => {
     vi.useRealTimers()
   })
 
-  it("returns 'less than a month' label when started this month", () => {
+  it.each([
+    ["less than a month when started this month", "2026-01-15", "2026-01-01", "en", "< 1 month"],
+    ["less than a month when started this month", "2026-01-15", "2026-01-01", "es", "< 1 mes"],
+    ["singular month", "2026-02-15", "2026-01-01", "en", "1 month"],
+    ["singular month", "2026-02-15", "2026-01-01", "es", "1 mes"],
+    ["plural months", "2026-06-15", "2026-01-01", "en", "5 months"],
+    ["plural months", "2026-06-15", "2026-01-01", "es", "5 meses"],
+    ["whole years, no remaining months", "2028-01-15", "2026-01-01", "en", "2 years"],
+    ["whole years, no remaining months", "2028-01-15", "2026-01-01", "es", "2 años"],
+    ["singular year, no remaining months", "2027-01-15", "2026-01-01", "en", "1 year"],
+    ["years and months with locale conjunction", "2028-04-15", "2026-01-01", "en", "2 years and 3 months"],
+    ["years and months with locale conjunction", "2028-04-15", "2026-01-01", "es", "2 años y 3 meses"],
+    ["singular year and singular month", "2027-02-15", "2026-01-01", "en", "1 year and 1 month"],
+    ["clamps negative durations (future start date) to zero", "2026-01-01", "2030-01-01", "en", "< 1 month"],
+  ] as const)("%s (%s, start %s, %s)", (_label, now, startDate, lang, expected) => {
     vi.useFakeTimers()
-    vi.setSystemTime(new Date("2026-01-15T00:00:00Z"))
-    expect(computeExperienceLabel("2026-01-01", "en")).toBe("< 1 month")
-    expect(computeExperienceLabel("2026-01-01", "es")).toBe("< 1 mes")
-  })
-
-  it("pluralizes singular month correctly", () => {
-    vi.useFakeTimers()
-    vi.setSystemTime(new Date("2026-02-15T00:00:00Z"))
-    expect(computeExperienceLabel("2026-01-01", "en")).toBe("1 month")
-    expect(computeExperienceLabel("2026-01-01", "es")).toBe("1 mes")
-  })
-
-  it("pluralizes multiple months correctly", () => {
-    vi.useFakeTimers()
-    vi.setSystemTime(new Date("2026-06-15T00:00:00Z"))
-    expect(computeExperienceLabel("2026-01-01", "en")).toBe("5 months")
-    expect(computeExperienceLabel("2026-01-01", "es")).toBe("5 meses")
-  })
-
-  it("returns whole years with no remaining months", () => {
-    vi.useFakeTimers()
-    vi.setSystemTime(new Date("2028-01-15T00:00:00Z"))
-    expect(computeExperienceLabel("2026-01-01", "en")).toBe("2 years")
-    expect(computeExperienceLabel("2026-01-01", "es")).toBe("2 años")
-  })
-
-  it("returns singular year with no remaining months", () => {
-    vi.useFakeTimers()
-    vi.setSystemTime(new Date("2027-01-15T00:00:00Z"))
-    expect(computeExperienceLabel("2026-01-01", "en")).toBe("1 year")
-  })
-
-  it("combines years and months with the locale's conjunction", () => {
-    vi.useFakeTimers()
-    vi.setSystemTime(new Date("2028-04-15T00:00:00Z"))
-    expect(computeExperienceLabel("2026-01-01", "en")).toBe("2 years and 3 months")
-    expect(computeExperienceLabel("2026-01-01", "es")).toBe("2 años y 3 meses")
-  })
-
-  it("combines singular year and singular month", () => {
-    vi.useFakeTimers()
-    vi.setSystemTime(new Date("2027-02-15T00:00:00Z"))
-    expect(computeExperienceLabel("2026-01-01", "en")).toBe("1 year and 1 month")
-  })
-
-  it("clamps negative durations (future start date) to zero", () => {
-    vi.useFakeTimers()
-    vi.setSystemTime(new Date("2026-01-01T00:00:00Z"))
-    expect(computeExperienceLabel("2030-01-01", "en")).toBe("< 1 month")
+    vi.setSystemTime(new Date(`${now}T00:00:00Z`))
+    expect(computeExperienceLabel(startDate, lang)).toBe(expected)
   })
 })

@@ -15,8 +15,20 @@ interface Dictionary {
     portfolio: string
     contact: string
     tools: string
+    blog: string
     darkMode: string
     lightMode: string
+  }
+  commandPalette: {
+    title: string
+    description: string
+    placeholder: string
+    noResults: string
+    groupNavigation: string
+    groupActions: string
+    groupLanguage: string
+    switchToEnglish: string
+    switchToSpanish: string
   }
   home: {
     greeting: string
@@ -112,13 +124,10 @@ interface Dictionary {
     subtitle: string
     viewProject: string
     viewCode: string
-    categories: {
-      all: string
-      design: string
-      web: string
-      system: string
-      data: string
-      game: string
+    featured: string
+    status: {
+      online: string
+      offline: string
     }
     projects: {
       [key: string]: {
@@ -126,6 +135,37 @@ interface Dictionary {
         description: string
       }
     }
+  }
+  githubActivity: {
+    title: string
+    subtitle: string
+    viewProfile: string
+    empty: string
+    opened: string
+    closed: string
+    events: {
+      push: string
+      createRepo: string
+      createRef: string
+      pullRequest: string
+      issue: string
+      watch: string
+      fork: string
+      release: string
+      default: string
+    }
+  }
+  konami: {
+    title: string
+    lines: string[]
+    closeHint: string
+  }
+  blog: {
+    title: string
+    subtitle: string
+    empty: string
+    minRead: string
+    backToBlog: string
   }
   contact: {
     title: string
@@ -186,6 +226,7 @@ interface Dictionary {
   }
   footer: {
     rights: string
+    visits: string
   }
   chat: {
     title: string

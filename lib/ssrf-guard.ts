@@ -8,27 +8,30 @@ import net from "node:net"
 // cloud metadata endpoints. Block loopback/private/link-local/metadata targets.
 const BLOCKED_HOSTNAMES = new Set(["localhost", "metadata.google.internal"])
 
+function isBlockedIpv4(ip: string): boolean {
+  const [a, b] = ip.split(".").map(Number)
+  if (a === 127) return true // loopback
+  if (a === 10) return true // private
+  if (a === 172 && b >= 16 && b <= 31) return true // private
+  if (a === 192 && b === 168) return true // private
+  if (a === 169 && b === 254) return true // link-local + cloud metadata (169.254.169.254)
+  if (a === 0) return true // "this network"
+  return false
+}
+
+function isBlockedIpv6(ip: string): boolean {
+  const normalized = ip.toLowerCase()
+  if (normalized === "::1") return true // loopback
+  if (normalized.startsWith("::ffff:")) return isBlockedIp(normalized.slice(7)) // IPv4-mapped
+  if (normalized.startsWith("fe80:")) return true // link-local
+  if (normalized.startsWith("fc") || normalized.startsWith("fd")) return true // unique local (fc00::/7)
+  return false
+}
+
 function isBlockedIp(ip: string): boolean {
   const family = net.isIP(ip)
-  if (family === 4) {
-    const parts = ip.split(".").map(Number)
-    const [a, b] = parts
-    if (a === 127) return true // loopback
-    if (a === 10) return true // private
-    if (a === 172 && b >= 16 && b <= 31) return true // private
-    if (a === 192 && b === 168) return true // private
-    if (a === 169 && b === 254) return true // link-local + cloud metadata (169.254.169.254)
-    if (a === 0) return true // "this network"
-    return false
-  }
-  if (family === 6) {
-    const normalized = ip.toLowerCase()
-    if (normalized === "::1") return true // loopback
-    if (normalized.startsWith("::ffff:")) return isBlockedIp(normalized.slice(7)) // IPv4-mapped
-    if (normalized.startsWith("fe80:")) return true // link-local
-    if (normalized.startsWith("fc") || normalized.startsWith("fd")) return true // unique local (fc00::/7)
-    return false
-  }
+  if (family === 4) return isBlockedIpv4(ip)
+  if (family === 6) return isBlockedIpv6(ip)
   return true // not a parseable IP — treat as unsafe
 }
 

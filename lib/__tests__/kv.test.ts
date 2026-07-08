@@ -4,17 +4,19 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest"
 vi.mock("@upstash/redis", () => {
   const get = vi.fn()
   const set = vi.fn()
+  const incr = vi.fn()
   class Redis {
     url: string
     token: string
     get = get
     set = set
+    incr = incr
     constructor(opts: { url: string; token: string }) {
       this.url = opts.url
       this.token = opts.token
     }
   }
-  return { Redis, __get: get, __set: set }
+  return { Redis, __get: get, __set: set, __incr: incr }
 })
 
 async function importKv() {
@@ -25,6 +27,7 @@ async function importRedisMock() {
   return (await import("@upstash/redis")) as unknown as {
     __get: ReturnType<typeof vi.fn>
     __set: ReturnType<typeof vi.fn>
+    __incr: ReturnType<typeof vi.fn>
   }
 }
 
@@ -69,6 +72,11 @@ describe("lib/kv", () => {
     it("setContentOverride throws", async () => {
       const kv = await importKv()
       await expect(kv.setContentOverride("en", "experience", {})).rejects.toThrow("Redis not configured")
+    })
+
+    it("incrementVisitCount returns null", async () => {
+      const kv = await importKv()
+      await expect(kv.incrementVisitCount()).resolves.toBeNull()
     })
   })
 
@@ -140,6 +148,23 @@ describe("lib/kv", () => {
 
       await kv.setContentOverride("es", "certifications", { foo: "bar" })
       expect(__set).toHaveBeenCalledWith("content:es:cv:certifications", { foo: "bar" })
+    })
+
+    it("incrementVisitCount increments and returns the new total", async () => {
+      const kv = await importKv()
+      const { __incr } = await importRedisMock()
+      __incr.mockResolvedValueOnce(43)
+
+      await expect(kv.incrementVisitCount()).resolves.toBe(43)
+      expect(__incr).toHaveBeenCalledWith("visits:total")
+    })
+
+    it("incrementVisitCount returns null on redis error", async () => {
+      const kv = await importKv()
+      const { __incr } = await importRedisMock()
+      __incr.mockRejectedValueOnce(new Error("boom"))
+
+      await expect(kv.incrementVisitCount()).resolves.toBeNull()
     })
   })
 })
