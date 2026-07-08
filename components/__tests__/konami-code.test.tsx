@@ -1,5 +1,5 @@
-import { describe, it, expect } from "vitest"
-import { render, screen, fireEvent } from "@testing-library/react"
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest"
+import { render, screen, fireEvent, waitFor } from "@testing-library/react"
 import { KonamiCode } from "@/components/konami-code"
 
 vi.mock("framer-motion", () => {
@@ -23,10 +23,44 @@ vi.mock("framer-motion", () => {
   }
 })
 
+const mockPush = vi.fn()
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({ push: mockPush, replace: vi.fn(), refresh: vi.fn() }),
+}))
+
+const mockSetTheme = vi.fn()
+vi.mock("next-themes", () => ({
+  useTheme: () => ({ theme: "dark", setTheme: mockSetTheme }),
+}))
+
 const dictionary = {
   title: "Developer mode unlocked",
   lines: ["Achievement unlocked: Konami Code.", "Thanks for exploring."],
   closeHint: "Press Esc or click anywhere to close",
+}
+
+const shellDictionary = {
+  ...dictionary,
+  bootLines: ["Loading...", "Access granted."],
+  prompt: "guest@adrianmf",
+  inputPlaceholder: "Type a command...",
+  muteHint: "Mute sound",
+  unmuteHint: "Unmute sound",
+  commands: {
+    help: "Available commands: help, whoami",
+    whoami: "guest -- just someone curious enough to find this.",
+    about: "About text.",
+    skills: "Skills text.",
+    ls: "about cv portfolio",
+    sudo: "Permission denied: nice try.",
+    navigating: "Opening /{page} ...",
+    notFound: "command not found: {cmd}",
+    themeUsage: "Usage: theme <light|dark>",
+    themeSet: "Theme set to {theme}.",
+    matrixOn: "Matrix rain intensified.",
+    matrixOff: "Matrix rain back to normal.",
+    exit: "Closing session...",
+  },
 }
 
 const KONAMI_KEYS = [
@@ -47,6 +81,11 @@ function pressKonamiCode() {
     fireEvent.keyDown(document, { key })
   }
 }
+
+beforeEach(() => {
+  window.localStorage.clear()
+  mockPush.mockClear()
+})
 
 describe("KonamiCode", () => {
   it("is not shown by default", () => {
@@ -88,5 +127,60 @@ describe("KonamiCode", () => {
     fireEvent.click(screen.getByRole("button", { name: dictionary.closeHint }))
 
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument()
+  })
+})
+
+const shellDictionaryNoBoot = { ...shellDictionary, bootLines: [] }
+
+describe("KonamiCode with interactive shell", () => {
+  it("plays a boot sequence before showing the interactive prompt", async () => {
+    render(<KonamiCode lang="en" dictionary={shellDictionary} />)
+    pressKonamiCode()
+
+    expect(screen.getByRole("dialog", { name: shellDictionary.title })).toBeInTheDocument()
+    expect(screen.queryByLabelText(shellDictionary.inputPlaceholder)).not.toBeInTheDocument()
+
+    await waitFor(
+      () => {
+        expect(screen.getByLabelText(shellDictionary.inputPlaceholder)).toBeInTheDocument()
+      },
+      { timeout: 3000 }
+    )
+    expect(screen.getByText("Achievement unlocked: Konami Code.")).toBeInTheDocument()
+  })
+
+  it("responds to the whoami command", () => {
+    render(<KonamiCode lang="en" dictionary={shellDictionaryNoBoot} />)
+    pressKonamiCode()
+
+    const input = screen.getByLabelText(shellDictionaryNoBoot.inputPlaceholder)
+    fireEvent.change(input, { target: { value: "whoami" } })
+    fireEvent.submit(input.closest("form")!)
+
+    expect(screen.getByText(shellDictionaryNoBoot.commands.whoami)).toBeInTheDocument()
+  })
+
+  it("navigates when running cd <page>", async () => {
+    render(<KonamiCode lang="en" dictionary={shellDictionaryNoBoot} />)
+    pressKonamiCode()
+
+    const input = screen.getByLabelText(shellDictionaryNoBoot.inputPlaceholder)
+    fireEvent.change(input, { target: { value: "cd portfolio" } })
+    fireEvent.submit(input.closest("form")!)
+
+    await waitFor(() => {
+      expect(mockPush).toHaveBeenCalledWith("/en/portfolio")
+    })
+  })
+
+  it("shows a not-found message for unknown commands", () => {
+    render(<KonamiCode lang="en" dictionary={shellDictionaryNoBoot} />)
+    pressKonamiCode()
+
+    const input = screen.getByLabelText(shellDictionaryNoBoot.inputPlaceholder)
+    fireEvent.change(input, { target: { value: "nonsense" } })
+    fireEvent.submit(input.closest("form")!)
+
+    expect(screen.getByText("command not found: nonsense")).toBeInTheDocument()
   })
 })

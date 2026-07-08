@@ -157,8 +157,28 @@ interface Dictionary {
   }
   konami: {
     title: string
+    bootLines?: string[]
     lines: string[]
     closeHint: string
+    prompt?: string
+    inputPlaceholder?: string
+    muteHint?: string
+    unmuteHint?: string
+    commands?: {
+      help: string
+      whoami: string
+      about: string
+      skills: string
+      ls: string
+      sudo: string
+      navigating: string
+      notFound: string
+      themeUsage: string
+      themeSet: string
+      matrixOn: string
+      matrixOff: string
+      exit: string
+    }
   }
   blog: {
     title: string

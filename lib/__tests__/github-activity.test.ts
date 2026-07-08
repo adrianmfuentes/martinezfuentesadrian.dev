@@ -54,6 +54,53 @@ describe("getGithubActivity", () => {
     expect(result[1]).toMatchObject({ id: "3", type: "WatchEvent" })
   })
 
+  it("falls back to the compare API for push events with no commits payload", async () => {
+    global.fetch = vi
+      .fn()
+      .mockImplementationOnce(async () => ({
+        ok: true,
+        json: async () => [
+          {
+            id: "1",
+            type: "PushEvent",
+            created_at: "2026-01-01T00:00:00Z",
+            repo: { name: "adrianmfuentes/SVAES" },
+            payload: { before: "aaa", head: "bbb" },
+          },
+        ],
+      }))
+      .mockImplementationOnce(async (url: string) => {
+        expect(url).toBe("https://api.github.com/repos/adrianmfuentes/SVAES/compare/aaa...bbb")
+        return { ok: true, json: async () => ({ total_commits: 5 }) }
+      }) as unknown as typeof fetch
+
+    const result = await getGithubActivity()
+
+    expect(result[0]).toMatchObject({ id: "1", commitCount: 5 })
+  })
+
+  it("defaults the commit count to 1 when the compare API is unavailable", async () => {
+    global.fetch = vi
+      .fn()
+      .mockImplementationOnce(async () => ({
+        ok: true,
+        json: async () => [
+          {
+            id: "1",
+            type: "PushEvent",
+            created_at: "2026-01-01T00:00:00Z",
+            repo: { name: "adrianmfuentes/SVAES" },
+            payload: { before: "aaa", head: "bbb" },
+          },
+        ],
+      }))
+      .mockImplementationOnce(async () => ({ ok: false })) as unknown as typeof fetch
+
+    const result = await getGithubActivity()
+
+    expect(result[0]).toMatchObject({ id: "1", commitCount: 1 })
+  })
+
   it("returns an empty array when the GitHub API responds with an error status", async () => {
     global.fetch = vi.fn().mockResolvedValue({ ok: false }) as unknown as typeof fetch
 
