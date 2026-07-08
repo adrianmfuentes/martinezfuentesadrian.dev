@@ -81,11 +81,11 @@ describe("KonamiCode", () => {
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument()
   })
 
-  it("closes when clicking the overlay backdrop", () => {
+  it("closes when the close button is clicked", () => {
     render(<KonamiCode dictionary={dictionary} />)
     pressKonamiCode()
 
-    fireEvent.click(screen.getByRole("dialog"))
+    fireEvent.click(screen.getByRole("button", { name: dictionary.closeHint }))
 
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument()
   })

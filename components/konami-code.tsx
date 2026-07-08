@@ -60,13 +60,12 @@ export function KonamiCode({ dictionary }: Readonly<KonamiCodeProps>) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[100] flex items-start justify-center overflow-auto bg-black/95 p-8 pt-24 font-mono text-green-400 cursor-pointer"
-          onClick={() => setActive(false)}
+          className="fixed inset-0 z-[100] flex items-start justify-center overflow-auto bg-black/95 p-8 pt-24 font-mono text-green-400"
           role="dialog"
           aria-modal="true"
           aria-label={dictionary.title}
         >
-          <div className="max-w-xl w-full" onClick={(e) => e.stopPropagation()}>
+          <div className="max-w-xl w-full">
             <div className="flex items-center gap-2 mb-6 text-lg">
               <TerminalSquare className="h-5 w-5" />
               <span>{dictionary.title}</span>
@@ -82,7 +81,13 @@ export function KonamiCode({ dictionary }: Readonly<KonamiCodeProps>) {
                 <span className="opacity-60">$</span> {line}
               </motion.p>
             ))}
-            <p className="mt-8 text-xs opacity-50">{dictionary.closeHint}</p>
+            <button
+              type="button"
+              onClick={() => setActive(false)}
+              className="mt-8 text-xs opacity-50 hover:opacity-80 underline underline-offset-2"
+            >
+              {dictionary.closeHint}
+            </button>
           </div>
         </motion.div>
       )}
