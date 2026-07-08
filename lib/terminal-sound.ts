@@ -1,12 +1,12 @@
+import { secureRandom } from "@/lib/secure-random"
+
 let audioContext: AudioContext | null = null
 
 function getAudioContext(): AudioContext | null {
   if (typeof window === "undefined") return null
   const AudioContextClass = window.AudioContext ?? (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext
   if (!AudioContextClass) return null
-  if (!audioContext) {
-    audioContext = new AudioContextClass()
-  }
+  audioContext ??= new AudioContextClass()
   if (audioContext.state === "suspended") {
     void audioContext.resume()
   }
@@ -29,13 +29,14 @@ function playTone(frequency: number, duration: number, type: OscillatorType = "s
 }
 
 export function playKeyTick() {
-  playTone(520 + Math.random() * 80, 0.03, "square", 0.03)
+  playTone(520 + secureRandom() * 80, 0.03, "square", 0.03)
 }
 
 export function playAccessGranted() {
   const ctx = getAudioContext()
   if (!ctx) return
-  ;[440, 660, 880].forEach((freq, i) => {
+  const tones = [440, 660, 880]
+  tones.forEach((freq, i) => {
     setTimeout(() => playTone(freq, 0.12, "sine", 0.05), i * 90)
   })
 }
