@@ -253,7 +253,7 @@
       "Fun fact: this site runs on Next.js, Tailwind, and way too much coffee.",
       "Thanks for exploring. Now go build something cool."
     ],
-    "closeHint": "Press Esc or click anywhere to close"
+    "closeHint": "Press Esc or click here to close"
   },
   "blog": {
     "title": "Blog",
