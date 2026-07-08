@@ -3,6 +3,7 @@ import { Navbar } from "@components/NavBar"
 import { Footer } from "@components/Footer"
 import { getDictionary } from "./dictionaries"
 import { AIChatWidgetLoader } from "@components/ai-chat-widget-loader"
+import { KonamiCode } from "@components/konami-code"
 import { Toaster } from "@components/ui/toaster"
 
 const locales = ["en", "es"]
@@ -55,7 +56,7 @@ export default async function RootLayout({
   const dict = await getDictionary(lang as "en" | "es");
   return (
     <div className="flex min-h-screen flex-col">
-      <Navbar lang={lang} dictionary={dict.navigation} />
+      <Navbar lang={lang} dictionary={dict.navigation} commandDictionary={dict.commandPalette} />
       <main className="flex-1">{children}</main>
       <Footer lang={lang} dictionary={dict.footer} />
       <AIChatWidgetLoader
@@ -66,6 +67,7 @@ export default async function RootLayout({
         }}
       />
       <Toaster />
+      <KonamiCode dictionary={dict.konami} />
     </div>
   );
 }

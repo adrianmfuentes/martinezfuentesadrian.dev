@@ -1,10 +1,14 @@
-import { describe, it, expect } from "vitest"
+import { describe, it, expect, vi, beforeEach } from "vitest"
 import { render, screen } from "@testing-library/react"
 import { Footer } from "@/components/Footer"
 
-const dictionary = { rights: "All rights reserved" }
+const dictionary = { rights: "All rights reserved", visits: "{count} visits since launch" }
 
 describe("Footer", () => {
+  beforeEach(() => {
+    vi.stubGlobal("fetch", vi.fn().mockResolvedValue({ json: async () => ({ count: null }) }))
+  })
+
   it("renders the brand link pointing to the locale home", () => {
     render(<Footer lang="en" dictionary={dictionary} />)
     const brandLink = screen.getByRole("link", { name: /Adrián Martínez/i })

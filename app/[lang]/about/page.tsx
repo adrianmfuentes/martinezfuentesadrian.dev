@@ -1,5 +1,7 @@
 import { AboutSection } from "@components/about-section"
+import { GithubActivity } from "@components/github-activity"
 import { getDictionary } from "../dictionaries"
+import { getGithubActivity } from "@/lib/github-activity"
 
 export const revalidate = 60
 
@@ -15,9 +17,12 @@ export default async function AboutPage({
     throw new Error("Dictionary not found");
   }
 
+  const activity = await getGithubActivity()
+
   return (
     <div className="container mx-auto px-4 py-12">
       <AboutSection dictionary={dict.about} />
+      <GithubActivity lang={lang} items={activity} dictionary={dict.githubActivity} />
     </div>
   )
 }

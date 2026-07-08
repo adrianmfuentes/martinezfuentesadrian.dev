@@ -85,25 +85,15 @@ describe("sendChatMessage", () => {
     expect(createMock).not.toHaveBeenCalled()
   })
 
-  it("uses a Spanish system prompt when the message contains Spanish accents", async () => {
-    await sendChatMessage("¿Cómo estás?", [])
+  it.each([
+    ["¿Cómo estás?", "Responde en español"],
+    ["I have a question for you", "Responde en español"],
+    ["What is your favorite book?", "Respond in English"],
+  ])("picks the system prompt language for %s", async (message, expectedPrompt) => {
+    await sendChatMessage(message, [])
 
     const callArgs = createMock.mock.calls[0][0]
-    expect(callArgs.messages[0].content).toContain("Responde en español")
-  })
-
-  it("uses a Spanish system prompt when the message contains 'que'", async () => {
-    await sendChatMessage("I have a question for you", [])
-
-    const callArgs = createMock.mock.calls[0][0]
-    expect(callArgs.messages[0].content).toContain("Responde en español")
-  })
-
-  it("uses an English system prompt for messages without Spanish markers", async () => {
-    await sendChatMessage("What is your favorite book?", [])
-
-    const callArgs = createMock.mock.calls[0][0]
-    expect(callArgs.messages[0].content).toContain("Respond in English")
+    expect(callArgs.messages[0].content).toContain(expectedPrompt)
   })
 
   it("falls back to a default message when Groq returns no content", async () => {

@@ -11,8 +11,20 @@
     "portfolio": "Portfolio",
     "contact": "Contact",
     "tools": "Tools",
+    "blog": "Blog",
     "darkMode": "Dark Mode",
     "lightMode": "Light Mode"
+  },
+  "commandPalette": {
+    "title": "Command Menu",
+    "description": "Search for a page or run a command.",
+    "placeholder": "Type a command or search...",
+    "noResults": "No results found.",
+    "groupNavigation": "Navigation",
+    "groupActions": "Actions",
+    "groupLanguage": "Language",
+    "switchToEnglish": "English",
+    "switchToSpanish": "Español"
   },
   "home": {
     "greeting": "Hello, I'm",
@@ -166,13 +178,10 @@
     "subtitle": "Check out my latest projects",
     "viewProject": "View Project",
     "viewCode": "View Code",
-    "categories": {
-      "all": "All",
-      "design": "Design",
-      "web": "Web",
-      "system": "System",
-      "data": "Data",
-      "game": "Games"
+    "featured": "Featured Project",
+    "status": {
+      "online": "Live",
+      "offline": "Demo offline"
     },
     "projects": {
       "1": {
@@ -216,6 +225,42 @@
         "description": "Complete nutrition tracking application that uses Artificial Intelligence to analyze food images and provide detailed nutritional information. Built for Android."
       }
     }
+  },
+  "githubActivity": {
+    "title": "Recent GitHub Activity",
+    "subtitle": "What I've been building lately",
+    "viewProfile": "View GitHub profile",
+    "empty": "No recent public activity.",
+    "opened": "opened",
+    "closed": "closed",
+    "events": {
+      "push": "Pushed {count} commit(s) to {repo}",
+      "createRepo": "Created repository {repo}",
+      "createRef": "Created a branch in {repo}",
+      "pullRequest": "{action} a pull request in {repo}",
+      "issue": "{action} an issue in {repo}",
+      "watch": "Starred {repo}",
+      "fork": "Forked {repo}",
+      "release": "Published a release in {repo}",
+      "default": "Activity in {repo}"
+    }
+  },
+  "konami": {
+    "title": "Developer mode unlocked",
+    "lines": [
+      "Achievement unlocked: Konami Code.",
+      "You just found the developer easter egg.",
+      "Fun fact: this site runs on Next.js, Tailwind, and way too much coffee.",
+      "Thanks for exploring. Now go build something cool."
+    ],
+    "closeHint": "Press Esc or click anywhere to close"
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Thoughts on code, security, and things I'm building",
+    "empty": "No posts yet — check back soon.",
+    "minRead": "min read",
+    "backToBlog": "Back to blog"
   },
   "contact": {
     "title": "Contact Me",
@@ -280,7 +325,8 @@
     }
   },
   "footer": {
-    "rights": "All rights reserved"
+    "rights": "All rights reserved",
+    "visits": "{count} visits since launch"
   },
   "chat": {
     "title": "Virtual Assistant",

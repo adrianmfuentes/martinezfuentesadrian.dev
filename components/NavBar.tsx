@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation"
 import { Menu, X } from "lucide-react"
 import { Button } from "@components/ui/button"
 import { LanguageSwitcher } from "./language-switcher"
+import { CommandPalette } from "./command-palette"
 
 interface NavbarProps {
   lang: string
@@ -16,10 +17,24 @@ interface NavbarProps {
     portfolio: string
     contact: string
     tools: string
+    blog: string
+    darkMode: string
+    lightMode: string
+  }
+  commandDictionary: {
+    title: string
+    description: string
+    placeholder: string
+    noResults: string
+    groupNavigation: string
+    groupActions: string
+    groupLanguage: string
+    switchToEnglish: string
+    switchToSpanish: string
   }
 }
 
-export function Navbar({ lang, dictionary }: Readonly<NavbarProps>) {
+export function Navbar({ lang, dictionary, commandDictionary }: Readonly<NavbarProps>) {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const pathname = usePathname()
@@ -38,8 +53,9 @@ export function Navbar({ lang, dictionary }: Readonly<NavbarProps>) {
     { href: `/${lang}/about`, label: dictionary.about },
     { href: `/${lang}/cv`, label: dictionary.cv },
     { href: `/${lang}/portfolio`, label: dictionary.portfolio },
+    { href: `/${lang}/blog`, label: dictionary.blog },
+    { href: `/${lang}/tools`, label: dictionary.tools },
     { href: `/${lang}/contact`, label: dictionary.contact },
-    { href: `/${lang}/tools`, label: dictionary.tools } 
   ]
 
   return (
@@ -66,6 +82,7 @@ export function Navbar({ lang, dictionary }: Readonly<NavbarProps>) {
           </nav>
 
           <div className="hidden md:flex items-center space-x-2">
+            <CommandPalette lang={lang} dictionary={dictionary} commandDictionary={commandDictionary} />
             <LanguageSwitcher currentLang={lang} />
           </div>
 

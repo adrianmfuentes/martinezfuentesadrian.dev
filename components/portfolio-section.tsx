@@ -1,11 +1,13 @@
 "use client"
 
-import { useState } from "react"
 import Image from "next/image"
 import { motion } from "framer-motion"
 import { Card, CardContent, CardFooter } from "@components/ui/card"
 import { Button } from "@components/ui/button"
-import { ExternalLink, Github } from "lucide-react" /* NOSONAR */
+import { ExternalLink, Github, Sparkles } from "lucide-react" /* NOSONAR */
+import { PROJECT_METADATA } from "@/lib/portfolio-data"
+
+export type ProjectStatus = "online" | "offline"
 
 interface PortfolioSectionProps {
   dictionary: {
@@ -13,13 +15,10 @@ interface PortfolioSectionProps {
     subtitle: string
     viewProject: string
     viewCode: string
-    categories: {
-      all: string
-      design: string
-      web: string
-      system: string
-      data: string
-      game: string
+    featured: string
+    status: {
+      online: string
+      offline: string
     }
     projects: {
       [key: string]: {
@@ -28,6 +27,7 @@ interface PortfolioSectionProps {
       }
     }
   }
+  statuses?: Record<string, ProjectStatus>
 }
 
 interface Project {
@@ -36,84 +36,33 @@ interface Project {
   description: string
   image: string
   tags: string[]
-  category: string
   projectUrl: string
   codeUrl: string
   imageFit?: "cover" | "contain"
+  featured?: boolean
 }
 
-type ProjectMetadata = Omit<Project, "title" | "description">
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.12,
+    },
+  },
+}
 
-const PROJECT_METADATA: ProjectMetadata[] = [
-  {
-    id: "6",
-    image: "/images/svaes_logo_512.png",
-    tags: ["Python", "FastAPI", "Angular", "Rust", "PostgreSQL"],
-    category: "web",
-    projectUrl: "https://svaes.amfserver.duckdns.org/",
-    codeUrl: "https://github.com/adrianmfuentes/SVAES",
-    imageFit: "contain",
-  },
-  {
-    id: "1",
-    image: "/images/wichat.png",
-    tags: ["React", "Node.js", "Express", "Oracle", "Docker", "GitHub", "Socket.io"],
-    category: "web",
-    projectUrl: "",
-    codeUrl: "https://github.com/Arquisoft/wichat_en2b",
-  },
-  {
-    id: "2",
-    image: "/images/DLP.png",
-    tags: ["Java", "Compiler", "Design"],
-    category: "design",
-    projectUrl: "https://novacode.amfserver.duckdns.org/",
-    codeUrl: "https://github.com/adrianmfuentes/DLP",
-  },
-  {
-    id: "3",
-    image: "/images/SGDB.webp",
-    tags: ["C++"],
-    category: "data",
-    projectUrl: "",
-    codeUrl: "https://github.com/adrianmfuentes/SGDB",
-  },
-  {
-    id: "8",
-    image: "/images/Server-HTTP.png",
-    tags: ["C++", "Networking", "HTTP"],
-    category: "web",
-    projectUrl: "",
-    codeUrl: "https://github.com/adrianmfuentes/HTTP-server",
-  },
-  {
-    id: "10",
-    image: "/images/nutritionai.png",
-    tags: ["Android", "Jetpack Compose", "Node.js", "PostgreSQL", "AI"],
-    category: "web",
-    projectUrl: "",
-    codeUrl: "https://github.com/adrianmfuentes/nutritionai",
-  },
-]
+const itemVariants = {
+  hidden: { opacity: 0, y: 24 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+}
 
-export function PortfolioSection({ dictionary }: Readonly<PortfolioSectionProps>) {
-  const [activeCategory, setActiveCategory] = useState("all")
-
+export function PortfolioSection({ dictionary, statuses }: Readonly<PortfolioSectionProps>) {
   const projects: Project[] = PROJECT_METADATA.map((meta) => ({
     ...meta,
     title: dictionary.projects[meta.id].title,
     description: dictionary.projects[meta.id].description,
   }))
-
-  const filteredProjects =
-    activeCategory === "all" ? projects : projects.filter((project) => project.category === activeCategory)
-
-  const categories = [
-    { value: "all", label: dictionary.categories.all },
-    { value: "design", label: dictionary.categories.design },
-    { value: "web", label: dictionary.categories.web },
-    { value: "data", label: dictionary.categories.data },
-  ]
 
   return (
     <section className="py-16" aria-label={dictionary.title}>
@@ -122,56 +71,31 @@ export function PortfolioSection({ dictionary }: Readonly<PortfolioSectionProps>
         <p className="text-lg text-foreground/70">{dictionary.subtitle}</p>
       </div>
 
-      <div className="mb-8">
-        <div className="flex justify-center">
-          <div 
-            role="tablist" 
-            aria-label={dictionary.title}
-            className="inline-flex h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground"
-          >
-            {categories.map((category) => (
-              <button
-                key={category.value}
-                role="tab"
-                aria-selected={activeCategory === category.value}
-                aria-controls={`tabpanel-${category.value}`}
-                tabIndex={activeCategory === category.value ? 0 : -1}
-                onClick={() => setActiveCategory(category.value)}
-                className={`inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ${
-                  activeCategory === category.value
-                    ? "bg-background text-foreground shadow-sm"
-                    : "hover:bg-background/50"
-                }`}
-              >
-                {category.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <div 
-        role="tabpanel"
-        id={`tabpanel-${activeCategory}`}
-        aria-labelledby={`tab-${activeCategory}`}
+      <motion.div
         className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.15 }}
       >
-        {filteredProjects.map((project, index) => (
+        {projects.map((project, index) => (
           <motion.div
             key={project.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
+            variants={itemVariants}
+            className={project.featured ? "sm:col-span-2" : ""}
           >
-            <ProjectCard 
-                project={project}
-                viewProject={dictionary.viewProject}
-                viewCode={dictionary.viewCode}
-                index={index}
+            <ProjectCard
+              project={project}
+              viewProject={dictionary.viewProject}
+              viewCode={dictionary.viewCode}
+              featuredLabel={dictionary.featured}
+              status={project.projectUrl ? statuses?.[project.projectUrl] : undefined}
+              statusLabels={dictionary.status}
+              index={index}
             />
           </motion.div>
         ))}
-      </div>
+      </motion.div>
     </section>
   )
 }
@@ -180,17 +104,23 @@ interface ProjectCardProps {
   project: Project
   viewProject: string
   viewCode: string
+  featuredLabel: string
+  status?: ProjectStatus
+  statusLabels: { online: string; offline: string }
   index?: number
 }
 
-function ProjectCard({ project, viewProject, viewCode, index }: Readonly<ProjectCardProps>) {
+function ProjectCard({ project, viewProject, viewCode, featuredLabel, status, statusLabels, index }: Readonly<ProjectCardProps>) {
   const eager = typeof index === "number" && index < 3 // Eager load images for the first three projects
-  
+
   const isContain = project.imageFit === "contain"
 
   return (
-    <Card className="overflow-hidden h-full flex flex-col">
-      <div className={`relative h-64 ${isContain ? "bg-muted/30 p-8" : ""}`} suppressHydrationWarning>
+    <Card className="group overflow-hidden h-full flex flex-col transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/10 hover:border-primary/40">
+      <div
+        className={`relative overflow-hidden ${project.featured ? "h-72 lg:h-80" : "h-64"} ${isContain ? "bg-muted/30 p-8" : ""}`}
+        suppressHydrationWarning
+      >
         <Image
           src={project.image || "/placeholder.svg"}
           alt={project.title}
@@ -198,20 +128,29 @@ function ProjectCard({ project, viewProject, viewCode, index }: Readonly<Project
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           priority={eager}
           loading={eager ? "eager" : "lazy"}
-          className={isContain ? "object-contain" : "object-cover"}
+          className={`transition-transform duration-700 ease-out group-hover:scale-105 ${isContain ? "object-contain" : "object-cover"}`}
           onError={(e) => {
             // Fallback to placeholder if image fails to load
             const target = e.target as HTMLImageElement
             target.src = "/placeholder.svg?height=600&width=800"
           }}
         />
+        {project.featured && (
+          <div className="absolute top-4 left-4 inline-flex items-center gap-1.5 rounded-full bg-background/80 backdrop-blur-sm px-3 py-1 text-xs font-medium text-primary border border-primary/30">
+            <Sparkles className="h-3.5 w-3.5" />
+            {featuredLabel}
+          </div>
+        )}
       </div>
       <CardContent className="p-6 flex-grow">
-        <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
+        <h3 className={`font-semibold mb-2 ${project.featured ? "text-2xl" : "text-xl"}`}>{project.title}</h3>
         <p className="text-foreground/80 mb-4">{project.description}</p>
         <div className="flex flex-wrap gap-2">
           {project.tags.map((tag) => (
-            <span key={tag} className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">
+            <span
+              key={tag}
+              className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full transition-colors duration-300 group-hover:bg-primary/20"
+            >
               {tag}
             </span>
           ))}
@@ -232,6 +171,15 @@ function ProjectCard({ project, viewProject, viewCode, index }: Readonly<Project
             {viewCode}
           </a>
         </Button>
+        {status && (
+          <span className="ml-auto inline-flex items-center gap-1.5 text-xs text-foreground/60">
+            <span
+              className={`h-1.5 w-1.5 rounded-full ${status === "online" ? "bg-emerald-500 animate-pulse" : "bg-muted-foreground/50"}`}
+              aria-hidden="true"
+            />
+            {status === "online" ? statusLabels.online : statusLabels.offline}
+          </span>
+        )}
       </CardFooter>
     </Card>
   )

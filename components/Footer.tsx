@@ -1,11 +1,13 @@
 import type React from "react"
 import Link from "next/link"
 import { Github, Linkedin, Mail } from "lucide-react" /* NOSONAR */
+import { VisitCounter } from "./visit-counter"
 
 interface FooterProps {
   readonly lang: string
   readonly dictionary: {
     readonly rights: string
+    readonly visits: string
   }
 }
 
@@ -33,6 +35,7 @@ export function Footer({ lang, dictionary }: FooterProps) {
           <p>
             &copy; {currentYear} Adrián Martínez. {dictionary.rights}.
           </p>
+          <VisitCounter label={dictionary.visits} />
         </div>
       </div>
     </footer>

@@ -11,8 +11,20 @@
     "portfolio": "Portfolio",
     "contact": "Contacto",
     "tools": "Herramientas",
+    "blog": "Blog",
     "darkMode": "Modo Oscuro",
     "lightMode": "Modo Claro"
+  },
+  "commandPalette": {
+    "title": "Menú de Comandos",
+    "description": "Busca una página o ejecuta un comando.",
+    "placeholder": "Escribe un comando o busca...",
+    "noResults": "No se encontraron resultados.",
+    "groupNavigation": "Navegación",
+    "groupActions": "Acciones",
+    "groupLanguage": "Idioma",
+    "switchToEnglish": "English",
+    "switchToSpanish": "Español"
   },
   "home": {
     "greeting": "Hola, soy",
@@ -166,13 +178,10 @@
     "subtitle": "Mira mis últimos proyectos",
     "viewProject": "Ver Proyecto",
     "viewCode": "Ver Código",
-    "categories": {
-      "all": "Todos",
-      "design": "Diseño",
-      "web": "Web",
-      "system": "Sistemas",
-      "data": "Datos",
-      "game": "Juegos"
+    "featured": "Proyecto Destacado",
+    "status": {
+      "online": "En línea",
+      "offline": "Demo caída"
     },
     "projects": {
       "1": {
@@ -216,6 +225,42 @@
         "description": "Asistente de nutrición impulsado por IA que analiza fotos de alimentos, rastrea la ingesta nutricional y ofrece información sobre la salud utilizando visión por computadora y aprendizaje automático."
       }
     }
+  },
+  "githubActivity": {
+    "title": "Actividad Reciente en GitHub",
+    "subtitle": "En qué he estado trabajando últimamente",
+    "viewProfile": "Ver perfil de GitHub",
+    "empty": "Sin actividad pública reciente.",
+    "opened": "abrió",
+    "closed": "cerró",
+    "events": {
+      "push": "Subió {count} commit(s) a {repo}",
+      "createRepo": "Creó el repositorio {repo}",
+      "createRef": "Creó una rama en {repo}",
+      "pullRequest": "{action} una pull request en {repo}",
+      "issue": "{action} una issue en {repo}",
+      "watch": "Marcó con estrella {repo}",
+      "fork": "Hizo fork de {repo}",
+      "release": "Publicó una release en {repo}",
+      "default": "Actividad en {repo}"
+    }
+  },
+  "konami": {
+    "title": "Modo desarrollador desbloqueado",
+    "lines": [
+      "Logro desbloqueado: Código Konami.",
+      "Has encontrado el easter egg del desarrollador.",
+      "Dato curioso: esta web corre con Next.js, Tailwind y demasiado café.",
+      "Gracias por explorar. Ahora ve a construir algo genial."
+    ],
+    "closeHint": "Pulsa Esc o haz clic en cualquier lugar para cerrar"
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Reflexiones sobre código, seguridad y lo que voy construyendo",
+    "empty": "Aún no hay artículos — vuelve pronto.",
+    "minRead": "min de lectura",
+    "backToBlog": "Volver al blog"
   },
   "contact": {
     "title": "Contáctame",
@@ -280,7 +325,8 @@
     }
   },
   "footer": {
-    "rights": "Todos los derechos reservados"
+    "rights": "Todos los derechos reservados",
+    "visits": "{count} visitas desde el lanzamiento"
   },
   "chat": {
     "title": "Asistente Virtual",

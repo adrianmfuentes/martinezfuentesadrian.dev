@@ -7,10 +7,12 @@ RUN corepack enable
 FROM base AS deps
 WORKDIR /app
 COPY package.json pnpm-lock.yaml .npmrc ./
-# Not --ignore-scripts: sharp (Next.js Image Optimization) needs its install
-# script to fetch its native binary. pnpm's onlyBuiltDependencies allowlist
-# (package.json) still blocks build scripts for every other dependency.
-RUN pnpm install --frozen-lockfile
+# --ignore-scripts blocks lifecycle scripts for the whole dependency tree.
+# sharp (Next.js Image Optimization) still needs its native binary built, so
+# it's rebuilt explicitly afterwards, scoped to just that one package via
+# pnpm's onlyBuiltDependencies allowlist (package.json).
+RUN pnpm install --frozen-lockfile --ignore-scripts \
+  && pnpm rebuild sharp
 
 # ---- Build ----
 FROM base AS builder
@@ -33,6 +35,10 @@ RUN addgroup --system --gid 1001 nodejs \
   && adduser --system --uid 1001 nextjs
 
 COPY --from=builder /app/public ./public
+# Blog markdown is read from disk at request time via fs, not bundled by Next's
+# build trace (which only follows static imports), so it needs a manual copy
+# just like public/.
+COPY --from=builder /app/content ./content
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
