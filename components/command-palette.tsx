@@ -2,8 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react"
 import { useRouter, usePathname } from "next/navigation"
-import { useTheme } from "next-themes"
-import { Home, User, GraduationCap, Briefcase, Wrench, Mail, Newspaper, Sun, Moon, Globe, Search } from "lucide-react"
+import { Home, User, GraduationCap, Briefcase, Wrench, Mail, Newspaper, Globe, Search } from "lucide-react"
 import { Button } from "@components/ui/button"
 import { DialogTitle, DialogDescription } from "@components/ui/dialog"
 import {
@@ -26,8 +25,6 @@ interface CommandPaletteProps {
     contact: string
     tools: string
     blog: string
-    darkMode: string
-    lightMode: string
   }
   commandDictionary: {
     title: string
@@ -35,7 +32,6 @@ interface CommandPaletteProps {
     placeholder: string
     noResults: string
     groupNavigation: string
-    groupActions: string
     groupLanguage: string
     switchToEnglish: string
     switchToSpanish: string
@@ -46,7 +42,6 @@ export function CommandPalette({ lang, dictionary, commandDictionary }: Readonly
   const [open, setOpen] = useState(false)
   const router = useRouter()
   const pathname = usePathname()
-  const { setTheme } = useTheme()
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -114,17 +109,6 @@ export function CommandPalette({ lang, dictionary, commandDictionary }: Readonly
                 {item.label}
               </CommandItem>
             ))}
-          </CommandGroup>
-          <CommandSeparator />
-          <CommandGroup heading={commandDictionary.groupActions}>
-            <CommandItem onSelect={() => { setOpen(false); setTheme("light") }}>
-              <Sun />
-              {dictionary.lightMode}
-            </CommandItem>
-            <CommandItem onSelect={() => { setOpen(false); setTheme("dark") }}>
-              <Moon />
-              {dictionary.darkMode}
-            </CommandItem>
           </CommandGroup>
           <CommandSeparator />
           <CommandGroup heading={commandDictionary.groupLanguage}>

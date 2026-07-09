@@ -10,11 +10,6 @@ vi.mock("next/navigation", () => ({
   useRouter: () => ({ push: mockPush, replace: vi.fn(), refresh: vi.fn() }),
 }))
 
-const mockSetTheme = vi.fn()
-vi.mock("next-themes", () => ({
-  useTheme: () => ({ theme: "light", setTheme: mockSetTheme }),
-}))
-
 const dictionary = {
   home: "Home",
   about: "About",
@@ -23,8 +18,6 @@ const dictionary = {
   contact: "Contact",
   tools: "Tools",
   blog: "Blog",
-  darkMode: "Dark Mode",
-  lightMode: "Light Mode",
 }
 
 const commandDictionary = {
@@ -33,7 +26,6 @@ const commandDictionary = {
   placeholder: "Type a command or search...",
   noResults: "No results found.",
   groupNavigation: "Navigation",
-  groupActions: "Actions",
   groupLanguage: "Language",
   switchToEnglish: "English",
   switchToSpanish: "Español",
@@ -43,7 +35,6 @@ describe("CommandPalette", () => {
   beforeEach(() => {
     mockPathname = "/en"
     mockPush.mockClear()
-    mockSetTheme.mockClear()
     // Radix dialog/cmdk primitives rely on pointer capture and scroll APIs
     // that jsdom does not implement.
     if (!Element.prototype.hasPointerCapture) {
@@ -86,15 +77,6 @@ describe("CommandPalette", () => {
 
     expect(mockPush).toHaveBeenCalledWith("/en/portfolio")
     expect(screen.queryByPlaceholderText(commandDictionary.placeholder)).not.toBeInTheDocument()
-  })
-
-  it("switches theme when a theme action is selected", () => {
-    render(<CommandPalette lang="en" dictionary={dictionary} commandDictionary={commandDictionary} />)
-    fireEvent.keyDown(document, { key: "k", ctrlKey: true })
-
-    fireEvent.click(screen.getByText(dictionary.darkMode))
-
-    expect(mockSetTheme).toHaveBeenCalledWith("dark")
   })
 
   it("switches language while preserving the current path", () => {

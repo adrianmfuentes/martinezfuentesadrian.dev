@@ -74,6 +74,37 @@ function mockFetchOk() {
   return vi.fn().mockResolvedValue({ ok: true, json: async () => ({}) })
 }
 
+function mockFetchFail(error = "Save failed") {
+  return vi.fn().mockResolvedValue({ ok: false, json: async () => ({ error }) })
+}
+
+function mockBlogFetch({
+  posts = [] as Array<{ slug: string; title: string; date: string }>,
+  draft = null as null | Record<string, unknown>,
+} = {}) {
+  return vi.fn().mockImplementation((input: string, init?: RequestInit) => {
+    const url = typeof input === "string" ? input : String(input)
+
+    if (url.startsWith("/api/admin/blog/") && (!init || init.method === undefined)) {
+      const slug = url.slice("/api/admin/blog/".length).split("?")[0]
+      return Promise.resolve({
+        ok: !!draft,
+        json: async () => (draft ? { slug, ...draft } : { error: "Not found" }),
+      })
+    }
+    if (url.startsWith("/api/admin/blog") && (!init || init.method === undefined)) {
+      return Promise.resolve({ ok: true, json: async () => ({ posts }) })
+    }
+    if (url === "/api/admin/blog" && init?.method === "POST") {
+      return Promise.resolve({ ok: true, json: async () => ({ ok: true }) })
+    }
+    if (url === "/api/admin/blog" && init?.method === "DELETE") {
+      return Promise.resolve({ ok: true, json: async () => ({ ok: true }) })
+    }
+    return Promise.resolve({ ok: true, json: async () => ({}) })
+  })
+}
+
 describe("DashboardClient", () => {
   afterEach(() => {
     vi.unstubAllGlobals()
@@ -221,5 +252,97 @@ describe("DashboardClient", () => {
     expect(body.lang).toBe("es")
     expect(body.section).toBe("experience")
     expect(body.data.items[0].title).toBe("Trabajo ES Editado")
+  })
+
+  it("shows an 'Error' state instead of 'Saved' when the save request fails", async () => {
+    vi.stubGlobal("fetch", mockFetchFail("Redis not configured"))
+
+    render(<DashboardClient initialData={makeInitialData()} />)
+    fireEvent.click(screen.getByRole("button", { name: /^save$/i }))
+
+    await waitFor(() => {
+      expect(screen.getByText("Error")).toBeInTheDocument()
+    })
+    expect(screen.queryByText("Saved")).not.toBeInTheDocument()
+  })
+
+  describe("Blog tab", () => {
+    it("lists posts fetched for the active language and creates a new post with an auto-slugified title", async () => {
+      const user = userEvent.setup()
+      const fetchMock = mockBlogFetch({ posts: [{ slug: "existing-post", title: "Existing Post", date: "2026-01-01" }] })
+      vi.stubGlobal("fetch", fetchMock)
+
+      render(<DashboardClient initialData={makeInitialData()} />)
+      await user.click(screen.getByRole("tab", { name: "Blog" }))
+
+      await waitFor(() => {
+        expect(fetchMock).toHaveBeenCalledWith("/api/admin/blog?lang=es")
+      })
+      expect(await screen.findByText("Existing Post")).toBeInTheDocument()
+
+      await user.click(screen.getByRole("button", { name: /new post/i }))
+
+      const titleInput = screen.getByLabelText("Title") as HTMLInputElement
+      fireEvent.change(titleInput, { target: { value: "Mi Nuevo Post" } })
+
+      const slugInput = screen.getByLabelText("Slug") as HTMLInputElement
+      expect(slugInput.value).toBe("mi-nuevo-post")
+
+      fireEvent.click(screen.getByRole("button", { name: /^save$/i }))
+
+      await waitFor(() => {
+        expect(fetchMock).toHaveBeenCalledWith(
+          "/api/admin/blog",
+          expect.objectContaining({ method: "POST" })
+        )
+      })
+
+      const postCall = fetchMock.mock.calls.find(([, init]) => init?.method === "POST")
+      const body = JSON.parse(postCall![1].body)
+      expect(body).toMatchObject({ lang: "es", slug: "mi-nuevo-post", title: "Mi Nuevo Post" })
+      expect(body.originalSlug).toBeUndefined()
+    })
+
+    it("opens an existing post for editing with its stored content prefilled", async () => {
+      const user = userEvent.setup()
+      const fetchMock = mockBlogFetch({
+        posts: [{ slug: "existing-post", title: "Existing Post", date: "2026-01-01" }],
+        draft: { title: "Existing Post", description: "desc", date: "2026-01-01", tags: ["a"], content: "body text" },
+      })
+      vi.stubGlobal("fetch", fetchMock)
+
+      render(<DashboardClient initialData={makeInitialData()} />)
+      await user.click(screen.getByRole("tab", { name: "Blog" }))
+      await screen.findByText("Existing Post")
+
+      await user.click(screen.getByText("Existing Post"))
+
+      expect(await screen.findByDisplayValue("body text")).toBeInTheDocument()
+      expect(screen.getByDisplayValue("Existing Post")).toBeInTheDocument()
+    })
+
+    it("deletes a post after confirming in the alert dialog", async () => {
+      const user = userEvent.setup()
+      const fetchMock = mockBlogFetch({ posts: [{ slug: "existing-post", title: "Existing Post", date: "2026-01-01" }] })
+      vi.stubGlobal("fetch", fetchMock)
+
+      render(<DashboardClient initialData={makeInitialData()} />)
+      await user.click(screen.getByRole("tab", { name: "Blog" }))
+      await screen.findByText("Existing Post")
+
+      const deleteButtons = screen.getAllByRole("button").filter((b) => b.querySelector("svg.lucide-trash2"))
+      fireEvent.click(deleteButtons[0])
+
+      expect(screen.getByText("Delete post?")).toBeInTheDocument()
+
+      fireEvent.click(screen.getByRole("button", { name: /^delete$/i }))
+
+      await waitFor(() => {
+        expect(fetchMock).toHaveBeenCalledWith(
+          "/api/admin/blog",
+          expect.objectContaining({ method: "DELETE", body: JSON.stringify({ lang: "es", slug: "existing-post" }) })
+        )
+      })
+    })
   })
 })

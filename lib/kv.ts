@@ -74,6 +74,61 @@ export async function setContentOverride<T>(
   await redis.set(`content:${lang}:cv:${section}`, data)
 }
 
+export interface BlogPostRecord {
+  slug: string
+  title: string
+  description: string
+  date: string
+  tags: string[]
+  content: string
+}
+
+export type BlogEntry = BlogPostRecord | { deleted: true }
+
+export async function getBlogOverrides(lang: string): Promise<Record<string, BlogEntry>> {
+  const redis = getRedis()
+  if (!redis) return {}
+  try {
+    return (await redis.get<Record<string, BlogEntry>>(`blog:posts:${lang}`)) ?? {}
+  } catch {
+    return {}
+  }
+}
+
+export async function upsertBlogPost(
+  lang: string,
+  slug: string,
+  data: Omit<BlogPostRecord, "slug">
+): Promise<void> {
+  const redis = getRedis()
+  if (!redis) throw new Error("Redis not configured")
+  const map = await getBlogOverrides(lang)
+  map[slug] = { slug, ...data }
+  await redis.set(`blog:posts:${lang}`, map)
+}
+
+export async function deleteBlogPost(lang: string, slug: string): Promise<void> {
+  const redis = getRedis()
+  if (!redis) throw new Error("Redis not configured")
+  const map = await getBlogOverrides(lang)
+  map[slug] = { deleted: true }
+  await redis.set(`blog:posts:${lang}`, map)
+}
+
+export async function renameBlogPost(
+  lang: string,
+  oldSlug: string,
+  newSlug: string,
+  data: Omit<BlogPostRecord, "slug">
+): Promise<void> {
+  const redis = getRedis()
+  if (!redis) throw new Error("Redis not configured")
+  const map = await getBlogOverrides(lang)
+  if (oldSlug !== newSlug) map[oldSlug] = { deleted: true }
+  map[newSlug] = { slug: newSlug, ...data }
+  await redis.set(`blog:posts:${lang}`, map)
+}
+
 export interface CmsOverrides {
   expOverride: unknown
   eduOverride: unknown

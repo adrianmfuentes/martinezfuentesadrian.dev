@@ -11,9 +11,7 @@
     "portfolio": "Portfolio",
     "contact": "Contact",
     "tools": "Tools",
-    "blog": "Blog",
-    "darkMode": "Dark Mode",
-    "lightMode": "Light Mode"
+    "blog": "Blog"
   },
   "commandPalette": {
     "title": "Command Menu",
@@ -21,7 +19,6 @@
     "placeholder": "Type a command or search...",
     "noResults": "No results found.",
     "groupNavigation": "Navigation",
-    "groupActions": "Actions",
     "groupLanguage": "Language",
     "switchToEnglish": "English",
     "switchToSpanish": "Español"

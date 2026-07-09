@@ -16,8 +16,6 @@ interface Dictionary {
     contact: string
     tools: string
     blog: string
-    darkMode: string
-    lightMode: string
   }
   commandPalette: {
     title: string
@@ -25,7 +23,6 @@ interface Dictionary {
     placeholder: string
     noResults: string
     groupNavigation: string
-    groupActions: string
     groupLanguage: string
     switchToEnglish: string
     switchToSpanish: string

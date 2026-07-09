@@ -1,5 +1,8 @@
 const GITHUB_USERNAME = "adrianmfuentes"
 const MAX_ITEMS = 6
+// Caps how many events from a single repo can appear so one actively-pushed
+// repo doesn't crowd out activity from the rest of the user's public repos.
+const MAX_PER_REPO = 2
 
 export type GithubEventType =
   | "PushEvent"
@@ -73,9 +76,32 @@ async function getPushCommitCount(repo: string, before?: string, head?: string):
   }
 }
 
+function selectDiverseEvents<T extends { repo?: { name?: string } }>(events: T[]): T[] {
+  const selected: T[] = []
+  const perRepoCount = new Map<string, number>()
+
+  for (const event of events) {
+    if (selected.length >= MAX_ITEMS) break
+    const repo = event.repo?.name ?? ""
+    const count = perRepoCount.get(repo) ?? 0
+    if (count >= MAX_PER_REPO) continue
+    perRepoCount.set(repo, count + 1)
+    selected.push(event)
+  }
+
+  if (selected.length < MAX_ITEMS) {
+    for (const event of events) {
+      if (selected.length >= MAX_ITEMS) break
+      if (!selected.includes(event)) selected.push(event)
+    }
+  }
+
+  return selected
+}
+
 export async function getGithubActivity(): Promise<GithubActivityItem[]> {
   try {
-    const res = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}/events/public?per_page=20`, {
+    const res = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}/events/public?per_page=100`, {
       headers: githubHeaders(),
       next: { revalidate: 3600 },
     })
@@ -84,9 +110,9 @@ export async function getGithubActivity(): Promise<GithubActivityItem[]> {
     const events: GithubApiEvent[] = await res.json()
     if (!Array.isArray(events)) return []
 
-    const filtered = events
-      .filter((event): event is GithubApiEvent & { type: GithubEventType } => SUPPORTED_TYPES.has(event.type))
-      .slice(0, MAX_ITEMS)
+    const filtered = selectDiverseEvents(
+      events.filter((event): event is GithubApiEvent & { type: GithubEventType } => SUPPORTED_TYPES.has(event.type))
+    )
 
     return await Promise.all(
       filtered.map(async (event) => {
