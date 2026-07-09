@@ -51,40 +51,6 @@ A set of small tools is available under `/tools`, each implemented as its own ro
 
 These tools are meant for personal, authorized use and educational purposes.
 
-## Getting started
-
-Requirements: Node.js 18 or later, and pnpm.
-
-```bash
-pnpm install
-pnpm dev
-```
-
-The site will be available at `http://localhost:3000`.
-
-Other useful commands:
-
-```bash
-pnpm build          # Production build
-pnpm start          # Start the production build
-pnpm lint           # Run ESLint
-pnpm test:emailjs   # Test the EmailJS integration
-```
-
-### Environment variables
-
-The application reads configuration from environment variables at runtime. Copy `.env.example` if present, or set the following as needed:
-
-| Variable | Purpose |
-| --- | --- |
-| `EMAILJS_SERVICE_ID`, `EMAILJS_PUBLIC_KEY`, `EMAILJS_CONTACT_TEMPLATE_ID` | Contact form delivery via EmailJS |
-| `GROQ_API_KEY` | Chat feature |
-| `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` | Rate limiting storage |
-| `ADMIN_SECRET`, `ADMIN_PASSWORD`, `ADMIN_ALLOWED_IPS` | Admin panel authentication and access control |
-| `GITHUB_TOKEN` | Higher rate limits for the GitHub stats API |
-| `SITE_URL` | Base URL used for links and email templates |
-
-None of these are required to browse the site locally, but individual features that depend on them will be disabled or return an error until they are set.
 
 ## Deployment and CI
 
