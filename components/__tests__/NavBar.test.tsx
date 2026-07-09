@@ -11,10 +11,6 @@ vi.mock("next/navigation", () => ({
   useParams: () => ({ lang: "en" }),
 }))
 
-vi.mock("next-themes", () => ({
-  useTheme: () => ({ theme: "light", setTheme: vi.fn() }),
-}))
-
 const dictionary = {
   home: "Home",
   about: "About",
@@ -23,8 +19,6 @@ const dictionary = {
   contact: "Contact",
   tools: "Tools",
   blog: "Blog",
-  darkMode: "Dark Mode",
-  lightMode: "Light Mode",
 }
 
 const commandDictionary = {
@@ -33,7 +27,6 @@ const commandDictionary = {
   placeholder: "Type a command or search...",
   noResults: "No results found.",
   groupNavigation: "Navigation",
-  groupActions: "Actions",
   groupLanguage: "Language",
   switchToEnglish: "English",
   switchToSpanish: "Español",

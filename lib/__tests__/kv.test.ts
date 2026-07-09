@@ -78,6 +78,30 @@ describe("lib/kv", () => {
       const kv = await importKv()
       await expect(kv.incrementVisitCount()).resolves.toBeNull()
     })
+
+    it("getBlogOverrides returns an empty object", async () => {
+      const kv = await importKv()
+      await expect(kv.getBlogOverrides("en")).resolves.toEqual({})
+    })
+
+    it("upsertBlogPost throws", async () => {
+      const kv = await importKv()
+      await expect(
+        kv.upsertBlogPost("en", "slug", { title: "T", description: "", date: "", tags: [], content: "" })
+      ).rejects.toThrow("Redis not configured")
+    })
+
+    it("deleteBlogPost throws", async () => {
+      const kv = await importKv()
+      await expect(kv.deleteBlogPost("en", "slug")).rejects.toThrow("Redis not configured")
+    })
+
+    it("renameBlogPost throws", async () => {
+      const kv = await importKv()
+      await expect(
+        kv.renameBlogPost("en", "old", "new", { title: "T", description: "", date: "", tags: [], content: "" })
+      ).rejects.toThrow("Redis not configured")
+    })
   })
 
   describe("with redis credentials configured", () => {
@@ -165,6 +189,86 @@ describe("lib/kv", () => {
       __incr.mockRejectedValueOnce(new Error("boom"))
 
       await expect(kv.incrementVisitCount()).resolves.toBeNull()
+    })
+
+    it("getBlogOverrides reads the namespaced key", async () => {
+      const kv = await importKv()
+      const { __get } = await importRedisMock()
+      __get.mockResolvedValueOnce({ "my-post": { slug: "my-post", title: "T", description: "", date: "", tags: [], content: "" } })
+
+      const overrides = await kv.getBlogOverrides("en")
+      expect(__get).toHaveBeenCalledWith("blog:posts:en")
+      expect(overrides["my-post"]).toMatchObject({ title: "T" })
+    })
+
+    it("getBlogOverrides returns an empty object when nothing is stored", async () => {
+      const kv = await importKv()
+      const { __get } = await importRedisMock()
+      __get.mockResolvedValueOnce(null)
+
+      await expect(kv.getBlogOverrides("en")).resolves.toEqual({})
+    })
+
+    it("getBlogOverrides returns an empty object on redis error", async () => {
+      const kv = await importKv()
+      const { __get } = await importRedisMock()
+      __get.mockRejectedValueOnce(new Error("boom"))
+
+      await expect(kv.getBlogOverrides("en")).resolves.toEqual({})
+    })
+
+    it("upsertBlogPost merges the new post into the existing map and writes it back", async () => {
+      const kv = await importKv()
+      const { __get, __set } = await importRedisMock()
+      __get.mockResolvedValueOnce({ existing: { slug: "existing", title: "Old", description: "", date: "", tags: [], content: "" } })
+
+      const data = { title: "New", description: "d", date: "2026-01-01", tags: ["a"], content: "body" }
+      await kv.upsertBlogPost("es", "new-post", data)
+
+      expect(__set).toHaveBeenCalledWith("blog:posts:es", {
+        existing: { slug: "existing", title: "Old", description: "", date: "", tags: [], content: "" },
+        "new-post": { slug: "new-post", ...data },
+      })
+    })
+
+    it("deleteBlogPost marks the slug as deleted without removing other entries", async () => {
+      const kv = await importKv()
+      const { __get, __set } = await importRedisMock()
+      __get.mockResolvedValueOnce({ keep: { slug: "keep", title: "Keep", description: "", date: "", tags: [], content: "" } })
+
+      await kv.deleteBlogPost("en", "gone")
+
+      expect(__set).toHaveBeenCalledWith("blog:posts:en", {
+        keep: { slug: "keep", title: "Keep", description: "", date: "", tags: [], content: "" },
+        gone: { deleted: true },
+      })
+    })
+
+    it("renameBlogPost marks the old slug deleted and writes the new one", async () => {
+      const kv = await importKv()
+      const { __get, __set } = await importRedisMock()
+      __get.mockResolvedValueOnce({})
+
+      const data = { title: "Renamed", description: "", date: "", tags: [], content: "body" }
+      await kv.renameBlogPost("en", "old-slug", "new-slug", data)
+
+      expect(__set).toHaveBeenCalledWith("blog:posts:en", {
+        "old-slug": { deleted: true },
+        "new-slug": { slug: "new-slug", ...data },
+      })
+    })
+
+    it("renameBlogPost skips marking the old slug deleted when the slug is unchanged", async () => {
+      const kv = await importKv()
+      const { __get, __set } = await importRedisMock()
+      __get.mockResolvedValueOnce({})
+
+      const data = { title: "Same", description: "", date: "", tags: [], content: "body" }
+      await kv.renameBlogPost("en", "same-slug", "same-slug", data)
+
+      expect(__set).toHaveBeenCalledWith("blog:posts:en", {
+        "same-slug": { slug: "same-slug", ...data },
+      })
     })
   })
 })

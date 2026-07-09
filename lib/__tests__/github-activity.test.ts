@@ -116,4 +116,34 @@ describe("getGithubActivity", () => {
 
     expect(result).toEqual([])
   })
+
+  it("caps events per repo so one active repo doesn't crowd out others", async () => {
+    const floodedRepoEvents = Array.from({ length: 5 }, (_, i) => ({
+      id: `flood-${i}`,
+      type: "WatchEvent",
+      created_at: "2026-01-05T00:00:00Z",
+      repo: { name: "adrianmfuentes/portfolio" },
+      payload: {},
+    }))
+    const otherRepoEvents = [
+      { id: "a", type: "WatchEvent", created_at: "2026-01-04T00:00:00Z", repo: { name: "adrianmfuentes/foo" }, payload: {} },
+      { id: "b", type: "WatchEvent", created_at: "2026-01-03T00:00:00Z", repo: { name: "adrianmfuentes/bar" }, payload: {} },
+      { id: "c", type: "WatchEvent", created_at: "2026-01-02T00:00:00Z", repo: { name: "adrianmfuentes/baz" }, payload: {} },
+      { id: "d", type: "WatchEvent", created_at: "2026-01-01T00:00:00Z", repo: { name: "adrianmfuentes/qux" }, payload: {} },
+    ]
+
+    global.fetch = vi.fn().mockResolvedValue({
+      ok: true,
+      json: async () => [...floodedRepoEvents, ...otherRepoEvents],
+    }) as unknown as typeof fetch
+
+    const result = await getGithubActivity()
+
+    expect(result).toHaveLength(6)
+    const floodedCount = result.filter((item) => item.repo === "adrianmfuentes/portfolio").length
+    expect(floodedCount).toBe(2)
+    expect(result.map((item) => item.repo)).toEqual(
+      expect.arrayContaining(["adrianmfuentes/foo", "adrianmfuentes/bar", "adrianmfuentes/baz", "adrianmfuentes/qux"])
+    )
+  })
 })

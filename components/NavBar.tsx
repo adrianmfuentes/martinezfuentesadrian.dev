@@ -18,8 +18,6 @@ interface NavbarProps {
     contact: string
     tools: string
     blog: string
-    darkMode: string
-    lightMode: string
   }
   commandDictionary: {
     title: string
@@ -27,7 +25,6 @@ interface NavbarProps {
     placeholder: string
     noResults: string
     groupNavigation: string
-    groupActions: string
     groupLanguage: string
     switchToEnglish: string
     switchToSpanish: string
