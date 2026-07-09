@@ -411,6 +411,27 @@
         "description": "Herramienta para descubrir rutas y directorios ocultos en un servidor web",
         "category": "analysis",
         "status": "available"
+      },
+      {
+        "id": "jwt-decoder",
+        "name": "Decodificador y Validador de JWT",
+        "description": "Herramienta para decodificar JSON Web Tokens y verificar firmas HS256 localmente en tu navegador",
+        "category": "development",
+        "status": "available"
+      },
+      {
+        "id": "dns-lookup",
+        "name": "Consulta DNS",
+        "description": "Herramienta para consultar registros A, AAAA, MX, TXT, NS y CNAME de un dominio",
+        "category": "networking",
+        "status": "available"
+      },
+      {
+        "id": "hash-generator",
+        "name": "Generador de Hashes",
+        "description": "Herramienta para generar hashes MD5, SHA-1, SHA-256 y SHA-512 de texto o ficheros",
+        "category": "development",
+        "status": "available"
       }
     ]
   },
@@ -616,5 +637,77 @@
     "veryStrong": "Muy Fuerte",
     "show": "Mostrar",
     "hide": "Ocultar"
+  },
+  "jwtDecoder": {
+    "title": "Decodificador y Validador de JWT",
+    "description": "Decodifica JSON Web Tokens y verifica firmas HS256. Todo se ejecuta localmente en tu navegador, nada se envía a ningún servidor.",
+    "tokenLabel": "JSON Web Token",
+    "tokenPlaceholder": "Pega aquí tu JWT (header.payload.signature)...",
+    "decodeButton": "Decodificar Token",
+    "resetButton": "Decodificar Otro Token",
+    "secretLabel": "Verificar Firma (opcional)",
+    "secretPlaceholder": "Introduce el secreto HS256...",
+    "verifyButton": "Verificar Firma",
+    "header": "Header",
+    "payload": "Payload",
+    "copy": "Copiar",
+    "copied": "¡Copiado!",
+    "expiryStatus": {
+      "valid": "Válido",
+      "expired": "Expirado",
+      "notYetValid": "Aún no es válido",
+      "noExpiry": "Sin expiración"
+    },
+    "signatureStatus": {
+      "valid": "La firma es válida",
+      "invalid": "La firma no es válida",
+      "unsupported": "Solo se admite verificación de firmas HS256"
+    },
+    "errors": {
+      "invalidToken": "JWT inválido. Asegúrate de que tenga tres partes separadas por puntos.",
+      "emptyToken": "Pega un JWT para decodificarlo"
+    }
+  },
+  "dnsLookup": {
+    "title": "Consulta DNS",
+    "description": "Consulta registros A, AAAA, MX, TXT, NS y CNAME de cualquier dominio.",
+    "domainLabel": "Dominio",
+    "domainPlaceholder": "ejemplo.com",
+    "lookupButton": "Consultar Registros",
+    "lookingUp": "Consultando...",
+    "resetButton": "Consultar Otro Dominio",
+    "recordTypes": {
+      "A": "A (IPv4)",
+      "AAAA": "AAAA (IPv6)",
+      "MX": "MX (Servidor de Correo)",
+      "TXT": "TXT (Texto)",
+      "NS": "NS (Servidor de Nombres)",
+      "CNAME": "CNAME (Nombre Canónico)"
+    },
+    "noRecords": "No se encontraron registros",
+    "errors": {
+      "invalidDomain": "Introduce un nombre de dominio válido",
+      "lookupError": "La consulta ha fallado. Inténtalo de nuevo.",
+      "rateLimited": "Demasiadas peticiones. Inténtalo de nuevo más tarde."
+    }
+  },
+  "hashGenerator": {
+    "title": "Generador de Hashes",
+    "description": "Genera hashes MD5, SHA-1, SHA-256 y SHA-512 de texto o ficheros. Todo se ejecuta localmente en tu navegador.",
+    "textTab": "Texto",
+    "fileTab": "Fichero",
+    "textLabel": "Texto de entrada",
+    "textPlaceholder": "Escribe o pega el texto a hashear...",
+    "fileLabel": "Fichero de entrada",
+    "filePlaceholder": "Haz clic para seleccionar un fichero",
+    "generateButton": "Generar Hashes",
+    "generating": "Generando...",
+    "resetButton": "Generar Otro",
+    "copy": "Copiar",
+    "copied": "¡Copiado!",
+    "errors": {
+      "empty": "Introduce algo de texto para hashear",
+      "fileTooLarge": "El fichero es demasiado grande. El tamaño máximo es 25MB."
+    }
   }
 }
