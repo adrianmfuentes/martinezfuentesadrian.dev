@@ -411,6 +411,27 @@
         "description": "Tool for discovering hidden paths and directories on a web server",
         "category": "analysis",
         "status": "available"
+      },
+      {
+        "id": "jwt-decoder",
+        "name": "JWT Decoder & Validator",
+        "description": "Tool for decoding JSON Web Tokens and verifying HS256 signatures locally in your browser",
+        "category": "development",
+        "status": "available"
+      },
+      {
+        "id": "dns-lookup",
+        "name": "DNS Lookup",
+        "description": "Tool for querying A, AAAA, MX, TXT, NS and CNAME records of a domain",
+        "category": "networking",
+        "status": "available"
+      },
+      {
+        "id": "hash-generator",
+        "name": "Hash & Checksum Generator",
+        "description": "Tool for generating MD5, SHA-1, SHA-256 and SHA-512 hashes of text or files",
+        "category": "development",
+        "status": "available"
       }
     ]
   },
@@ -616,5 +637,77 @@
     "veryStrong": "Very Strong",
     "show": "Show",
     "hide": "Hide"
+  },
+  "jwtDecoder": {
+    "title": "JWT Decoder & Validator",
+    "description": "Decode JSON Web Tokens and verify HS256 signatures. Everything runs locally in your browser — nothing is sent to a server.",
+    "tokenLabel": "JSON Web Token",
+    "tokenPlaceholder": "Paste your JWT here (header.payload.signature)...",
+    "decodeButton": "Decode Token",
+    "resetButton": "Decode Another Token",
+    "secretLabel": "Verify Signature (optional)",
+    "secretPlaceholder": "Enter the HS256 secret...",
+    "verifyButton": "Verify Signature",
+    "header": "Header",
+    "payload": "Payload",
+    "copy": "Copy",
+    "copied": "Copied!",
+    "expiryStatus": {
+      "valid": "Valid",
+      "expired": "Expired",
+      "notYetValid": "Not yet valid",
+      "noExpiry": "No expiration"
+    },
+    "signatureStatus": {
+      "valid": "Signature is valid",
+      "invalid": "Signature is invalid",
+      "unsupported": "Only HS256 signature verification is supported"
+    },
+    "errors": {
+      "invalidToken": "Invalid JWT. Make sure it has three dot-separated parts.",
+      "emptyToken": "Please paste a JWT to decode"
+    }
+  },
+  "dnsLookup": {
+    "title": "DNS Lookup",
+    "description": "Query A, AAAA, MX, TXT, NS and CNAME records for any domain.",
+    "domainLabel": "Domain",
+    "domainPlaceholder": "example.com",
+    "lookupButton": "Lookup Records",
+    "lookingUp": "Looking up...",
+    "resetButton": "Lookup Another Domain",
+    "recordTypes": {
+      "A": "A (IPv4)",
+      "AAAA": "AAAA (IPv6)",
+      "MX": "MX (Mail Exchange)",
+      "TXT": "TXT (Text)",
+      "NS": "NS (Name Server)",
+      "CNAME": "CNAME (Canonical Name)"
+    },
+    "noRecords": "No records found",
+    "errors": {
+      "invalidDomain": "Please enter a valid domain name",
+      "lookupError": "Lookup failed. Please try again.",
+      "rateLimited": "Too many requests. Please try again later."
+    }
+  },
+  "hashGenerator": {
+    "title": "Hash & Checksum Generator",
+    "description": "Generate MD5, SHA-1, SHA-256 and SHA-512 hashes of text or files. Everything runs locally in your browser.",
+    "textTab": "Text",
+    "fileTab": "File",
+    "textLabel": "Text input",
+    "textPlaceholder": "Type or paste text to hash...",
+    "fileLabel": "File input",
+    "filePlaceholder": "Click to select a file",
+    "generateButton": "Generate Hashes",
+    "generating": "Generating...",
+    "resetButton": "Generate Another",
+    "copy": "Copy",
+    "copied": "Copied!",
+    "errors": {
+      "empty": "Please enter some text to hash",
+      "fileTooLarge": "File is too large. Maximum size is 25MB."
+    }
   }
 }
