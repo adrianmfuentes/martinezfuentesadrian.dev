@@ -20,6 +20,7 @@ vi.mock("framer-motion", () => {
   return {
     motion: new Proxy({}, { get: (_, tag: string) => passthrough(tag) }),
     AnimatePresence: ({ children }: any) => children,
+    useReducedMotion: () => false,
   }
 })
 

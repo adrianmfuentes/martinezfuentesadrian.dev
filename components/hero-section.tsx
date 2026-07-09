@@ -5,6 +5,7 @@ import { Button } from "@components/ui/button"
 import { ArrowRight, Code2, BookOpen, Target, GitBranch } from "lucide-react"
 import { motion } from "framer-motion"
 import { useState, useEffect } from "react"
+import { FloatingShape, CursorGlow } from "@components/decorative-fx"
 
 interface HeroSectionProps {
   readonly dictionary: {
@@ -25,25 +26,6 @@ interface HeroSectionProps {
   readonly cvLabel: string
 }
 
-const FloatingShape = ({ delay, duration, x, y, size }: { delay: number; duration: number; x: number; y: number; size: string }) => (
-  <motion.div
-    className={`absolute ${size} rounded-full blur-3xl opacity-20 pointer-events-none`}
-    style={{
-      background: "radial-gradient(circle, var(--color-primary) 0%, transparent 70%)",
-    }}
-    animate={{
-      x: [0, x, 0],
-      y: [0, y, 0],
-    }}
-    transition={{
-      delay,
-      duration,
-      repeat: 1,
-      ease: "easeInOut",
-    }}
-  />
-)
-
 const StatCard = ({ label, value, icon: Icon, delay, smallValue }: { label: string; value: string; icon: React.ReactNode; delay: number; smallValue?: boolean }) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
@@ -57,17 +39,6 @@ const StatCard = ({ label, value, icon: Icon, delay, smallValue }: { label: stri
     </div>
     <p className={`font-bold text-primary text-center break-words leading-tight ${smallValue ? "text-xs sm:text-base" : "text-sm sm:text-2xl"}`}>{value}</p>
   </motion.div>
-)
-
-const CursorGlow = ({ mousePosition }: { mousePosition: { x: number; y: number } }) => (
-  <motion.div
-    className="pointer-events-none fixed h-96 w-96 rounded-full bg-primary/5 blur-3xl"
-    animate={{
-      x: mousePosition.x - 192,
-      y: mousePosition.y - 192,
-    }}
-    transition={{ type: "spring", damping: 40, stiffness: 300 }}
-  />
 )
 
 export function HeroSection({ dictionary, stats, lang, contactLabel, cvLabel }: HeroSectionProps) {
