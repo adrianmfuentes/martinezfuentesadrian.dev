@@ -179,7 +179,7 @@ function bufferToHex(buffer: ArrayBuffer): string {
 
 async function computeHashes(bytes: Uint8Array<ArrayBuffer>): Promise<Record<HashAlgorithm, string>> {
   const [sha1, sha256, sha512] = await Promise.all([
-    crypto.subtle.digest("SHA-1", bytes),
+    crypto.subtle.digest("SHA-1", bytes), // NOSONAR typescript:S4790 -- checksum utility output, not used for security (passwords/signing)
     crypto.subtle.digest("SHA-256", bytes),
     crypto.subtle.digest("SHA-512", bytes),
   ])
