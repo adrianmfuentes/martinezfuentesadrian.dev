@@ -473,6 +473,78 @@ interface Dictionary {
     show: string
     hide: string
   }
+  jwtDecoder: {
+    title: string
+    description: string
+    tokenLabel: string
+    tokenPlaceholder: string
+    decodeButton: string
+    resetButton: string
+    secretLabel: string
+    secretPlaceholder: string
+    verifyButton: string
+    header: string
+    payload: string
+    copy: string
+    copied: string
+    expiryStatus: {
+      valid: string
+      expired: string
+      notYetValid: string
+      noExpiry: string
+    }
+    signatureStatus: {
+      valid: string
+      invalid: string
+      unsupported: string
+    }
+    errors: {
+      invalidToken: string
+      emptyToken: string
+    }
+  }
+  dnsLookup: {
+    title: string
+    description: string
+    domainLabel: string
+    domainPlaceholder: string
+    lookupButton: string
+    lookingUp: string
+    resetButton: string
+    recordTypes: {
+      A: string
+      AAAA: string
+      MX: string
+      TXT: string
+      NS: string
+      CNAME: string
+    }
+    noRecords: string
+    errors: {
+      invalidDomain: string
+      lookupError: string
+      rateLimited: string
+    }
+  }
+  hashGenerator: {
+    title: string
+    description: string
+    textTab: string
+    fileTab: string
+    textLabel: string
+    textPlaceholder: string
+    fileLabel: string
+    filePlaceholder: string
+    generateButton: string
+    generating: string
+    resetButton: string
+    copy: string
+    copied: string
+    errors: {
+      empty: string
+      fileTooLarge: string
+    }
+  }
 }
 
 const dictionaries: Record<string, () => Promise<Dictionary>> = {

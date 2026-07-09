@@ -177,7 +177,7 @@ function bufferToHex(buffer: ArrayBuffer): string {
     .join("")
 }
 
-async function computeHashes(bytes: Uint8Array): Promise<Record<HashAlgorithm, string>> {
+async function computeHashes(bytes: Uint8Array<ArrayBuffer>): Promise<Record<HashAlgorithm, string>> {
   const [sha1, sha256, sha512] = await Promise.all([
     crypto.subtle.digest("SHA-1", bytes),
     crypto.subtle.digest("SHA-256", bytes),
