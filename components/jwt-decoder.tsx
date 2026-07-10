@@ -61,10 +61,10 @@ type ExpiryState = "valid" | "expired" | "notYetValid" | "noExpiry"
 type SignatureState = "unknown" | "valid" | "invalid" | "unsupported"
 
 function base64UrlDecode(input: string): string {
-  const base64 = input.replace(/-/g, "+").replace(/_/g, "/")
+  const base64 = input.replaceAll("-", "+").replaceAll("_", "/")
   const padded = base64.padEnd(base64.length + ((4 - (base64.length % 4)) % 4), "=")
   const binary = atob(padded)
-  const bytes = Uint8Array.from(binary, (c) => c.charCodeAt(0))
+  const bytes = Uint8Array.from(binary, (c) => c.codePointAt(0) ?? 0)
   return new TextDecoder("utf-8").decode(bytes)
 }
 
@@ -87,8 +87,8 @@ function decodeJwt(token: string): DecodedJwt {
 function arrayBufferToBase64Url(buffer: ArrayBuffer): string {
   const bytes = new Uint8Array(buffer)
   let binary = ""
-  bytes.forEach((b) => (binary += String.fromCharCode(b)))
-  return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "")
+  bytes.forEach((b) => (binary += String.fromCodePoint(b)))
+  return btoa(binary).replaceAll("+", "-").replaceAll("/", "_").replaceAll("=", "")
 }
 
 async function verifyHs256(signingInput: string, signature: string, secret: string): Promise<boolean> {
@@ -181,6 +181,14 @@ export function JwtDecoder({ dictionary }: Readonly<JwtDecoderProps>) {
       case "notYetValid": return "bg-yellow-500/20 text-yellow-400 border-yellow-500/30"
       case "valid": return "bg-green-500/20 text-green-400 border-green-500/30"
       default: return "bg-gray-500/20 text-gray-400 border-gray-500/30"
+    }
+  }
+
+  const getSignatureBannerClass = (state: SignatureState) => {
+    switch (state) {
+      case "valid": return "bg-green-900/30 border-green-500/30 text-green-400"
+      case "invalid": return "bg-red-900/30 border-red-500/30 text-red-400"
+      default: return "bg-gray-900/30 border-gray-500/30 text-gray-400"
     }
   }
 
@@ -328,13 +336,7 @@ export function JwtDecoder({ dictionary }: Readonly<JwtDecoderProps>) {
 
                 {signatureState !== "unknown" && (
                   <div
-                    className={`flex items-center text-xs sm:text-sm p-2 sm:p-3 rounded-lg border ${
-                      signatureState === "valid"
-                        ? "bg-green-900/30 border-green-500/30 text-green-400"
-                        : signatureState === "invalid"
-                        ? "bg-red-900/30 border-red-500/30 text-red-400"
-                        : "bg-gray-900/30 border-gray-500/30 text-gray-400"
-                    }`}
+                    className={`flex items-center text-xs sm:text-sm p-2 sm:p-3 rounded-lg border ${getSignatureBannerClass(signatureState)}`}
                   >
                     {signatureState === "valid" && <CheckCircle2 className="w-4 h-4 mr-2 flex-shrink-0" />}
                     {signatureState === "invalid" && <XCircle className="w-4 h-4 mr-2 flex-shrink-0" />}
