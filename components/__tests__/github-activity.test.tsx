@@ -82,4 +82,62 @@ describe("GithubActivity", () => {
       "https://github.com/adrianmfuentes/SVAES"
     )
   })
+
+  it("describes a repository-creation event", () => {
+    const item: GithubActivityItem = {
+      ...baseItem,
+      id: "3",
+      type: "CreateEvent",
+      refType: "repository",
+    }
+    render(<GithubActivity lang="en" items={[item]} dictionary={dictionary} />)
+    expect(screen.getByText("Created repository adrianmfuentes/SVAES")).toBeInTheDocument()
+  })
+
+  it("describes a non-repository create event (e.g. a branch) differently", () => {
+    const item: GithubActivityItem = {
+      ...baseItem,
+      id: "4",
+      type: "CreateEvent",
+      refType: "branch",
+    }
+    render(<GithubActivity lang="en" items={[item]} dictionary={dictionary} />)
+    expect(screen.getByText("Created a branch in adrianmfuentes/SVAES")).toBeInTheDocument()
+  })
+
+  it("describes an issue event using the action label", () => {
+    const item: GithubActivityItem = {
+      ...baseItem,
+      id: "5",
+      type: "IssuesEvent",
+      action: "opened",
+    }
+    render(<GithubActivity lang="en" items={[item]} dictionary={dictionary} />)
+    expect(screen.getByText("opened an issue in adrianmfuentes/SVAES")).toBeInTheDocument()
+  })
+
+  it("describes a watch (star) event", () => {
+    const item: GithubActivityItem = { ...baseItem, id: "6", type: "WatchEvent" }
+    render(<GithubActivity lang="en" items={[item]} dictionary={dictionary} />)
+    expect(screen.getByText("Starred adrianmfuentes/SVAES")).toBeInTheDocument()
+  })
+
+  it("describes a fork event", () => {
+    const item: GithubActivityItem = { ...baseItem, id: "7", type: "ForkEvent" }
+    render(<GithubActivity lang="en" items={[item]} dictionary={dictionary} />)
+    expect(screen.getByText("Forked adrianmfuentes/SVAES")).toBeInTheDocument()
+  })
+
+  it("describes a release event", () => {
+    const item: GithubActivityItem = { ...baseItem, id: "8", type: "ReleaseEvent" }
+    render(<GithubActivity lang="en" items={[item]} dictionary={dictionary} />)
+    expect(screen.getByText("Published a release in adrianmfuentes/SVAES")).toBeInTheDocument()
+  })
+
+  it("uses the Spanish date-fns locale when lang is 'es'", () => {
+    const item: GithubActivityItem = { ...baseItem, id: "9" }
+    render(<GithubActivity lang="es" items={[item]} dictionary={dictionary} />)
+    // date-fns/locale es renders relative time with "hace" (ago); en renders "ago"
+    expect(screen.getByText(/hace/)).toBeInTheDocument()
+  })
 })

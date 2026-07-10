@@ -1,6 +1,7 @@
 import "server-only"
 import { cache } from "react"
 import { getCachedCmsOverrides, computeExperienceLabel } from "@/lib/kv"
+import { computeYearsStudyingLabel, computeEducationPeriod, computeDegreeStatusLabel } from "@/lib/academic"
 
 interface Dictionary {
   metadata: {
@@ -555,11 +556,19 @@ const dictionaries: Record<string, () => Promise<Dictionary>> = {
 export const getDictionary = cache(async (locale: "en" | "es"): Promise<Dictionary> => {
   const base = await dictionaries[locale]()
 
+  base.home.subtitle = computeDegreeStatusLabel(locale)
+  base.about.stats.yearsStudying = computeYearsStudyingLabel(locale)
+  base.about.education.period = computeEducationPeriod(locale)
+
   try {
     const { expOverride, eduOverride, certOverride, counter } = await getCachedCmsOverrides(locale)
 
     if (expOverride) base.cv.experience = expOverride as Dictionary["cv"]["experience"]
-    if (eduOverride) base.cv.education = eduOverride as Dictionary["cv"]["education"]
+    if (eduOverride) {
+      base.cv.education = eduOverride as Dictionary["cv"]["education"]
+    } else if (base.cv.education.items[0]) {
+      base.cv.education.items[0].period = computeEducationPeriod(locale)
+    }
     if (certOverride) base.cv.certifications = certOverride as Dictionary["cv"]["certifications"]
 
     if (counter.autoIncrement && counter.startDate) {
