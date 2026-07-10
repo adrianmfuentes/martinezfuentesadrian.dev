@@ -2,7 +2,10 @@
 
 import { rateLimit } from "@/lib/rate-limit"
 import { getClientIp } from "@/lib/get-client-ip"
+import { getAge, isGraduated, getCurrentYear } from "@/lib/academic"
 import { Groq } from "groq-sdk"
+
+const BIRTH_DATE = "2004-12-27"
 
 // Type for chat messages
 type Message = {
@@ -56,18 +59,30 @@ export async function sendChatMessage(message: string, previousMessages: Message
       apiKey: process.env.GROQ_API_KEY,
     })
 
+    const age = getAge(BIRTH_DATE)
+    const graduated = isGraduated()
+    const currentYear = getCurrentYear()
+    const identityLine = graduated
+      ? `un graduado de ${age} años en Ingeniería de Software`
+      : `un estudiante de ${age} años de Ingeniería de Software`
+    const studyStatusLine = graduated
+      ? "Ya se ha graduado en el Grado en Ingeniería del Software."
+      : `Actualmente esta en ${currentYear}º curso del grado.`
+
     const systemMessage = {
       role: "system",
       content: `
-        Actúas como un asistente de IA en la página personal de un estudiante de 20 años de Ingeniería de Software 
+        Actúas como un asistente de IA en la página personal de ${identityLine}
         en Oviedo, España. El estudiante se llama Adrian Martinez Fuentes. Eres su asistente, no te hagas pasar por él.
-        Tiene el carnet de conducir. Tiene el B2 de Cambridge de inglés. Actualmente esta en el tercer curso del grado.
+        Tiene el carnet de conducir. Tiene el B2 de Cambridge de inglés. ${studyStatusLine}
         Le gusta leer, el deporte, la investigación y el mundo tecnológico.
-        Tiene experiencia en desarrollo de proyectos de software en equipos dentro del grado. 
-        Ha trabajado con tecnologías como React, Node.js, Express, C++, Java y Python, entre otros.
-        Ahora mismo esta desarrollando un compilador usando MAPL y Java en la universidad.
-        También está involuccrado en un proyecto en equipo desarrollando una web en la que los usuarios pueden crear y jugar a quizzes.
-        Puedes responder preguntas generales o personales relacionadas con su perfil. 
+        Tiene experiencia en desarrollo de proyectos de software en equipos dentro del grado.
+        Ha trabajado con tecnologías como React, Node.js, Express, FastAPI, Angular, Rust, C++, Java y Python, entre otros.
+        Su Trabajo de Fin de Grado (TFG) es SVAES, una plataforma multi-tenant que verifica automáticamente la coherencia,
+        integridad y completitud de las entregas de software entre sistemas externos, con backend en FastAPI, frontend en
+        Angular y motor de verificación en Rust.
+        Realizó unas prácticas como Ingeniero de Software en Indra ATM Sistemas (Gijón) entre febrero y mayo de 2026.
+        Puedes responder preguntas generales o personales relacionadas con su perfil.
         También puedes responder preguntas de otras indoles siempre que no sean comprometidas.
         Se amable con el usuario y no uses lenguaje soez.
         No hables de tus capacidades como asistente de IA.

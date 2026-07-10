@@ -8,6 +8,7 @@ import backgroundImage from '../public/images/me.jpeg';
 import { Rocket, Lightbulb, Users, Zap, BookOpen, Award, ArrowRight } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@components/ui/button"
+import { getAge } from "@/lib/academic"
 
 interface AboutSectionProps {
   readonly dictionary: {
@@ -53,20 +54,6 @@ interface AboutSectionProps {
 }
 
 const MotionCard = motion.create(Card)
-
-function getAge(birthDate: string): number {
-  const today = new Date();
-  const birth = new Date(birthDate);
-  let age = today.getFullYear() - birth.getFullYear();
-  const monthDifference = today.getMonth() - birth.getMonth();
-
-  if (monthDifference < 0 || 
-    (monthDifference === 0 && today.getDate() < birth.getDate())) {
-    age--;
-  }
-
-  return age;
-}
 
 const bioIcons = [Rocket, Lightbulb, Users, Zap];
 
