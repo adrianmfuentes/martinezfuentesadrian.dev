@@ -10,6 +10,13 @@ const PROGRAM_YEARS = 4
 // Day after the TFG defense window (2026-07-20 to 2026-07-24).
 const GRADUATION_DATE = "2026-07-25"
 
+function ordinalSuffix(year: number): string {
+  if (year === 1) return "st"
+  if (year === 2) return "nd"
+  if (year === 3) return "rd"
+  return "th"
+}
+
 function monthsBetween(startDate: string, endDate: Date): number {
   const start = new Date(startDate)
   return Math.max(0, (endDate.getFullYear() - start.getFullYear()) * 12 + (endDate.getMonth() - start.getMonth()))
@@ -61,6 +68,5 @@ export function computeDegreeStatusLabel(locale: Locale, referenceDate: Date = n
 
   if (locale === "es") return `Estudiante de ${year}º de Ingeniería del Software`
 
-  const suffix = year === 1 ? "st" : year === 2 ? "nd" : year === 3 ? "rd" : "th"
-  return `${year}${suffix}-Year Software Engineering Student`
+  return `${year}${ordinalSuffix(year)}-Year Software Engineering Student`
 }
