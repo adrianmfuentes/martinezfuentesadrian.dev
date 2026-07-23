@@ -1,8 +1,8 @@
 {
   "metadata": {
-    "title": "Adrián Martínez | Software Engineering Student",
-    "description": "Personal portfolio of Adrián Martínez, Software Engineering student specializing in web development and software architecture",
-    "keywords": "software engineering, web development, portfolio, student, programming"
+    "title": "Adrián Martínez | Software Engineer",
+    "description": "Personal portfolio of Adrián Martínez, Software Engineer who graduated with a 10/10 on his final degree project, specializing in web development and software architecture",
+    "keywords": "software engineering, web development, portfolio, software engineer, programming"
   },
   "navigation": {
     "home": "Home",
@@ -26,7 +26,7 @@
   "home": {
     "greeting": "Hello, I'm",
     "title": "Adrián Martínez",
-    "subtitle": "Software Engineering Student",
+    "subtitle": "Software Engineering Graduate",
     "cta": "View My Work"
   },
   "about": {
@@ -41,7 +41,7 @@
       "techstack": "Java · Python · React"
     },
     "bio": [
-      "I am a {age}-year-old software engineering student based in Oviedo, Spain. My profile is focused on software engineering, with the main goal of developing high-quality solutions, implementing the best security practices in the process.",
+      "I am a {age}-year-old Software Engineer, graduated from the University of Oviedo after defending my final degree project (SVAES) with a 10/10, based in Oviedo, Spain. My profile is focused on software engineering, with the main goal of developing high-quality solutions, implementing the best security practices in the process.",
       "I have gained valuable experience through various projects, both individual and collaborative, which have strengthened my skills in different areas.",
       "I consider myself a proactive person, with problem-solving skills and a commitment to continuous learning. I enjoy teamwork and strive to contribute significantly to the projects I am involved in.",
       "In my free time, I keep up to date with the latest trends within the industry. I also enjoy reading, sports, and exploring new cultures through travel."
@@ -100,6 +100,7 @@
               "Learning about the basic concepts of computer science, including programming, algorithms, data structures, operating systems, networks and databases.",
               "Immersion in web development, software architecture and cybersecurity.",
               "Elective: Computer Forensics and Auditing.",
+              "Final Degree Project (TFG): SVAES – Automated Release Validation System – Grade: 10/10.",
               "Participation in practical projects and collaborative efforts that have strengthened my technical skills and teamwork abilities."
           ]
         },
@@ -266,7 +267,7 @@
     "commands": {
       "help": "Available commands: help, whoami, about, skills, ls, cd <page>, theme <light|dark>, matrix, sudo, date, echo <text>, clear, exit",
       "whoami": "guest -- just someone curious enough to find this.",
-      "about": "Adrian Martinez Fuentes -- software engineering student who builds things and occasionally breaks them on purpose.",
+      "about": "Adrian Martinez Fuentes -- software engineer graduate (SVAES thesis, 10/10) who builds things and occasionally breaks them on purpose.",
       "skills": "TypeScript, React, Next.js, Node.js, a growing interest in security, and relentless curiosity.",
       "ls": "about  cv  portfolio  tools  blog  contact",
       "sudo": "Permission denied: nice try.",

@@ -1,8 +1,8 @@
 {
   "metadata": {
-    "title": "Adrián Martínez | Ingeniería Informática",
-    "description": "Portfolio personal de Adrián Martínez, estudiante de Ingeniería Informática especializado en desarrollo web y arquitectura de software",
-    "keywords": "ingeniería informática, desarrollo web, portfolio, estudiante, programación"
+    "title": "Adrián Martínez | Ingeniero de Software",
+    "description": "Portfolio personal de Adrián Martínez, Ingeniero de Software graduado con un 10/10 en su TFG, especializado en desarrollo web y arquitectura de software",
+    "keywords": "ingeniería del software, desarrollo web, portfolio, ingeniero, programación"
   },
   "navigation": {
     "home": "Inicio",
@@ -26,7 +26,7 @@
   "home": {
     "greeting": "Hola, soy",
     "title": "Adrián Martínez",
-    "subtitle": "Estudiante de Ingeniería Informática",
+    "subtitle": "Graduado en Ingeniería del Software",
     "cta": "Ver Mi Trabajo"
   },
   "about": {
@@ -41,7 +41,7 @@
       "techstack": "Java · Python · React"
     },
     "bio": [
-      "Soy un estudiante de Ingeniería de Software de {age} años, con sede en Oviedo, España. Mi perfil se enfoca en la ingeniería de software, con el objetivo principal de desarrollar soluciones de alta calidad, implementando las mejores prácticas de seguridad en el proceso.",
+      "Soy Ingeniero de Software de {age} años, graduado por la Universidad de Oviedo tras defender mi Trabajo Fin de Grado (SVAES) con un 10/10, con sede en Oviedo, España. Mi perfil se enfoca en la ingeniería de software, con el objetivo principal de desarrollar soluciones de alta calidad, implementando las mejores prácticas de seguridad en el proceso.",
       "He adquirido una valiosa experiencia a través de diversos proyectos, tanto individuales como colaborativos, que han reforzado mis habilidades en distintas áreas.",
       "Me considero una persona proactiva, con capacidad de resolución de problemas y compromiso con el aprendizaje continuo. Disfruto del trabajo en equipo y me esfuerzo por contribuir de forma significativa a los proyectos en los que me involucro.",
       "En mi tiempo libre, me mantengo al día con las últimas tendencias dentro del sector. También disfruto de la lectura, el deporte y explorar nuevas culturas a través de los viajes."
@@ -100,6 +100,7 @@
               "Aprendizaje sobre los conceptos base de la informática, incluyendo programación, algoritmos, estructuras de datos, sistemas operativos, redes y bases de datos.",
               "Inmersión en desarrollo web, arquitectura de software y ciberseguridad.",
               "Optativa: Informática Forense y Auditoría.",
+              "Trabajo Fin de Grado (TFG): SVAES – Sistema de Validación Automatizada de Releases – Nota: 10/10.",
               "Participación en proyectos prácticos y colaborativos que han reforzado mis habilidades técnicas y de trabajo en equipo."
           ]
         },
@@ -266,7 +267,7 @@
     "commands": {
       "help": "Comandos disponibles: help, whoami, about, skills, ls, cd <página>, theme <light|dark>, matrix, sudo, date, echo <texto>, clear, exit",
       "whoami": "guest -- alguien con la curiosidad suficiente para encontrar esto.",
-      "about": "Adrian Martinez Fuentes -- estudiante de ingeniería del software que construye cosas y a veces las rompe a propósito.",
+      "about": "Adrian Martinez Fuentes -- ingeniero de software graduado (TFG SVAES, 10/10) que construye cosas y a veces las rompe a propósito.",
       "skills": "TypeScript, React, Next.js, Node.js, un interés creciente en seguridad, y curiosidad sin límites.",
       "ls": "about  cv  portfolio  tools  blog  contact",
       "sudo": "Permiso denegado: buen intento.",
