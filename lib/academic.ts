@@ -7,8 +7,8 @@ type Locale = "en" | "es"
 
 const PROGRAM_START_DATE = "2022-09-01"
 const PROGRAM_YEARS = 4
-// Day after the TFG defense window (2026-07-20 to 2026-07-24).
-const GRADUATION_DATE = "2026-07-25"
+// TFG (SVAES) defended 2026-07-23, graded 10/10.
+const GRADUATION_DATE = "2026-07-23"
 
 function ordinalSuffix(year: number): string {
   if (year === 1) return "st"
