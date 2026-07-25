@@ -28,3 +28,6 @@ next-env.d.ts
 extensiones.txt
 CLAUDE.md
 .claude/settings.local.json
+
+# editor
+.vscode/
