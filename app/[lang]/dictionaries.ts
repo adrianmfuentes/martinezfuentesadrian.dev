@@ -554,7 +554,11 @@ const dictionaries: Record<string, () => Promise<Dictionary>> = {
 }
 
 export const getDictionary = cache(async (locale: "en" | "es"): Promise<Dictionary> => {
-  const base = await dictionaries[locale]()
+  // structuredClone: the imported JSON module is a singleton cached by Node's
+  // module loader. Mutating it in place (as below) corrupts the shared object
+  // for every concurrent request and every subsequent request until process
+  // restart. Clone before mutating.
+  const base = structuredClone(await dictionaries[locale]())
 
   base.home.subtitle = computeDegreeStatusLabel(locale)
   base.about.stats.yearsStudying = computeYearsStudyingLabel(locale)
