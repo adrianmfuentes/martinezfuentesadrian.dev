@@ -194,11 +194,12 @@ function TimelineItem({ title, organization, period, description, pdfUrl, onView
 
   const handleCertificateAction = () => {
     if (pdfUrl) {
-      if (isMobile) {
-        // En móviles, abrir directamente en nueva pestaña
-        globalThis.open(pdfUrl, '_blank')
+      const isExternalLink = /^https?:\/\//.test(pdfUrl)
+      if (isMobile || isExternalLink) {
+        // En móviles, o para enlaces externos (p.ej. verificación oficial), abrir en nueva pestaña
+        globalThis.open(pdfUrl, '_blank', 'noopener,noreferrer')
       } else {
-        // En desktop, usar el modal
+        // En desktop, usar el modal para PDFs locales
         onViewCertificate?.(pdfUrl)
       }
     }
@@ -225,9 +226,9 @@ function TimelineItem({ title, organization, period, description, pdfUrl, onView
               size="icon"
               onClick={handleCertificateAction}
               className="ml-2"
-              aria-label={`${isMobile ? 'Abrir' : 'Ver'} certificado de ${title}`}
+              aria-label={`${isMobile || /^https?:\/\//.test(pdfUrl) ? 'Abrir' : 'Ver'} certificado de ${title}`}
             >
-              {isMobile ? <ExternalLink className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+              {isMobile || /^https?:\/\//.test(pdfUrl) ? <ExternalLink className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
             </Button>
           )}
         </div>
