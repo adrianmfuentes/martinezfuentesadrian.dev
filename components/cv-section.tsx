@@ -29,6 +29,7 @@ interface CVSectionProps {
         gpa?: string
         honours?: string
         description: string | string[]
+        pdfUrl?: string // Optional URL to the official degree certificate
       }>
     }
     certifications: {
@@ -129,6 +130,8 @@ export function CVSection({ dictionary, lang }: Readonly<CVSectionProps>) {
                 honours={item.honours}
                 description={item.description}
                 aboutGradeLabel={dictionary.about_grade}
+                pdfUrl={item.pdfUrl}
+                onViewCertificate={(url) => setViewingCertificate({ url, title: item.title })}
               />
             ))}
           </div>
@@ -143,6 +146,8 @@ export function CVSection({ dictionary, lang }: Readonly<CVSectionProps>) {
                 organization={item.organization}
                 period={item.period}
                 description={item.description}
+                pdfUrl={item.pdfUrl}
+                onViewCertificate={(url) => setViewingCertificate({ url, title: item.title })}
               />
             ))}
           </div>

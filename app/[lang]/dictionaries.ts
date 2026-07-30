@@ -95,6 +95,7 @@ interface Dictionary {
         gpa?: string
         honours?: string
         description: string | string[]
+        pdfUrl?: string
       }[]
     }
     certifications: {
