@@ -107,7 +107,7 @@
   },
   "pnpm": {
     "overrides": {
-      "dompurify": ">=3.4.11",
+      "dompurify": ">=3.4.12",
       "fast-xml-parser": ">=5.7.0",
       "svgo": ">=2.8.1",
       "file-type": ">=21.3.1",
