@@ -5,6 +5,7 @@ import { getDictionary } from "./dictionaries"
 import { AIChatWidgetLoader } from "@components/ai-chat-widget-loader"
 import { KonamiCode } from "@components/konami-code"
 import { Toaster } from "@components/ui/toaster"
+import { pageMetadata, SITE_URL, SITE_NAME } from "@/lib/seo"
 
 const locales = ["en", "es"]
 
@@ -14,34 +15,41 @@ export async function generateStaticParams() {
   return locales.map((lang) => ({ lang }))
 }
 
-// ...existing code...
 export async function generateMetadata({
   params
 }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
   const dict = await getDictionary(lang as "en" | "es");
-  
-  return {
+
+  const base = pageMetadata({
+    lang: lang as "en" | "es",
+    path: "",
     title: dict.metadata.title,
     description: dict.metadata.description,
     keywords: dict.metadata.keywords,
-    metadataBase: new URL('https://amf.amfserver.duckdns.org'),
-    openGraph: {
-      title: dict.metadata.title,
-      description: dict.metadata.description,
-      type: 'website',
-      locale: lang === 'es' ? 'es_ES' : 'en_US',
+  })
+
+  return {
+    ...base,
+    title: {
+      template: `%s · ${SITE_NAME}`,
+      default: dict.metadata.title,
     },
-    twitter: {
-      card: 'summary_large_image',
-      title: dict.metadata.title,
-      description: dict.metadata.description,
-    },
+    metadataBase: new URL(SITE_URL),
     icons: {
       icon: '/favicon.ico',
       shortcut: '/favicon.ico',
       apple: '/favicon.ico',
-    }
+    },
+    // Search-engine ownership verification. Values come from Search Console /
+    // Bing Webmaster Tools "HTML tag" verification method — paste just the
+    // content token (not the whole <meta> tag) into the env var.
+    verification: {
+      google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+      other: process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION
+        ? { 'msvalidate.01': process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION }
+        : undefined,
+    },
   };
 }
 

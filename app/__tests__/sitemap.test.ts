@@ -1,15 +1,21 @@
 // @vitest-environment node
-import { describe, it, expect } from "vitest"
-import sitemap from "@/app/sitemap"
+import { describe, it, expect, vi } from "vitest"
+
+// sitemap.ts pulls in lib/blog, which imports "server-only" — that throws when
+// resolved outside the "react-server" export condition. Vitest doesn't set
+// that condition, so we stub the marker package to a no-op (same as blog.test.ts).
+vi.mock("server-only", () => ({}))
+
+const { default: sitemap } = await import("@/app/sitemap")
 
 describe("app/sitemap", () => {
-  it("returns 22 entries (12 pages + 10 tool routes across es/en)", () => {
-    const routes = sitemap()
-    expect(routes).toHaveLength(22)
+  it("returns 32 static entries (16 pages/tool routes across es/en) plus blog posts", async () => {
+    const routes = await sitemap()
+    expect(routes.length).toBeGreaterThanOrEqual(32)
   })
 
-  it("includes the expected root and localized page URLs", () => {
-    const routes = sitemap()
+  it("includes the expected root and localized page URLs", async () => {
+    const routes = await sitemap()
     const urls = routes.map((r) => r.url)
 
     expect(urls).toContain("https://amf.amfserver.duckdns.org/es")
@@ -26,8 +32,8 @@ describe("app/sitemap", () => {
     expect(urls).toContain("https://amf.amfserver.duckdns.org/en/tools")
   })
 
-  it("includes the expected tool routes for both locales", () => {
-    const routes = sitemap()
+  it("includes the expected tool routes for both locales", async () => {
+    const routes = await sitemap()
     const urls = routes.map((r) => r.url)
 
     expect(urls).toContain("https://amf.amfserver.duckdns.org/es/tools/password-checker")
@@ -42,8 +48,8 @@ describe("app/sitemap", () => {
     expect(urls).toContain("https://amf.amfserver.duckdns.org/en/tools/certificates-checker")
   })
 
-  it("gives every entry a valid priority between 0 and 1 and a defined lastModified", () => {
-    const routes = sitemap()
+  it("gives every entry a valid priority between 0 and 1 and a defined lastModified", async () => {
+    const routes = await sitemap()
 
     for (const route of routes) {
       expect(route.priority).toBeGreaterThanOrEqual(0)
@@ -54,8 +60,8 @@ describe("app/sitemap", () => {
     }
   })
 
-  it("has no duplicate URLs", () => {
-    const routes = sitemap()
+  it("has no duplicate URLs", async () => {
+    const routes = await sitemap()
     const urls = routes.map((r) => r.url)
     expect(new Set(urls).size).toBe(urls.length)
   })

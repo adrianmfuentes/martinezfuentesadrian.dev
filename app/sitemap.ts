@@ -1,151 +1,65 @@
 import { MetadataRoute } from 'next'
+import { SITE_URL } from '@/lib/seo'
+import { getAllPosts } from '@/lib/blog'
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://amf.amfserver.duckdns.org'
+type Route = {
+  path: string
+  changeFrequency: 'always' | 'hourly' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'never'
+  priority: number
+}
+
+const routes: Route[] = [
+  { path: '', changeFrequency: 'weekly', priority: 1 },
+  { path: '/about', changeFrequency: 'monthly', priority: 0.8 },
+  { path: '/cv', changeFrequency: 'monthly', priority: 0.8 },
+  { path: '/portfolio', changeFrequency: 'weekly', priority: 0.9 },
+  { path: '/contact', changeFrequency: 'yearly', priority: 0.7 },
+  { path: '/blog', changeFrequency: 'weekly', priority: 0.7 },
+  { path: '/tools', changeFrequency: 'weekly', priority: 0.6 },
+  { path: '/tools/password-checker', changeFrequency: 'monthly', priority: 0.5 },
+  { path: '/tools/port-scanner', changeFrequency: 'monthly', priority: 0.5 },
+  { path: '/tools/http-headers-validator', changeFrequency: 'monthly', priority: 0.5 },
+  { path: '/tools/password-generator', changeFrequency: 'monthly', priority: 0.5 },
+  { path: '/tools/certificates-checker', changeFrequency: 'monthly', priority: 0.5 },
+  { path: '/tools/jwt-decoder', changeFrequency: 'monthly', priority: 0.5 },
+  { path: '/tools/dns-lookup', changeFrequency: 'monthly', priority: 0.5 },
+  { path: '/tools/hash-generator', changeFrequency: 'monthly', priority: 0.5 },
+  { path: '/tools/web-discovery', changeFrequency: 'monthly', priority: 0.5 },
+]
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const currentDate = new Date()
-  
-  // Rutas principales en ambos idiomas
-  const routes = [
-    // Páginas principales en español
-    {
-      url: `${baseUrl}/es`,
+
+  const staticEntries = routes.flatMap(({ path, changeFrequency, priority }) =>
+    (['es', 'en'] as const).map((lang) => ({
+      url: `${SITE_URL}/${lang}${path}`,
       lastModified: currentDate,
-      changeFrequency: 'weekly' as const,
-      priority: 1,
-    },
-    {
-      url: `${baseUrl}/es/about`,
-      lastModified: currentDate,
+      changeFrequency,
+      priority,
+      alternates: {
+        languages: {
+          es: `${SITE_URL}/es${path}`,
+          en: `${SITE_URL}/en${path}`,
+        },
+      },
+    }))
+  )
+
+  const [esPosts, enPosts] = await Promise.all([getAllPosts('es'), getAllPosts('en')])
+  const postEntries = [
+    ...esPosts.map((post) => ({
+      url: `${SITE_URL}/es/blog/${post.slug}`,
+      lastModified: new Date(post.date),
       changeFrequency: 'monthly' as const,
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/es/cv`,
-      lastModified: currentDate,
-      changeFrequency: 'monthly' as const,
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/es/portfolio`,
-      lastModified: currentDate,
-      changeFrequency: 'weekly' as const,
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/es/contact`,
-      lastModified: currentDate,
-      changeFrequency: 'yearly' as const,
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/es/tools`,
-      lastModified: currentDate,
-      changeFrequency: 'weekly' as const,
       priority: 0.6,
-    },
-    
-    // Páginas principales en inglés
-    {
-      url: `${baseUrl}/en`,
-      lastModified: currentDate,
-      changeFrequency: 'weekly' as const,
-      priority: 1,
-    },
-    {
-      url: `${baseUrl}/en/about`,
-      lastModified: currentDate,
+    })),
+    ...enPosts.map((post) => ({
+      url: `${SITE_URL}/en/blog/${post.slug}`,
+      lastModified: new Date(post.date),
       changeFrequency: 'monthly' as const,
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/en/cv`,
-      lastModified: currentDate,
-      changeFrequency: 'monthly' as const,
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/en/portfolio`,
-      lastModified: currentDate,
-      changeFrequency: 'weekly' as const,
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/en/contact`,
-      lastModified: currentDate,
-      changeFrequency: 'yearly' as const,
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/en/tools`,
-      lastModified: currentDate,
-      changeFrequency: 'weekly' as const,
       priority: 0.6,
-    },
-    
-    // Herramientas específicas
-    {
-      url: `${baseUrl}/es/tools/password-checker`,
-      lastModified: currentDate,
-      changeFrequency: 'monthly' as const,
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/es/tools/port-scanner`,
-      lastModified: currentDate,
-      changeFrequency: 'monthly' as const,
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/es/tools/http-headers-validator`,
-      lastModified: currentDate,
-      changeFrequency: 'monthly' as const,
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/es/tools/password-generator`,
-      lastModified: currentDate,
-      changeFrequency: 'monthly' as const,
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/es/tools/certificates-checker`,
-      lastModified: currentDate,
-      changeFrequency: 'monthly' as const,
-      priority: 0.5,
-    },
-    
-    // Herramientas en inglés
-    {
-      url: `${baseUrl}/en/tools/password-checker`,
-      lastModified: currentDate,
-      changeFrequency: 'monthly' as const,
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/en/tools/port-scanner`,
-      lastModified: currentDate,
-      changeFrequency: 'monthly' as const,
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/en/tools/http-headers-validator`,
-      lastModified: currentDate,
-      changeFrequency: 'monthly' as const,
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/en/tools/password-generator`,
-      lastModified: currentDate,
-      changeFrequency: 'monthly' as const,
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/en/tools/certificates-checker`,
-      lastModified: currentDate,
-      changeFrequency: 'monthly' as const,
-      priority: 0.5,
-    },
+    })),
   ]
 
-  return routes
+  return [...staticEntries, ...postEntries]
 }

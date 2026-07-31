@@ -17,7 +17,6 @@ El proyecto funciona como portfolio, CV y punto de contacto, y además aloja var
 - Next.js 16 (App Router, Turbopack)
 - React 19 y TypeScript
 - Tailwind CSS con componentes shadcn/ui (basados en primitivas de Radix)
-- React Three Fiber y Drei para los elementos 3D de la página de inicio
 - Framer Motion para las transiciones de página y de componentes
 - React Hook Form con Zod para la validación de formularios
 - Groq SDK para la función de chat

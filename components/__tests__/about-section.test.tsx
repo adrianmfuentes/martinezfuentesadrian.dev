@@ -93,7 +93,7 @@ function makeDictionary(overrides: Partial<Parameters<typeof AboutSection>[0]["d
 describe("AboutSection", () => {
   it("renders the title, subtitle and computed age injected into bio paragraphs", () => {
     const dictionary = makeDictionary({ birthDate: "2000-01-15" })
-    render(<AboutSection dictionary={dictionary} />)
+    render(<AboutSection lang="en" dictionary={dictionary} />)
 
     expect(screen.getByText(dictionary.title)).toBeInTheDocument()
     expect(screen.getByText(dictionary.subtitle)).toBeInTheDocument()
@@ -117,41 +117,47 @@ describe("AboutSection", () => {
 
   it("renders 'N/A' in place of the age when birthDate is missing", () => {
     const dictionary = makeDictionary({ birthDate: "" })
-    render(<AboutSection dictionary={dictionary} />)
+    render(<AboutSection lang="en" dictionary={dictionary} />)
 
     expect(
       screen.getByText("I am N/A years old and I love building things.")
     ).toBeInTheDocument()
   })
 
-  it("renders the four stat cards", () => {
+  it("renders the four stat cards with language-appropriate labels", () => {
     const dictionary = makeDictionary()
-    render(<AboutSection dictionary={dictionary} />)
+    render(<AboutSection lang="en" dictionary={dictionary} />)
 
     expect(screen.getByText(dictionary.stats.yearsStudying)).toBeInTheDocument()
     expect(screen.getByText(dictionary.stats.projectsCompleted)).toBeInTheDocument()
     expect(screen.getByText(dictionary.stats.certifications)).toBeInTheDocument()
     expect(screen.getByText(dictionary.stats.yearsExperience)).toBeInTheDocument()
+    expect(screen.getByText("Years Studying")).toBeInTheDocument()
+    expect(screen.getByText("Experience")).toBeInTheDocument()
   })
 
-  it("renders only the first five technical (language) skills", () => {
+  it("renders Spanish stat labels when lang is 'es'", () => {
     const dictionary = makeDictionary()
-    render(<AboutSection dictionary={dictionary} />)
+    render(<AboutSection lang="es" dictionary={dictionary} />)
 
-    // languages: JavaScript, TypeScript, Python, Java, C++, Go (6 entries)
-    expect(screen.getByText("JavaScript")).toBeInTheDocument()
-    expect(screen.getByText("TypeScript")).toBeInTheDocument()
-    expect(screen.getByText("Python")).toBeInTheDocument()
-    expect(screen.getByText("Java")).toBeInTheDocument()
-    expect(screen.getByText("C++")).toBeInTheDocument()
-    // The 6th language should not be rendered (only slice(0, 5) is shown).
-    expect(screen.queryByText("Go")).not.toBeInTheDocument()
+    expect(screen.getByText("Años Estudiando")).toBeInTheDocument()
+    expect(screen.getByText("Experiencia")).toBeInTheDocument()
   })
 
-  it("renders all soft skills from the dictionary", () => {
+  it("links the education CTA to the CV page in the active language", () => {
     const dictionary = makeDictionary()
-    render(<AboutSection dictionary={dictionary} />)
+    render(<AboutSection lang="en" dictionary={dictionary} />)
 
+    const cvLink = screen.getAllByRole("link").find((link) => link.getAttribute("href") === "/en/cv")
+    expect(cvLink).toBeDefined()
+  })
+
+  it("delegates skills rendering to SkillsSection", () => {
+    const dictionary = makeDictionary()
+    render(<AboutSection lang="en" dictionary={dictionary} />)
+
+    expect(screen.getByText(dictionary.skills.title)).toBeInTheDocument()
+    expect(screen.getByText(dictionary.skills.technicalSkills.languages)).toBeInTheDocument()
     for (const skill of Object.values(dictionary.skills.softSkills)) {
       expect(screen.getByText(skill)).toBeInTheDocument()
     }
@@ -159,7 +165,7 @@ describe("AboutSection", () => {
 
   it("renders the education card details", () => {
     const dictionary = makeDictionary()
-    render(<AboutSection dictionary={dictionary} />)
+    render(<AboutSection lang="en" dictionary={dictionary} />)
 
     expect(screen.getAllByText(dictionary.education.title).length).toBeGreaterThan(0)
     expect(screen.getByText(dictionary.education.degree)).toBeInTheDocument()

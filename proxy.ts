@@ -19,24 +19,33 @@ function getClientIp(request: NextRequest): string {
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
 
-  // Block by IP before anything else
-  if (ALLOWED_IPS.length > 0) {
-    const ip = getClientIp(request)
-    if (!ALLOWED_IPS.includes(ip)) {
-      return new NextResponse(null, { status: 403 })
+  if (pathname.startsWith("/admin")) {
+    // Block by IP before anything else
+    if (ALLOWED_IPS.length > 0) {
+      const ip = getClientIp(request)
+      if (!ALLOWED_IPS.includes(ip)) {
+        return new NextResponse(null, { status: 403 })
+      }
     }
+
+    // Login page is always accessible
+    if (pathname === "/admin/login") return NextResponse.next()
+
+    const token = request.cookies.get(COOKIE_NAME)?.value
+
+    if (!token || !(await verifyToken(token))) {
+      return NextResponse.redirect(new URL("/admin/login", request.url))
+    }
+
+    return NextResponse.next()
   }
 
-  // Login page is always accessible
-  if (pathname === "/admin/login") return NextResponse.next()
-
-  const token = request.cookies.get(COOKIE_NAME)?.value
-
-  if (!token || !(await verifyToken(token))) {
-    return NextResponse.redirect(new URL("/admin/login", request.url))
-  }
-
-  return NextResponse.next()
+  // Forward the active locale so the root layout can render the correct
+  // <html lang> without every page needing its own metadata export.
+  const locale = pathname.startsWith("/en") ? "en" : "es"
+  const requestHeaders = new Headers(request.headers)
+  requestHeaders.set("x-locale", locale)
+  return NextResponse.next({ request: { headers: requestHeaders } })
 }
 
 // Inline — avoids any potential Edge Runtime import issues
@@ -80,5 +89,5 @@ async function verifyToken(token: string): Promise<boolean> {
 }
 
 export const config = {
-  matcher: ["/admin/:path*"],
+  matcher: ["/admin/:path*", "/((?!api|_next|.*\\..*).*)"],
 }

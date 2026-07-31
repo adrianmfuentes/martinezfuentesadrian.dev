@@ -9,8 +9,10 @@ import { Rocket, Lightbulb, Users, Zap, BookOpen, Award, ArrowRight } from "luci
 import Link from "next/link"
 import { Button } from "@components/ui/button"
 import { getAge } from "@/lib/academic"
+import { SkillsSection } from "@components/skills-section"
 
 interface AboutSectionProps {
+  readonly lang: string
   readonly dictionary: {
     readonly title: string
     readonly subtitle: string
@@ -57,7 +59,7 @@ const MotionCard = motion.create(Card)
 
 const bioIcons = [Rocket, Lightbulb, Users, Zap];
 
-export function AboutSection({ dictionary }: AboutSectionProps) {
+export function AboutSection({ lang, dictionary }: AboutSectionProps) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
 
@@ -68,14 +70,11 @@ export function AboutSection({ dictionary }: AboutSectionProps) {
   );
 
   const stats = [
-    { label: "Años Estudiando", value: dictionary.stats.yearsStudying, icon: BookOpen },
-    { label: "Proyectos", value: dictionary.stats.projectsCompleted, icon: Zap },
-    { label: "Certificaciones", value: dictionary.stats.certifications, icon: Award },
-    { label: "Experiencia", value: dictionary.stats.yearsExperience, icon: Rocket }
+    { label: lang === "es" ? "Años Estudiando" : "Years Studying", value: dictionary.stats.yearsStudying, icon: BookOpen },
+    { label: lang === "es" ? "Proyectos" : "Projects", value: dictionary.stats.projectsCompleted, icon: Zap },
+    { label: lang === "es" ? "Certificaciones" : "Certifications", value: dictionary.stats.certifications, icon: Award },
+    { label: lang === "es" ? "Experiencia" : "Experience", value: dictionary.stats.yearsExperience, icon: Rocket }
   ];
-
-  const technicalSkillsList = dictionary.skills.technicalSkills.languages.split(", ");
-  const softSkillsList = Object.values(dictionary.skills.softSkills);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -202,7 +201,7 @@ export function AboutSection({ dictionary }: AboutSectionProps) {
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: 1 }}
           >
-            <Link href="/es/cv">
+            <Link href={`/${lang}/cv`}>
               <Button className="w-full gap-2 group" size="lg">
                 {dictionary.education.title}
                 <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
@@ -212,93 +211,7 @@ export function AboutSection({ dictionary }: AboutSectionProps) {
         </motion.div>
       </div>
 
-      {/* Skills Section */}
-      <motion.div
-        className="mt-20"
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-      >
-        <h3 className="text-3xl font-bold mb-12 text-center">{dictionary.skills.title}</h3>
-
-        <div className="grid md:grid-cols-2 gap-12">
-          {/* Technical Skills */}
-          <motion.div variants={itemVariants}>
-            <Card className="h-full border-primary/20">
-              <CardContent className="p-8">
-                <div className="flex items-center gap-3 mb-6">
-                  <Zap className="h-6 w-6 text-primary" />
-                  <h4 className="text-2xl font-semibold">{dictionary.skills.technical}</h4>
-                </div>
-                <div className="space-y-4">
-                  <div>
-                    <p className="text-sm font-medium text-foreground/70 mb-3">Lenguajes</p>
-                    <div className="flex flex-wrap gap-2">
-                      {technicalSkillsList.slice(0, 5).map((skill) => (
-                        <span
-                          key={skill}
-                          className="px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium"
-                        >
-                          {skill.trim()}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-foreground/70 mb-3">Frameworks</p>
-                    <div className="flex flex-wrap gap-2">
-                      {dictionary.skills.technicalSkills.frameworks.split(", ").map((skill) => (
-                        <span
-                          key={skill}
-                          className="px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium"
-                        >
-                          {skill.trim()}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-foreground/70 mb-3">Cloud</p>
-                    <div className="flex flex-wrap gap-2">
-                      {dictionary.skills.technicalSkills.cloud.split(", ").map((skill) => (
-                        <span
-                          key={skill}
-                          className="px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium"
-                        >
-                          {skill.trim()}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-
-          {/* Soft Skills */}
-          <motion.div variants={itemVariants}>
-            <Card className="h-full border-primary/20">
-              <CardContent className="p-8">
-                <div className="flex items-center gap-3 mb-6">
-                  <Users className="h-6 w-6 text-primary" />
-                  <h4 className="text-2xl font-semibold">{dictionary.skills.soft}</h4>
-                </div>
-                <div className="grid grid-cols-2 gap-3">
-                  {softSkillsList.map((skill) => (
-                    <div
-                      key={skill}
-                      className="p-3 rounded-lg bg-primary/5 border border-primary/10 hover:border-primary/30 transition-all"
-                    >
-                      <p className="text-sm font-medium text-foreground/70">{skill}</p>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </motion.div>
-        </div>
-      </motion.div>
+      <SkillsSection dictionary={dictionary.skills} />
     </section>
   )
 }

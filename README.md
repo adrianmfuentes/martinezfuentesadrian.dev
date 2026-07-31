@@ -17,7 +17,6 @@ The project serves as a portfolio, CV and contact point, and also hosts a handfu
 - Next.js 16 (App Router, Turbopack)
 - React 19 and TypeScript
 - Tailwind CSS with shadcn/ui components (built on Radix primitives)
-- React Three Fiber and Drei for the 3D elements on the home page
 - Framer Motion for page and component transitions
 - React Hook Form with Zod for form validation
 - Groq SDK for the chat feature

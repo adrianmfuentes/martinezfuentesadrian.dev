@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import { Inter, Poppins } from "next/font/google"
+import { headers } from "next/headers"
 import { ThemeProvider } from "@components/theme-provider"
+import { SITE_URL, SITE_NAME } from "@/lib/seo"
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 const poppins = Poppins({
@@ -28,14 +30,47 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Person',
+      '@id': `${SITE_URL}/#person`,
+      name: SITE_NAME,
+      url: SITE_URL,
+      jobTitle: 'Full Stack Developer',
+      image: `${SITE_URL}/images/me.jpeg`,
+      sameAs: [
+        'https://www.linkedin.com/in/adrianmfuentese',
+        'https://github.com/adrianmfuentes',
+      ],
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${SITE_URL}/#website`,
+      url: SITE_URL,
+      name: SITE_NAME,
+      publisher: { '@id': `${SITE_URL}/#person` },
+      inLanguage: ['es-ES', 'en-US'],
+    },
+  ],
+}
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const requestHeaders = await headers()
+  const lang = requestHeaders.get('x-locale') === 'en' ? 'en' : 'es'
+
   return (
-    <html lang="es" className="dark" suppressHydrationWarning>
+    <html lang={lang} className="dark" suppressHydrationWarning>
       <body className={`${inter.variable} ${poppins.variable} font-sans`}>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"

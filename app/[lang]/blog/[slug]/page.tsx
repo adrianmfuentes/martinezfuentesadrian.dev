@@ -3,6 +3,7 @@ import { notFound } from "next/navigation"
 import { ArrowLeft, CalendarDays, Clock } from "lucide-react"
 import { getAllPosts, getPostBySlug } from "@/lib/blog"
 import { getDictionary } from "../../dictionaries"
+import { pageMetadata, SITE_URL, SITE_NAME } from "@/lib/seo"
 
 export const revalidate = 3600
 
@@ -20,15 +21,13 @@ export async function generateMetadata({
   const post = await getPostBySlug(lang, slug)
   if (!post) return {}
 
-  return {
+  return pageMetadata({
+    lang: lang as "en" | "es",
+    path: `/blog/${slug}`,
     title: post.title,
     description: post.description,
-    openGraph: {
-      title: post.title,
-      description: post.description,
-      type: "article",
-    },
-  }
+    type: "article",
+  })
 }
 
 function formatDate(date: string, lang: string): string {
@@ -66,8 +65,26 @@ export default async function BlogPostPage({
   const post = await getPostBySlug(lang, slug)
   if (!post) notFound()
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.title,
+    description: post.description,
+    datePublished: post.date,
+    dateModified: post.date,
+    inLanguage: lang === 'es' ? 'es-ES' : 'en-US',
+    url: `${SITE_URL}/${lang}/blog/${slug}`,
+    mainEntityOfPage: `${SITE_URL}/${lang}/blog/${slug}`,
+    author: { '@type': 'Person', name: SITE_NAME, url: SITE_URL },
+    publisher: { '@type': 'Person', name: SITE_NAME, url: SITE_URL },
+  }
+
   return (
     <div className="container mx-auto px-4 py-12 max-w-3xl">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Link
         href={`/${lang}/blog`}
         className="inline-flex items-center gap-2 text-sm text-primary hover:underline mb-8"
