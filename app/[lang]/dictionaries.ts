@@ -123,6 +123,7 @@ interface Dictionary {
     subtitle: string
     viewProject: string
     viewCode: string
+    viewCaseStudy: string
     featured: string
     status: {
       online: string
@@ -134,6 +135,20 @@ interface Dictionary {
         description: string
       }
     }
+  }
+  now: {
+    title: string
+    building: string
+    latestPost: string
+  }
+  testimonials: {
+    title: string
+    subtitle: string
+    items: {
+      quote: string
+      name: string
+      role: string
+    }[]
   }
   githubActivity: {
     title: string
@@ -185,6 +200,7 @@ interface Dictionary {
     empty: string
     minRead: string
     backToBlog: string
+    rss: string
   }
   contact: {
     title: string
@@ -210,6 +226,11 @@ interface Dictionary {
       nameRequired: string
       emailRequired: string
       messageRequired: string
+    }
+    preferredTime: {
+      checkbox: string
+      label: string
+      notePrefix: string
     }
     confirmation: {
       title: string
