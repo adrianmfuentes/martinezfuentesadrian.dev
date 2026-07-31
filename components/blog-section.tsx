@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { Card, CardContent } from "@components/ui/card"
-import { CalendarDays, Clock } from "lucide-react"
+import { CalendarDays, Clock, Rss } from "lucide-react"
 import type { BlogPostMeta } from "@/lib/blog"
 
 interface BlogSectionProps {
@@ -14,6 +14,7 @@ interface BlogSectionProps {
     subtitle: string
     empty: string
     minRead: string
+    rss: string
   }
 }
 
@@ -42,6 +43,13 @@ export function BlogSection({ lang, posts, dictionary }: Readonly<BlogSectionPro
       <div className="text-center mb-12">
         <h2 className="text-3xl font-bold mb-2 font-poppins">{dictionary.title}</h2>
         <p className="text-lg text-foreground/70">{dictionary.subtitle}</p>
+        <a
+          href={`/${lang}/feed.xml`}
+          className="mt-3 inline-flex items-center gap-1.5 text-xs text-foreground/50 hover:text-primary transition-colors"
+        >
+          <Rss className="h-3.5 w-3.5" />
+          {dictionary.rss}
+        </a>
       </div>
 
       {posts.length === 0 ? (

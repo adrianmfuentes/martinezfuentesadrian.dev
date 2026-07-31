@@ -97,6 +97,12 @@ function handleEmailJSError(res: Response, err: string): ContactResult {
 
 export async function submitContactRequest(formData: any): Promise<ContactResult> {
   try {
+    // Honeypot: a field hidden from real users via CSS/aria-hidden. Only bots
+    // that blindly fill every input end up populating it.
+    if (typeof formData?.website === "string" && formData.website.trim() !== "") {
+      return { success: false, error: "Message detected as spam." };
+    }
+
     // Rate limiting check
     const rateLimitResult = await checkRateLimit();
     if (rateLimitResult) return rateLimitResult;

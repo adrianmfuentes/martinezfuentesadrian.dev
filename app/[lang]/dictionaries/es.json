@@ -177,6 +177,7 @@
     "subtitle": "Mira mis últimos proyectos",
     "viewProject": "Ver Proyecto",
     "viewCode": "Ver Código",
+    "viewCaseStudy": "Leer el caso de estudio",
     "featured": "Proyecto Destacado",
     "status": {
       "online": "En línea",
@@ -224,6 +225,16 @@
         "description": "Asistente de nutrición impulsado por IA que analiza fotos de alimentos, rastrea la ingesta nutricional y ofrece información sobre la salud utilizando visión por computadora y aprendizaje automático."
       }
     }
+  },
+  "now": {
+    "title": "Ahora mismo",
+    "building": "Estoy construyendo",
+    "latestPost": "Última entrada"
+  },
+  "testimonials": {
+    "title": "Lo que dicen de mí",
+    "subtitle": "Opiniones de personas con las que he trabajado o estudiado",
+    "items": []
   },
   "githubActivity": {
     "title": "Actividad Reciente en GitHub",
@@ -286,7 +297,8 @@
     "subtitle": "Reflexiones sobre código, seguridad y lo que voy construyendo",
     "empty": "Aún no hay artículos — vuelve pronto.",
     "minRead": "min de lectura",
-    "backToBlog": "Volver al blog"
+    "backToBlog": "Volver al blog",
+    "rss": "Feed RSS"
   },
   "contact": {
     "title": "Contáctame",
@@ -312,6 +324,11 @@
       "nameRequired": "El nombre debe tener al menos 2 caracteres.",
       "emailRequired": "Por favor, introduce una dirección de correo válida.",
       "messageRequired": "El mensaje debe tener al menos 10 caracteres."
+    },
+    "preferredTime": {
+      "checkbox": "Tengo una hora preferida para que me contacten",
+      "label": "Hora preferida (tu hora local)",
+      "notePrefix": "Hora preferida de contacto"
     },
     "confirmation": {
       "title": "¡Gracias!",

@@ -43,7 +43,7 @@ export default async function PortfolioPage({
 
   return (
     <div className="container mx-auto px-4 py-12">
-      <PortfolioSection dictionary={dict.portfolio} statuses={statuses} />
+      <PortfolioSection lang={lang} dictionary={dict.portfolio} statuses={statuses} />
     </div>
   )
 }

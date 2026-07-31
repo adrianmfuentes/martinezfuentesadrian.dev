@@ -6,6 +6,8 @@ export interface ProjectMetadata {
   codeUrl: string
   imageFit?: "cover" | "contain"
   featured?: boolean
+  /** Slug of a matching post under content/blog/{lang}/, if this project has a write-up. */
+  caseStudySlug?: string
 }
 
 export const PROJECT_METADATA: ProjectMetadata[] = [
@@ -17,6 +19,7 @@ export const PROJECT_METADATA: ProjectMetadata[] = [
     codeUrl: "https://github.com/adrianmfuentes/SVAES",
     imageFit: "contain",
     featured: true,
+    caseStudySlug: "building-svaes-my-thesis-project",
   },
   {
     id: "1",

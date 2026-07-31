@@ -1,6 +1,7 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { useEffect } from "react"
+import { motion, useMotionValue, useSpring } from "framer-motion"
 
 interface FloatingShapeProps {
   delay: number
@@ -39,19 +40,29 @@ export function FloatingShape({ delay, duration, x, y, size, className }: Readon
   )
 }
 
-interface CursorGlowProps {
-  mousePosition: { x: number; y: number }
-}
+// Tracks the pointer with a framer-motion value instead of React state, so the
+// whole section (cards, lists, etc.) doesn't re-render on every mousemove tick.
+export function CursorGlow() {
+  const x = useMotionValue(-384)
+  const y = useMotionValue(-384)
+  const springX = useSpring(x, { damping: 40, stiffness: 300 })
+  const springY = useSpring(y, { damping: 40, stiffness: 300 })
 
-export function CursorGlow({ mousePosition }: Readonly<CursorGlowProps>) {
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return
+
+    const handleMouseMove = (e: MouseEvent) => {
+      x.set(e.clientX - 192)
+      y.set(e.clientY - 192)
+    }
+    window.addEventListener("mousemove", handleMouseMove)
+    return () => window.removeEventListener("mousemove", handleMouseMove)
+  }, [x, y])
+
   return (
     <motion.div
       className="pointer-events-none fixed h-96 w-96 rounded-full bg-primary/5 blur-3xl"
-      animate={{
-        x: mousePosition.x - 192,
-        y: mousePosition.y - 192,
-      }}
-      transition={{ type: "spring", damping: 40, stiffness: 300 }}
+      style={{ x: springX, y: springY }}
     />
   )
 }

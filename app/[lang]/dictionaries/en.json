@@ -177,6 +177,7 @@
     "subtitle": "Check out my latest projects",
     "viewProject": "View Project",
     "viewCode": "View Code",
+    "viewCaseStudy": "Read the case study",
     "featured": "Featured Project",
     "status": {
       "online": "Live",
@@ -224,6 +225,16 @@
         "description": "Complete nutrition tracking application that uses Artificial Intelligence to analyze food images and provide detailed nutritional information. Built for Android."
       }
     }
+  },
+  "now": {
+    "title": "Right now",
+    "building": "Currently building",
+    "latestPost": "Latest post"
+  },
+  "testimonials": {
+    "title": "What people say",
+    "subtitle": "Feedback from people I've worked or studied with",
+    "items": []
   },
   "githubActivity": {
     "title": "Recent GitHub Activity",
@@ -286,7 +297,8 @@
     "subtitle": "Thoughts on code, security, and things I'm building",
     "empty": "No posts yet — check back soon.",
     "minRead": "min read",
-    "backToBlog": "Back to blog"
+    "backToBlog": "Back to blog",
+    "rss": "RSS feed"
   },
   "contact": {
     "title": "Contact Me",
@@ -312,6 +324,11 @@
       "nameRequired": "Name must be at least 2 characters.",
       "emailRequired": "Please enter a valid email address.",
       "messageRequired": "Message must be at least 10 characters."
+    },
+    "preferredTime": {
+      "checkbox": "I have a preferred time to be contacted",
+      "label": "Preferred time (your local time)",
+      "notePrefix": "Preferred contact time"
     },
     "confirmation": {
       "title": "Thank You!",

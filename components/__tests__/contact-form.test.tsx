@@ -60,6 +60,11 @@ const dictionary = {
     emailRequired: "Please enter a valid email address",
     messageRequired: "Message must be at least 10 characters",
   },
+  preferredTime: {
+    checkbox: "I have a preferred time to be contacted",
+    label: "Preferred time",
+    notePrefix: "Preferred contact time",
+  },
   confirmation: {
     title: "Message sent!",
     message: "Your message was sent successfully.",
@@ -265,6 +270,41 @@ describe("ContactForm", () => {
     expect(submitContactRequest).toHaveBeenCalledWith(
       expect.objectContaining({
         priority: "high",
+      })
+    )
+  })
+
+  it("submits the honeypot field but keeps it hidden from real users", () => {
+    const { container } = render(<ContactForm dictionary={dictionary} />)
+    const honeypot = container.querySelector<HTMLInputElement>('input[name="website"]')
+
+    expect(honeypot).not.toBeNull()
+    expect(honeypot).toHaveAttribute("aria-hidden", "true")
+    expect(honeypot).toHaveAttribute("tabIndex", "-1")
+    expect(honeypot?.value).toBe("")
+  })
+
+  it("appends the chosen preferred time to the message when the checkbox is enabled", async () => {
+    vi.mocked(submitContactRequest).mockResolvedValue({ success: true })
+
+    const { container } = render(<ContactForm dictionary={dictionary} />)
+    const form = container.querySelector("form")
+
+    fillValidForm(container)
+
+    fireEvent.click(screen.getByText(dictionary.preferredTime.checkbox))
+    fireEvent.change(screen.getByLabelText("Hours"), { target: { value: "14" } })
+    fireEvent.change(screen.getByLabelText("Minutes"), { target: { value: "30" } })
+
+    fireEvent.submit(form!)
+
+    await waitFor(() => {
+      expect(submitContactRequest).toHaveBeenCalledTimes(1)
+    })
+
+    expect(submitContactRequest).toHaveBeenCalledWith(
+      expect.objectContaining({
+        message: expect.stringContaining(`${dictionary.preferredTime.notePrefix}: 14:30`),
       })
     )
   })

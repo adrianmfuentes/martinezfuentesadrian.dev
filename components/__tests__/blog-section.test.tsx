@@ -29,6 +29,7 @@ const dictionary = {
   subtitle: "Thoughts on code, security, and things I'm building",
   empty: "No posts yet — check back soon.",
   minRead: "min read",
+  rss: "RSS feed",
 }
 
 const posts: BlogPostMeta[] = [

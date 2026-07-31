@@ -82,6 +82,23 @@ describe("submitContactRequest", () => {
     expect(body.template_params.priority).toBe("high")
   })
 
+  it("rejects submissions where the honeypot field was filled in, without calling EmailJS", async () => {
+    const fetchMock = mockFetchOnce({ ok: true })
+
+    const result = await submitContactRequest({ ...validFormData, website: "http://spam.example" })
+
+    expect(result).toEqual({ success: false, error: "Message detected as spam." })
+    expect(fetchMock).not.toHaveBeenCalled()
+  })
+
+  it("does not consume the rate limit budget for honeypot submissions", async () => {
+    mockFetchOnce({ ok: true })
+
+    await submitContactRequest({ ...validFormData, website: "spam" })
+
+    expect(checkMock).not.toHaveBeenCalled()
+  })
+
   it("returns a generic error when validation fails (name too short)", async () => {
     mockFetchOnce({ ok: true })
 

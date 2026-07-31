@@ -42,16 +42,7 @@ const StatCard = ({ label, value, icon: Icon, delay, smallValue }: { label: stri
 )
 
 export function HeroSection({ dictionary, stats, lang, contactLabel, cvLabel }: HeroSectionProps) {
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [githubStats, setGithubStats] = useState<{ commits: number; repos: number } | null>(null)
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY })
-    }
-    globalThis.addEventListener("mousemove", handleMouseMove)
-    return () => globalThis.removeEventListener("mousemove", handleMouseMove)
-  }, [])
 
   useEffect(() => {
     fetch("/api/github-stats")
@@ -87,7 +78,7 @@ export function HeroSection({ dictionary, stats, lang, contactLabel, cvLabel }: 
   return (
     <section className="relative min-h-screen flex items-center pt-16 overflow-hidden">
       {/* Cursor glow effect */}
-      <CursorGlow mousePosition={mousePosition} />
+      <CursorGlow />
 
       {/* Animated floating shapes background */}
       <FloatingShape delay={0} duration={20} x={100} y={100} size="w-96 h-96" />

@@ -30,6 +30,14 @@ beforeEach(() => {
 })
 
 describe("LanguageSwitcher", () => {
+  it("has an accessible name for screen readers, localized to the active language", () => {
+    const { rerender } = render(<LanguageSwitcher currentLang="en" />)
+    expect(screen.getByRole("button", { name: "Switch language" })).toBeInTheDocument()
+
+    rerender(<LanguageSwitcher currentLang="es" />)
+    expect(screen.getByRole("button", { name: "Cambiar idioma" })).toBeInTheDocument()
+  })
+
   it("renders both locale options once opened", async () => {
     const user = userEvent.setup()
     render(<LanguageSwitcher currentLang="en" />)

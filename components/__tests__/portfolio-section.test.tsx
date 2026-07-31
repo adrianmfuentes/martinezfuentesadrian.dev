@@ -21,6 +21,8 @@ vi.mock("framer-motion", () => {
     motion: new Proxy({}, { get: (_, tag: string) => passthrough(tag) }),
     AnimatePresence: ({ children }: any) => children,
     useReducedMotion: () => false,
+    useMotionValue: (initial: number) => ({ get: () => initial, set: () => {} }),
+    useSpring: (value: unknown) => value,
   }
 })
 
@@ -29,6 +31,7 @@ const dictionary = {
   subtitle: "My projects",
   viewProject: "View project",
   viewCode: "View code",
+  viewCaseStudy: "Read the case study",
   featured: "Featured Project",
   status: {
     online: "Live",
@@ -46,7 +49,7 @@ const dictionary = {
 
 describe("PortfolioSection", () => {
   it("renders the section title, subtitle and every project without tabs", () => {
-    render(<PortfolioSection dictionary={dictionary} />)
+    render(<PortfolioSection lang="en" dictionary={dictionary} />)
     expect(screen.getByText(dictionary.title)).toBeInTheDocument()
     expect(screen.getByText(dictionary.subtitle)).toBeInTheDocument()
 
@@ -61,14 +64,14 @@ describe("PortfolioSection", () => {
   })
 
   it("marks the flagship project as featured", () => {
-    render(<PortfolioSection dictionary={dictionary} />)
+    render(<PortfolioSection lang="en" dictionary={dictionary} />)
 
     expect(screen.getByText(dictionary.featured)).toBeInTheDocument()
     expect(screen.getByText("SVAES")).toBeInTheDocument()
   })
 
   it("renders a 'view project' link only for projects that have a projectUrl", () => {
-    render(<PortfolioSection dictionary={dictionary} />)
+    render(<PortfolioSection lang="en" dictionary={dictionary} />)
 
     // DLP Compiler (id "2") has a projectUrl set.
     expect(
@@ -89,6 +92,7 @@ describe("PortfolioSection", () => {
   it("shows a live-status badge only for projects with a known demo status", () => {
     render(
       <PortfolioSection
+        lang="en"
         dictionary={dictionary}
         statuses={{
           "https://svaes.amfserver.duckdns.org/": "online",
@@ -101,8 +105,22 @@ describe("PortfolioSection", () => {
     expect(screen.getByText(dictionary.status.offline)).toBeInTheDocument()
   })
 
+  it("renders a case-study link, localized to the active language, only for projects that have one", () => {
+    render(<PortfolioSection lang="en" dictionary={dictionary} />)
+
+    // SVAES (id "6") has a caseStudySlug set in lib/portfolio-data.ts.
+    expect(
+      screen.getByRole("link", { name: `${dictionary.viewCaseStudy}: SVAES` })
+    ).toHaveAttribute("href", "/en/blog/building-svaes-my-thesis-project")
+
+    // WiChat has no caseStudySlug, so no case-study link should render for it.
+    expect(
+      screen.queryByRole("link", { name: `${dictionary.viewCaseStudy}: WiChat` })
+    ).not.toBeInTheDocument()
+  })
+
   it("hides the status badge when no status data is available for a project", () => {
-    render(<PortfolioSection dictionary={dictionary} />)
+    render(<PortfolioSection lang="en" dictionary={dictionary} />)
 
     expect(screen.queryByText(dictionary.status.online)).not.toBeInTheDocument()
     expect(screen.queryByText(dictionary.status.offline)).not.toBeInTheDocument()

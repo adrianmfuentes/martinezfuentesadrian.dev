@@ -15,9 +15,11 @@ import { submitContactRequest } from "@/app/actions/contact"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@components/ui/dialog"
 import { RadioGroup, RadioGroupItem } from "@components/ui/radio-group"
 import { Label } from "@components/ui/label"
+import { Checkbox } from "@components/ui/checkbox"
 import { Alert, AlertDescription } from "@components/ui/alert"
 import { Separator } from "@components/ui/separator"
 import { motion } from "framer-motion"
+import { TimePickerDemo } from "@components/time-picker"
 
 // lucide-react's brand icons (Github, Linkedin) are deprecated in favor of https://simpleicons.org —
 // inlined here so the icon keeps rendering without depending on a removed export.
@@ -66,6 +68,11 @@ interface ContactFormProps {
       emailRequired: string
       messageRequired: string
     }
+    preferredTime: {
+      checkbox: string
+      label: string
+      notePrefix: string
+    }
     confirmation: {
       title: string
       message: string
@@ -107,6 +114,8 @@ export function ContactForm({ dictionary }: Readonly<ContactFormProps>) {
     type: 'success' | 'error' | null
     message: string
   }>({ type: null, message: '' })
+  const [wantsPreferredTime, setWantsPreferredTime] = useState(false)
+  const [preferredTime, setPreferredTime] = useState<Date | undefined>(undefined)
 
   const formSchema = z.object({
     name: z.string().min(2, {
@@ -121,6 +130,8 @@ export function ContactForm({ dictionary }: Readonly<ContactFormProps>) {
     }),
     subject: z.string().optional(),
     priority: z.enum(["low", "medium", "high"]).optional(),
+    // Honeypot: real users never see or fill this field (see the input below).
+    website: z.string().optional(),
   })
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -131,6 +142,7 @@ export function ContactForm({ dictionary }: Readonly<ContactFormProps>) {
       message: "",
       subject: "",
       priority: "medium",
+      website: "",
     },
   })
 
@@ -138,14 +150,22 @@ export function ContactForm({ dictionary }: Readonly<ContactFormProps>) {
     setIsSubmitting(true)
     setSubmitStatus({ type: null, message: '' })
 
-    try {      
+    try {
+      let message = values.message.trim()
+      if (wantsPreferredTime && preferredTime) {
+        const hh = String(preferredTime.getHours()).padStart(2, "0")
+        const mm = String(preferredTime.getMinutes()).padStart(2, "0")
+        message += `\n\n${dictionary.preferredTime.notePrefix}: ${hh}:${mm}`
+      }
+
       const sanitizedValues = {
         name: values.name.trim(),
         email: values.email.trim(),
-        message: values.message.trim(),
+        message,
         subject: values.subject?.trim() ?? "",
         priority: values.priority ?? "medium",
         contactMethod: "message" as const,
+        website: values.website ?? "",
       }
 
       const result = await submitContactRequest(sanitizedValues)
@@ -416,11 +436,45 @@ export function ContactForm({ dictionary }: Readonly<ContactFormProps>) {
                       )}
                     />
 
+                    {/* Honeypot: invisible to real users (off-screen, aria-hidden, unreachable by Tab),
+                        so only bots that blindly fill every field end up populating it. */}
+                    <input
+                      {...form.register("website")}
+                      type="text"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      aria-hidden="true"
+                      className="absolute -left-[9999px] top-auto h-px w-px overflow-hidden"
+                    />
+
+                    <div className="space-y-3">
+                      <div className="flex items-center space-x-2">
+                        <Checkbox
+                          id="wants-preferred-time"
+                          checked={wantsPreferredTime}
+                          onCheckedChange={(checked) => {
+                            const isChecked = checked === true
+                            setWantsPreferredTime(isChecked)
+                            if (isChecked && !preferredTime) setPreferredTime(new Date())
+                          }}
+                        />
+                        <Label htmlFor="wants-preferred-time" className="cursor-pointer text-sm font-normal">
+                          {dictionary.preferredTime.checkbox}
+                        </Label>
+                      </div>
+                      {wantsPreferredTime && (
+                        <div>
+                          <p className="text-xs text-foreground/60 mb-2">{dictionary.preferredTime.label}</p>
+                          <TimePickerDemo date={preferredTime} setDate={setPreferredTime} />
+                        </div>
+                      )}
+                    </div>
+
                     <motion.div
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                     >
-                      <Button 
+                      <Button
                         type="submit"
                         className="w-full gap-2 transition-all duration-200 text-base font-medium py-6"
                         disabled={isSubmitting}

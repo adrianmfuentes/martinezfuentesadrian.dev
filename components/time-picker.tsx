@@ -18,10 +18,15 @@ export function TimePickerDemo({ date, setDate }: Readonly<TimePickerProps>) {
   const [minute, setMinute] = React.useState<number | string>(date ? date.getMinutes() : "")
   const [second, setSecond] = React.useState<number | string>(date ? date.getSeconds() : "")
 
-  // Reset component state when the parent passes a new date instance
-  const [prevDate, setPrevDate] = React.useState(date)
-  if (date !== prevDate) {
-    setPrevDate(date)
+  // Re-sync from the parent only when it hands us a genuinely different moment
+  // (compared by value, not object identity — every edit below produces a new
+  // Date instance with the same clock value). This is React's documented
+  // "adjust state during render" pattern, not an effect, so echoing the same
+  // instant back never re-triggers anything.
+  const dateTime = date ? date.getTime() : undefined
+  const [prevDateTime, setPrevDateTime] = React.useState(dateTime)
+  if (dateTime !== prevDateTime) {
+    setPrevDateTime(dateTime)
     if (date) {
       setHour(date.getHours())
       setMinute(date.getMinutes())
@@ -33,20 +38,17 @@ export function TimePickerDemo({ date, setDate }: Readonly<TimePickerProps>) {
     }
   }
 
-  // Update date object when time changes
-  const handleTimeChange = React.useCallback(() => {
+  // Compute and emit the updated Date directly from the change handlers
+  // (which always close over the current `date` prop) instead of an effect —
+  // avoids re-deriving a new Date purely because the parent echoed one back.
+  function emitTime(next: { hour?: number; minute?: number; second?: number }) {
     if (!date) return
-
     const newDate = new Date(date)
-    if (typeof hour === "number") newDate.setHours(hour)
-    if (typeof minute === "number") newDate.setMinutes(minute)
-    if (typeof second === "number") newDate.setSeconds(second)
+    if (next.hour !== undefined) newDate.setHours(next.hour)
+    if (next.minute !== undefined) newDate.setMinutes(next.minute)
+    if (next.second !== undefined) newDate.setSeconds(next.second)
     setDate(newDate)
-  }, [date, hour, minute, second, setDate])
-
-  React.useEffect(() => {
-    handleTimeChange()
-  }, [hour, minute, second, handleTimeChange])
+  }
 
   const handleHourChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number.parseInt(e.target.value)
@@ -56,6 +58,7 @@ export function TimePickerDemo({ date, setDate }: Readonly<TimePickerProps>) {
     }
     if (value >= 0 && value <= 23) {
       setHour(value)
+      emitTime({ hour: value })
       if (value.toString().length === 2) minuteRef.current?.focus()
     }
   }
@@ -68,6 +71,7 @@ export function TimePickerDemo({ date, setDate }: Readonly<TimePickerProps>) {
     }
     if (value >= 0 && value <= 59) {
       setMinute(value)
+      emitTime({ minute: value })
       if (value.toString().length === 2) secondRef.current?.focus()
     }
   }
@@ -80,6 +84,7 @@ export function TimePickerDemo({ date, setDate }: Readonly<TimePickerProps>) {
     }
     if (value >= 0 && value <= 59) {
       setSecond(value)
+      emitTime({ second: value })
     }
   }
 

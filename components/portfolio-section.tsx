@@ -1,22 +1,24 @@
 "use client"
 
-import { useEffect, useRef, useState, type MouseEvent as ReactMouseEvent } from "react"
+import { useRef, type MouseEvent as ReactMouseEvent } from "react"
 import Image from "next/image"
 import { motion, useReducedMotion } from "framer-motion"
 import { Card, CardContent, CardFooter } from "@components/ui/card"
 import { Button } from "@components/ui/button"
-import { ExternalLink, Github, Sparkles } from "lucide-react" /* NOSONAR */
+import { BookOpen, ExternalLink, Github, Sparkles } from "lucide-react" /* NOSONAR */
 import { PROJECT_METADATA } from "@/lib/portfolio-data"
 import { FloatingShape, CursorGlow } from "@components/decorative-fx"
 
 export type ProjectStatus = "online" | "offline"
 
 interface PortfolioSectionProps {
+  lang: string
   dictionary: {
     title: string
     subtitle: string
     viewProject: string
     viewCode: string
+    viewCaseStudy: string
     featured: string
     status: {
       online: string
@@ -42,6 +44,7 @@ interface Project {
   codeUrl: string
   imageFit?: "cover" | "contain"
   featured?: boolean
+  caseStudySlug?: string
 }
 
 const containerVariants = {
@@ -76,7 +79,7 @@ const featuredVariants = {
   },
 }
 
-export function PortfolioSection({ dictionary, statuses }: Readonly<PortfolioSectionProps>) {
+export function PortfolioSection({ lang, dictionary, statuses }: Readonly<PortfolioSectionProps>) {
   const projects: Project[] = PROJECT_METADATA.map((meta) => ({
     ...meta,
     title: dictionary.projects[meta.id].title,
@@ -86,17 +89,9 @@ export function PortfolioSection({ dictionary, statuses }: Readonly<PortfolioSec
   const featuredProject = projects.find((p) => p.featured)
   const gridProjects = projects.filter((p) => p !== featuredProject)
 
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-
-  useEffect(() => {
-    const handleMouseMove = (e: globalThis.MouseEvent) => setMousePosition({ x: e.clientX, y: e.clientY })
-    globalThis.addEventListener("mousemove", handleMouseMove)
-    return () => globalThis.removeEventListener("mousemove", handleMouseMove)
-  }, [])
-
   return (
     <section className="relative overflow-hidden py-16" aria-label={dictionary.title}>
-      <CursorGlow mousePosition={mousePosition} />
+      <CursorGlow />
 
       <FloatingShape delay={0} duration={22} x={80} y={80} size="w-72 h-72" className="-top-16 -left-16" />
       <FloatingShape delay={3} duration={26} x={-100} y={120} size="w-64 h-64" className="top-1/2 -right-24" />
@@ -135,8 +130,10 @@ export function PortfolioSection({ dictionary, statuses }: Readonly<PortfolioSec
             <ProjectCard
               project={featuredProject}
               variant="featured"
+              lang={lang}
               viewProject={dictionary.viewProject}
               viewCode={dictionary.viewCode}
+              viewCaseStudy={dictionary.viewCaseStudy}
               featuredLabel={dictionary.featured}
               status={featuredProject.projectUrl ? statuses?.[featuredProject.projectUrl] : undefined}
               statusLabels={dictionary.status}
@@ -157,8 +154,10 @@ export function PortfolioSection({ dictionary, statuses }: Readonly<PortfolioSec
               <ProjectCard
                 project={project}
                 variant="default"
+                lang={lang}
                 viewProject={dictionary.viewProject}
                 viewCode={dictionary.viewCode}
+                viewCaseStudy={dictionary.viewCaseStudy}
                 featuredLabel={dictionary.featured}
                 status={project.projectUrl ? statuses?.[project.projectUrl] : undefined}
                 statusLabels={dictionary.status}
@@ -175,8 +174,10 @@ export function PortfolioSection({ dictionary, statuses }: Readonly<PortfolioSec
 interface ProjectCardProps {
   project: Project
   variant?: "default" | "featured"
+  lang: string
   viewProject: string
   viewCode: string
+  viewCaseStudy: string
   featuredLabel: string
   status?: ProjectStatus
   statusLabels: { online: string; offline: string }
@@ -186,8 +187,10 @@ interface ProjectCardProps {
 function ProjectCard({
   project,
   variant = "default",
+  lang,
   viewProject,
   viewCode,
+  viewCaseStudy,
   featuredLabel,
   status,
   statusLabels,
@@ -311,6 +314,14 @@ function ProjectCard({
                 {viewCode}
               </a>
             </Button>
+            {project.caseStudySlug && (
+              <Button variant="ghost" size="sm" className="gap-2" asChild>
+                <a href={`/${lang}/blog/${project.caseStudySlug}`} aria-label={`${viewCaseStudy}: ${project.title}`}>
+                  <BookOpen className="h-4 w-4" />
+                  {viewCaseStudy}
+                </a>
+              </Button>
+            )}
             {status && (
               <span className="ml-auto inline-flex items-center gap-1.5 text-xs text-foreground/60">
                 <span
