@@ -11,7 +11,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "test:emailjs": "node scripts/test-emailjs.js"
+    "test:emailjs": "node scripts/test-emailjs.js",
+    "seo:indexnow": "node scripts/submit-indexnow.js"
   },
   "dependencies": {
     "@emotion/is-prop-valid": "latest",

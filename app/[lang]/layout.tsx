@@ -48,9 +48,14 @@ export async function generateMetadata({
     // can still be overridden per-deployment via env var if it ever changes.
     verification: {
       google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION ?? '5bdBtbVVlDdQ6JUwkWaJCmlyhbeLnKbCT499wtb3DRs',
-      other: process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION
-        ? { 'msvalidate.01': process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION }
-        : undefined,
+      other: {
+        ...(process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION
+          ? { 'msvalidate.01': process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION }
+          : {}),
+        ...(process.env.NEXT_PUBLIC_YANDEX_SITE_VERIFICATION
+          ? { 'yandex-verification': process.env.NEXT_PUBLIC_YANDEX_SITE_VERIFICATION }
+          : {}),
+      },
     },
   };
 }
