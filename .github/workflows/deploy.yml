@@ -111,6 +111,21 @@ jobs:
             docker image prune -f
             docker logout ghcr.io
 
+  notify-indexnow:
+    needs: deploy
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Submit sitemap URLs to IndexNow (Bing, Yandex, Seznam, Naver)
+        run: node scripts/submit-indexnow.js
+
   alert-on-failure:
     needs: [build-and-push, deploy]
     if: failure()
