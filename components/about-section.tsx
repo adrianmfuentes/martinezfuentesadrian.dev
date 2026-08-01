@@ -5,7 +5,7 @@ import { Card, CardContent } from "@components/ui/card"
 import { motion, useInView } from "framer-motion"
 import Image from 'next/image';
 import backgroundImage from '../public/images/me.jpeg';
-import { Rocket, Lightbulb, Users, Zap, BookOpen, Award, ArrowRight } from "lucide-react"
+import { Rocket, Lightbulb, Users, Zap, BookOpen, Award, GraduationCap, ArrowRight } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@components/ui/button"
 import { getAge } from "@/lib/academic"
@@ -19,10 +19,9 @@ interface AboutSectionProps {
     readonly birthDate: string
     readonly bio: readonly string[]
     readonly stats: {
-      readonly yearsStudying: string
       readonly projectsCompleted: string
       readonly certifications: string
-      readonly yearsExperience: string
+      readonly thesisGrade: string
     }
     readonly education: {
       readonly title: string
@@ -70,10 +69,9 @@ export function AboutSection({ lang, dictionary }: AboutSectionProps) {
   );
 
   const stats = [
-    { label: lang === "es" ? "Años Estudiando" : "Years Studying", value: dictionary.stats.yearsStudying, icon: BookOpen },
     { label: lang === "es" ? "Proyectos" : "Projects", value: dictionary.stats.projectsCompleted, icon: Zap },
     { label: lang === "es" ? "Certificaciones" : "Certifications", value: dictionary.stats.certifications, icon: Award },
-    { label: lang === "es" ? "Experiencia" : "Experience", value: dictionary.stats.yearsExperience, icon: Rocket }
+    { label: lang === "es" ? "Nota TFG" : "Thesis Grade", value: dictionary.stats.thesisGrade, icon: GraduationCap }
   ];
 
   const containerVariants = {
@@ -100,7 +98,7 @@ export function AboutSection({ lang, dictionary }: AboutSectionProps) {
 
       {/* Stats Cards */}
       <motion.div
-        className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16"
+        className="grid grid-cols-3 gap-4 mb-16"
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"

@@ -44,6 +44,7 @@ interface Dictionary {
       projectsCompleted: string
       certifications: string
       yearsExperience: string
+      thesisGrade: string
       techstack: string
     }
     skills: {

@@ -53,10 +53,9 @@ function makeDictionary(overrides: Partial<Parameters<typeof AboutSection>[0]["d
       "This is a second paragraph without the placeholder.",
     ],
     stats: {
-      yearsStudying: "4+",
       projectsCompleted: "15+",
       certifications: "8+",
-      yearsExperience: "2+",
+      thesisGrade: "10/10",
     },
     education: {
       title: "Education",
@@ -124,24 +123,25 @@ describe("AboutSection", () => {
     ).toBeInTheDocument()
   })
 
-  it("renders the four stat cards with language-appropriate labels", () => {
+  it("renders the three stat cards with language-appropriate labels", () => {
     const dictionary = makeDictionary()
     render(<AboutSection lang="en" dictionary={dictionary} />)
 
-    expect(screen.getByText(dictionary.stats.yearsStudying)).toBeInTheDocument()
     expect(screen.getByText(dictionary.stats.projectsCompleted)).toBeInTheDocument()
     expect(screen.getByText(dictionary.stats.certifications)).toBeInTheDocument()
-    expect(screen.getByText(dictionary.stats.yearsExperience)).toBeInTheDocument()
-    expect(screen.getByText("Years Studying")).toBeInTheDocument()
-    expect(screen.getByText("Experience")).toBeInTheDocument()
+    expect(screen.getByText(dictionary.stats.thesisGrade)).toBeInTheDocument()
+    expect(screen.getByText("Projects")).toBeInTheDocument()
+    expect(screen.getByText("Certifications")).toBeInTheDocument()
+    expect(screen.getByText("Thesis Grade")).toBeInTheDocument()
   })
 
   it("renders Spanish stat labels when lang is 'es'", () => {
     const dictionary = makeDictionary()
     render(<AboutSection lang="es" dictionary={dictionary} />)
 
-    expect(screen.getByText("Años Estudiando")).toBeInTheDocument()
-    expect(screen.getByText("Experiencia")).toBeInTheDocument()
+    expect(screen.getByText("Proyectos")).toBeInTheDocument()
+    expect(screen.getByText("Certificaciones")).toBeInTheDocument()
+    expect(screen.getByText("Nota TFG")).toBeInTheDocument()
   })
 
   it("links the education CTA to the CV page in the active language", () => {
