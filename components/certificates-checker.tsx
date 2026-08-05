@@ -233,6 +233,7 @@ export function CertificatesChecker({ dictionary }: Readonly<CertificatesChecker
                 {SSL_COMMON_PORTS.map((commonPort) => (
                   <button
                     key={commonPort}
+                    type="button"
                     onClick={() => setPort(commonPort.toString())}
                     disabled={isChecking}
                     className="px-2 py-1 text-xs bg-green-500/20 text-green-300 rounded border border-green-500/30 hover:bg-green-500/30 disabled:opacity-50 transition-colors"

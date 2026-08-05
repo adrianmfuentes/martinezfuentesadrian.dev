@@ -137,6 +137,7 @@ export function WebDiscovery({ dictionary }: { readonly dictionary?: DictShape }
 
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
             <button
+              type="button"
               onClick={onStart}
               disabled={status === 'scanning'}
               className="flex items-center justify-center gap-2 px-4 py-3 sm:py-2 rounded-md bg-gradient-to-r from-green-600 to-green-500 text-black font-semibold hover:from-green-500 hover:to-green-400 text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
@@ -160,6 +161,7 @@ export function WebDiscovery({ dictionary }: { readonly dictionary?: DictShape }
             </button>
 
             <button
+              type="button"
               onClick={onReset}
               disabled={status === 'scanning'}
               className="px-4 py-3 sm:py-2 rounded-md border border-green-500/30 text-green-300 hover:bg-green-500/10 text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
