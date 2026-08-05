@@ -202,6 +202,10 @@ interface Dictionary {
     minRead: string
     backToBlog: string
     rss: string
+    searchPlaceholder: string
+    allTags: string
+    noResults: string
+    relatedPosts: string
   }
   contact: {
     title: string
@@ -280,6 +284,8 @@ interface Dictionary {
     description: string
     comingSoon: string
     launchTool: string
+    stats: string
+    api: string
     categories: {
       security: string
       development: string
@@ -293,6 +299,23 @@ interface Dictionary {
       category: string
       status: string
     }[]
+  }
+  toolsStats: {
+    title: string
+    subtitle: string
+    totalVisits: string
+    totalRuns: string
+    noData: string
+    backToTools: string
+  }
+  toolsApi: {
+    title: string
+    subtitle: string
+    backToTools: string
+    rateLimitLabel: string
+    endpointLabel: string
+    parametersLabel: string
+    exampleLabel: string
   }
   headersValidator: {
     title: string

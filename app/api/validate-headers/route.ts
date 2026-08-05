@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { incrementToolUsage } from '@/lib/kv'
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams
@@ -16,6 +17,8 @@ export async function GET(request: NextRequest) {
     if (!['http:', 'https:'].includes(parsedUrl.protocol)) {
       return NextResponse.json({ error: 'Invalid protocol' }, { status: 400 })
     }
+
+    await incrementToolUsage('http-headers-validator')
 
     // Hacer la petición para obtener las cabeceras
     const response = await fetch(url, { 

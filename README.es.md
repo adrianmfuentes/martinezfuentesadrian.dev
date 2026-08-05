@@ -85,6 +85,16 @@ La aplicación lee su configuración a partir de variables de entorno en tiempo 
 
 Ninguna de estas variables es necesaria para navegar el sitio en local, pero las funciones que dependen de ellas quedarán desactivadas o devolverán un error hasta que se configuren.
 
+#### Integraciones opcionales
+
+| Variable | Uso |
+| --- | --- |
+| `NEXT_PUBLIC_SENTRY_DSN`, `SENTRY_DSN` | Activa el reporte de errores con Sentry (cliente / servidor y edge) |
+| `SENTRY_ORG`, `SENTRY_PROJECT`, `SENTRY_AUTH_TOKEN` | Subida de source maps a Sentry durante el build |
+| `NEXT_PUBLIC_GISCUS_REPO`, `NEXT_PUBLIC_GISCUS_REPO_ID`, `NEXT_PUBLIC_GISCUS_CATEGORY`, `NEXT_PUBLIC_GISCUS_CATEGORY_ID` | Comentarios en el blog vía giscus (requiere GitHub Discussions activado y la app de giscus instalada) |
+
+`proxy.ts` amplía automáticamente la Content-Security-Policy (host de ingesta de Sentry, `https://giscus.app`) en cuanto detecta esas variables — no hace falta tocarla a mano. Nota: `pnpm build` usa Turbopack en este proyecto, y el plugin de webpack de Sentry (subida de source maps y alguna opción de build) todavía no funciona con Turbopack; la captura de errores en tiempo de ejecución no se ve afectada, pero conviene verificar que los source maps llegan a Sentry una vez configurado.
+
 ## Despliegue e integración continua
 
 La aplicación se empaqueta como imagen Docker (`Dockerfile`, usando el output standalone de Next.js). En cada push a `main`, GitHub Actions construye esa imagen para `linux/arm64`, la publica en el GitHub Container Registry, y la despliega por SSH en un servidor propio con Docker y Nginx Proxy Manager (`docker-compose.yml`). GitHub Actions también ejecuta una comprobación de build y de auditoría de dependencias en cada push y pull request, un análisis de SonarQube con quality gate (`sonar.yml`, `sonar-project.properties`), y Dependabot mantiene las dependencias actualizadas, fusionando automáticamente las actualizaciones menores una vez que el build pasa.

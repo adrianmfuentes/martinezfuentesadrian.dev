@@ -47,3 +47,17 @@
   background-size: cover;
   will-change: transform;
 }
+
+/* Used by the "Export as PDF" button (window.print()) across the security
+   tools: strip chrome so the printed page is just the tool's result. */
+@media print {
+  header,
+  footer,
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: white;
+    color: black;
+  }
+}

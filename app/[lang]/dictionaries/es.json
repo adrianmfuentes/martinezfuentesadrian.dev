@@ -299,7 +299,11 @@
     "empty": "Aún no hay artículos — vuelve pronto.",
     "minRead": "min de lectura",
     "backToBlog": "Volver al blog",
-    "rss": "Feed RSS"
+    "rss": "Feed RSS",
+    "searchPlaceholder": "Buscar artículos…",
+    "allTags": "Todos",
+    "noResults": "Ningún artículo coincide con tu búsqueda.",
+    "relatedPosts": "Artículos relacionados"
   },
   "contact": {
     "title": "Contáctame",
@@ -383,6 +387,8 @@
     "description": "Explora una colección de herramientas especializadas que he desarrollado para facilitar tareas de desarrollo, análisis de seguridad y administración de sistemas.",
     "comingSoon": "Próximamente",
     "launchTool": "Abrir Herramienta",
+    "stats": "Estadísticas de uso",
+    "api": "Documentación API",
     "categories": {
       "security": "Seguridad",
       "development": "Desarrollo",
@@ -454,6 +460,23 @@
         "status": "available"
       }
     ]
+  },
+  "toolsStats": {
+    "title": "Estadísticas de uso",
+    "subtitle": "Cuánto se usan realmente estas herramientas — contado en primera parte, sin cookies de rastreo.",
+    "totalVisits": "Visitas al sitio",
+    "totalRuns": "Ejecuciones",
+    "noData": "Aún no hay uso registrado.",
+    "backToTools": "Volver a herramientas"
+  },
+  "toolsApi": {
+    "title": "Documentación API",
+    "subtitle": "Las herramientas de arriba son interfaces finas sobre estos mismos endpoints — llámalos directamente si prefieres automatizarlo.",
+    "backToTools": "Volver a herramientas",
+    "rateLimitLabel": "Límite de peticiones",
+    "endpointLabel": "Endpoint",
+    "parametersLabel": "Parámetros",
+    "exampleLabel": "Ejemplo"
   },
   "headersValidator": {
     "title": "Validador de Cabeceras HTTP",

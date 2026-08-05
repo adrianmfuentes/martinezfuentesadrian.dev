@@ -6,6 +6,7 @@ import { Button } from "@components/ui/button"
 import { Input } from "@components/ui/input"
 import { Badge } from "@components/ui/badge"
 import { Progress } from "@components/ui/progress"
+import { trackToolUsage } from "@/lib/track-tool-usage"
 
 import { 
   Eye, 
@@ -77,6 +78,7 @@ export function PasswordGenerator({ dictionary }: Readonly<PasswordGeneratorProp
 
     setPassword(newPassword)
     setCopied(false)
+    trackToolUsage("password-generator")
   }
 
   const copyToClipboard = async () => {

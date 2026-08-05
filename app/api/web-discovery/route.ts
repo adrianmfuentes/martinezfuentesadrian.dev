@@ -4,6 +4,7 @@ import { join } from 'node:path'
 import { isBlockedHost } from '@/lib/ssrf-guard'
 import { getClientIp } from '@/lib/get-client-ip'
 import { rateLimit } from '@/lib/rate-limit'
+import { incrementToolUsage } from '@/lib/kv'
 
 // Fetches attacker-supplied URLs dozens of times per request — throttle harder than a typical API route.
 const limiter = rateLimit({
@@ -114,6 +115,8 @@ export async function GET(request: NextRequest) {
         if (await isBlockedHost(effectiveHost)) {
             return NextResponse.json({ success: false, error: 'Host not allowed' }, { status: 400 })
         }
+
+        await incrementToolUsage('web-discovery')
 
         const results: Array<[string, number]> = []
 

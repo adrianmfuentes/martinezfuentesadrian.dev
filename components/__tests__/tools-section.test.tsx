@@ -12,6 +12,8 @@ const dictionary = {
   description: "A collection of tools I built.",
   comingSoon: "Coming soon",
   launchTool: "Launch tool",
+  stats: "Usage stats",
+  api: "API docs",
   categories: {
     security: "Security",
     development: "Development",
@@ -54,9 +56,12 @@ describe("ToolsSection", () => {
   it("renders every tool's name, description and category badge", () => {
     render(<ToolsSection dictionary={dictionary} />)
 
+    // Each tool renders twice: once in the compact mobile list, once in the
+    // desktop card grid — both live in the DOM simultaneously and are toggled
+    // with responsive CSS (jsdom doesn't evaluate media queries).
     for (const tool of dictionary.items) {
-      expect(screen.getByText(tool.name)).toBeInTheDocument()
-      expect(screen.getByText(tool.description)).toBeInTheDocument()
+      expect(screen.getAllByText(tool.name)).toHaveLength(2)
+      expect(screen.getAllByText(tool.description)).toHaveLength(2)
     }
 
     expect(screen.getByText(dictionary.categories.security)).toBeInTheDocument()

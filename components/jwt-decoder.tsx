@@ -6,6 +6,8 @@ import { Button } from "@components/ui/button"
 import { Textarea } from "@components/ui/textarea"
 import { Input } from "@components/ui/input"
 import { Badge } from "@components/ui/badge"
+import { trackToolUsage } from "@/lib/track-tool-usage"
+import { ExportResultButtons } from "@components/export-result-buttons"
 import {
   KeyRound,
   AlertTriangle,
@@ -141,6 +143,7 @@ export function JwtDecoder({ dictionary }: Readonly<JwtDecoderProps>) {
     try {
       setDecoded(decodeJwt(token))
       setError("")
+      trackToolUsage("jwt-decoder")
     } catch {
       setDecoded(null)
       setError(dictionary.errors.invalidToken)
@@ -260,6 +263,10 @@ export function JwtDecoder({ dictionary }: Readonly<JwtDecoderProps>) {
 
         {decoded && (
           <>
+            <div className="mb-4 sm:mb-6 mx-2 sm:mx-0">
+              <ExportResultButtons data={decoded} filename="jwt-decoded" />
+            </div>
+
             {/* Header & Payload */}
             <Card className="bg-black/70 border-purple-500/30 mb-6 sm:mb-8 mx-2 sm:mx-0">
               <CardHeader className="pb-4 sm:pb-6">

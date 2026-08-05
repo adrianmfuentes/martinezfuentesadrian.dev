@@ -1,9 +1,10 @@
 "use client"
 
+import { useMemo, useState } from "react"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { Card, CardContent } from "@components/ui/card"
-import { CalendarDays, Clock, Rss } from "lucide-react"
+import { CalendarDays, Clock, Rss, Search, X } from "lucide-react"
 import type { BlogPostMeta } from "@/lib/blog"
 
 interface BlogSectionProps {
@@ -15,6 +16,9 @@ interface BlogSectionProps {
     empty: string
     minRead: string
     rss: string
+    searchPlaceholder: string
+    allTags: string
+    noResults: string
   }
 }
 
@@ -38,9 +42,30 @@ function formatDate(date: string, lang: string): string {
 }
 
 export function BlogSection({ lang, posts, dictionary }: Readonly<BlogSectionProps>) {
+  const [query, setQuery] = useState("")
+  const [activeTag, setActiveTag] = useState<string | null>(null)
+
+  const allTags = useMemo(() => {
+    const tags = new Set<string>()
+    for (const post of posts) {
+      for (const tag of post.tags) tags.add(tag)
+    }
+    return [...tags].sort()
+  }, [posts])
+
+  const filteredPosts = useMemo(() => {
+    const q = query.trim().toLowerCase()
+    return posts.filter((post) => {
+      const matchesQuery =
+        !q || post.title.toLowerCase().includes(q) || post.description.toLowerCase().includes(q)
+      const matchesTag = !activeTag || post.tags.includes(activeTag)
+      return matchesQuery && matchesTag
+    })
+  }, [posts, query, activeTag])
+
   return (
     <section className="py-16" aria-label={dictionary.title}>
-      <div className="text-center mb-12">
+      <div className="text-center mb-10">
         <h2 className="text-3xl font-bold mb-2 font-poppins">{dictionary.title}</h2>
         <p className="text-lg text-foreground/70">{dictionary.subtitle}</p>
         <a
@@ -52,8 +77,69 @@ export function BlogSection({ lang, posts, dictionary }: Readonly<BlogSectionPro
         </a>
       </div>
 
+      {posts.length > 0 && (
+        <div className="max-w-2xl mx-auto mb-10 space-y-4">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-foreground/40" />
+            <input
+              type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder={dictionary.searchPlaceholder}
+              aria-label={dictionary.searchPlaceholder}
+              className="w-full rounded-full border border-border bg-background/60 py-2 pl-10 pr-4 text-sm outline-none transition-colors focus:border-primary/50"
+            />
+          </div>
+
+          {allTags.length > 0 && (
+            <div className="flex flex-wrap justify-center gap-2">
+              <button
+                type="button"
+                onClick={() => setActiveTag(null)}
+                className={`text-xs px-3 py-1 rounded-full transition-colors ${
+                  activeTag === null
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-primary/10 text-primary hover:bg-primary/20"
+                }`}
+              >
+                {dictionary.allTags}
+              </button>
+              {allTags.map((tag) => (
+                <button
+                  key={tag}
+                  type="button"
+                  onClick={() => setActiveTag((current) => (current === tag ? null : tag))}
+                  className={`text-xs px-3 py-1 rounded-full transition-colors ${
+                    activeTag === tag
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-primary/10 text-primary hover:bg-primary/20"
+                  }`}
+                >
+                  {tag}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
       {posts.length === 0 ? (
         <p className="text-center text-foreground/60">{dictionary.empty}</p>
+      ) : filteredPosts.length === 0 ? (
+        <div className="text-center">
+          <p className="text-foreground/60 mb-3">{dictionary.noResults}</p>
+          <button
+            type="button"
+            onClick={() => {
+              setQuery("")
+              setActiveTag(null)
+            }}
+            className="inline-flex items-center gap-1.5 text-xs text-primary hover:underline"
+          >
+            <X className="h-3.5 w-3.5" />
+            {dictionary.allTags}
+          </button>
+        </div>
       ) : (
         <motion.div
           className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
@@ -62,7 +148,7 @@ export function BlogSection({ lang, posts, dictionary }: Readonly<BlogSectionPro
           whileInView="visible"
           viewport={{ once: true, amount: 0.15 }}
         >
-          {posts.map((post) => (
+          {filteredPosts.map((post) => (
             <motion.div key={post.slug} variants={itemVariants}>
               <Link href={`/${lang}/blog/${post.slug}`} className="group block h-full">
                 <Card className="h-full flex flex-col transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/10 hover:border-primary/40">
@@ -83,7 +169,15 @@ export function BlogSection({ lang, posts, dictionary }: Readonly<BlogSectionPro
                     <p className="text-foreground/80 mb-4 flex-grow">{post.description}</p>
                     <div className="flex flex-wrap gap-2 mt-auto">
                       {post.tags.map((tag) => (
-                        <span key={tag} className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">
+                        <span
+                          key={tag}
+                          onClick={(e) => {
+                            e.preventDefault()
+                            e.stopPropagation()
+                            setActiveTag(tag)
+                          }}
+                          className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full hover:bg-primary/20 transition-colors cursor-pointer"
+                        >
                           {tag}
                         </span>
                       ))}

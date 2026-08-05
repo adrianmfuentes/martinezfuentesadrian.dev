@@ -5,7 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@components/ui/card"
 import { Button } from "@components/ui/button"
 import { Input } from "@components/ui/input"
 import { Badge } from "@components/ui/badge"
-import { 
+import { ExportResultButtons } from "@components/export-result-buttons"
+import {
   Globe, 
   Shield, 
   AlertTriangle, 
@@ -351,6 +352,8 @@ export default function HttpHeadersValidator({ dictionary }: Readonly<HeadersVal
                 </div>
               </CardHeader>
               <CardContent className="space-y-6">
+                <ExportResultButtons data={results} filename={`headers-${new URL(results.url).hostname}`} />
+
                 {/* Resumen */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                   <div className="text-center p-3 bg-green-900/30 border border-green-500/30 rounded-lg">

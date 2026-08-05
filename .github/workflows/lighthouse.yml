@@ -1,0 +1,26 @@
+name: Lighthouse CI
+
+on:
+  schedule:
+    # Mondays at 06:00 UTC — the deployed site, not a CI-built preview
+    # (deploys are manual via deploy.yml, so there's no preview URL to test).
+    - cron: "0 6 * * 1"
+  workflow_dispatch: {}
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Lighthouse CI
+        uses: treosh/lighthouse-ci-action@v12
+        with:
+          urls: |
+            https://amf.amfserver.duckdns.org/es
+            https://amf.amfserver.duckdns.org/en
+            https://amf.amfserver.duckdns.org/es/blog
+            https://amf.amfserver.duckdns.org/es/tools
+            https://amf.amfserver.duckdns.org/es/cv
+          uploadArtifacts: true
+          temporaryPublicStorage: true

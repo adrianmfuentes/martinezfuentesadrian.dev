@@ -6,7 +6,8 @@ import { Button } from "@components/ui/button"
 import { Input } from "@components/ui/input"
 import { Badge } from "@components/ui/badge"
 import { Progress } from "@components/ui/progress"
-import { 
+import { ExportResultButtons } from "@components/export-result-buttons"
+import {
   Globe, 
   Shield, 
   Play, 
@@ -393,6 +394,8 @@ export function PortScanner({ dictionary }: Readonly<PortScannerProps>) {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
+              <ExportResultButtons data={{ host, results }} filename={`port-scan-${host}`} />
+
               {/* Summary */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
                 <div className="flex justify-between items-center p-2 sm:p-3 bg-gray-900/50 rounded-lg border border-gray-700/50">

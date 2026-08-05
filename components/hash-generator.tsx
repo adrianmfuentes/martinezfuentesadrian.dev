@@ -5,6 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@components/ui/card"
 import { Button } from "@components/ui/button"
 import { Textarea } from "@components/ui/textarea"
 import { Hash, Upload, Type, Copy, Check, AlertTriangle, Loader2 } from "lucide-react"
+import { trackToolUsage } from "@/lib/track-tool-usage"
+import { ExportResultButtons } from "@components/export-result-buttons"
 
 interface HashGeneratorProps {
   dictionary: {
@@ -213,6 +215,7 @@ export function HashGenerator({ dictionary }: Readonly<HashGeneratorProps>) {
     try {
       const bytes = new TextEncoder().encode(text)
       setHashes(await computeHashes(bytes))
+      trackToolUsage("hash-generator")
     } finally {
       setIsProcessing(false)
     }
@@ -231,6 +234,7 @@ export function HashGenerator({ dictionary }: Readonly<HashGeneratorProps>) {
     try {
       const bytes = new Uint8Array(await file.arrayBuffer())
       setHashes(await computeHashes(bytes))
+      trackToolUsage("hash-generator")
     } finally {
       setIsProcessing(false)
     }
@@ -370,6 +374,8 @@ export function HashGenerator({ dictionary }: Readonly<HashGeneratorProps>) {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
+              <ExportResultButtons data={hashes} filename={fileName ? `hashes-${fileName}` : "hashes"} />
+
               {ALGORITHMS.map((algorithm) => (
                 <div key={algorithm} className="p-2 sm:p-3 bg-gray-900/50 rounded-lg border border-gray-700/50">
                   <div className="flex items-center justify-between mb-1">

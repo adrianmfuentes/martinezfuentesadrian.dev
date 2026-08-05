@@ -51,6 +51,39 @@ export async function incrementVisitCount(): Promise<number | null> {
   }
 }
 
+export async function getVisitCount(): Promise<number | null> {
+  const redis = getRedis()
+  if (!redis) return null
+  try {
+    return await redis.get<number>("visits:total")
+  } catch {
+    return null
+  }
+}
+
+// Best-effort per-tool usage counters, backing the public /tools/stats page.
+// Never throws — a KV hiccup should never fail the tool request it's riding along with.
+export async function incrementToolUsage(tool: string): Promise<void> {
+  const redis = getRedis()
+  if (!redis) return
+  try {
+    await redis.hincrby("tools:usage", tool, 1)
+  } catch {
+    // ignore — analytics is not load-bearing
+  }
+}
+
+export async function getToolUsageCounts(): Promise<Record<string, number>> {
+  const redis = getRedis()
+  if (!redis) return {}
+  try {
+    const raw = (await redis.hgetall<Record<string, string | number>>("tools:usage")) ?? {}
+    return Object.fromEntries(Object.entries(raw).map(([key, value]) => [key, Number(value)]))
+  } catch {
+    return {}
+  }
+}
+
 export async function getContentOverride<T>(
   lang: string,
   section: ContentSection

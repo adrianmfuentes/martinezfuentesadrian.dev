@@ -63,12 +63,14 @@ export default async function RootLayout({
 }>) {
   const requestHeaders = await headers()
   const lang = requestHeaders.get('x-locale') === 'en' ? 'en' : 'es'
+  const nonce = requestHeaders.get('x-nonce') ?? undefined
 
   return (
     <html lang={lang} className="dark" suppressHydrationWarning>
       <body className={`${inter.variable} ${poppins.variable} font-sans`}>
         <script
           type="application/ld+json"
+          nonce={nonce}
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
         <ThemeProvider

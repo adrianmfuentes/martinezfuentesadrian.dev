@@ -59,6 +59,13 @@ Static analysis with SonarQube requires the repository secrets `SONAR_TOKEN` and
 
 Deploying requires the following repository secrets: `SSH_HOST`, `SSH_USER`, `SSH_PRIVATE_KEY`, `SSH_DEPLOY_PATH`, and optionally `SSH_PORT`. The server needs a persistent `.env` file at `SSH_DEPLOY_PATH` alongside `docker-compose.yml`, holding the runtime variables listed above.
 
+## Optional integrations
+
+These are fully opt-in — unset, they no-op and change nothing:
+
+- **Error tracking (Sentry)**: set `NEXT_PUBLIC_SENTRY_DSN` (client) and `SENTRY_DSN` (server/edge) to start reporting errors. To also upload source maps at build time, set `SENTRY_ORG`, `SENTRY_PROJECT`, and `SENTRY_AUTH_TOKEN`. `proxy.ts` automatically allows the Sentry ingest host in the CSP's `connect-src` once `NEXT_PUBLIC_SENTRY_DSN` is set. Note: `pnpm build` runs under Turbopack here, and the Sentry webpack plugin (source map upload, some build-time options) doesn't run under Turbopack yet — runtime error capture is unaffected, but verify source maps actually land in Sentry once configured.
+- **Blog comments (giscus)**: set `NEXT_PUBLIC_GISCUS_REPO`, `NEXT_PUBLIC_GISCUS_REPO_ID`, `NEXT_PUBLIC_GISCUS_CATEGORY`, and `NEXT_PUBLIC_GISCUS_CATEGORY_ID` to show comments on blog posts. Requires enabling GitHub Discussions on the repo and installing the [giscus app](https://github.com/apps/giscus). `proxy.ts` automatically allows `https://giscus.app` in the CSP once `NEXT_PUBLIC_GISCUS_REPO` is set.
+
 ## License
 
 This is a personal project. The source code is public for reference, but it is not licensed for reuse or redistribution.

@@ -1,3 +1,5 @@
+import { incrementToolUsage } from '@/lib/kv'
+
 export async function POST(request: Request) {
   try {
     const { password } = await request.json()
@@ -5,6 +7,8 @@ export async function POST(request: Request) {
     if (!password) {
       return Response.json({ error: 'Password is required' }, { status: 400 })
     }
+
+    await incrementToolUsage('password-checker')
 
     // SHA-1 is mandated by the HaveIBeenPwned Range API's k-anonymity model
     // (https://haveibeenpwned.com/API/v3#PwnedPasswords): only a 5-char hash

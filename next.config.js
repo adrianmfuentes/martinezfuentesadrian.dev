@@ -1,4 +1,5 @@
 const path = require('path')
+const { withSentryConfig } = require('@sentry/nextjs')
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -84,17 +85,11 @@ const nextConfig = {
             value: "strict-origin-when-cross-origin"
           },
           {
-            key: "X-XSS-Protection",
-            value: "1; mode=block"
-          },
-          {
             key: "Strict-Transport-Security",
             value: "max-age=31536000; includeSubDomains; preload"
           },
-          {
-            key: "Content-Security-Policy",
-            value: "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.emailjs.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://api.emailjs.com; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self';"
-          },
+          // Content-Security-Policy is set in middleware.ts instead of here,
+          // since it needs a fresh per-request nonce for script-src.
           {
             key: "Permissions-Policy",
             value: "camera=(), microphone=(), geolocation=(), interest-cohort=()"
@@ -116,4 +111,17 @@ const nextConfig = {
   },
 }
 
-module.exports = nextConfig
+// A no-op wrapper until SENTRY_AUTH_TOKEN is set (source map upload is skipped
+// without it) — same opt-in posture as the sentry.*.config.ts files.
+module.exports = withSentryConfig(nextConfig, {
+  org: process.env.SENTRY_ORG,
+  project: process.env.SENTRY_PROJECT,
+  authToken: process.env.SENTRY_AUTH_TOKEN,
+  silent: true,
+  disableLogger: true,
+  sourcemaps: {
+    disable: !process.env.SENTRY_AUTH_TOKEN,
+  },
+  automaticVercelMonitors: false,
+  telemetry: false,
+})

@@ -6,7 +6,14 @@ import type { Metadata } from 'next'
 
 export const SITE_URL = 'https://amf.amfserver.duckdns.org'
 export const SITE_NAME = 'Adrián Martínez Fuentes'
-const OG_IMAGE = '/images/me.jpeg'
+
+function ogImageUrl(title: string, description: string): string {
+  const params = new URLSearchParams({
+    title: title.slice(0, 120),
+    subtitle: description.slice(0, 160),
+  })
+  return `/api/og?${params.toString()}`
+}
 
 type Lang = 'en' | 'es'
 
@@ -30,6 +37,7 @@ export function pageMetadata({
 }: PageMetadataInput): Metadata {
   const canonical = `/${lang}${path}`
   const fullTitle = `${title} · ${SITE_NAME}`
+  const ogImage = ogImageUrl(title, description)
 
   return {
     title,
@@ -51,13 +59,13 @@ export function pageMetadata({
       locale: lang === 'es' ? 'es_ES' : 'en_US',
       alternateLocale: lang === 'es' ? 'en_US' : 'es_ES',
       type,
-      images: [{ url: OG_IMAGE, width: 800, height: 800, alt: fullTitle }],
+      images: [{ url: ogImage, width: 1200, height: 630, alt: fullTitle }],
     },
     twitter: {
       card: 'summary_large_image',
       title: fullTitle,
       description,
-      images: [OG_IMAGE],
+      images: [ogImage],
     },
   }
 }

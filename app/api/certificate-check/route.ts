@@ -3,6 +3,7 @@ import { Socket } from "node:net"
 import { isBlockedHost } from "@/lib/ssrf-guard"
 import { getClientIp } from "@/lib/get-client-ip"
 import { rateLimit } from "@/lib/rate-limit"
+import { incrementToolUsage } from "@/lib/kv"
 
 // Opens raw TLS connections to attacker-supplied hosts — throttle harder than a typical API route.
 const limiter = rateLimit({
@@ -132,6 +133,8 @@ export async function POST(request: Request) {
     if (await isBlockedHost(host)) {
       return Response.json({ success: false, error: 'Host not allowed' }, { status: 400 })
     }
+
+    await incrementToolUsage('certificates-checker')
 
     const certificate = await getCertificateInfo(host, port)
     

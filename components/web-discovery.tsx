@@ -1,5 +1,6 @@
 'use client'
 import React, { useState } from 'react'
+import { ExportResultButtons } from '@components/export-result-buttons'
 
 type DictShape = Record<string, any>
 
@@ -295,6 +296,9 @@ export function WebDiscovery({ dictionary }: { readonly dictionary?: DictShape }
               <div className="mb-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                 <div className="font-medium text-green-300 text-sm sm:text-base">Resultados</div>
                 <div className="text-xs text-gray-300">{results.length} encontrados</div>
+              </div>
+              <div className="mb-3">
+                <ExportResultButtons data={{ baseUrl: baseUrlState, paths: results }} filename="web-discovery" />
               </div>
               <div className="grid gap-2 grid-cols-1 lg:grid-cols-2">
                 {results.map((p) => {

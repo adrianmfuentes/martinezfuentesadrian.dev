@@ -4,6 +4,7 @@ import { z } from 'zod'
 import { isBlockedHost } from '@/lib/ssrf-guard'
 import { getClientIp } from '@/lib/get-client-ip'
 import { rateLimit } from '@/lib/rate-limit'
+import { incrementToolUsage } from '@/lib/kv'
 
 const dnsLookupSchema = z.object({
   domain: z.string().min(1).max(253),
@@ -55,6 +56,8 @@ export async function POST(request: NextRequest) {
     if (await isBlockedHost(normalizedDomain)) {
       return NextResponse.json({ success: false, error: 'Host not allowed' }, { status: 400 })
     }
+
+    await incrementToolUsage('dns-lookup')
 
     const entries = await Promise.all(
       RECORD_TYPES.map(async (type) => [type, await resolveRecord(normalizedDomain, type)] as const)

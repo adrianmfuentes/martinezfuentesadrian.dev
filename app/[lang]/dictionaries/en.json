@@ -299,7 +299,11 @@
     "empty": "No posts yet — check back soon.",
     "minRead": "min read",
     "backToBlog": "Back to blog",
-    "rss": "RSS feed"
+    "rss": "RSS feed",
+    "searchPlaceholder": "Search posts…",
+    "allTags": "All",
+    "noResults": "No posts match your search.",
+    "relatedPosts": "Related posts"
   },
   "contact": {
     "title": "Contact Me",
@@ -383,6 +387,8 @@
     "description": "Explore a collection of specialized tools I've developed to facilitate development tasks, security analysis, and system administration.",
     "comingSoon": "Coming Soon",
     "launchTool": "Launch Tool",
+    "stats": "Usage stats",
+    "api": "API docs",
     "categories": {
       "security": "Security",
       "development": "Development",
@@ -454,6 +460,23 @@
         "status": "available"
       }
     ]
+  },
+  "toolsStats": {
+    "title": "Usage stats",
+    "subtitle": "How much these tools actually get used — counted first-party, no tracking cookies.",
+    "totalVisits": "Site visits",
+    "totalRuns": "Tool runs",
+    "noData": "No usage recorded yet.",
+    "backToTools": "Back to tools"
+  },
+  "toolsApi": {
+    "title": "API docs",
+    "subtitle": "The tools above are thin UIs over these same endpoints — call them directly if you'd rather script it.",
+    "backToTools": "Back to tools",
+    "rateLimitLabel": "Rate limit",
+    "endpointLabel": "Endpoint",
+    "parametersLabel": "Parameters",
+    "exampleLabel": "Example"
   },
   "headersValidator": {
     "title": "HTTP Headers Validator",

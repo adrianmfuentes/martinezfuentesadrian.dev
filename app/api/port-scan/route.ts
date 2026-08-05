@@ -4,6 +4,7 @@ import { z } from 'zod'
 import { isBlockedHost } from '@/lib/ssrf-guard'
 import { getClientIp } from '@/lib/get-client-ip'
 import { rateLimit } from '@/lib/rate-limit'
+import { incrementToolUsage } from '@/lib/kv'
 
 const portScanSchema = z.object({
   host: z.string().min(1).max(253), // Validar host
@@ -32,6 +33,8 @@ export async function POST(request: NextRequest) {
     if (await isBlockedHost(host)) {
       return NextResponse.json({ success: false, error: 'Host not allowed' }, { status: 400 })
     }
+
+    await incrementToolUsage('port-scanner')
 
     const results = await Promise.all(
       ports.map(async (port: number) => {

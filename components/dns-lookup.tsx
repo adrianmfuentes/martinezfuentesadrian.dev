@@ -6,6 +6,7 @@ import { Button } from "@components/ui/button"
 import { Input } from "@components/ui/input"
 import { Badge } from "@components/ui/badge"
 import { Globe, Search, AlertTriangle, Server, Loader2 } from "lucide-react"
+import { ExportResultButtons } from "@components/export-result-buttons"
 
 interface DnsLookupProps {
   dictionary: {
@@ -195,6 +196,8 @@ export function DnsLookup({ dictionary }: Readonly<DnsLookupProps>) {
                   )}
                 </div>
               ))}
+
+              <ExportResultButtons data={{ domain: domain.trim(), records }} filename={`dns-lookup-${domain.trim()}`} />
 
               <Button
                 onClick={handleReset}

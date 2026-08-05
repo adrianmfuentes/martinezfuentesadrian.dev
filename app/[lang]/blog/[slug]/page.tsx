@@ -1,9 +1,11 @@
 import Link from "next/link"
 import { notFound } from "next/navigation"
+import { headers } from "next/headers"
 import { ArrowLeft, CalendarDays, Clock } from "lucide-react"
 import { getAllPosts, getPostBySlug } from "@/lib/blog"
 import { getDictionary } from "../../dictionaries"
 import { pageMetadata, SITE_URL, SITE_NAME } from "@/lib/seo"
+import { GiscusComments } from "@components/giscus-comments"
 
 export const revalidate = 3600
 
@@ -65,6 +67,13 @@ export default async function BlogPostPage({
   const post = await getPostBySlug(lang, slug)
   if (!post) notFound()
 
+  const allPosts = await getAllPosts(lang)
+  const relatedPosts = allPosts
+    .filter((p) => p.slug !== slug && p.tags.some((tag) => post.tags.includes(tag)))
+    .slice(0, 3)
+
+  const nonce = (await headers()).get("x-nonce") ?? undefined
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
@@ -83,6 +92,7 @@ export default async function BlogPostPage({
     <div className="container mx-auto px-4 py-12 max-w-3xl">
       <script
         type="application/ld+json"
+        nonce={nonce}
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <Link
@@ -107,6 +117,29 @@ export default async function BlogPostPage({
       </div>
 
       <div className={PROSE_CLASSES} dangerouslySetInnerHTML={{ __html: post.contentHtml }} />
+
+      {relatedPosts.length > 0 && (
+        <div className="mt-16 pt-8 border-t border-border">
+          <h2 className="text-xl font-semibold mb-4">{dict.blog.relatedPosts}</h2>
+          <ul className="space-y-3">
+            {relatedPosts.map((related) => (
+              <li key={related.slug}>
+                <Link
+                  href={`/${lang}/blog/${related.slug}`}
+                  className="group flex flex-col gap-1 rounded-lg border border-border p-4 transition-colors hover:border-primary/40"
+                >
+                  <span className="font-medium group-hover:text-primary transition-colors">
+                    {related.title}
+                  </span>
+                  <span className="text-sm text-foreground/60">{related.description}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      <GiscusComments lang={lang} />
     </div>
   )
 }

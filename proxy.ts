@@ -16,28 +16,73 @@ function getClientIp(request: NextRequest): string {
   )
 }
 
+// Per-request nonce for script-src so inline scripts (React/Next's own
+// streaming bootstrap scripts, our JSON-LD tags) can run under a CSP that
+// no longer needs a blanket 'unsafe-inline'. 'unsafe-inline' is still listed
+// as a fallback for browsers that predate CSP3 nonce support — per spec,
+// any browser that understands 'nonce-*' ignores 'unsafe-inline' outright,
+// so this is a pure upgrade for modern browsers, not a relaxed policy.
+function buildCsp(nonce: string): string {
+  // Only widen the policy for optional integrations once they're actually
+  // configured (see README's "Optional integrations" section) — no change
+  // to the default CSP otherwise.
+  const giscusEnabled = Boolean(process.env.NEXT_PUBLIC_GISCUS_REPO)
+  const sentryIngestHost = (() => {
+    try {
+      return new URL(process.env.NEXT_PUBLIC_SENTRY_DSN ?? "").host
+    } catch {
+      return null
+    }
+  })()
+
+  return [
+    "default-src 'self'",
+    `script-src 'self' 'nonce-${nonce}' 'unsafe-inline' https://cdn.emailjs.com${giscusEnabled ? " https://giscus.app" : ""}`,
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+    "font-src 'self' https://fonts.gstatic.com",
+    "img-src 'self' data: https: blob:",
+    `connect-src 'self' https://api.emailjs.com${giscusEnabled ? " https://giscus.app" : ""}${sentryIngestHost ? ` https://${sentryIngestHost}` : ""}`,
+    `frame-src ${giscusEnabled ? "https://giscus.app" : "'none'"}`,
+    "object-src 'none'",
+    "base-uri 'self'",
+    "form-action 'self'",
+  ].join("; ")
+}
+
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl
+  const nonce = Buffer.from(crypto.randomUUID()).toString("base64")
+  const csp = buildCsp(nonce)
 
   if (pathname.startsWith("/admin")) {
     // Block by IP before anything else
     if (ALLOWED_IPS.length > 0) {
       const ip = getClientIp(request)
       if (!ALLOWED_IPS.includes(ip)) {
-        return new NextResponse(null, { status: 403 })
+        const response = new NextResponse(null, { status: 403 })
+        response.headers.set("Content-Security-Policy", csp)
+        return response
       }
     }
 
     // Login page is always accessible
-    if (pathname === "/admin/login") return NextResponse.next()
+    if (pathname === "/admin/login") {
+      const response = NextResponse.next()
+      response.headers.set("Content-Security-Policy", csp)
+      return response
+    }
 
     const token = request.cookies.get(COOKIE_NAME)?.value
 
     if (!token || !(await verifyToken(token))) {
-      return NextResponse.redirect(new URL("/admin/login", request.url))
+      const response = NextResponse.redirect(new URL("/admin/login", request.url))
+      response.headers.set("Content-Security-Policy", csp)
+      return response
     }
 
-    return NextResponse.next()
+    const response = NextResponse.next()
+    response.headers.set("Content-Security-Policy", csp)
+    return response
   }
 
   // Forward the active locale so the root layout can render the correct
@@ -45,7 +90,11 @@ export async function proxy(request: NextRequest) {
   const locale = pathname.startsWith("/en") ? "en" : "es"
   const requestHeaders = new Headers(request.headers)
   requestHeaders.set("x-locale", locale)
-  return NextResponse.next({ request: { headers: requestHeaders } })
+  requestHeaders.set("x-nonce", nonce)
+
+  const response = NextResponse.next({ request: { headers: requestHeaders } })
+  response.headers.set("Content-Security-Policy", csp)
+  return response
 }
 
 // Inline — avoids any potential Edge Runtime import issues

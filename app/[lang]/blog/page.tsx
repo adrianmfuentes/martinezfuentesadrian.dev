@@ -17,12 +17,23 @@ export async function generateMetadata({
 }) {
   const { lang } = await params
   const dict = await getDictionary(lang as "en" | "es")
-  return pageMetadata({
+  const base = pageMetadata({
     lang: lang as "en" | "es",
     path: "/blog",
     title: dict.blog.title,
     description: DESCRIPTIONS[lang as "en" | "es"],
   })
+
+  return {
+    ...base,
+    alternates: {
+      ...base.alternates,
+      types: {
+        "application/rss+xml": `/${lang}/feed.xml`,
+        "application/feed+json": `/${lang}/feed.json`,
+      },
+    },
+  }
 }
 
 export default async function BlogPage({

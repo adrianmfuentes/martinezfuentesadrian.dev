@@ -30,6 +30,9 @@ const dictionary = {
   empty: "No posts yet — check back soon.",
   minRead: "min read",
   rss: "RSS feed",
+  searchPlaceholder: "Search posts…",
+  allTags: "All",
+  noResults: "No posts match your search.",
 }
 
 const posts: BlogPostMeta[] = [
@@ -77,7 +80,28 @@ describe("BlogSection", () => {
 
   it("renders tags for each post", () => {
     render(<BlogSection lang="en" posts={posts} dictionary={dictionary} />)
-    expect(screen.getByText("FastAPI")).toBeInTheDocument()
-    expect(screen.getByText("Security")).toBeInTheDocument()
+    // Each tag renders twice: once as a filter chip, once on its post card.
+    expect(screen.getAllByText("FastAPI").length).toBeGreaterThan(0)
+    expect(screen.getAllByText("Security").length).toBeGreaterThan(0)
+  })
+
+  it("filters posts by search query", async () => {
+    const { default: userEvent } = await import("@testing-library/user-event")
+    render(<BlogSection lang="en" posts={posts} dictionary={dictionary} />)
+
+    await userEvent.type(screen.getByPlaceholderText(dictionary.searchPlaceholder), "SVAES")
+
+    expect(screen.getByText("Building SVAES")).toBeInTheDocument()
+    expect(screen.queryByText("Why my portfolio has a security tools section")).not.toBeInTheDocument()
+  })
+
+  it("filters posts by tag when a tag chip is clicked", async () => {
+    const { default: userEvent } = await import("@testing-library/user-event")
+    render(<BlogSection lang="en" posts={posts} dictionary={dictionary} />)
+
+    await userEvent.click(screen.getByRole("button", { name: "Security" }))
+
+    expect(screen.getByText("Why my portfolio has a security tools section")).toBeInTheDocument()
+    expect(screen.queryByText("Building SVAES")).not.toBeInTheDocument()
   })
 })

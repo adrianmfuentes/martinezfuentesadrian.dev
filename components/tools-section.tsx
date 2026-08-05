@@ -6,15 +6,16 @@ import { Button } from "@components/ui/button"
 import Link from "next/link"
 import { useParams } from "next/navigation"
 
-import { 
-  Terminal, 
-  Shield, 
-  Code2, 
-  Network, 
-  Search, 
+import {
+  Terminal,
+  Shield,
+  Code2,
+  Network,
+  Search,
   ExternalLink,
   Lock,
-  Zap
+  Zap,
+  ChevronRight
 } from "lucide-react"
 
 interface ToolItem {
@@ -31,6 +32,8 @@ interface ToolsDict {
   description: string
   comingSoon: string
   launchTool: string
+  stats: string
+  api: string
   categories: {
     security: string
     development: string
@@ -118,8 +121,41 @@ export function ToolsSection({ dictionary }: ToolsSectionProps) {
           </p>
         </div>
 
-        {/* Tools Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Tools list - compact rows on mobile so users aren't scrolling through one full-height card at a time */}
+        <div className="sm:hidden space-y-2">
+          {filteredTools.map((tool) => {
+            const IconComponent = categoryIcons[tool.category as keyof typeof categoryIcons] || Terminal
+            const disabled = tool.status === "coming-soon"
+            const row = (
+              <div className="flex items-center gap-3 rounded-lg border border-green-500/30 bg-black/40 px-4 py-3 active:bg-green-500/10 transition-colors">
+                <div className="p-2 rounded-md bg-black/30 shrink-0">
+                  <IconComponent className="w-5 h-5 text-green-400" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="text-green-300 font-mono text-sm font-medium truncate">{tool.name}</p>
+                  <p className="text-gray-400 text-xs truncate">{tool.description}</p>
+                </div>
+                {disabled ? (
+                  <Lock className="w-4 h-4 text-gray-500 shrink-0" />
+                ) : (
+                  <ChevronRight className="w-4 h-4 text-green-400 shrink-0" />
+                )}
+              </div>
+            )
+            return disabled ? (
+              <div key={tool.id} className="opacity-60">
+                {row}
+              </div>
+            ) : (
+              <Link key={tool.id} href={getToolUrl(tool.id)}>
+                {row}
+              </Link>
+            )
+          })}
+        </div>
+
+        {/* Tools Grid (sm and up) */}
+        <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredTools.map((tool) => {
             const IconComponent = categoryIcons[tool.category as keyof typeof categoryIcons] || Terminal
             return (
@@ -170,6 +206,21 @@ export function ToolsSection({ dictionary }: ToolsSectionProps) {
               </Card>
             )
           })}
+        </div>
+
+        <div className="flex flex-wrap justify-center gap-4 mt-10">
+          <Link
+            href={`/${lang}/tools/stats`}
+            className="text-sm text-green-400 hover:text-green-300 underline underline-offset-4 font-mono"
+          >
+            {dictionary.stats}
+          </Link>
+          <Link
+            href={`/${lang}/tools/api`}
+            className="text-sm text-green-400 hover:text-green-300 underline underline-offset-4 font-mono"
+          >
+            {dictionary.api}
+          </Link>
         </div>
 
         {/* Terminal-style footer */}

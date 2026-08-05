@@ -5,8 +5,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@components/ui/card"
 import { Button } from "@components/ui/button"
 import { Input } from "@components/ui/input"
 import { Badge } from "@components/ui/badge"
+import { ExportResultButtons } from "@components/export-result-buttons"
 
-import { 
+import {
   Globe, 
   Shield, 
   AlertTriangle, 
@@ -291,6 +292,8 @@ export function CertificatesChecker({ dictionary }: Readonly<CertificatesChecker
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3 sm:space-y-4 px-3 sm:px-6">
+              <ExportResultButtons data={{ host, port, ...result }} filename={`certificate-${host}`} />
+
               {/* Host Info */}
               <div className="grid grid-cols-1 gap-2 sm:gap-3">
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-2 sm:p-3 bg-gray-900/50 rounded-lg border border-gray-700/50 gap-1 sm:gap-0">
