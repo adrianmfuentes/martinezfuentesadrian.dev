@@ -50,7 +50,7 @@ export function BlogSection({ lang, posts, dictionary }: Readonly<BlogSectionPro
     for (const post of posts) {
       for (const tag of post.tags) tags.add(tag)
     }
-    return [...tags].sort()
+    return [...tags].sort((a, b) => a.localeCompare(b))
   }, [posts])
 
   const filteredPosts = useMemo(() => {
@@ -62,6 +62,8 @@ export function BlogSection({ lang, posts, dictionary }: Readonly<BlogSectionPro
       return matchesQuery && matchesTag
     })
   }, [posts, query, activeTag])
+
+  const hasFilteredResults = filteredPosts.length > 0
 
   return (
     <section className="py-16" aria-label={dictionary.title}>
@@ -125,7 +127,7 @@ export function BlogSection({ lang, posts, dictionary }: Readonly<BlogSectionPro
 
       {posts.length === 0 ? (
         <p className="text-center text-foreground/60">{dictionary.empty}</p>
-      ) : filteredPosts.length === 0 ? (
+      ) : !hasFilteredResults ? (
         <div className="text-center">
           <p className="text-foreground/60 mb-3">{dictionary.noResults}</p>
           <button
@@ -171,10 +173,19 @@ export function BlogSection({ lang, posts, dictionary }: Readonly<BlogSectionPro
                       {post.tags.map((tag) => (
                         <span
                           key={tag}
+                          role="button"
+                          tabIndex={0}
                           onClick={(e) => {
                             e.preventDefault()
                             e.stopPropagation()
                             setActiveTag(tag)
+                          }}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ") {
+                              e.preventDefault()
+                              e.stopPropagation()
+                              setActiveTag(tag)
+                            }
                           }}
                           className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full hover:bg-primary/20 transition-colors cursor-pointer"
                         >

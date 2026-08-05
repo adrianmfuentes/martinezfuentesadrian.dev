@@ -41,7 +41,10 @@ function buildCsp(nonce: string): string {
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
     "font-src 'self' https://fonts.gstatic.com",
     "img-src 'self' data: https: blob:",
-    `connect-src 'self' https://api.emailjs.com${giscusEnabled ? " https://giscus.app" : ""}${sentryIngestHost ? ` https://${sentryIngestHost}` : ""}`,
+    (() => {
+      const sentryConnect = sentryIngestHost ? ` https://${sentryIngestHost}` : ""
+      return `connect-src 'self' https://api.emailjs.com${giscusEnabled ? " https://giscus.app" : ""}${sentryConnect}`
+    })(),
     `frame-src ${giscusEnabled ? "https://giscus.app" : "'none'"}`,
     "object-src 'none'",
     "base-uri 'self'",
@@ -138,5 +141,5 @@ async function verifyToken(token: string): Promise<boolean> {
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/((?!api|_next|.*\\..*).*)"],
+  matcher: ["/admin/:path*", String.raw`/((?!api|_next|.*\..*).*)`],
 }

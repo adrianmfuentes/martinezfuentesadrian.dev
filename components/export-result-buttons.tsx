@@ -17,7 +17,7 @@ interface ExportResultButtonsProps {
 // Reused across the security tools' result panels. JSON export is a plain
 // client-side blob download; "PDF" is the browser's own print-to-PDF, scoped
 // to the result by the @media print rules in globals.css (nav/footer hidden).
-export function ExportResultButtons({ data, filename }: ExportResultButtonsProps) {
+export function ExportResultButtons({ data, filename }: Readonly<ExportResultButtonsProps>) {
   const params = useParams()
   const lang = params?.lang === "es" ? "es" : "en"
   const labels = LABELS[lang]

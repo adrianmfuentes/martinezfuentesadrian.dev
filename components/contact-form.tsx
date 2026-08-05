@@ -107,6 +107,31 @@ interface ContactFormProps {
   }
 }
 
+function getUserFriendlyMessage(errorMessage: string): string {
+  if (errorMessage.includes("Rate limit") || errorMessage.includes("Too many requests")) {
+    return "Has enviado demasiados mensajes. Por favor, espera un momento antes de intentar de nuevo."
+  }
+  if (errorMessage.includes("spam")) {
+    return "Tu mensaje ha sido marcado como spam. Por favor, revisa el contenido e intenta de nuevo."
+  }
+  if (errorMessage.includes("configuration") || errorMessage.includes("SERVICE_ID") || errorMessage.includes("PUBLIC_KEY") || errorMessage.includes("TEMPLATE_ID")) {
+    return "Hay un problema con la configuración del servicio de email. Por favor, contacta al administrador."
+  }
+  if (errorMessage.includes("authentication")) {
+    return "Error de autenticación del servicio de email. Por favor, intenta más tarde."
+  }
+  if (errorMessage.includes("quota")) {
+    return "Se ha excedido el límite de emails. Por favor, intenta más tarde."
+  }
+  if (errorMessage.includes("unavailable")) {
+    return "El servicio de email no está disponible temporalmente. Por favor, intenta más tarde."
+  }
+  if (errorMessage.includes("Invalid form data")) {
+    return "Los datos del formulario no son válidos. Por favor, revisa la información e intenta de nuevo."
+  }
+  return "Ha ocurrido un error al enviar tu mensaje. Por favor, intenta de nuevo más tarde."
+}
+
 export function ContactForm({ dictionary }: Readonly<ContactFormProps>) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [showConfirmation, setShowConfirmation] = useState(false)
@@ -191,25 +216,7 @@ export function ContactForm({ dictionary }: Readonly<ContactFormProps>) {
       console.error("❌ Error en formulario de contacto:", error)
       
       const errorMessage = error instanceof Error ? error.message : "Error desconocido"
-      
-      let userFriendlyMessage = ""
-      if (errorMessage.includes("Rate limit") || errorMessage.includes("Too many requests")) {
-        userFriendlyMessage = "Has enviado demasiados mensajes. Por favor, espera un momento antes de intentar de nuevo."
-      } else if (errorMessage.includes("spam")) {
-        userFriendlyMessage = "Tu mensaje ha sido marcado como spam. Por favor, revisa el contenido e intenta de nuevo."
-      } else if (errorMessage.includes("configuration") || errorMessage.includes("SERVICE_ID") || errorMessage.includes("PUBLIC_KEY") || errorMessage.includes("TEMPLATE_ID")) {
-        userFriendlyMessage = "Hay un problema con la configuración del servicio de email. Por favor, contacta al administrador."
-      } else if (errorMessage.includes("authentication")) {
-        userFriendlyMessage = "Error de autenticación del servicio de email. Por favor, intenta más tarde."
-      } else if (errorMessage.includes("quota")) {
-        userFriendlyMessage = "Se ha excedido el límite de emails. Por favor, intenta más tarde."
-      } else if (errorMessage.includes("unavailable")) {
-        userFriendlyMessage = "El servicio de email no está disponible temporalmente. Por favor, intenta más tarde."
-      } else if (errorMessage.includes("Invalid form data")) {
-        userFriendlyMessage = "Los datos del formulario no son válidos. Por favor, revisa la información e intenta de nuevo."
-      } else {
-        userFriendlyMessage = "Ha ocurrido un error al enviar tu mensaje. Por favor, intenta de nuevo más tarde."
-      }
+      const userFriendlyMessage = getUserFriendlyMessage(errorMessage)
       
       toast({
         title: "Error al enviar mensaje ❌",

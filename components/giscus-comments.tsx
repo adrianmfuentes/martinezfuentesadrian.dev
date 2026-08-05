@@ -26,17 +26,17 @@ export function GiscusComments({ lang }: Readonly<GiscusCommentsProps>) {
     script.src = "https://giscus.app/client.js"
     script.async = true
     script.crossOrigin = "anonymous"
-    script.setAttribute("data-repo", REPO)
-    script.setAttribute("data-repo-id", REPO_ID)
-    script.setAttribute("data-category", CATEGORY)
-    script.setAttribute("data-category-id", CATEGORY_ID)
-    script.setAttribute("data-mapping", "pathname")
-    script.setAttribute("data-strict", "0")
-    script.setAttribute("data-reactions-enabled", "1")
-    script.setAttribute("data-emit-metadata", "0")
-    script.setAttribute("data-input-position", "bottom")
-    script.setAttribute("data-theme", resolvedTheme === "light" ? "light" : "dark")
-    script.setAttribute("data-lang", lang)
+    script.dataset.repo = REPO
+    script.dataset.repoId = REPO_ID
+    script.dataset.category = CATEGORY
+    script.dataset.categoryId = CATEGORY_ID
+    script.dataset.mapping = "pathname"
+    script.dataset.strict = "0"
+    script.dataset.reactionsEnabled = "1"
+    script.dataset.emitMetadata = "0"
+    script.dataset.inputPosition = "bottom"
+    script.dataset.theme = resolvedTheme === "light" ? "light" : "dark"
+    script.dataset.lang = lang
 
     const container = containerRef.current
     container.appendChild(script)

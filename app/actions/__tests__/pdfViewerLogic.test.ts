@@ -95,11 +95,11 @@ describe("usePdfViewerLogic", () => {
     })
     expect(result.current.scale).toBeCloseTo(1)
 
-    act(() => {
-      for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 20; i++) {
+      act(() => {
         result.current.zoomIn()
-      }
-    })
+      })
+    }
     expect(result.current.scale).toBe(3)
   })
 
@@ -111,11 +111,11 @@ describe("usePdfViewerLogic", () => {
     })
     expect(result.current.scale).toBeCloseTo(0.6)
 
-    act(() => {
-      for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 20; i++) {
+      act(() => {
         result.current.zoomOut()
-      }
-    })
+      })
+    }
     expect(result.current.scale).toBe(0.3)
   })
 })

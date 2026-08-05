@@ -99,7 +99,8 @@ describe("BlogSection", () => {
     const { default: userEvent } = await import("@testing-library/user-event")
     render(<BlogSection lang="en" posts={posts} dictionary={dictionary} />)
 
-    await userEvent.click(screen.getByRole("button", { name: "Security" }))
+    const securityChips = screen.getAllByRole("button", { name: "Security" })
+    await userEvent.click(securityChips[0])
 
     expect(screen.getByText("Why my portfolio has a security tools section")).toBeInTheDocument()
     expect(screen.queryByText("Building SVAES")).not.toBeInTheDocument()
