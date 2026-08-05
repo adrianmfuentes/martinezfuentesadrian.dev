@@ -125,81 +125,81 @@ export function BlogSection({ lang, posts, dictionary }: Readonly<BlogSectionPro
         </div>
       )}
 
-      {posts.length === 0 ? (
-        <p className="text-center text-foreground/60">{dictionary.empty}</p>
-      ) : !hasFilteredResults ? (
-        <div className="text-center">
-          <p className="text-foreground/60 mb-3">{dictionary.noResults}</p>
-          <button
-            type="button"
-            onClick={() => {
-              setQuery("")
-              setActiveTag(null)
-            }}
-            className="inline-flex items-center gap-1.5 text-xs text-primary hover:underline"
+      {(() => {
+        if (posts.length === 0) {
+          return (
+            <p className="text-center text-foreground/60">{dictionary.empty}</p>
+          )
+        }
+        if (!hasFilteredResults) {
+          return (
+            <div className="text-center">
+              <p className="text-foreground/60 mb-3">{dictionary.noResults}</p>
+              <button
+                type="button"
+                onClick={() => {
+                  setQuery("")
+                  setActiveTag(null)
+                }}
+                className="inline-flex items-center gap-1.5 text-xs text-primary hover:underline"
+              >
+                <X className="h-3.5 w-3.5" />
+                {dictionary.allTags}
+              </button>
+            </div>
+          )
+        }
+        return (
+          <motion.div
+            className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.15 }}
           >
-            <X className="h-3.5 w-3.5" />
-            {dictionary.allTags}
-          </button>
-        </div>
-      ) : (
-        <motion.div
-          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.15 }}
-        >
-          {filteredPosts.map((post) => (
-            <motion.div key={post.slug} variants={itemVariants}>
-              <Link href={`/${lang}/blog/${post.slug}`} className="group block h-full">
-                <Card className="h-full flex flex-col transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/10 hover:border-primary/40">
-                  <CardContent className="p-6 flex-grow flex flex-col">
-                    <div className="flex items-center gap-3 text-xs text-foreground/50 mb-3">
-                      <span className="inline-flex items-center gap-1">
-                        <CalendarDays className="h-3.5 w-3.5" />
-                        {formatDate(post.date, lang)}
-                      </span>
-                      <span className="inline-flex items-center gap-1">
-                        <Clock className="h-3.5 w-3.5" />
-                        {post.readingMinutes} {dictionary.minRead}
-                      </span>
-                    </div>
-                    <h3 className="text-xl font-semibold mb-2 transition-colors group-hover:text-primary">
-                      {post.title}
-                    </h3>
-                    <p className="text-foreground/80 mb-4 flex-grow">{post.description}</p>
-                    <div className="flex flex-wrap gap-2 mt-auto">
-                      {post.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          role="button"
-                          tabIndex={0}
-                          onClick={(e) => {
-                            e.preventDefault()
-                            e.stopPropagation()
-                            setActiveTag(tag)
-                          }}
-                          onKeyDown={(e) => {
-                            if (e.key === "Enter" || e.key === " ") {
+            {filteredPosts.map((post) => (
+              <motion.div key={post.slug} variants={itemVariants}>
+                <Link href={`/${lang}/blog/${post.slug}`} className="group block h-full">
+                  <Card className="h-full flex flex-col transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-primary/10 hover:border-primary/40">
+                    <CardContent className="p-6 flex-grow flex flex-col">
+                      <div className="flex items-center gap-3 text-xs text-foreground/50 mb-3">
+                        <span className="inline-flex items-center gap-1">
+                          <CalendarDays className="h-3.5 w-3.5" />
+                          {formatDate(post.date, lang)}
+                        </span>
+                        <span className="inline-flex items-center gap-1">
+                          <Clock className="h-3.5 w-3.5" />
+                          {post.readingMinutes} {dictionary.minRead}
+                        </span>
+                      </div>
+                      <h3 className="text-xl font-semibold mb-2 transition-colors group-hover:text-primary">
+                        {post.title}
+                      </h3>
+                      <p className="text-foreground/80 mb-4 flex-grow">{post.description}</p>
+                      <div className="flex flex-wrap gap-2 mt-auto">
+                        {post.tags.map((tag) => (
+                          <button
+                            key={tag}
+                            type="button"
+                            onClick={(e) => {
                               e.preventDefault()
                               e.stopPropagation()
                               setActiveTag(tag)
-                            }
-                          }}
-                          className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full hover:bg-primary/20 transition-colors cursor-pointer"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              </Link>
-            </motion.div>
-          ))}
-        </motion.div>
-      )}
+                            }}
+                            className="bg-primary/10 text-primary text-xs px-2 py-1 rounded-full hover:bg-primary/20 transition-colors cursor-pointer border-0"
+                          >
+                            {tag}
+                          </button>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
+              </motion.div>
+            ))}
+          </motion.div>
+        )
+      })()}
     </section>
   )
 }
