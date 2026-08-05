@@ -141,5 +141,5 @@ async function verifyToken(token: string): Promise<boolean> {
 }
 
 export const config = {
-  matcher: ["/admin/:path*", String.raw`/((?!api|_next|.*\..*).*)`],
+  matcher: ["/admin/:path*", "/((?!api|_next|.*\\..*).*)"],
 }
