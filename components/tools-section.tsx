@@ -75,7 +75,7 @@ export function ToolsSection({ dictionary }: ToolsSectionProps) {
   }
 
   return (
-    <section className="py-20 px-6 relative overflow-hidden">
+    <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 relative overflow-hidden">
       {/* Matrix-style background */}
       <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-green-950">
         <div className="absolute inset-0 opacity-10">
@@ -93,7 +93,7 @@ export function ToolsSection({ dictionary }: ToolsSectionProps) {
       </div>
 
       {/* Grid pattern overlay */}
-      <div 
+      <div
         className="absolute inset-0 opacity-20"
         style={{
           backgroundImage: `
@@ -106,17 +106,17 @@ export function ToolsSection({ dictionary }: ToolsSectionProps) {
 
       <div className="container mx-auto relative z-10">
         {/* Header */}
-        <div className="text-center mb-16">
-          <div className="flex items-center justify-center mb-6">
-            <Terminal className="w-12 h-12 text-green-400 mr-4" />
-            <h1 className="text-5xl font-bold bg-gradient-to-r from-green-400 via-green-300 to-green-500 bg-clip-text text-transparent font-mono">
+        <div className="text-center mb-10 sm:mb-12 md:mb-16">
+          <div className="flex items-center justify-center gap-2 sm:gap-3 md:gap-4 mb-4 sm:mb-6">
+            <Terminal className="w-7 h-7 sm:w-9 sm:h-9 md:w-12 md:h-12 text-green-400 shrink-0" />
+            <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold bg-gradient-to-r from-green-400 via-green-300 to-green-500 bg-clip-text text-transparent font-mono">
               {dictionary.title}
             </h1>
           </div>
-          <p className="text-xl text-green-300 mb-4 font-mono">
+          <p className="text-base sm:text-lg md:text-xl text-green-300 mb-3 sm:mb-4 font-mono px-2">
             {dictionary.subtitle}
           </p>
-          <p className="text-gray-300 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-sm sm:text-base text-gray-300 max-w-3xl mx-auto leading-relaxed px-2">
             {dictionary.description}
           </p>
         </div>

@@ -41,7 +41,7 @@ const jsonLd = {
       jobTitle: 'Full Stack Developer',
       image: `${SITE_URL}/images/me.jpeg`,
       sameAs: [
-        'https://www.linkedin.com/in/adrianmfuentese',
+        'https://www.linkedin.com/in/adrianmfuentes',
         'https://github.com/adrianmfuentes',
       ],
     },

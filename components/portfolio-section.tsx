@@ -299,7 +299,7 @@ function ProjectCard({
               ))}
             </div>
           </CardContent>
-          <CardFooter className="p-6 pt-0 flex gap-2">
+          <CardFooter className="p-6 pt-0 flex flex-wrap items-center gap-2">
             {project.projectUrl && (
               <Button variant="default" size="sm" className="gap-2" asChild>
                 <a href={project.projectUrl} target="_blank" rel="noopener noreferrer" aria-label={`${viewProject}: ${project.title}`}>
@@ -323,7 +323,7 @@ function ProjectCard({
               </Button>
             )}
             {status && (
-              <span className="ml-auto inline-flex items-center gap-1.5 text-xs text-foreground/60">
+              <span className="sm:ml-auto inline-flex items-center gap-1.5 text-xs text-foreground/60">
                 <span
                   className={`h-1.5 w-1.5 rounded-full ${status === "online" ? "bg-emerald-500 animate-pulse" : "bg-muted-foreground/50"}`}
                   aria-hidden="true"
