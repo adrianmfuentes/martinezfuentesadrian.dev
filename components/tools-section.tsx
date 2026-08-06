@@ -121,8 +121,8 @@ export function ToolsSection({ dictionary }: ToolsSectionProps) {
           </p>
         </div>
 
-        {/* Tools list - compact rows on mobile so users aren't scrolling through one full-height card at a time */}
-        <div className="sm:hidden space-y-2">
+        {/* Tools list - compact rows up to md, so phones (incl. landscape) and small tablets aren't stuck with cramped 2-col cards */}
+        <div className="md:hidden space-y-2">
           {filteredTools.map((tool) => {
             const IconComponent = categoryIcons[tool.category as keyof typeof categoryIcons] || Terminal
             const disabled = tool.status === "coming-soon"
@@ -154,8 +154,8 @@ export function ToolsSection({ dictionary }: ToolsSectionProps) {
           })}
         </div>
 
-        {/* Tools Grid (sm and up) */}
-        <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Tools Grid (md and up) */}
+        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {filteredTools.map((tool) => {
             const IconComponent = categoryIcons[tool.category as keyof typeof categoryIcons] || Terminal
             return (

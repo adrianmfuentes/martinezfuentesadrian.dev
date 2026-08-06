@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, afterEach } from "vitest"
-import { render, screen, fireEvent } from "@testing-library/react"
+import { render, screen } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import { CVSection } from "@components/cv-section"
 
@@ -69,22 +69,20 @@ describe("CVSection", () => {
     expect(screen.getByText(dictionary.subtitle)).toBeInTheDocument()
   })
 
-  it("opens the English CV pdf in a new tab when the download button is clicked", () => {
-    const openSpy = vi.spyOn(globalThis, "open").mockImplementation(() => null)
+  it("links directly to the English CV pdf with a download attribute", () => {
     render(<CVSection dictionary={dictionary} lang="en" />)
 
-    fireEvent.click(screen.getByRole("button", { name: new RegExp(dictionary.download) }))
-
-    expect(openSpy).toHaveBeenCalledWith(`${globalThis.location.origin}/cv/cv_en.pdf`, "_blank")
+    const downloadLink = screen.getByRole("link", { name: new RegExp(dictionary.download) })
+    expect(downloadLink).toHaveAttribute("href", "/cv/cv_en.pdf")
+    expect(downloadLink).toHaveAttribute("download")
   })
 
-  it("opens the Spanish CV pdf in a new tab when lang is 'es'", () => {
-    const openSpy = vi.spyOn(globalThis, "open").mockImplementation(() => null)
+  it("links directly to the Spanish CV pdf when lang is 'es'", () => {
     render(<CVSection dictionary={dictionary} lang="es" />)
 
-    fireEvent.click(screen.getByRole("button", { name: new RegExp(dictionary.download) }))
-
-    expect(openSpy).toHaveBeenCalledWith(`${globalThis.location.origin}/cv/cv_es.pdf`, "_blank")
+    const downloadLink = screen.getByRole("link", { name: new RegExp(dictionary.download) })
+    expect(downloadLink).toHaveAttribute("href", "/cv/cv_es.pdf")
+    expect(downloadLink).toHaveAttribute("download")
   })
 
   it("shows the education tab content by default", () => {

@@ -59,11 +59,7 @@ export function CVSection({ dictionary, lang }: Readonly<CVSectionProps>) {
   // Estado para controlar el modal
   const [viewingCertificate, setViewingCertificate] = useState<{ url: string; title: string } | null>(null)
 
-  const handleDownload = () => {
-    // Download the CV in the selected language
-    const cvPath = `${globalThis.location.origin}${lang === "en" ? "/cv/cv_en.pdf" : "/cv/cv_es.pdf"}`
-    globalThis.open(cvPath, "_blank")
-  }
+  const cvPath = lang === "en" ? "/cv/cv_en.pdf" : "/cv/cv_es.pdf"
 
   return (
     <section className="py-16">
@@ -73,9 +69,11 @@ export function CVSection({ dictionary, lang }: Readonly<CVSectionProps>) {
       </div>
 
       <div className="flex justify-center gap-3 mb-8">
-        <Button onClick={handleDownload} className="gap-2">
-          <Download className="h-4 w-4" />
-          {dictionary.download}
+        <Button asChild className="gap-2">
+          <a href={cvPath} download rel="noopener noreferrer">
+            <Download className="h-4 w-4" />
+            {dictionary.download}
+          </a>
         </Button>
         <Button variant="outline" asChild className="gap-2">
           <a href="https://adrianmfuentes.github.io/cv" target="_blank" rel="noopener noreferrer">

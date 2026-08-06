@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Menu, X } from "lucide-react"
+import { Menu, X, Home, User, GraduationCap, Briefcase, Wrench, Mail, Newspaper } from "lucide-react"
 import { Button } from "@components/ui/button"
 import { LanguageSwitcher } from "./language-switcher"
 import { CommandPalette } from "./command-palette"
@@ -46,14 +46,21 @@ export function Navbar({ lang, dictionary, commandDictionary }: Readonly<NavbarP
   }, [])
 
   const navItems = [
-    { href: `/${lang}`, label: dictionary.home },
-    { href: `/${lang}/about`, label: dictionary.about },
-    { href: `/${lang}/cv`, label: dictionary.cv },
-    { href: `/${lang}/portfolio`, label: dictionary.portfolio },
-    { href: `/${lang}/blog`, label: dictionary.blog },
-    { href: `/${lang}/tools`, label: dictionary.tools },
-    { href: `/${lang}/contact`, label: dictionary.contact },
+    { href: `/${lang}`, label: dictionary.home, icon: Home },
+    { href: `/${lang}/about`, label: dictionary.about, icon: User },
+    { href: `/${lang}/cv`, label: dictionary.cv, icon: GraduationCap },
+    { href: `/${lang}/portfolio`, label: dictionary.portfolio, icon: Briefcase },
+    { href: `/${lang}/blog`, label: dictionary.blog, icon: Newspaper },
+    { href: `/${lang}/tools`, label: dictionary.tools, icon: Wrench },
+    { href: `/${lang}/contact`, label: dictionary.contact, icon: Mail },
   ]
+
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? "hidden" : ""
+    return () => {
+      document.body.style.overflow = ""
+    }
+  }, [isOpen])
 
   return (
     <header
@@ -98,20 +105,21 @@ export function Navbar({ lang, dictionary, commandDictionary }: Readonly<NavbarP
 
       {/* Mobile menu */}
       {isOpen && (
-        <div className="md:hidden bg-background/95 backdrop-blur-md">
-          <div className="container mx-auto px-4 py-4 space-y-4">
+        <div className="md:hidden bg-background/95 backdrop-blur-md border-t animate-in fade-in slide-in-from-top-2 duration-200">
+          <div className="container mx-auto px-4 py-3 space-y-1">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`block py-2 text-base font-medium transition-colors hover:text-primary ${pathname === item.href ? "text-primary" : "text-foreground/80"}`}
+                className={`flex items-center gap-3 rounded-lg px-3 py-3 text-base font-medium transition-colors active:scale-[0.98] ${pathname === item.href ? "bg-primary/10 text-primary" : "text-foreground/80 hover:bg-foreground/5 hover:text-primary"}`}
                 onClick={() => setIsOpen(false)}
                 aria-label={`Ir a ${item.label}`}
               >
+                <item.icon className="h-5 w-5 shrink-0" />
                 {item.label}
               </Link>
             ))}
-            <div className="flex items-center space-x-4 pt-4 border-t">
+            <div className="flex items-center space-x-4 pt-3 mt-2 border-t">
               <LanguageSwitcher currentLang={lang} />
             </div>
           </div>
