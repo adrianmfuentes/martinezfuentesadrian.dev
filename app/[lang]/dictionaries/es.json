@@ -36,7 +36,7 @@
     "stats": {
       "yearsStudying": "+3 años",
       "projectsCompleted": "+10 proyectos",
-      "certifications": "6 certificaciones",
+      "certifications": "7 certificaciones",
       "yearsExperience": "2 meses",
       "thesisGrade": "10/10",
       "techstack": "Java · Python · React"
@@ -83,6 +83,9 @@
     "view_online": "Ver CV Online",
     "involvement": "Mi Participación",
     "about_grade": "Sobre el grado",
+    "grade_label": "Nota global",
+    "certificate_number_label": "Nº de certificado",
+    "skills_breakdown_label": "Ver desglose de puntuaciones",
     "tabs": {
       "education": "Educación",
       "certifications": "Certificaciones",
@@ -129,10 +132,20 @@
           "description": "Aprendí HTML, CSS y JS, así como la creación de sitios web con React, Node y MariaDB."
         },
         {
-          "title": "Certificado Cambridge English B2",
-          "organization": "Cambridge",
-          "period": "2021",
-          "description": "Certificación Cambridge que demuestra un nivel intermedio-alto de dominio del inglés."
+          "title": "Cambridge First Certificate in English (FCE) - Nivel B2",
+          "organization": "Cambridge Assessment English",
+          "period": "4 de diciembre de 2021",
+          "location": "Oviedo, España",
+          "description": "Certificación oficial de Cambridge que acredita un nivel B2 (intermedio-alto) de inglés, evaluando comprensión lectora, uso del inglés, expresión oral, comprensión auditiva y expresión escrita.",
+          "grade": "169 (Grade C)",
+          "certNumber": "B7416600",
+          "skills": [
+            { "name": "Reading", "score": 176 },
+            { "name": "Use of English", "score": 172 },
+            { "name": "Speaking", "score": 168 },
+            { "name": "Listening", "score": 166 },
+            { "name": "Writing", "score": 164 }
+          ]
         },
         {
           "title": "Esquema Nacional de Seguridad",
@@ -158,6 +171,13 @@
           "period": "2026",
           "description": "Certificación de Google Cloud centrada en análisis de datos: ingesta, transformación y consulta de datos con BigQuery, así como visualización de resultados para la toma de decisiones.",
           "pdfUrl": "https://www.credly.com/badges/4d168010-1e64-4d0b-adfd-27b4b0a2baa5/public_url"
+        },
+        {
+          "title": "Plan an Azure Kubernetes Service deployment",
+          "organization": "Microsoft",
+          "period": "2026",
+          "description": "Insignia de Microsoft Learn sobre la planificación de despliegues en Azure Kubernetes Service (AKS), cubriendo node pools, redes y opciones de almacenamiento para clústeres de producción.",
+          "pdfUrl": "https://learn.microsoft.com/en-us/users/adrinmartnezfuentes-7729/achievements/p68qn2n4"
         }
       ]
     },

@@ -83,6 +83,9 @@ interface Dictionary {
     view_online: string
     involvement: string
     about_grade: string
+    grade_label: string
+    certificate_number_label: string
+    skills_breakdown_label: string
     tabs: {
       education: string
       certifications: string
@@ -106,6 +109,10 @@ interface Dictionary {
         period: string
         description: string
         pdfUrl?: string
+        location?: string
+        grade?: string
+        certNumber?: string
+        skills?: { name: string; score: number }[]
       }[]
     }
     experience: {

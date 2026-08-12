@@ -79,7 +79,6 @@ La aplicación lee su configuración a partir de variables de entorno en tiempo 
 | `EMAILJS_SERVICE_ID`, `EMAILJS_PUBLIC_KEY`, `EMAILJS_CONTACT_TEMPLATE_ID` | Envío del formulario de contacto a través de EmailJS |
 | `GROQ_API_KEY` | Función de chat |
 | `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN` | Almacenamiento para el límite de peticiones |
-| `ADMIN_SECRET`, `ADMIN_PASSWORD`, `ADMIN_ALLOWED_IPS` | Autenticación y control de acceso al panel de administración |
 | `GITHUB_TOKEN` | Límites de peticiones más altos para la API de estadísticas de GitHub |
 | `SITE_URL` | URL base usada en enlaces y plantillas de correo |
 

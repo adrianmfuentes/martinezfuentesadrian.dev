@@ -36,7 +36,7 @@
     "stats": {
       "yearsStudying": "+3 years",
       "projectsCompleted": "+10 projects",
-      "certifications": "6 certifications",
+      "certifications": "7 certifications",
       "yearsExperience": "2 months",
       "thesisGrade": "10/10",
       "techstack": "Java · Python · React"
@@ -83,6 +83,9 @@
     "view_online": "View CV Online",
     "involvement": "My Involvement",
     "about_grade": "About the Bachelor",
+    "grade_label": "Overall grade",
+    "certificate_number_label": "Certificate No.",
+    "skills_breakdown_label": "View skill breakdown",
     "tabs": {
       "education": "Education",
       "certifications": "Certifications",
@@ -129,10 +132,20 @@
           "description": "Certification in web development technologies, including HTML, CSS, JavaScript, and modern frameworks."
         },
         {
-          "title": "Cambridge English B2 Certificate",
-          "organization": "Cambridge",
-          "period": "2021",
-          "description": "Cambridge qualification demonstrating upper-intermediate proficiency in English."
+          "title": "Cambridge First Certificate in English (FCE) - B2 Level",
+          "organization": "Cambridge Assessment English",
+          "period": "December 4, 2021",
+          "location": "Oviedo, Spain",
+          "description": "Official Cambridge qualification certifying a B2 (upper-intermediate) level of English, assessing reading, use of English, speaking, listening and writing.",
+          "grade": "169 (Grade C)",
+          "certNumber": "B7416600",
+          "skills": [
+            { "name": "Reading", "score": 176 },
+            { "name": "Use of English", "score": 172 },
+            { "name": "Speaking", "score": 168 },
+            { "name": "Listening", "score": 166 },
+            { "name": "Writing", "score": 164 }
+          ]
         },
         {
           "title": "National Security Framework",
@@ -158,6 +171,13 @@
           "period": "2026",
           "description": "Google Cloud certification focused on data analytics: ingesting, transforming and querying data with BigQuery, and visualizing results to support decision-making.",
           "pdfUrl": "https://www.credly.com/badges/4d168010-1e64-4d0b-adfd-27b4b0a2baa5/public_url"
+        },
+        {
+          "title": "Plan an Azure Kubernetes Service deployment",
+          "organization": "Microsoft",
+          "period": "2026",
+          "description": "Microsoft Learn badge on planning Azure Kubernetes Service (AKS) deployments, covering node pools, networking, and storage options for production clusters.",
+          "pdfUrl": "https://learn.microsoft.com/en-us/users/adrinmartnezfuentes-7729/achievements/p68qn2n4"
         }
       ]
     },

@@ -11,7 +11,6 @@ Allow: /sitemap.xml
 Disallow: /api/
 Disallow: /_next/
 Disallow: /*.json$
-Disallow: /admin/
 Disallow: /*/assets
 
 # Permitir específicamente rutas de idiomas

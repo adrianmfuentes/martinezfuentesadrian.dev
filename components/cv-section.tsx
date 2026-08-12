@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { Button } from "@components/ui/button"
 import { Card, CardContent } from "@components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs"
-import { Download, GraduationCap, Award, Eye, ExternalLink, Briefcase } from "lucide-react"
+import { Download, GraduationCap, Award, Eye, ExternalLink, Briefcase, ChevronDown } from "lucide-react"
 import dynamic from "next/dynamic"
 const CertificateViewer = dynamic(() => import("@components/certificate-viewer.client"), { ssr: false })
 
@@ -16,6 +16,9 @@ interface CVSectionProps {
     view_online: string
     involvement: string
     about_grade: string
+    grade_label?: string
+    certificate_number_label?: string
+    skills_breakdown_label?: string
     tabs: {
       education: string
       certifications: string
@@ -39,6 +42,10 @@ interface CVSectionProps {
         period: string
         description: string
         pdfUrl?: string // Optional URL to the PDF certificate
+        location?: string
+        grade?: string
+        certNumber?: string
+        skills?: Array<{ name: string; score: number }>
       }>
     }
     experience: {
@@ -146,6 +153,13 @@ export function CVSection({ dictionary, lang }: Readonly<CVSectionProps>) {
                 description={item.description}
                 pdfUrl={item.pdfUrl}
                 onViewCertificate={(url) => setViewingCertificate({ url, title: item.title })}
+                location={item.location}
+                grade={item.grade}
+                certNumber={item.certNumber}
+                skills={item.skills}
+                gradeLabel={dictionary.grade_label}
+                certNumberLabel={dictionary.certificate_number_label}
+                skillsLabel={dictionary.skills_breakdown_label}
               />
             ))}
           </div>
@@ -178,9 +192,18 @@ interface TimelineItemProps {
   honours?: string
   involvementLabel?: string
   aboutGradeLabel?: string
+  grade?: string
+  certNumber?: string
+  skills?: Array<{ name: string; score: number }>
+  gradeLabel?: string
+  certNumberLabel?: string
+  skillsLabel?: string
 }
 
-function TimelineItem({ title, organization, period, description, pdfUrl, onViewCertificate, location, department, gpa, honours, involvementLabel, aboutGradeLabel }: Readonly<TimelineItemProps>) {
+// Cambridge English Scale for B2 First runs from 140 to 190; used to size the skill bars.
+const CAMBRIDGE_SCALE_MAX = 190
+
+function TimelineItem({ title, organization, period, description, pdfUrl, onViewCertificate, location, department, gpa, honours, involvementLabel, aboutGradeLabel, grade, certNumber, skills, gradeLabel, certNumberLabel, skillsLabel }: Readonly<TimelineItemProps>) {
   const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
@@ -232,6 +255,11 @@ function TimelineItem({ title, organization, period, description, pdfUrl, onView
         </div>
         {gpa && <p className="text-sm text-foreground/70 mb-1">GPA: {gpa}</p>}
         {honours && <p className="text-sm text-foreground/70 mb-6">{honours}</p>}
+        {grade && (
+          <span className="inline-flex items-center rounded-full bg-primary/10 text-primary text-xs font-semibold px-2.5 py-1 mb-3">
+            {gradeLabel ? `${gradeLabel}: ${grade}` : grade}
+          </span>
+        )}
         {description && (
           <div className="text-foreground/80">
             {Array.isArray(description) ? (
@@ -247,6 +275,35 @@ function TimelineItem({ title, organization, period, description, pdfUrl, onView
               <p>{description}</p>
             )}
           </div>
+        )}
+        {skills && skills.length > 0 && (
+          <details className="group mt-4 border-t pt-3">
+            <summary className="flex cursor-pointer list-none items-center gap-1 text-sm font-medium text-primary [&::-webkit-details-marker]:hidden">
+              <ChevronDown className="h-4 w-4 transition-transform group-open:rotate-180" />
+              {skillsLabel}
+            </summary>
+            <div className="mt-3 space-y-2">
+              {skills.map((skill) => (
+                <div key={skill.name}>
+                  <div className="mb-1 flex justify-between text-xs">
+                    <span className="text-foreground/70">{skill.name}</span>
+                    <span className="font-medium">{skill.score}</span>
+                  </div>
+                  <div className="h-1.5 w-full overflow-hidden rounded-full bg-foreground/10">
+                    <div
+                      className="h-full rounded-full bg-primary"
+                      style={{ width: `${Math.min(100, (skill.score / CAMBRIDGE_SCALE_MAX) * 100)}%` }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </details>
+        )}
+        {certNumber && (
+          <p className="mt-3 font-mono text-[11px] text-foreground/50">
+            {certNumberLabel ? `${certNumberLabel}: ${certNumber}` : certNumber}
+          </p>
         )}
       </CardContent>
     </Card>
