@@ -36,7 +36,7 @@
     "stats": {
       "yearsStudying": "+3 years",
       "projectsCompleted": "+10 projects",
-      "certifications": "5 certifications",
+      "certifications": "6 certifications",
       "yearsExperience": "2 months",
       "thesisGrade": "10/10",
       "techstack": "Java · Python · React"
@@ -151,6 +151,13 @@
           "organization": "University of Oviedo - NextDigital",
           "period": "2026",
           "description": "University microcredential in serverless architectures with microservices on AWS, issued as a European Digital Credential for Learning."
+        },
+        {
+          "title": "Google Cloud Data Analytics Certificate",
+          "organization": "Google Cloud",
+          "period": "2026",
+          "description": "Google Cloud certification focused on data analytics: ingesting, transforming and querying data with BigQuery, and visualizing results to support decision-making.",
+          "pdfUrl": "https://www.credly.com/badges/4d168010-1e64-4d0b-adfd-27b4b0a2baa5/public_url"
         }
       ]
     },
